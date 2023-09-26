@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 import ARBITRUM from '../../assets/images/chains/arbitrum.svg'
 import BASE from '../../assets/images/chains/base.svg'
+import ERA from '../../assets/images/chains/era.svg'
 import ETHEREUM from '../../assets/images/chains/ethereum.svg'
 import MobileFiltersIcon from '../../assets/images/chains/mobilefiltersicon.svg'
 import POLYGON from '../../assets/images/chains/polygon.svg'
@@ -62,6 +63,7 @@ const ChainsList = isLedgerLive()
       { id: 1, name: 'Polygon', img: POLYGON, chainId: CHAIN_IDS.POLYGON_MAINNET },
       { id: 2, name: 'Arbitrum', img: ARBITRUM, chainId: CHAIN_IDS.ARBITRUM_ONE },
       { id: 3, name: 'Base', img: BASE, chainId: CHAIN_IDS.BASE },
+      { id: 4, name: 'Era', img: ERA, chainId: CHAIN_IDS.ERA },
     ]
 
 const SwitchBalanceList = [
@@ -266,6 +268,9 @@ const QuickFilter = ({
   }
   if (selChain.includes(CHAIN_IDS.BASE)) {
     curChain.push(3)
+  }
+  if (selChain.includes(CHAIN_IDS.ERA)) {
+    curChain.push(4)
   }
 
   const [selectedClass, setSelectedClass] = useState(curChain)
@@ -640,6 +645,7 @@ const QuickFilter = ({
                       CHAIN_IDS.POLYGON_MAINNET,
                       CHAIN_IDS.ARBITRUM_ONE,
                       CHAIN_IDS.BASE,
+                      CHAIN_IDS.ERA,
                     ])
                     clearFilter()
                   }}
@@ -929,6 +935,7 @@ const QuickFilter = ({
                     CHAIN_IDS.POLYGON_MAINNET,
                     CHAIN_IDS.ARBITRUM_ONE,
                     CHAIN_IDS.BASE,
+                    CHAIN_IDS.ERA,
                   ])
                   clearFilter()
                 }}

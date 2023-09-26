@@ -17,6 +17,7 @@ import ProfitSharingIcon from '../../assets/images/logos/sidebar/profit-sharing.
 import Toggle from '../../assets/images/logos/sidebar/toggle.svg'
 import Arbitrum from '../../assets/images/chains/arbitrum.svg'
 import Base from '../../assets/images/chains/base.svg'
+import Era from '../../assets/images/chains/era.svg'
 import Ethereum from '../../assets/images/chains/ethereum.svg'
 import Polygon from '../../assets/images/chains/polygon.svg'
 import { ROUTES, directDetailUrl } from '../../constants'
@@ -154,6 +155,9 @@ const getChainIcon = chainNum => {
       case CHAIN_IDS.BASE:
         icon = Base
         break
+      case CHAIN_IDS.ERA:
+        icon = Era
+        break
       default:
         icon = Ethereum
         break
@@ -218,6 +222,7 @@ const Sidebar = ({ width }) => {
         CHAIN_IDS.POLYGON_MAINNET,
         CHAIN_IDS.ARBITRUM_ONE,
         CHAIN_IDS.BASE,
+        CHAIN_IDS.ERA,
       ])
     }
     push(path)

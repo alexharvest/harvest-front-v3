@@ -64,6 +64,9 @@ const getChainName = chain => {
     case CHAIN_IDS.BASE:
       chainName = 'Base'
       break
+    case CHAIN_IDS.ERA:
+      chainName = 'Era'
+      break
     default:
       chainName = 'Ethereum'
       break
