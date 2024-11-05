@@ -35,6 +35,7 @@ const HolderRow = ({
 }) => {
   const [isExpand, setIsExpand] = useState(false)
   const [currencySym, setCurrencySym] = useState('$')
+  const [currencyRate, setCurrencyRate] = useState(1)
   const [walletApy, setWalletApy] = useState(0)
   const [monthlyYield, setMonthlyYield] = useState(0)
 
@@ -48,6 +49,7 @@ const HolderRow = ({
   useEffect(() => {
     if (rates.rateData) {
       setCurrencySym(rates.currency.icon)
+      setCurrencyRate(rates.rateData[rates.currency.symbol])
     }
   }, [rates])
 
@@ -101,11 +103,11 @@ const HolderRow = ({
     if (value && value.vaults && groupOfVaults) {
       const [calculatedApy, calculatedYield] = getWalletApy(value, groupOfVaults, vaultsData, pools)
       setWalletApy(calculatedApy)
-      setMonthlyYield(calculatedYield)
+      setMonthlyYield(calculatedYield * currencyRate)
     }
   }, [value, groupOfVaults]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const allocationValue = walletApy / 100
+  const allocationValue = (walletApy * userHarvestBalance * currencyRate) / 100
 
   return isMobile ? (
     <DetailView
@@ -141,7 +143,7 @@ const HolderRow = ({
               marginTop="0px"
               lineHeight="23px"
               color={fontColor1}
-              balanceValue={`${currencySym}${formatNumber(userHarvestBalance, 2)}`}
+              balanceValue={`${currencySym}${formatNumber(userHarvestBalance * currencyRate, 2)}`}
               justifyContent="space-between"
             />
             <ListItem
@@ -181,8 +183,8 @@ const HolderRow = ({
                   color="#6988FF"
                   value={
                     allocationValue > 0 && allocationValue < 0.01
-                      ? `<${currencySym}0.01/yr per $1 allocated`
-                      : `${currencySym}${formatNumber(allocationValue, 2)}/yr per $1 allocated`
+                      ? `<${currencySym}0.01/yr`
+                      : `${currencySym}${formatNumber(allocationValue, 2)}/yr`
                   }
                   allocationValue={allocationValue}
                   justifyContent="end"
@@ -195,7 +197,10 @@ const HolderRow = ({
                   return selectedItem === 'Top Allocation' ? (
                     <ListItem
                       key={`${vaultKey}-${cKey}`}
-                      topAllocation={`${currencySym}${formatNumber(vaultValue.balance, 2)}`}
+                      topAllocation={`${currencySym}${formatNumber(
+                        vaultValue.balance * currencyRate,
+                        2,
+                      )}`}
                       tokenName={matchedTokenNames[0]}
                       platform={getPlatformName(vaultKey)}
                       chain={BadgeAry[getBadgeId(vaultKey)]}
@@ -243,6 +248,7 @@ const HolderRow = ({
                 {Object.entries(value.vaults)
                   .slice(0, 5)
                   .map(([vaultKey, vaultValue], index) => {
+                    const itemApy = getVaultApy(vaultKey, groupOfVaults, vaultsData, pools)
                     return (
                       <div
                         key={vaultKey}
@@ -255,7 +261,10 @@ const HolderRow = ({
                       >
                         <MobileGranularBlock>
                           <ListItem
-                            value={`${currencySym}${formatNumber(vaultValue.balance, 2)}`}
+                            value={`${currencySym}${formatNumber(
+                              vaultValue.balance * currencyRate,
+                              2,
+                            )}`}
                             weight={500}
                             size="10px"
                             marginTop="0px"
@@ -286,12 +295,7 @@ const HolderRow = ({
                             marginTop="0px"
                             marginRight="10px"
                             color="#5FCF76"
-                            value={`${getVaultApy(
-                              vaultKey,
-                              groupOfVaults,
-                              vaultsData,
-                              pools,
-                            )}% APY`}
+                            value={`${itemApy}% APY`}
                             justifyContent="end"
                           />
                           <ListItem
@@ -300,9 +304,9 @@ const HolderRow = ({
                             marginTop="0px"
                             color="#6988FF"
                             value={`${currencySym}${formatNumber(
-                              getVaultApy(vaultKey, groupOfVaults, vaultsData, pools) / 100,
+                              (itemApy * vaultValue.balance * currencyRate) / 100,
                               2,
-                            )}/yr per $1 allocated`}
+                            )}/yr`}
                             justifyContent="end"
                           />
                         </MobileGranularBlock>
@@ -352,7 +356,7 @@ const HolderRow = ({
               size="14px"
               marginTop="0px"
               color={darkMode ? '#ffffff' : '#475467'}
-              value={`${currencySym}${formatNumber(userHarvestBalance, 2)}`}
+              value={`${currencySym}${formatNumber(userHarvestBalance * currencyRate, 2)}`}
             />
           </ContentInner>
           <ContentInner width="15%">
@@ -371,7 +375,7 @@ const HolderRow = ({
                 return (
                   <React.Fragment key={vaultKey}>
                     <ListItem
-                      value={`${currencySym}${formatNumber(vaultValue.balance, 2)}`}
+                      value={`${currencySym}${formatNumber(vaultValue.balance * currencyRate, 2)}`}
                       weight={400}
                       size="14px"
                       marginTop="0px"
@@ -412,10 +416,10 @@ const HolderRow = ({
               color="#6988FF"
               value={
                 allocationValue > 0 && allocationValue < 0.01
-                  ? `<${currencySym}0.01/yr per $1 allocated`
+                  ? `<${currencySym}0.01/yr`
                   : allocationValue === 0
                   ? 'Apy Zero'
-                  : `${currencySym}${formatNumber(allocationValue, 2)}/yr per $1 allocated`
+                  : `${currencySym}${formatNumber(allocationValue, 2)}/yr`
               }
               allocationValue={allocationValue}
             />
@@ -487,6 +491,7 @@ const HolderRow = ({
                 {Object.entries(value.vaults)
                   .slice(0, 5)
                   .map(([vaultKey, vaultValue], index) => {
+                    const itemApy = getVaultApy(vaultKey, groupOfVaults, vaultsData, pools)
                     return (
                       <div
                         key={vaultKey}
@@ -498,7 +503,10 @@ const HolderRow = ({
                         }}
                       >
                         <ListItem
-                          value={`${currencySym}${formatNumber(vaultValue.balance, 2)}`}
+                          value={`${currencySym}${formatNumber(
+                            vaultValue.balance * currencyRate,
+                            2,
+                          )}`}
                           weight={500}
                           size="12px"
                           marginTop="0px"
@@ -525,7 +533,7 @@ const HolderRow = ({
                           marginTop="0px"
                           marginRight="10px"
                           color="#5FCF76"
-                          value={`${getVaultApy(vaultKey, groupOfVaults, vaultsData, pools)}% APY`}
+                          value={`${itemApy}% APY`}
                         />
                         <ListItem
                           weight={500}
@@ -533,9 +541,9 @@ const HolderRow = ({
                           marginTop="0px"
                           color="#6988FF"
                           value={`${currencySym}${formatNumber(
-                            getVaultApy(vaultKey, groupOfVaults, vaultsData, pools) / 100,
+                            (itemApy * vaultValue.balance * currencyRate) / 100,
                             2,
-                          )}/yr per $1 allocated`}
+                          )}/yr`}
                         />
                       </div>
                     )

@@ -3,7 +3,9 @@ import { BigNumber } from 'bignumber.js'
 import useEffectWithPrevious from 'use-effect-with-previous'
 import { find, get, isEmpty, orderBy, isEqual, isNaN } from 'lodash'
 import { useMediaQuery } from 'react-responsive'
-import { Dropdown } from 'react-bootstrap'
+import { Dropdown, Spinner } from 'react-bootstrap'
+import { PiQuestion } from 'react-icons/pi'
+import ReactTooltip from 'react-tooltip'
 import { useHistory } from 'react-router-dom'
 import { FaRegSquare, FaRegSquareCheck } from 'react-icons/fa6'
 import { BiLeftArrowAlt } from 'react-icons/bi'
@@ -18,10 +20,15 @@ import BankNote from '../../assets/images/logos/dashboard/bank-note.svg'
 import DropDownIcon from '../../assets/images/logos/advancedfarm/drop-down.svg'
 import AdvancedImg from '../../assets/images/logos/sidebar/advanced.svg'
 import VaultRow from '../../components/DashboardComponents/VaultRow'
+import Eye from '../../assets/images/logos/eye-icon.svg'
+import ClosedEye from '../../assets/images/logos/eye_closed.svg'
 import SkeletonLoader from '../../components/DashboardComponents/SkeletonLoader'
 import EarningsHistory from '../../components/EarningsHistory/HistoryData'
+import UpperIcon from '../../assets/images/logos/dashboard-upper.svg'
 import EarningsHistoryLatest from '../../components/EarningsHistoryLatest/HistoryDataLatest'
 import TotalValue from '../../components/TotalValue'
+import ConnectSuccessIcon from '../../assets/images/logos/sidebar/connect-success.svg'
+import MobileBackImage from '../../assets/images/logos/portfolio-mobile-background.png'
 import {
   FARM_TOKEN_SYMBOL,
   IFARM_TOKEN_SYMBOL,
@@ -38,7 +45,8 @@ import { useVaults } from '../../providers/Vault'
 import { useWallet } from '../../providers/Wallet'
 import { useRate } from '../../providers/Rate'
 import { fromWei } from '../../services/web3'
-import { parseValue, isSpecialApp } from '../../utilities/formats'
+import { parseValue, isSpecialApp, formatAddress, formatNumber } from '../../utilities/formats'
+import PhoneLogo from '../../assets/images/logos/farm-icon.svg'
 import {
   getCoinListFromApi,
   getTokenPriceFromApi,
@@ -77,7 +85,16 @@ import {
   MobileSwitch,
   SwitchBtn,
   SubBtnWrap,
+  MobileHeader,
+  HeaderTop,
+  LifetimeValue,
+  LifetimeSub,
+  LogoDiv,
+  Address,
+  NewLabel,
+  GreenBox,
 } from './style'
+import AnimatedDots from '../../components/AnimatedDots'
 
 const totalNetProfitKey = 'TOTAL_NET_PROFIT'
 const totalHistoryDataKey = 'TOTAL_HISTORY_DATA'
@@ -122,6 +139,7 @@ const Portfolio = () => {
   const [totalRewards, setTotalRewards] = useState(0)
   const [totalYieldDaily, setTotalYieldDaily] = useState(0)
   const [totalYieldMonthly, setTotalYieldMonthly] = useState(0)
+  const [totalYieldYearly, setTotalYieldYearly] = useState(0)
 
   const [depositToken, setDepositToken] = useState([])
 
@@ -129,6 +147,29 @@ const Portfolio = () => {
   const [showInactiveFarms, setShowInactiveFarms] = useState(false)
   const [viewPositions, setViewPositions] = useState(true)
   const [showLatestYield, setShowLatestYield] = useState(false)
+  const [currencySym, setCurrencySym] = useState('$')
+  const [currencyRate, setCurrencyRate] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
+  const [oneDayYield, setOneDayYield] = useState(0)
+  const [showAddress, setShowAddress] = useState(true)
+
+  const beforeAccount = localStorage.getItem('address')
+
+  useEffect(() => {
+    if (totalDeposit !== 0 && totalNetProfit !== 0 && totalYieldMonthly !== 0 && totalYieldDaily) {
+      setIsLoading(false)
+    }
+    if (connected && (totalNetProfit === 0 || totalNetProfit === -1)) {
+      setIsLoading(true)
+    }
+  }, [totalNetProfit, connected, totalDeposit, totalYieldMonthly, totalYieldDaily]) // eslint-disable-next-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (rates.rateData) {
+      setCurrencySym(rates.currency.icon)
+      setCurrencyRate(rates.rateData[rates.currency.symbol])
+    }
+  }, [rates])
 
   useEffect(() => {
     setCurCurrency(supportedCurrencies[rates.currency.id])
@@ -201,6 +242,7 @@ const Portfolio = () => {
       setTotalRewards(0)
       setTotalYieldDaily(0)
       setTotalYieldMonthly(0)
+      setTotalYieldYearly(0)
     }
   }, [connected])
 
@@ -244,6 +286,7 @@ const Portfolio = () => {
           valueRewards = 0,
           totalDailyYield = 0,
           totalMonthlyYield = 0,
+          totalYearlyYield = 0,
           sortedTokenList
 
         if (showInactiveFarms) {
@@ -328,7 +371,7 @@ const Portfolio = () => {
             for (let k = 0; k < ttl; k += 1) {
               tokenName += token.tokenNames[k]
               if (k !== ttl - 1) {
-                tokenName += ', '
+                tokenName += ' - '
               }
             }
             stats.token = token
@@ -570,12 +613,16 @@ const Portfolio = () => {
             const monthlyYield =
               Number(stake) * usdPrice * (vaultAPRMonthly + poolAPRMonthly + swapFeeAPRMonthly) +
               Number(unstake) * usdPrice * (vaultAPRMonthly + swapFeeAPRMonthly)
+            const yearlyYield =
+              Number(stake) * usdPrice * (vaultAPR + totalRewardAPR + swapFeeAPRYearly) +
+              Number(unstake) * usdPrice * (vaultAPR + swapFeeAPRYearly)
 
             stats.dailyYield = dailyYield
             stats.monthlyYield = monthlyYield
 
             totalDailyYield += dailyYield
             totalMonthlyYield += monthlyYield
+            totalYearlyYield += yearlyYield
             newStats.push(stats)
           }
         }
@@ -584,6 +631,7 @@ const Portfolio = () => {
         setTotalRewards(valueRewards)
         setTotalYieldDaily(totalDailyYield)
         setTotalYieldMonthly(totalMonthlyYield)
+        setTotalYieldYearly(totalYearlyYield)
 
         const storedSortingDashboard = localStorage.getItem('sortingDashboard')
         if (storedSortingDashboard && JSON.parse(storedSortingDashboard) !== 'lifetimeYield') {
@@ -602,103 +650,133 @@ const Portfolio = () => {
   }, [account, userStats, balances, showInactiveFarms]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (!isEmpty(userStats) && account) {
-      const getNetProfitValue = async () => {
-        let totalNetProfitUSD = 0,
-          combinedEnrichedData = []
+    const visited = localStorage.getItem(totalNetProfitKey)
+    let safeCount = localStorage.getItem('safe')
 
-        const { userBalanceVaults } = await getUserBalanceVaults(account)
-        const stakedVaults = []
-        const ul = userBalanceVaults.length
-        for (let j = 0; j < ul; j += 1) {
-          Object.keys(groupOfVaults).forEach(key => {
-            const isSpecialVaultAll =
-              groupOfVaults[key].liquidityPoolVault || groupOfVaults[key].poolVault
-            const paramAddressAll = isSpecialVaultAll
-              ? groupOfVaults[key].data.collateralAddress
-              : groupOfVaults[key].vaultAddress || groupOfVaults[key].tokenAddress
+    if (beforeAccount === null && account !== null) {
+      localStorage.setItem('address', account)
+    }
 
-            if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
-              stakedVaults.push(key)
-            }
-          })
-        }
+    if (beforeAccount !== null && account !== null && beforeAccount !== account) {
+      localStorage.setItem('address', account)
+      safeCount = 21
+      window.location.reload()
+    }
 
-        const vaultNetChanges = []
-        const promises = stakedVaults.map(async stakedVault => {
-          let symbol = '',
-            fAssetPool = {}
+    if (Number(visited) !== 0 || visited !== null) {
+      safeCount = Number(safeCount) + 1
+      localStorage.setItem('safe', safeCount)
+    }
 
-          if (stakedVault === IFARM_TOKEN_SYMBOL) {
-            symbol = FARM_TOKEN_SYMBOL
-          } else {
-            symbol = stakedVault
+    if (safeCount > 20) {
+      localStorage.setItem('safe', 0)
+      localStorage.setItem(totalNetProfitKey, 0)
+      setIsLoading(true)
+    }
+    if (Number(visited) === 0 || visited === null || Number(visited) === -1 || safeCount > 20) {
+      if (!isEmpty(userStats) && account) {
+        const getNetProfitValue = async () => {
+          let totalNetProfitUSD = 0,
+            combinedEnrichedData = []
+
+          const { userBalanceVaults } = await getUserBalanceVaults(account)
+          const stakedVaults = []
+          const ul = userBalanceVaults.length
+          for (let j = 0; j < ul; j += 1) {
+            Object.keys(groupOfVaults).forEach(key => {
+              const isSpecialVaultAll =
+                groupOfVaults[key].liquidityPoolVault || groupOfVaults[key].poolVault
+              const paramAddressAll = isSpecialVaultAll
+                ? groupOfVaults[key].data.collateralAddress
+                : groupOfVaults[key].vaultAddress || groupOfVaults[key].tokenAddress
+
+              if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
+                stakedVaults.push(key)
+              }
+            })
           }
 
-          fAssetPool =
-            symbol === FARM_TOKEN_SYMBOL
-              ? groupOfVaults[symbol].data
-              : find(totalPools, pool => pool.id === symbol)
+          const vaultNetChanges = []
+          const promises = stakedVaults.map(async stakedVault => {
+            let symbol = '',
+              fAssetPool = {}
 
-          const token = find(
-            groupOfVaults,
-            vault =>
-              vault.vaultAddress === fAssetPool?.collateralAddress ||
-              (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
-          )
-
-          if (token) {
-            const useIFARM = symbol === FARM_TOKEN_SYMBOL
-            const isSpecialVault = token.liquidityPoolVault || token.poolVault
-            if (isSpecialVault) {
-              fAssetPool = token.data
+            if (stakedVault === IFARM_TOKEN_SYMBOL) {
+              symbol = FARM_TOKEN_SYMBOL
+            } else {
+              symbol = stakedVault
             }
 
-            const paramAddress = isSpecialVault
-              ? token.data.collateralAddress
-              : token.vaultAddress || token.tokenAddress
+            fAssetPool =
+              symbol === FARM_TOKEN_SYMBOL
+                ? groupOfVaults[symbol].data
+                : find(totalPools, pool => pool.id === symbol)
 
-            const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
-              paramAddress,
-              useIFARM ? token.data.chain : token.chain,
-              account,
-              token.decimals,
+            const token = find(
+              groupOfVaults,
+              vault =>
+                vault.vaultAddress === fAssetPool?.collateralAddress ||
+                (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
             )
 
-            vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
-            const enrichedDataWithSymbol = enrichedData.map(data => ({
-              ...data,
-              tokenSymbol: symbol,
-            }))
-            combinedEnrichedData = combinedEnrichedData.concat(enrichedDataWithSymbol)
-            totalNetProfitUSD += sumNetChangeUsd
-          }
-        })
+            if (token) {
+              const useIFARM = symbol === FARM_TOKEN_SYMBOL
+              const isSpecialVault = token.liquidityPoolVault || token.poolVault
+              const tokenName = token.poolVault ? 'FARM' : token.tokenNames.join(' - ')
+              const tokenPlatform = token.platform.join(', ')
+              const tokenChain = token.poolVault ? token.data.chain : token.chain
+              if (isSpecialVault) {
+                fAssetPool = token.data
+              }
 
-        await Promise.all(promises)
+              const paramAddress = isSpecialVault
+                ? token.data.collateralAddress
+                : token.vaultAddress || token.tokenAddress
+              const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
+                paramAddress,
+                useIFARM ? token.data.chain : token.chain,
+                account,
+                token.decimals,
+              )
 
-        totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
-        setTotalNetProfit(totalNetProfitUSD)
-        localStorage.setItem(totalNetProfitKey, totalNetProfitUSD.toString())
+              vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
+              const enrichedDataWithSymbol = enrichedData.map(data => ({
+                ...data,
+                tokenSymbol: symbol,
+                name: tokenName,
+                platform: tokenPlatform,
+                chain: tokenChain,
+              }))
+              combinedEnrichedData = combinedEnrichedData.concat(enrichedDataWithSymbol)
+              totalNetProfitUSD += sumNetChangeUsd
+            }
+          })
 
-        setVaultNetChangeList(vaultNetChanges)
-        localStorage.setItem(vaultProfitDataKey, JSON.stringify(vaultNetChanges))
+          await Promise.all(promises)
 
-        combinedEnrichedData.sort((a, b) => b.timestamp - a.timestamp)
-        setTotalHistoryData(combinedEnrichedData)
-        localStorage.setItem(totalHistoryDataKey, JSON.stringify(combinedEnrichedData))
+          totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
+          setTotalNetProfit(totalNetProfitUSD)
+          localStorage.setItem(totalNetProfitKey, totalNetProfitUSD.toString())
+
+          setVaultNetChangeList(vaultNetChanges)
+          localStorage.setItem(vaultProfitDataKey, JSON.stringify(vaultNetChanges))
+
+          combinedEnrichedData.sort((a, b) => b.timestamp - a.timestamp)
+          setTotalHistoryData(combinedEnrichedData)
+          localStorage.setItem(totalHistoryDataKey, JSON.stringify(combinedEnrichedData))
+        }
+
+        getNetProfitValue()
+      } else {
+        setTotalNetProfit(0)
+        localStorage.setItem(totalNetProfitKey, '0')
+        setVaultNetChangeList([])
+        localStorage.setItem(vaultProfitDataKey, JSON.stringify([]))
+        setTotalHistoryData([])
+        localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
       }
-
-      getNetProfitValue()
-    } else {
-      setTotalNetProfit(0)
-      localStorage.setItem(totalNetProfitKey, '0')
-      setVaultNetChangeList([])
-      localStorage.setItem(vaultProfitDataKey, JSON.stringify([]))
-      setTotalHistoryData([])
-      localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
     }
-  }, [account, userStats, balances, showInactiveFarms]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [account, userStats, showInactiveFarms, connected, beforeAccount]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const sortCol = field => {
     if (field === 'lifetimeYield') {
@@ -772,9 +850,13 @@ const Portfolio = () => {
       toolTipTitle: 'tt-total-profit',
       toolTip: (
         <>
-          Your wallet&apos;s lifetime yield, shown in USD at the time of each harvest event. It
-          includes all yield from any farm on Harvest. It does not consider claimable rewards and
-          BSChain data
+          Your wallet&apos;s lifetime yield with Harvest originating from &apos;harvest&apos;
+          events. It shows the value of your accumulated yield in the currency you chose (USD, EUR,
+          etc.) at the time of each harvest event.
+          <br />
+          <br />
+          Note: This does not include Claimable Rewards or yield originating from Liquidity
+          Provision.
         </>
       ),
     },
@@ -804,88 +886,243 @@ const Portfolio = () => {
     },
   ]
 
+  const MobileTopBoxData = [
+    {
+      icon: Safe,
+      content: 'Total Balance',
+      price: totalDeposit,
+      toolTipTitle: 'tt-total-balance',
+      toolTip:
+        "Sum of your wallet's staked and unstaked fTokens, denominated in USD. Note that displayed amounts are subject to change due to the live pricing of underlying tokens.",
+    },
+    {
+      icon: Safe,
+      content: 'Yearly Forecast',
+      price: totalYieldYearly,
+      toolTipTitle: 'tt-yearly-yield',
+      toolTip:
+        'Estimated yearly yield on all your fTokens, denominated in USD. Note that displayed amounts are subject to change due to the live pricing of underlying tokens.',
+    },
+    {
+      icon: Diamond,
+      content: 'Claimable Rewards',
+      price: totalRewards,
+      toolTipTitle: 'tt-rewards',
+      toolTip:
+        'Accrued rewards on all your staked fTokens, denominated in USD. Note that displayed amounts are subject to change due to the live pricing of underlying tokens.',
+    },
+    {
+      icon: Coin1,
+      content: 'Monthly Forecast',
+      price: totalYieldMonthly,
+      toolTipTitle: 'tt-monthly-yield',
+      toolTip:
+        'Estimated monthly yield on all your fTokens, denominated in USD. Note that displayed amounts are subject to change due to the live pricing of underlying tokens.',
+    },
+    {
+      icon: Coin2,
+      content: 'Daily Yield Forecast',
+      price: totalYieldDaily,
+      toolTipTitle: 'tt-daily-yield',
+      toolTip:
+        'Estimated daily yield on all your fTokens, denominated in USD. Note that displayed amounts are subject to change due to the live pricing of underlying tokens.',
+    },
+  ]
+
   return (
     <Container bgColor={bgColor} fontColor={fontColor}>
-      <Inner>
-        <HeaderWrap>
-          <HeaderTitle fontColor={fontColor} fontColor1={fontColor1}>
-            {!viewPositions && (
-              <BackArrow onClick={() => setViewPositions(prev => !prev)}>
-                <BiLeftArrowAlt fontSize={20} />
-                Back
-              </BackArrow>
-            )}
-            <div className="title">{viewPositions ? 'Overview' : 'Full History'}</div>
-            <div className="desc">
-              {viewPositions
-                ? 'Displaying data from across all networks.'
-                : 'Displaying all harvest, convert & revert events for the connected wallet.'}
-            </div>
-          </HeaderTitle>
-          {viewPositions && (
-            <HeaderButton>
-              <Dropdown>
-                <CurrencyDropDown
-                  id="dropdown-basic"
-                  bgcolor={backColorButton}
-                  fontcolor2={fontColor2}
-                  hovercolor={hoverColorNew}
-                  style={{ padding: 0 }}
-                >
-                  {curCurrency ? (
-                    <CurrencySelect
-                      backColor={backColor}
-                      fontcolor2={fontColor2}
-                      hovercolor={hoverColor}
+      <Inner bgColor={darkMode ? '#171b25' : '#fff'}>
+        <HeaderWrap
+          backImg={viewPositions ? MobileBackImage : ''}
+          padding={viewPositions ? '25px 25px 40px 25px' : '25px 15px 20px'}
+          height={viewPositions ? '234px' : ''}
+        >
+          {!isMobile && (
+            <HeaderTitle fontColor={fontColor} fontColor1={fontColor1}>
+              {!viewPositions && (
+                <BackArrow onClick={() => setViewPositions(prev => !prev)}>
+                  <BiLeftArrowAlt fontSize={20} />
+                  Back
+                </BackArrow>
+              )}
+              <div className="title">{viewPositions ? 'Overview' : 'Full History'}</div>
+              <div className="desc">
+                {viewPositions
+                  ? 'Displaying data from across all networks.'
+                  : 'Displaying all harvest, convert & revert events for the connected wallet.'}
+              </div>
+            </HeaderTitle>
+          )}
+          {isMobile && viewPositions ? (
+            <MobileHeader>
+              <HeaderTop>
+                <LogoDiv>
+                  <img src={PhoneLogo} alt="harvest logo" />
+                  <div style={{ marginLeft: '10px', fontWeight: '700', fontSize: '16px' }}>
+                    Harvest
+                  </div>
+                </LogoDiv>
+                {connected && (
+                  <LogoDiv bgColor="#F8F8F8" borderRadius="16px" padding="3px 8px">
+                    <img src={ConnectSuccessIcon} alt="connect success" width={6} height={6} />
+                    <Address>{showAddress ? formatAddress(account) : '**********'}</Address>
+                    <div
+                      onClick={() => setShowAddress(prev => !prev)}
+                      onKeyDown={e => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          setShowAddress(prev => !prev)
+                        }
+                      }}
+                      style={{ cursor: 'pointer', alignItems: 'center', display: 'flex' }}
+                      aria-label="Toggle address visibility"
+                      role="button"
+                      tabIndex="0"
                     >
                       <img
-                        className={darkMode ? 'logo-dark' : 'logo'}
-                        src={curCurrency.imgPath}
-                        width={16}
-                        height={16}
-                        alt=""
+                        src={showAddress ? Eye : ClosedEye}
+                        alt="Toggle address visibility"
+                        style={{ marginLeft: '5px' }}
                       />
-                      <span>{curCurrency.symbol}</span>
-                      <img className="dropdown-icon" src={DropDownIcon} alt="" />
-                    </CurrencySelect>
+                    </div>
+                  </LogoDiv>
+                )}
+              </HeaderTop>
+              <LifetimeValue isLoading={isLoading} connected={connected}>
+                {!connected ? (
+                  `${currencySym}0.00`
+                ) : isLoading ? (
+                  <Spinner
+                    as="span"
+                    animation="border"
+                    style={{ width: '2rem', height: '2rem' }}
+                    role="status"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  `${currencySym}${formatNumber(totalNetProfit * Number(currencyRate))}`
+                )}
+              </LifetimeValue>
+              <LifetimeSub>
+                Lifetime Yield
+                <PiQuestion
+                  className="question"
+                  data-tip
+                  data-for={`mobile=${TopBoxData[1].toolTipTitle}`}
+                />
+                <ReactTooltip
+                  id={`mobile=${TopBoxData[1].toolTipTitle}`}
+                  backgroundColor={darkMode ? 'white' : '#101828'}
+                  borderColor={darkMode ? 'white' : 'black'}
+                  textColor={darkMode ? 'black' : 'white'}
+                  className="mobile-top-tooltip"
+                  place="top"
+                >
+                  <NewLabel
+                    size={isMobile ? '10px' : '12px'}
+                    height={isMobile ? '15px' : '18px'}
+                    weight="600"
+                  >
+                    {TopBoxData[1].toolTip}
+                  </NewLabel>
+                </ReactTooltip>
+                <GreenBox>
+                  <img src={UpperIcon} alt="upper icon" width={13} height={13} />
+                  {!connected ? (
+                    `${currencySym}0.00`
+                  ) : oneDayYield === 0 ? (
+                    <AnimatedDots />
+                  ) : oneDayYield * currencyRate >= 0.01 ? (
+                    `${currencySym}${formatNumber(oneDayYield * currencyRate)} (24h)`
+                  ) : (
+                    `<${currencySym}0.01 (24h)`
+                  )}
+                </GreenBox>
+              </LifetimeSub>
+            </MobileHeader>
+          ) : (
+            isMobile && (
+              <HeaderTitle fontColor={fontColor} fontColor1={fontColor1}>
+                {!viewPositions && (
+                  <BackArrow onClick={() => setViewPositions(prev => !prev)}>
+                    <BiLeftArrowAlt fontSize={20} color={isMobile && '#fff'} />
+                    Back
+                  </BackArrow>
+                )}
+                <div className="title">{viewPositions ? 'Overview' : 'Full History'}</div>
+                <div className="desc">
+                  {viewPositions
+                    ? 'Displaying data from across all networks.'
+                    : 'Displaying all harvest, convert & revert events for the connected wallet.'}
+                </div>
+              </HeaderTitle>
+            )
+          )}
+          {viewPositions && (
+            <HeaderButton>
+              {!isMobile && (
+                <Dropdown>
+                  <CurrencyDropDown
+                    id="dropdown-basic"
+                    bgcolor={backColorButton}
+                    fontcolor2={fontColor2}
+                    hovercolor={hoverColorNew}
+                    style={{ padding: 0 }}
+                  >
+                    {curCurrency ? (
+                      <CurrencySelect
+                        backColor={backColor}
+                        fontcolor2={fontColor2}
+                        hovercolor={hoverColor}
+                      >
+                        <img
+                          className={darkMode ? 'logo-dark' : 'logo'}
+                          src={curCurrency.imgPath}
+                          width={16}
+                          height={16}
+                          alt=""
+                        />
+                        <span>{curCurrency.symbol}</span>
+                        <img className="dropdown-icon" src={DropDownIcon} alt="" />
+                      </CurrencySelect>
+                    ) : (
+                      <></>
+                    )}
+                  </CurrencyDropDown>
+                  {!isSpecialApp ? (
+                    <CurrencyDropDownMenu backcolor={backColorButton}>
+                      {supportedCurrencies.map(elem => {
+                        return (
+                          <CurrencyDropDownItem
+                            onClick={() => {
+                              updateCurrency(elem.id)
+                            }}
+                            fontcolor={fontColor}
+                            filtercolor={filterColor}
+                            hovercolor={hoverColorNew}
+                            key={elem.id}
+                          >
+                            <img
+                              className={darkMode ? 'logo-dark' : 'logo'}
+                              src={elem.imgPath}
+                              width={14}
+                              height={14}
+                              alt=""
+                            />
+                            <span>{elem.symbol}</span>
+                            {curCurrency.id === elem.id ? (
+                              <IoCheckmark className="check-icon" />
+                            ) : (
+                              <></>
+                            )}
+                          </CurrencyDropDownItem>
+                        )
+                      })}
+                    </CurrencyDropDownMenu>
                   ) : (
                     <></>
                   )}
-                </CurrencyDropDown>
-                {!isSpecialApp ? (
-                  <CurrencyDropDownMenu backcolor={backColorButton}>
-                    {supportedCurrencies.map(elem => {
-                      return (
-                        <CurrencyDropDownItem
-                          onClick={() => {
-                            updateCurrency(elem.id)
-                          }}
-                          fontcolor={fontColor}
-                          filtercolor={filterColor}
-                          hovercolor={hoverColorNew}
-                          key={elem.id}
-                        >
-                          <img
-                            className={darkMode ? 'logo-dark' : 'logo'}
-                            src={elem.imgPath}
-                            width={14}
-                            height={14}
-                            alt=""
-                          />
-                          <span>{elem.symbol}</span>
-                          {curCurrency.id === elem.id ? (
-                            <IoCheckmark className="check-icon" />
-                          ) : (
-                            <></>
-                          )}
-                        </CurrencyDropDownItem>
-                      )
-                    })}
-                  </CurrencyDropDownMenu>
-                ) : (
-                  <></>
-                )}
-              </Dropdown>
+                </Dropdown>
+              )}
               {!isMobile && (
                 <SwitchView
                   color={fontColor2}
@@ -903,28 +1140,42 @@ const Portfolio = () => {
         </HeaderWrap>
         {viewPositions && (
           <SubPart>
-            {TopBoxData.map((data, index) => (
-              <TotalValue
-                key={index}
-                icon={data.icon}
-                content={data.content}
-                price={data.price}
-                toolTipTitle={data.toolTipTitle}
-                toolTip={data.toolTip}
-                connected={connected}
-                farmTokenListLength={farmTokenList.length}
-              />
-            ))}
+            {!isMobile
+              ? TopBoxData.map((data, index) => (
+                  <TotalValue
+                    key={index}
+                    icon={data.icon}
+                    content={data.content}
+                    price={data.price}
+                    toolTipTitle={data.toolTipTitle}
+                    toolTip={data.toolTip}
+                    connected={connected}
+                    isLoading={isLoading}
+                    farmTokenListLength={farmTokenList.length}
+                  />
+                ))
+              : MobileTopBoxData.map((data, index) => (
+                  <TotalValue
+                    key={index}
+                    icon={data.icon}
+                    content={data.content}
+                    price={data.price}
+                    toolTipTitle={data.toolTipTitle}
+                    toolTip={data.toolTip}
+                    connected={connected}
+                    farmTokenListLength={farmTokenList.length}
+                  />
+                ))}
           </SubPart>
         )}
 
         {viewPositions ? (
           <TableWrap fontColor1={fontColor1}>
             {isMobile && (
-              <MobileSwitch>
+              <MobileSwitch darkMode={darkMode}>
                 <SwitchBtn
-                  color={showLatestYield ? 'unset' : '#fff'}
-                  backColor={showLatestYield ? 'none' : '#6988ff'}
+                  color={darkMode ? '#fff' : showLatestYield ? '#131313' : '#fff'}
+                  backColor={showLatestYield ? 'unset' : darkMode ? '#171B25' : '#6988ff'}
                   boxShadow={
                     showLatestYield
                       ? 'none'
@@ -935,8 +1186,8 @@ const Portfolio = () => {
                   Positions
                 </SwitchBtn>
                 <SwitchBtn
-                  color={showLatestYield ? '#fff' : 'unset'}
-                  backColor={showLatestYield ? '#6988ff' : 'none'}
+                  color={darkMode ? '#fff' : showLatestYield ? '#fff' : '#131313'}
+                  backColor={showLatestYield ? (darkMode ? '#171B25' : '#6988ff') : 'none'}
                   boxShadow={
                     showLatestYield
                       ? '0px 1px 3px 0px rgba(16, 24, 40, 0.1), 0px 1px 2px 0px rgba(16, 24, 40, 0.06)'
@@ -951,7 +1202,7 @@ const Portfolio = () => {
             <PositionTable display={showLatestYield ? 'none' : 'block'}>
               <div className="table-title">Positions</div>
               <TransactionDetails>
-                <TableContent borderColor={borderColorTable} count={farmTokenList.length}>
+                <TableContent count={farmTokenList.length}>
                   <Header borderColor={borderColorTable} backColor={bgColorTable}>
                     {positionHeader.map((data, index) => (
                       <Column key={index} width={data.width} color={fontColor}>
@@ -990,6 +1241,7 @@ const Portfolio = () => {
                                 firstElement={i === 0 ? 'yes' : 'no'}
                                 lastElement={i === farmTokenList.length - 1 ? 'yes' : 'no'}
                                 cKey={i}
+                                darkMode={darkMode}
                               />
                             )
                           })
@@ -1014,6 +1266,7 @@ const Portfolio = () => {
                                 firstElement={i === 0 ? 'yes' : 'no'}
                                 lastElement={i === filteredFarmList.length - 1 ? 'yes' : 'no'}
                                 cKey={i}
+                                darkMode={darkMode}
                               />
                             )
                           })}
@@ -1096,6 +1349,8 @@ const Portfolio = () => {
                 historyData={totalHistoryData}
                 isDashboard="true"
                 noData={noFarm}
+                setOneDayYield={setOneDayYield}
+                isLoading={isLoading}
               />
             </YieldTable>
             {isMobile && (

@@ -32,6 +32,7 @@ const DepositSelectToken = ({
   defaultToken,
   supportedVault,
   hasPortalsError,
+  setFromTokenList,
 }) => {
   const {
     darkMode,
@@ -139,6 +140,7 @@ const DepositSelectToken = ({
                 filterWord={filterWord}
                 supportedVault={supportedVault}
                 hasPortalsError={hasPortalsError}
+                setFromTokenList={setFromTokenList}
               />
             ) : (
               <NotConnectedWallet

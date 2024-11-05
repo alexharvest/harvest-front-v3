@@ -79,7 +79,7 @@ export function ThemeProvider({ children }) {
   const dashboardListItemPercentBack = darkMode ? 'rgba(39, 174, 96, 0.1)' : '#E6F8EB'
   const dashboardListItemPercentColor = darkMode ? '#27AE60' : '#1ABC9C'
 
-  const filterChainHoverColor = darkMode ? '#242f3a' : '#e9f0f7'
+  const filterChainHoverColor = darkMode ? '#242f3a' : '#6988FF4F'
 
   const badgeIconBackColor = darkMode ? 'white' : 'rgba(255, 255, 255, 0.6)'
 

@@ -40,7 +40,8 @@ const Inner = styled.div`
   }
 
   @media screen and (max-width: 992px) {
-    padding: 25px 0px;
+    padding: 0px 0px 25px 0px;
+    background: ${props => (props.bgColor ? props.bgColor : '')};
   }
 `
 
@@ -54,7 +55,8 @@ const SubPart = styled.div`
   @media screen and (max-width: 992px) {
     flex-wrap: wrap;
     gap: 0px;
-    margin: 0px 15px 24px 15px;
+    margin: 0px 25px 25px 25px;
+    border: none;
   }
 `
 
@@ -64,7 +66,10 @@ const HeaderWrap = styled.div`
   padding-bottom: 20px;
 
   @media screen and (max-width: 992px) {
-    padding: 0px 15px 20px 15px;
+    padding: ${props => (props.padding ? props.padding : '')};
+    // background-image: ${props => (props.backImg ? `url(${props.backImg})` : '')};
+    height: ${props => (props.height ? props.height : '')};
+    background: linear-gradient(to right, #5b86e5, #36d1dc);
   }
 `
 
@@ -84,16 +89,21 @@ const HeaderTitle = styled.div`
     line-height: 24px;
   }
   @media screen and (max-width: 992px) {
+    color: #fff;
     .title {
       font-size: 16px;
+      color: #fff;
+    }
+    .desc {
+      color: #fff;
     }
   }
 `
 
 const HeaderButton = styled.div`
-  display: flex;
   margin: auto 0px;
   gap: 15px;
+  display: ${props => (props.display ? props.display : 'flex')};
 
   @media screen and (max-width: 992px) {
     flex-direction: column-reverse;
@@ -505,7 +515,6 @@ const TableContent = styled.div`
       : ``}
   @media screen and (max-width: 992px) {
     // overflow-x: scroll;
-    border-top: 1px solid ${props => props.borderColor};
     ${props =>
       props.count === 0
         ? `
@@ -555,7 +564,10 @@ const SubBtnWrap = styled.div`
 
 const MobileSwitch = styled.div`
   display: flex;
-  padding: 0px 15px;
+  padding: 4px;
+  margin: 0px 10px;
+  background: ${props => (props.darkMode ? '#373d51' : '#6988FF33')};
+  border-radius: 8px;
 `
 
 const SwitchBtn = styled.div`
@@ -728,7 +740,7 @@ const CurrencySelect = styled.div`
     height: unset;
     border-radius: 8px;
     line-height: 20px;
-    padding: 10px;
+    padding: 9px 10px;
     gap: 0px;
 
     img {
@@ -797,6 +809,7 @@ const CurrencyDropDownMenu = styled(Dropdown.Menu)`
 
   @media screen and (max-width: 992px) {
     min-width: unset;
+    transform: translate3d(0px, -215px, 0px) !important;
   }
 `
 
@@ -869,6 +882,203 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   }
 `
 
+const MobileHeader = styled.div`
+  width: 100%;
+`
+const LogoDiv = styled.div`
+  display: flex;
+  align-items: center;
+  color: #fff;
+  background: ${props => (props.bgColor ? props.bgColor : '')};
+  border-radius: ${props => (props.borderRadius ? props.borderRadius : '')};
+  padding: ${props => (props.padding ? props.padding : '')};
+`
+const Address = styled.div`
+  margin-left: 5px;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 18px;
+  color: #344054;
+`
+const HeaderTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+const LifetimeValue = styled.div`
+  text-align: center;
+  margin-top: 30px;
+  font-size: ${props => (props.isLoading && props.connected ? '18px' : '45px')};
+  margin-bottom: ${props => (props.isLoading && props.connected ? '15px' : '0px')};
+  color: #fff;
+  font-weight: 700;
+`
+const LifetimeSub = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+
+  svg.question {
+    font-size: 16px;
+    cursor: pointer;
+    margin: auto 0px auto 5px;
+  }
+
+  .mobile-top-tooltip {
+    width: 300px;
+    background: #101828;
+    color: #fff;
+  }
+
+  .mobile-top-tooltip:before,
+  .mobile-top-tooltip:after {
+    display: flex;
+    border-top-color: #101828 !important;
+  }
+`
+
+const NewLabel = styled.div`
+  font-weight: ${props => props.weight || '400'};
+  font-size: ${props => props.size || '20px'};
+  line-height: ${props => props.height || '0px'};
+  ${props =>
+    props.borderBottom
+      ? `
+    border-bottom: ${props.borderBottom};
+  `
+      : ''}
+
+  ${props =>
+    props.color
+      ? `
+    color: ${props.color};
+  `
+      : ''}
+  ${props =>
+    props.position
+      ? `
+    position: ${props.position};
+  `
+      : ''}
+  ${props =>
+    props.align
+      ? `
+    text-align: ${props.align};
+  `
+      : ''}
+  ${props =>
+    props.justifyContent
+      ? `
+    justify-content: ${props.justifyContent};
+  `
+      : ''}
+  ${props =>
+    props.marginTop
+      ? `
+    margin-top: ${props.marginTop};
+  `
+      : ''}
+  ${props =>
+    props.marginLeft
+      ? `
+    margin-left: ${props.marginLeft};
+  `
+      : ''}
+  ${props =>
+    props.marginBottom
+      ? `
+    margin-bottom: ${props.marginBottom};
+  `
+      : ''}
+  ${props =>
+    props.marginRight
+      ? `
+    margin-right: ${props.marginRight};
+  `
+      : ''}
+  ${props =>
+    props.display
+      ? `
+    display: ${props.display};
+  `
+      : ''}
+  ${props =>
+    props.items
+      ? `
+    align-items: ${props.items};
+  `
+      : ''}
+  ${props =>
+    props.self
+      ? `
+    align-self: ${props.self};
+  `
+      : ''}
+  ${props =>
+    props.padding
+      ? `
+    padding: ${props.padding};
+  `
+      : ''}
+  ${props =>
+    props.width
+      ? `
+    width: ${props.width};
+  `
+      : ''}
+  ${props =>
+    props.borderRadius
+      ? `
+    border-radius: ${props.borderRadius};
+    `
+      : ``}
+  img.icon {
+    margin-right: 10px;
+  }
+
+  img.thumbs-up {
+    margin-right: 10px;
+  }
+
+  img.info-icon {
+    margin-left: 15px;
+  }
+
+  #info .tooltip-inner {
+    background: black;
+  }
+
+  @media screen and (max-width: 992px) {
+    img.icon {
+      margin-right: 5px;
+    }
+
+    img.info {
+      margin-left: 5px;
+    }
+
+    img.thumbs-up {
+      margin-right: 5px;
+      width: 11px;
+    }
+  }
+`
+const GreenBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 5.35px 9.37px;
+  border-radius: 5.35px;
+  background: #5dcf46;
+  margin-left: 10px;
+  font-size: 12px;
+  align-items: center;
+
+  img {
+    margin-right: 5px;
+  }
+`
+
 export {
   Container,
   SubPart,
@@ -907,4 +1117,12 @@ export {
   CurrencySelect,
   CurrencyDropDownMenu,
   CurrencyDropDownItem,
+  MobileHeader,
+  HeaderTop,
+  LifetimeValue,
+  LifetimeSub,
+  LogoDiv,
+  Address,
+  NewLabel,
+  GreenBox,
 }

@@ -12,6 +12,7 @@ import {
   HISTORICAL_RATES_API_ENDPOINT,
   GECKO_URL,
   COINGECKO_API_KEY,
+  POOLS_API_ENDPOINT,
 } from '../constants'
 import { fromWei } from '../services/web3'
 
@@ -1062,6 +1063,26 @@ export const fetchLeaderboardData = async () => {
     return data
   } catch (error) {
     console.log('Error fetching leaderboard data', error)
+    return null
+  }
+}
+
+export const fetchRewardToken = async () => {
+  try {
+    const response = await fetch(POOLS_API_ENDPOINT)
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`)
+    }
+    const data = await response.json()
+
+    // Log and return only if data is valid
+    if (data) {
+      return data
+    }
+    console.log('No data received from API')
+    return null
+  } catch (error) {
+    console.log('Error fetching reward token data', error)
     return null
   }
 }

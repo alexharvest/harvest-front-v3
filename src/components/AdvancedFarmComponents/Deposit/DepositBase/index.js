@@ -10,6 +10,7 @@ import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 import DropDownIcon from '../../../../assets/images/logos/advancedfarm/drop-down.svg'
 // import WalletIcon from '../../../../assets/images/logos/beginners/wallet-in-button.svg'
 import InfoIcon from '../../../../assets/images/logos/beginners/info-circle.svg'
+import ThumbUpIcon from '../../../../assets/images/logos/thumb-up.svg'
 import CloseIcon from '../../../../assets/images/logos/beginners/close.svg'
 import { useThemeContext } from '../../../../providers/useThemeContext'
 import { useWallet } from '../../../../providers/Wallet'
@@ -37,6 +38,7 @@ import {
   CloseBtn,
   DepositTokenSection,
   SwitchTabTag,
+  ThumbUp,
 } from './style'
 import { usePortals } from '../../../../providers/Portals'
 import { getChainName } from '../../../../utilities/parsers'
@@ -59,12 +61,14 @@ const DepositBase = ({
   setFromInfoAmount,
   setFromInfoUsdAmount,
   fromInfoUsdAmount,
-  convertMonthlyYieldUSD,
-  convertDailyYieldUSD,
+  convertYearlyYieldUSD,
+  // convertMonthlyYieldUSD,
+  // convertDailyYieldUSD,
   minReceiveAmountString,
   setMinReceiveAmountString,
   minReceiveUsdAmount,
   setMinReceiveUsdAmount,
+  setConvertYearlyYieldUSD,
   setConvertMonthlyYieldUSD,
   setConvertDailyYieldUSD,
   hasErrorOccurred,
@@ -261,6 +265,7 @@ const DepositBase = ({
             setFailureCount(prevCount => prevCount + 1)
 
             if (failureCount === 4) {
+              setConvertYearlyYieldUSD('-')
               setConvertMonthlyYieldUSD('-')
               setConvertDailyYieldUSD('-')
               setMinReceiveAmountString('-')
@@ -414,12 +419,12 @@ const DepositBase = ({
             </NewLabel>
             <TokenInput>
               <TokenAmount
-                type="text"
+                type="number"
                 value={inputAmount}
                 onChange={onInputBalance}
                 bgColor={bgColor}
                 fontColor2={fontColor2}
-                inputmode="numeric"
+                inputMode="numeric"
                 pattern="[0-9]*"
               />
               <input type="hidden" value={Number(inputAmount)} />
@@ -553,7 +558,7 @@ const DepositBase = ({
               color={fontColor3}
               weight="500"
             >
-              Est. Monthly Yield
+              Est. Yearly Yield
               <PiQuestion className="question" data-tip data-for="monthly-yield" />
               <ReactTooltip
                 id="monthly-yield"
@@ -571,7 +576,7 @@ const DepositBase = ({
                     ? `Based on live USD prices of tokens involved in this farm. Subject to change due to market fluctuations and the number of users in this farm.`
                     : useIFARM
                     ? 'Based on live USD price of iFARM. Considers live APY. Subject to change.'
-                    : 'Based on live USD prices of underlying and reward tokens. Considers live APY and assumes staked fTokens. Subject to change.'}
+                    : 'Calculated using live APY and current values of underlying and reward tokens. Subject to market fluctuations; performance may vary.'}
                 </NewLabel>
               </ReactTooltip>
             </NewLabel>
@@ -586,16 +591,16 @@ const DepositBase = ({
               pickedToken.symbol !== 'Select Token' &&
               !new BigNumber(amount).isEqualTo(0) ? (
                 minReceiveAmountString !== '' ? (
-                  convertMonthlyYieldUSD === '0' ? (
+                  convertYearlyYieldUSD === '0' ? (
                     `${currencySym}0.00`
-                  ) : convertMonthlyYieldUSD === '-' ? (
+                  ) : convertYearlyYieldUSD === '-' ? (
                     '-'
-                  ) : convertMonthlyYieldUSD === 'NaN' ? (
+                  ) : convertYearlyYieldUSD === 'NaN' ? (
                     '-'
-                  ) : Number(convertMonthlyYieldUSD) < 0.01 ? (
+                  ) : Number(convertYearlyYieldUSD) < 0.01 ? (
                     `<${currencySym}0.01`
                   ) : (
-                    `${currencySym}${round(convertMonthlyYieldUSD * Number(currencyRate), 2)}`
+                    `${currencySym}${round(convertYearlyYieldUSD * Number(currencyRate), 2)}`
                   )
                 ) : (
                   <TokenInfo>
@@ -607,7 +612,7 @@ const DepositBase = ({
               )}
             </NewLabel>
           </NewLabel>
-          <NewLabel
+          {/* <NewLabel
             display="flex"
             justifyContent="space-between"
             padding={isMobile ? '10px 0' : '10px 0'}
@@ -672,7 +677,7 @@ const DepositBase = ({
                 '-'
               )}
             </NewLabel>
-          </NewLabel>
+          </NewLabel> */}
           <NewLabel
             display="flex"
             justifyContent="space-between"
@@ -767,6 +772,12 @@ const DepositBase = ({
               </NewLabel>
             </NewLabel>
           </NewLabel>
+          <ThumbUp padding={isMobile ? '15px' : '16px'}>
+            <img src={ThumbUpIcon} alt="thumb-up" style={{ marginRight: '15px' }} />
+            <NewLabel size={isMobile ? '10px' : '12px'} weight="600" height="20px" color="#027A48">
+              You can exit this position anytime, in full, at no cost.
+            </NewLabel>
+          </ThumbUp>
         </NewLabel>
         <NewLabel>
           <Button

@@ -27,6 +27,7 @@ const VaultModal = ({
   chain,
   isMobile,
   currencySym,
+  currencyRate,
   setIsFromModal,
   stopPropagation,
   groupOfVaults,
@@ -231,6 +232,7 @@ const VaultModal = ({
         key={i}
         matchVault={item}
         currencySym={currencySym}
+        currencyRate={currencyRate}
         networkName={networkName}
         setShowVaultModal={setShowVaultModal}
         setHighestVaultAddress={setHighestVaultAddress}
@@ -254,6 +256,7 @@ const VaultModal = ({
         key={i}
         matchVault={item}
         currencySym={currencySym}
+        currencyRate={currencyRate}
         networkName={networkName}
         setShowVaultModal={setShowVaultModal}
         setHighestVaultAddress={setHighestVaultAddress}

@@ -5,7 +5,7 @@ const Container = styled.button`
   font-size: 12px;
   line-height: 18px;
   padding: 3px 15px;
-  display: flex;
+  display: ${props => props.display};
   text-align: left;
   border: none;
   color: #282f3d;
@@ -144,6 +144,8 @@ const NewLabel = styled.div`
 `
 
 const Text = styled.div`
+  display: flex;
+  align-items: center;
   svg.info {
     margin-left: 3px;
   }

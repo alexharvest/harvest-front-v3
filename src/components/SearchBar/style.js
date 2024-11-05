@@ -50,8 +50,8 @@ const Container = styled.div`
     }
 
     @media screen and (max-width: 992px) {
-      font-weight: 400;
-      font-size: 14px;
+      font-weight: 300;
+      font-size: 12px;
       line-height: 22px;
       color: #888e8f;
       padding: 9px 10px;
@@ -60,11 +60,12 @@ const Container = styled.div`
 
   @media screen and (max-width: 992px) {
     margin-right: 0;
+    margin-bottom: 15px;
   }
 `
 
 const SearchBtn = styled.button`
-  background: #15b088;
+  background: #6988ff;
   border-radius: 0px 8px 8px 0px;
   padding: 8px 18px;
   color: white;

@@ -460,9 +460,20 @@ const DepositTokenSection = styled.div`
   max-width: 50%;
 `
 
+const ThumbUp = styled.div`
+  background: #f6fef9;
+  border: 1px solid #6ce9a6;
+  padding: ${props => props.padding};
+  border-radius: 12px;
+  margin-top: 10px;
+  margin-bottom: 25px;
+  display: flex;
+`
+
 export {
   FlexDiv,
   BaseWidoDiv,
+  ThumbUp,
   NewLabel,
   TokenInput,
   TokenAmount,

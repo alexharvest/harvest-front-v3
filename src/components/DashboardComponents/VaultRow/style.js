@@ -67,6 +67,12 @@ const Content = styled.div`
     margin-top: ${props.marginTop};
   `
       : ''}
+  ${props =>
+    props.flexDirection
+      ? `
+        flex-direction: ${props.flexDirection};
+      `
+      : ''}
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;
@@ -128,7 +134,7 @@ const BadgeIcon = styled.div`
 
   &.network-badge {
     @media screen and (max-width: 992px) {
-      margin-bottom: 15px;
+      margin: 0px 5px 0px 0px;
       display: inline-flex;
     }
   }
@@ -144,6 +150,11 @@ const LogoImg = styled.img`
     margin-left: ${props.marginLeft}
   `
       : ``};
+
+  @media screen and (max-width: 992px) {
+    width: 21px;
+    height: 21px;
+  }
 `
 
 const ContentInner = styled.div`
@@ -165,10 +176,29 @@ const ContentInner = styled.div`
     margin-left: ${props.marginLeft};
   `
       : ''}
+  ${props =>
+    props.alignItems
+      ? `
+        align-items: ${props.alignItems};
+      `
+      : ''}
+  ${props =>
+    props.marginTop
+      ? `
+        margin-top: ${props.marginTop};
+       `
+      : ''}
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;
   align-self: center;
 `
 
-export { DetailView, FlexDiv, BadgeIcon, Content, LogoImg, ContentInner }
+const MobileContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`
+
+export { DetailView, FlexDiv, BadgeIcon, Content, LogoImg, ContentInner, MobileContentContainer }

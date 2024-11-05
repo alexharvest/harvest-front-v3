@@ -33,7 +33,7 @@ import { NewLabel } from '../../components/MigrateComponents/PositionModal/style
 import Accordian from '../../components/MigrateComponents/Accordian'
 import ARBITRUM from '../../assets/images/logos/badge/arbitrum.svg'
 import POLYGON from '../../assets/images/logos/badge/polygon.svg'
-import ZKSYNC from '../../assets/images/logos/badge/zksync.svg'
+// import ZKSYNC from '../../assets/images/logos/badge/zksync.svg'
 import BASE from '../../assets/images/logos/badge/base.svg'
 import { CHAIN_IDS } from '../../data/constants'
 import {
@@ -146,6 +146,7 @@ const Migrate = () => {
   const [allMatchVaultList, setAllMatchVaultList] = useState([])
   const [highPositionPlatform, setHighPositionPlatform] = useState('')
   const [highVaultPlatform, setHighVaultPlatform] = useState('')
+  const [positionBalance, setPositionBalance] = useState(0)
   const isFetchingRef = useRef(false)
 
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
@@ -162,19 +163,21 @@ const Migrate = () => {
     { id: 3, name: 'Base', img: BASE, chainId: CHAIN_IDS.BASE },
   ]
 
+  const isSpecialChain = Number(chainId) === 324
+
   useEffect(() => {
     let badgeUrl, network
-    if (connected) {
+    if (connected && !isEmpty(userStats)) {
       badgeUrl =
         Number(selectedChain) === 42161
           ? ARBITRUM
           : Number(selectedChain) === 8453
           ? BASE
-          : Number(selectedChain) === 324
-          ? ZKSYNC
           : Number(selectedChain) === 137
           ? POLYGON
           : ETHEREUM
+    } else if (!isEmpty(userStats) && isSpecialChain) {
+      badgeUrl = BASE
     } else if (!connected) {
       badgeUrl = BASE
     }
@@ -200,11 +203,15 @@ const Migrate = () => {
     // setHighestApyVault()
     // setNetworkMatchList([])
     // setMatchVaultList([])
-  }, [selectedChain, connected])
+  }, [selectedChain, connected, chainId, userStats, isSpecialChain])
 
   useEffect(() => {
-    setSelectedChain(chainId)
-  }, [chainId])
+    if (isSpecialChain) {
+      setSelectedChain(8453)
+    } else {
+      setSelectedChain(chainId)
+    }
+  }, [chainId, isSpecialChain])
 
   useEffect(() => {
     if (highestApyVault && connected) {
@@ -843,7 +850,10 @@ const Migrate = () => {
           ? Number(fromVault.token.data.chain)
           : Number(fromVault.token.chain)
 
-        if (fromAddress.toLowerCase() === toAddress.toLowerCase()) {
+        if (
+          fromAddress.toLowerCase() === toAddress.toLowerCase() &&
+          Number(selectedChain) !== 324
+        ) {
           setHighestPosition(fromVault)
           setHighestApyVault(secToVault)
           setPositionVaultAddress(fromAddress)
@@ -915,7 +925,22 @@ const Migrate = () => {
           setTokenDepo(noConToken)
         }
         setButtonName('Connect Wallet')
-      } else if (connected) {
+      } else if (isSpecialChain && !isEmpty(userStats)) {
+        const defaultVault = {
+          vaultApy: 0,
+          vault: {},
+        }
+        toId = 'moonwell_USDC'
+        const noConToken = groupOfVaults[toId.toString()]
+        const noConAddress = '0x90613e167D42CA420942082157B42AF6fc6a8087'
+        const defaultApy = getVaultApy(noConAddress, groupOfVaults, vaultsData, pools)
+        defaultVault.vaultApy = defaultApy
+        defaultVault.vault = noConToken
+        setHighestApyVault(defaultVault)
+        setHighestVaultAddress(noConAddress)
+        setTokenDepo(noConToken)
+        setButtonName('Change Network to Base')
+      } else if (connected && Number(selectedChain) !== 324) {
         setButtonName(<AnimatedDots />)
         setHighestApyVault()
         setHighestPosition()
@@ -954,6 +979,7 @@ const Migrate = () => {
     setFilteredFarmList(filteredVaultList)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
+    selectedChain,
     connected,
     showInactiveFarms,
     farmTokenList,
@@ -975,6 +1001,7 @@ const Migrate = () => {
     positionVaultAddress,
     pickedTokenWith,
     noPosition,
+    userStats,
   ])
 
   useEffect(() => {
@@ -998,6 +1025,12 @@ const Migrate = () => {
     }
   }, [highestVaultAddress]) // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (highestPosition) {
+      setPositionBalance(highestPosition.balance)
+    }
+  }, [highestPosition])
+
   const stopPropagation = event => {
     event.stopPropagation()
   }
@@ -1006,6 +1039,13 @@ const Migrate = () => {
     if (!connected) {
       connectAction()
       return
+    }
+    if (Number(chainId) === 324) {
+      const chain = 8453
+      const chainHex = `0x${Number(chain).toString(16)}`
+      if (!isSpecialApp) {
+        setChain({ chainId: chainHex })
+      }
     }
     if (chainId && curChain) {
       if (chainId.toString() !== curChain.toString()) {
@@ -1114,16 +1154,18 @@ const Migrate = () => {
         : positionToken.platform[0] && positionToken.platform[0]
     }
     if (highestApyVault) {
-      vaultToken = highestApyVault.vault
-      const id = highestApyVault.vault.poolVault ? 'FARM' : highestApyVault.vault.pool.id
-      const vaultUseFARM = id === FARM_TOKEN_SYMBOL
-      vaultPlatform = vaultUseFARM
-        ? tokens[IFARM_TOKEN_SYMBOL].subLabel
-          ? `${tokens[IFARM_TOKEN_SYMBOL].platform[0]} - ${tokens[IFARM_TOKEN_SYMBOL].subLabel}`
-          : tokens[IFARM_TOKEN_SYMBOL].platform[0]
-        : vaultToken.subLabel
-        ? vaultToken.platform[0] && `${vaultToken.platform[0]} - ${vaultToken.subLabel}`
-        : vaultToken.platform[0] && vaultToken.platform[0]
+      if (highestApyVault.vault.vaultPrice) {
+        vaultToken = highestApyVault.vault
+        const id = highestApyVault.vault.poolVault ? 'FARM' : highestApyVault.vault.pool.id
+        const vaultUseFARM = id === FARM_TOKEN_SYMBOL
+        vaultPlatform = vaultUseFARM
+          ? tokens[IFARM_TOKEN_SYMBOL].subLabel
+            ? `${tokens[IFARM_TOKEN_SYMBOL].platform[0]} - ${tokens[IFARM_TOKEN_SYMBOL].subLabel}`
+            : tokens[IFARM_TOKEN_SYMBOL].platform[0]
+          : vaultToken.subLabel
+          ? vaultToken.platform[0] && `${vaultToken.platform[0]} - ${vaultToken.subLabel}`
+          : vaultToken.platform[0] && vaultToken.platform[0]
+      }
     }
     if (highestPosition) {
       setHighPositionPlatform(positionPlatform)
@@ -1131,7 +1173,7 @@ const Migrate = () => {
     if (vaultPlatform) {
       setHighVaultPlatform(vaultPlatform)
     }
-  }, [highestPosition, highestApyVault]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [highestPosition, highestApyVault, chainId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Container bgColor={bgColor}>
@@ -1220,7 +1262,7 @@ const Migrate = () => {
                     backColor={backColor}
                     hoverColor={filterChainHoverColor}
                     borderColor={borderColor}
-                    className={selectedChain.toString() === item.chainId.toString() ? 'active' : ''}
+                    className={chainId.toString() === item.chainId.toString() ? 'active' : ''}
                     data-tip
                     data-for={`chain-${item.name}`}
                     key={i}
@@ -1250,7 +1292,7 @@ const Migrate = () => {
             }}
             className={!connected || noPosition ? 'inactive' : ''}
           >
-            {!connected || (noPosition && highestApyVault) ? (
+            {!connected || (noPosition && highestApyVault) || isSpecialChain ? (
               <NewLabel size="12px" height="20px" weight="500">
                 No positions found.
               </NewLabel>
@@ -1353,6 +1395,7 @@ const Migrate = () => {
             networkMatchList={networkMatchList}
             setNoPosition={setNoPosition}
             connected={connected}
+            currencyRate={currencyRate}
           />
           <BoxTitle color={darkMode ? '#ffffff' : '#475467'}>Migrate to</BoxTitle>
           <VaultBox
@@ -1503,7 +1546,7 @@ const Migrate = () => {
                 height="24px"
                 color={darkMode ? '#ffffff' : '#344054'}
               >
-                {!connected || (noPosition && highestApyVault) ? (
+                {!connected || (noPosition && highestApyVault) || isSpecialChain ? (
                   '0%'
                 ) : highestPosition ? (
                   `${highestPosition.apy}%`
@@ -1511,7 +1554,12 @@ const Migrate = () => {
                   <AnimatedDots />
                 )}{' '}
                 <span style={{ marginLeft: '5px', marginRight: '5px' }}>
-                  {highestPosition || !connected || (noPosition && highestApyVault) ? '→' : ''}
+                  {highestPosition ||
+                  !connected ||
+                  (noPosition && highestApyVault) ||
+                  isSpecialChain
+                    ? '→'
+                    : ''}
                 </span>
                 <span style={{ color: '#5fCf76' }}>
                   {highestApyVault ? `${highestApyVault.vaultApy}%` : <AnimatedDots />}
@@ -1527,7 +1575,7 @@ const Migrate = () => {
                 height="24px"
                 color={darkMode ? '#ffffff' : '#344054'}
               >
-                Yield per $1 allocated
+                Expected Yield Change
               </NewLabel>
               <NewLabel
                 display="flex"
@@ -1537,19 +1585,26 @@ const Migrate = () => {
                 height="24px"
                 color={darkMode ? '#ffffff' : '#344054'}
               >
-                {!connected || (noPosition && highestApyVault) ? (
+                {!connected || (noPosition && highestApyVault) || isSpecialChain ? (
                   `${currencySym}0.00/yr`
                 ) : highestPosition ? (
-                  `${currencySym}${formatNumber(highestPosition.apy / 100)}/yr`
+                  `${currencySym}${formatNumber((highestPosition.apy * positionBalance) / 100)}/yr`
                 ) : (
                   <AnimatedDots />
                 )}{' '}
                 <span style={{ marginLeft: '5px', marginRight: '5px' }}>
-                  {highestPosition || !connected || (noPosition && highestApyVault) ? '→' : ''}
+                  {highestPosition ||
+                  !connected ||
+                  (noPosition && highestApyVault) ||
+                  isSpecialChain
+                    ? '→'
+                    : ''}
                 </span>
                 <span style={{ color: '#5fCf76' }}>
                   {highestApyVault ? (
-                    `${currencySym}${formatNumber(highestApyVault.vaultApy / 100)}/yr`
+                    `${currencySym}${formatNumber(
+                      (highestApyVault.vaultApy * positionBalance) / 100,
+                    )}/yr`
                   ) : (
                     <AnimatedDots />
                   )}
@@ -1584,7 +1639,11 @@ const Migrate = () => {
               onClickMigrate()
             }}
           >
-            <Button className={noPosition && highestApyVault && connected ? 'inactive-btn' : ''}>
+            <Button
+              className={
+                noPosition && highestApyVault && connected && !isSpecialChain ? 'inactive-btn' : ''
+              }
+            >
               {buttonName}
             </Button>
           </ButtonDiv>

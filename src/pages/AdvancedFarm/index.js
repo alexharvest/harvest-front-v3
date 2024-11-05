@@ -21,6 +21,10 @@ import Safe from '../../assets/images/logos/beginners/safe.svg'
 import Diamond from '../../assets/images/logos/beginners/diamond.svg'
 import BarChart from '../../assets/images/logos/beginners/bar-chart-01.svg'
 import History from '../../assets/images/logos/beginners/history.svg'
+import TickIcon from '../../assets/images/logos/tick-icon.svg'
+import TickCross from '../../assets/images/logos/tick-cross.svg'
+import StakingIcon from '../../assets/images/logos/staking-icon.svg'
+import StakingCross from '../../assets/images/logos/staking-cross.svg'
 import ARBball from '../../assets/images/chains/ARBball-lg.png'
 import AnimatedDots from '../../components/AnimatedDots'
 import DepositBase from '../../components/AdvancedFarmComponents/Deposit/DepositBase'
@@ -72,13 +76,14 @@ import {
   showUsdValue,
   showUsdValueCurrency,
 } from '../../utilities/formats'
-import { getTotalApy, getVaultValue } from '../../utilities/parsers'
+import { getTotalApy, getVaultValue, getChainName } from '../../utilities/parsers'
 import { getAdvancedRewardText } from '../../utilities/html'
 import {
   getCoinListFromApi,
   getLastHarvestInfo,
   getTokenPriceFromApi,
   initBalanceAndDetailData,
+  fetchRewardToken,
 } from '../../utilities/apiCalls'
 import {
   BackBtnRect,
@@ -142,6 +147,12 @@ import {
   RewardValue,
   ThemeMode,
   SwitchMode,
+  Tip,
+  IconPart,
+  TipTop,
+  CrossDiv,
+  StakingInfo,
+  StakingInfoText,
 } from './style'
 import { CHAIN_IDS } from '../../data/constants'
 // import { array } from 'prop-types'
@@ -220,6 +231,7 @@ const AdvancedFarm = () => {
   const [convertSuccess, setConvertSuccess] = useState(false)
   const [hasErrorOccurredConvert, setHasErrorOccurredConvert] = useState(0)
   const [failureCountConvert, setFailureCountConvert] = useState(0)
+  const [fromTokenList, setFromTokenList] = useState(false)
 
   // Withdraw
   const [withdrawStart, setWithdrawStart] = useState(false)
@@ -247,6 +259,7 @@ const AdvancedFarm = () => {
 
   const [yieldDaily, setYieldDaily] = useState(0)
   const [yieldMonthly, setYieldMonthly] = useState(0)
+  const [convertYearlyYieldUSD, setConvertYearlyYieldUSD] = useState('0')
   const [convertMonthlyYieldUSD, setConvertMonthlyYieldUSD] = useState('0')
   const [convertDailyYieldUSD, setConvertDailyYieldUSD] = useState('0')
 
@@ -294,11 +307,30 @@ const AdvancedFarm = () => {
   const [oneEightyDHarvest, setOneEightyDHarvest] = useState('')
   const [threeSixtyDHarvest, setThreeSixtyDHarvest] = useState('')
   const [harvestFrequency, setHarvestFrequency] = useState('')
+  const [rewardTokenData, setRewardTokenData] = useState()
 
   const { rates } = useRate()
   const [currencySym, setCurrencySym] = useState('$')
   const [currencyName, setCurrencyName] = useState('USD')
   const [currencyRate, setCurrencyRate] = useState(1)
+  const [showTip, setShowTip] = useState(true)
+  const [showStakingInfo, setShowStakingInfo] = useState(true)
+  const [isFarmToken, setIsFarmToken] = useState(false)
+  const [isReward, setIsReward] = useState(false)
+  const [noNeedStaking, setNoNeedStaking] = useState(false)
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await fetchRewardToken()
+        setRewardTokenData(data)
+      } catch (error) {
+        console.error('Error fetching leaderboard data:', error)
+      }
+    }
+
+    getData()
+  }, [])
 
   useEffect(() => {
     if (rates.rateData) {
@@ -394,6 +426,41 @@ const AdvancedFarm = () => {
   const chain = token.chain || token.data.chain
 
   const BadgeAry = [ETHEREUM, POLYGON, ARBITRUM, BASE, ZKSYNC]
+  const tokenChain = token.chain || token.data.chain
+  const tokenSelfAddress = token.poolVault ? token.tokenAddress : token.vaultAddress
+  let chainName = getChainName(tokenChain).toLowerCase()
+  if (chainName === 'ethereum') {
+    chainName = 'eth'
+  }
+
+  useEffect(() => {
+    if (rewardTokenData) {
+      let selectedToken
+      const rewardChainList = rewardTokenData[chainName]
+      rewardChainList.map(item => {
+        if (item.collateralAddress.toLowerCase() === tokenSelfAddress.toLowerCase()) {
+          selectedToken = item
+          return true
+        }
+        return false
+      })
+      const rewardAPR = selectedToken.rewardAPR
+      const sum = rewardAPR.reduce((acc, value) => acc + Number(value), 0)
+      const rewardTokenSymbol = selectedToken.rewardTokenSymbols
+      rewardTokenSymbol.map(symbol => {
+        if (rewardTokenSymbol !== 'FARM' && Array.from(symbol.trim().toLowerCase())[0] === 'f') {
+          setIsFarmToken(true)
+        }
+        return null
+      })
+      if (Number(sum) > 0) {
+        setIsReward(true)
+      }
+      if (isReward || isFarmToken) {
+        setNoNeedStaking(true)
+      }
+    }
+  }, [chainName, tokenSelfAddress, rewardTokenData, isReward, isFarmToken])
 
   useEffect(() => {
     const getBadge = () => {
@@ -625,8 +692,14 @@ const AdvancedFarm = () => {
       Number(usdPrice) *
       Number(currencyRate) *
       (vaultAPRDaily + poolAPRDaily + swapFeeAPRDaily)
+    const convertYearlyYieldYieldValue =
+      Number(minReceiveAmountString) *
+      Number(usdPrice) *
+      Number(currencyRate) *
+      (vaultAPR + totalRewardAPR + swapFeeAPRYearly)
     setConvertMonthlyYieldUSD(convertMonthlyYieldValue.toString())
     setConvertDailyYieldUSD(convertDailyYieldYieldValue.toString())
+    setConvertYearlyYieldUSD(convertYearlyYieldYieldValue.toString())
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     fAssetPool,
@@ -944,9 +1017,11 @@ const AdvancedFarm = () => {
 
         // Check if defaultToken is present in the balanceList
         if (defaultToken.balance !== '0' || !supportedVault || hasPortalsError) {
-          setPickedTokenDepo(defaultToken)
-          setBalanceDepo(defaultToken.balance)
-          return
+          if (!fromTokenList) {
+            setPickedTokenDepo(defaultToken)
+            setBalanceDepo(defaultToken.balance)
+            return
+          }
         }
 
         // If defaultToken is not found, find the token with the highest USD value among those in the SUPPORTED_TOKEN_LIST and balanceList
@@ -970,22 +1045,27 @@ const AdvancedFarm = () => {
 
         // Set the pickedTokenDepo and balanceDepo based on the determined tokenToSet
         if (tokenToSet) {
-          setPickedTokenDepo(tokenToSet)
-          setBalanceDepo(
-            fromWei(
-              tokenToSet.rawBalance ? tokenToSet.rawBalance : 0,
-              tokenToSet.decimals,
-              tokenToSet.decimals,
-            ),
-          )
+          if (!fromTokenList) {
+            setPickedTokenDepo(tokenToSet)
+            setBalanceDepo(
+              fromWei(
+                tokenToSet.rawBalance ? tokenToSet.rawBalance : 0,
+                tokenToSet.decimals,
+                tokenToSet.decimals,
+              ),
+            )
+          }
         }
       } else if (supTokenList.length !== 0) {
-        setPickedTokenDepo(supTokenList.find(coin => coin.symbol === 'USDC'))
-        setBalanceDepo('0')
+        if (!fromTokenList) {
+          setPickedTokenDepo(supTokenList.find(coin => coin.symbol === 'USDC'))
+          setBalanceDepo('0')
+        }
       }
     }, 3000)
 
     return () => clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     balanceList,
     supTokenList,
@@ -994,6 +1074,7 @@ const AdvancedFarm = () => {
     SUPPORTED_TOKEN_LIST,
     supportedVault,
     hasPortalsError,
+    fromTokenList,
   ])
 
   const firstUserPoolsLoad = useRef(true)
@@ -1482,6 +1563,7 @@ const AdvancedFarm = () => {
                     }}
                   >
                     <img src={tag.img} alt="logo" />
+                    <p>{activeMainTag !== i && isMobile ? '' : tag.name}</p>
                   </MainTag>
                 ))}
               </MainTagPanel>
@@ -1505,6 +1587,50 @@ const AdvancedFarm = () => {
       </TopInner>
       <Inner>
         <BigDiv>
+          {activeMainTag === 1 && !noNeedStaking && rewardTokenData && (
+            <StakingInfo display={showStakingInfo ? 'flex' : 'none'}>
+              <img src={StakingIcon} alt="staking icon" style={{ marginRight: '15px' }} />
+              <StakingInfoText>
+                <NewLabel size="14px" weight="600" height="20px" color="#344054" marginBottom="5px">
+                  Staking Information
+                </NewLabel>
+                <NewLabel size="14px" weight="400" height="20px" color="#344054">
+                  Currently, no extra rewards are streamed to this farm, so staking fTokens
+                  isn&apos;t needed. See this article on &quot;
+                  <a
+                    href="https://docs.harvest.finance/general-info/yield-sources-on-harvest-how-to-get-and-track-them"
+                    style={{ fontWeight: '600', color: '#475467' }}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Yield Sources on Harvest &ndash; How to Get and Track Them
+                  </a>
+                  &quot; to better understand yield sources and staking.
+                </NewLabel>
+                <NewLabel
+                  size="14px"
+                  weight="600"
+                  height="20px"
+                  color="#344054"
+                  marginTop="15px"
+                  cursor="pointer"
+                  width="fit-content"
+                  onClick={() => {
+                    setShowStakingInfo(false)
+                  }}
+                >
+                  Got it
+                </NewLabel>
+              </StakingInfoText>
+              <CrossDiv
+                onClick={() => {
+                  setShowStakingInfo(false)
+                }}
+              >
+                <img src={StakingCross} alt="staking icon" />
+              </CrossDiv>
+            </StakingInfo>
+          )}
           <InternalSection>
             {activeMainTag === 0 ? (
               <>
@@ -2162,7 +2288,7 @@ const AdvancedFarm = () => {
                         >
                           <div>My Token Rewards</div>
                           <div>
-                            {!connected ? (
+                            {!connected || isNaN(totalReward) ? (
                               `${currencySym}0`
                             ) : userStats ? (
                               showUsdValue(totalReward, currencySym)
@@ -2409,12 +2535,14 @@ const AdvancedFarm = () => {
                         setFromInfoAmount={setFromInfoAmount}
                         setFromInfoUsdAmount={setFromInfoUsdAmount}
                         fromInfoUsdAmount={fromInfoUsdAmount}
+                        convertYearlyYieldUSD={convertYearlyYieldUSD}
                         convertMonthlyYieldUSD={convertMonthlyYieldUSD}
                         convertDailyYieldUSD={convertDailyYieldUSD}
                         minReceiveAmountString={minReceiveAmountString}
                         setMinReceiveAmountString={setMinReceiveAmountString}
                         minReceiveUsdAmount={minReceiveUsdAmount}
                         setMinReceiveUsdAmount={setMinReceiveUsdAmount}
+                        setConvertYearlyYieldUSD={setConvertYearlyYieldUSD}
                         setConvertMonthlyYieldUSD={setConvertMonthlyYieldUSD}
                         setConvertDailyYieldUSD={setConvertDailyYieldUSD}
                         hasErrorOccurred={hasErrorOccurredConvert}
@@ -2435,6 +2563,7 @@ const AdvancedFarm = () => {
                         soonToSupList={soonToSupList}
                         supportedVault={supportedVault}
                         hasPortalsError={hasPortalsError}
+                        setFromTokenList={setFromTokenList}
                       />
                       <DepositStart
                         pickedToken={pickedTokenDepo}
@@ -3016,6 +3145,36 @@ const AdvancedFarm = () => {
                       <NewLabel padding={isMobile ? '0px 15px 10px' : '0px 15px 10px'}>
                         <div dangerouslySetInnerHTML={{ __html: rewardTxt }} />
                       </NewLabel>
+                      <Tip display={showTip ? 'block' : 'none'}>
+                        <TipTop>
+                          <IconPart>
+                            <img src={TickIcon} alt="tick icon" style={{ marginRight: '5px' }} />
+                            <NewLabel size="14px" weight="600" height="20px" color="#027A48">
+                              Tip
+                            </NewLabel>
+                          </IconPart>
+                          <CrossDiv
+                            onClick={() => {
+                              setShowTip(false)
+                            }}
+                          >
+                            <img src={TickCross} alt="tick cross" />
+                          </CrossDiv>
+                        </TipTop>
+                        <NewLabel size="14px" height="20px" weight="400" color="#027A48">
+                          For a quick guide on tracking yield sources in your Portfolio, check out
+                          our 5-minute article &quot;
+                          <a
+                            href="https://docs.harvest.finance/general-info/yield-sources-on-harvest-how-to-get-and-track-them"
+                            style={{ fontWeight: '600', color: '#027A48' }}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                          >
+                            Yield Sources on Harvest &ndash; How to Track Them.
+                          </a>
+                          &quot;
+                        </NewLabel>
+                      </Tip>
                     </MyBalance>
                   )}
                   <LastHarvestInfo backColor={backColor} borderColor={borderColor}>

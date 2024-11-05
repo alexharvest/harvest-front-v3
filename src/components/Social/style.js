@@ -24,7 +24,7 @@ const Social = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 12px;
+  margin-right: ${props => (props.marginRight ? props.marginRight : '12px')};
   text-decoration: none;
 
   img {

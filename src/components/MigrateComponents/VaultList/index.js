@@ -33,6 +33,7 @@ const VaultList = ({
   setId,
   groupOfVaults,
   connected,
+  currencyRate,
 }) => {
   let chainUrl, matchingFarm
   const vaultAddress = matchVault.vault.poolVault
@@ -86,7 +87,9 @@ const VaultList = ({
     >
       <Content alignItems="start">
         <InfoText fontSize="10px" fontWeight="500" color="#5fCf76">
-          {matchingFarm ? `${currencySym}${formatNumber(matchingFarm.balance)}` : '-'}
+          {matchingFarm
+            ? `${currencySym}${formatNumber(matchingFarm.balance * currencyRate)}`
+            : '-'}
         </InfoText>
         <BadgeToken>
           <BadgeIcon>
@@ -107,7 +110,7 @@ const VaultList = ({
             {`${matchVault.vaultApy}% Live APY`}
           </InfoText>
           <InfoText fontSize="10px" fontWeight="500" color="#6988ff">
-            {`${currencySym}${formatNumber(matchVault.vaultApy / 100)}/yr per $1 allocated`}
+            {`$${formatNumber(matchVault.vaultApy / 100)}/yr per $1 allocated`}
           </InfoText>
         </Content>
       </ApyDownIcon>

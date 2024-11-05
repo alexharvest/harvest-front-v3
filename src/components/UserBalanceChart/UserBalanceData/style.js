@@ -340,6 +340,9 @@ const ToggleButton = styled.div`
   .chevron {
     opacity: 0;
   }
+  @media screen and (max-width: 992px) {
+    padding: 3px 10px;
+  }
 `
 
 const ChevronIcon = styled.span`

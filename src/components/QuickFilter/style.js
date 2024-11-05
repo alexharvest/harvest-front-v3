@@ -141,6 +141,12 @@ const DivWidth = styled.div`
   `
       : 'width: auto;'}
   ${props =>
+    props.alignItems
+      ? `
+        align-items: ${props.alignItems};
+      `
+      : ''}
+  ${props =>
     props.marginRight
       ? `
     margin-right: ${props.marginRight};
@@ -252,7 +258,7 @@ const DivWidth = styled.div`
 const ChainButton = styled.button`
   width: 50px;
   align-items: center;
-  padding: 9px 16px;
+  padding: 7px 16px;
   display: flex;
   justify-content: center;
   transition: 0.25s;
@@ -265,6 +271,10 @@ const ChainButton = styled.button`
   }
 
   &:nth-child(2) {
+    border-right: none;
+  }
+
+  &:nth-child(3) {
     border-right: none;
   }
 
@@ -307,6 +317,7 @@ const ChainButton = styled.button`
 
   @media screen and (max-width: 992px) {
     width: 25%;
+    padding: 9px 16px;
     img {
       width: 22px;
       height: 22px;
@@ -393,11 +404,11 @@ const Counter = styled.div`
   ${props =>
     props.count > 0
       ? `
-  background: #15B088;
+  background: #6988FF;
   color: white;
   `
       : `
-  background: #15B088;
+  background: #6988FF;
   color: #1F2937;
   `}
   width: 20px;
@@ -441,6 +452,7 @@ const MobileView = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
+    padding: 0px 15px 0px 15px;
   }
 `
 
@@ -520,6 +532,18 @@ const FarmFiltersPart = styled.div`
   .clear-filter {
     width: 100%;
   }
+
+  @media screen and (max-width: 992px) {
+    width: 40%;
+    margin-left: 5px;
+
+    button.filters-btn {
+      border: 1px solid ${props => props.borderColor};
+      font-size: 12px;
+      font-weight: 400;
+      color: ${props => (props.mobileColor ? props.mobileColor : '')};
+    }
+  }
 `
 
 const MobileListHeaderSearch = styled.div`
@@ -527,7 +551,6 @@ const MobileListHeaderSearch = styled.div`
   margin-bottom: 15px;
 
   .filter-sort {
-    margin-top: 10px;
     background: #f5f5f5;
     border-radius: 5px;
     position: relative;
@@ -538,11 +561,13 @@ const MobileListHeaderSearch = styled.div`
       width: 100%;
       border: 0px;
     }
+  }
 
-    img {
-      position: absolute;
-      left: 10px;
-      top: 12px;
+  @media screen and (max-width: 992px) {
+    .clear-filter {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
   }
 `
@@ -576,24 +601,42 @@ const MobileClearFilter = styled(ClearFilter)`
   color: ${props => props.fontColor};
   background: ${props => props.backColor};
   justify-content: center;
+
+  @media screen and (max-width: 992px) {
+    font-size: 12px;
+    font-weight: 400;
+    color: ${props => (props.mobileColor ? props.mobileColor : '')};
+    border: 1px solid ${props => props.borderColor};
+    padding: 10px 18px;
+    width: 40%;
+  }
 `
 
 const FilterOffCanvas = styled(Offcanvas)`
-  width: 300px !important;
   background: ${props => props.backcolor} !important;
+  border: none !important;
+  align-items: center;
   .offcanvas-header {
     .btn-close {
       filter: ${props => props.filtercolor};
     }
   }
+
+  .btn-close {
+    opacity: 1;
+  }
 `
 
 const FilterOffCanvasHeader = styled(Offcanvas.Header)`
-  padding: 15px 15px 19px 15px !important;
+  padding: 25px 15px 25px 15px !important;
+  width: 95%;
+  border-top: 2px solid #ced3e6;
+  border-radius: 3px;
 `
 
 const FilterOffCanvasBody = styled(Offcanvas.Body)`
   padding: 0px 15px 15px 15px !important;
+  width: 95%;
 
   &.filter-show {
     height: 100% !important;
@@ -671,13 +714,16 @@ const FilterOffCanvasBody = styled(Offcanvas.Body)`
 `
 
 const FarmFilter = styled.div`
-  color: #344054;
-  font-weight: 700;
+  color: ${props => props.color};
+  font-weight: 500;
   font-size: 16px;
   line-height: 21px;
+  display: flex;
+  align-items: center;
 
   img {
     margin-right: 15px;
+    filter: ${props => (props.imgFilter ? props.imgFilter : '')};
   }
 `
 
@@ -1186,7 +1232,7 @@ const ApplyFilterBtn = styled.button`
   display: flex;
   justify-content: center;
   padding: 10px 16px;
-  background: #000;
+  background: #6988ff;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   width: 100%;
@@ -1202,8 +1248,168 @@ const ApplyFilterBtn = styled.button`
   }
 `
 
+const CheckBoxDiv = styled.div`
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  color: ${props => props.fontColor};
+
+  svg {
+    position: absolute;
+    background: ${props => props.bgColor};
+    top: 4px;
+  }
+
+  div {
+    padding-left: 23px;
+  }
+
+  @media screen and (max-width: 992px) {
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    margin-bottom: 25px;
+  }
+`
+
+const MobileListFilter = styled.div`
+  .filter-sort {
+    display: none;
+  }
+
+  @media screen and (max-width: 992px) {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 80%;
+    margin-right: 10px;
+    .filter-sort {
+      position: relative;
+      width: 100%;
+      display: block;
+      background: ${props => props.backColor} !important;
+      border: 1px solid ${props => props.borderColor};
+      border-radius: 8px;
+      position: relative;
+
+      .toggle {
+        background: ${props => props.mobileBackColor};
+        display: flex;
+        justify-content: space-between;
+        border: none;
+        width: 100%;
+        color: ${props => props.fontColor4};
+        font-size: 12px;
+        line-height: 24px;
+        font-weight: 400;
+        padding: 0px 0px 0px 10px;
+        align-items: center;
+
+        span {
+          font-weight: 500;
+          padding-left: 4px;
+        }
+
+        &:after {
+          display: none;
+        }
+
+        input {
+          background: #f5f5f5;
+          width: 100%;
+          border: 0px;
+        }
+
+        img.sort-icon {
+          width: 15px;
+          height: 15px;
+          margin-left: 6px;
+          filter: ${props => props.filterColor};
+        }
+
+        img.narrow {
+          position: absolute;
+          right: 10px;
+          top: 12px;
+        }
+      }
+
+      .menu {
+        width: 100%;
+        padding: 4px 6px;
+        background: ${props => props.bgColor};
+
+        .item {
+          padding: 10px 8px;
+          border-radius: 6px;
+          &:hover,
+          &:active {
+            background: ${props => props.hoverColor};
+          }
+          div {
+            color: ${props => props.fontColor1};
+            font-size: 12px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 24px;
+            .sort-icon {
+              width: 14px;
+              height: 14px;
+              margin-right: 4px;
+              // margin-top: -2px;
+              filter: ${props => props.filterColor};
+            }
+          }
+
+          img.checked {
+            display: none;
+          }
+        }
+
+        .item.active-item {
+          display: flex;
+          justify-content: space-between;
+          background: transparent;
+          img.checked {
+            display: block;
+          }
+        }
+      }
+    }
+  }
+`
+
+const MobileFilterBtn = styled.div`
+  border-radius: 0px 8px 8px 0px;
+  padding: 10px 18px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: white;
+  border: none;
+  ${props =>
+    props.darkmode === 'true'
+      ? `
+    border-left: 1px solid ${props.inputBorderColor};
+  `
+      : `
+  `}
+
+  @media screen and (max-width: 992px) {
+    padding: 10px 18px;
+  }
+`
+
+const DropdownRow = styled.div`
+  display: flex;
+  width: fit-content;
+  justify-content: space-between;
+  align-items: center;
+`
+
 export {
   QuickFilterContainer,
+  DropdownRow,
   InputsContainer,
   Counter,
   UserDropDown,
@@ -1237,4 +1443,7 @@ export {
   TrendDropDownMenu,
   TrendDropDownItem,
   ApplyFilterBtn,
+  CheckBoxDiv,
+  MobileFilterBtn,
+  MobileListFilter,
 }

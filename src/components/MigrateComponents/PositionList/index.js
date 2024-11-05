@@ -16,6 +16,7 @@ const PositionList = ({
   setId,
   setToken,
   groupOfVaults,
+  currencyRate,
 }) => {
   const vaultAddress = matchVault.token.poolVault
     ? '0xa0246c9032bC3A600820415aE600c6388619A14D'
@@ -39,7 +40,7 @@ const PositionList = ({
       <Content alignItems="start">
         <InfoText fontSize="10px" fontWeight="500" color="#5fCf76">
           {matchVault.balance >= 0.01
-            ? `${currencySym}${formatNumber(matchVault.balance)}`
+            ? `${currencySym}${formatNumber(matchVault.balance * currencyRate)}`
             : `<${currencySym}0.01`}
         </InfoText>
         <BadgeToken>
@@ -61,7 +62,7 @@ const PositionList = ({
             {`${matchVault.apy}% Live APY`}
           </InfoText>
           <InfoText fontSize="10px" fontWeight="500" color="#6988ff">
-            {`${currencySym}${formatNumber(matchVault.apy / 100)}/yr per $1 allocated`}
+            {`$${formatNumber(matchVault.apy / 100)}/yr per $1 allocated`}
           </InfoText>
         </Content>
       </ApyDownIcon>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -17,9 +17,34 @@ import {
   SkeletonItem,
 } from './style'
 
-const HistoryDataLatest = ({ historyData, isDashboard, noData }) => {
+const HistoryDataLatest = ({ historyData, isDashboard, noData, setOneDayYield, isLoading }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
   const filteredHistoryData = historyData.filter(el => el.event === 'Harvest' && el.netChange >= 0)
+  const totalLength = filteredHistoryData.length
+  useEffect(() => {
+    let totalYield = 0
+    for (let i = 0; i < totalLength; i += 1) {
+      if (totalLength > 0) {
+        let nowDate = new Date(),
+          duration
+        nowDate = Math.floor(nowDate.getTime() / 1000)
+        const timestamp = filteredHistoryData[i].timestamp
+        duration = Number(nowDate) - Number(timestamp)
+
+        const day = Math.floor(duration / 86400)
+        duration -= day * 86400
+
+        const hour = Math.floor(duration / 3600) % 24
+        duration -= hour * 3600
+
+        totalYield += filteredHistoryData[i].netChangeUsd
+        if (day > 0) {
+          setOneDayYield(totalYield)
+          break
+        }
+      }
+    }
+  }, [totalLength]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const { borderColorTable, bgColorTable, fontColor, highlightColor } = useThemeContext()
   const { connected } = useWallet()
@@ -31,15 +56,17 @@ const HistoryDataLatest = ({ historyData, isDashboard, noData }) => {
       }
     >
       <TableContent borderColor={borderColorTable}>
-        <Header borderColor={borderColorTable} backColor={bgColorTable}>
-          <Column width={isMobile ? '20%' : '20%'} color={fontColor}>
-            <Col>Date</Col>
-          </Column>
-          <Column width={isMobile ? '0%' : '30%'} color={fontColor} justifyContent="end">
-            <Col>Yield</Col>
-          </Column>
-        </Header>
-        {connected && filteredHistoryData?.length > 0 ? (
+        {!isMobile && (
+          <Header borderColor={borderColorTable} backColor={bgColorTable}>
+            <Column width={isMobile ? '20%' : '20%'} color={fontColor}>
+              <Col>Date</Col>
+            </Column>
+            <Column width={isMobile ? '0%' : '30%'} color={fontColor} justifyContent="end">
+              <Col>Yield</Col>
+            </Column>
+          </Header>
+        )}
+        {connected && !isLoading && filteredHistoryData?.length > 0 ? (
           <ContentBox borderColor={borderColorTable}>
             {filteredHistoryData
               .map((el, i) => {

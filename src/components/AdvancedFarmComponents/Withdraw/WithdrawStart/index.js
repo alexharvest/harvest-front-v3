@@ -133,6 +133,8 @@ const WithdrawStart = ({
   const [networkName, setNetworkName] = useState('')
   const isFetchingRef = useRef(false)
 
+  const curChain = token.poolVault ? token.data.chain : token.chain
+
   useEffect(() => {
     const tokenChain = token.poolVault ? token.data.chain : token.chain
     const network =
@@ -856,86 +858,88 @@ const WithdrawStart = ({
               Successful
             </ProgressText>
           </ProgressLabel>
-          <NewLabel>
-            <NewLabel
-              color={darkMode ? '#ffffff' : '#344054'}
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px' : '28px'}
-              weight="600"
-              padding="20px 24px 0px 24px"
-            >
-              Psst, looking for alternatives on {networkName}?
-            </NewLabel>
-            <NewLabel
-              color={darkMode ? '#ffffff' : '#15202b'}
-              size={isMobile ? '14px' : '10px'}
-              height={isMobile ? '20px' : '20px'}
-              weight="400"
-              padding="0px 24px"
-            >
-              Click on the new opportunity below to open a Migrate tool.
-            </NewLabel>
-            <VaultContainer>
-              <HighestVault
-                className="highest-vault"
-                onClick={e => {
-                  const url = `/migrate?from=${fromTokenAddress}&to=${toVaultAddress}&chain=${chainId}`
-                  // token.vaultAddress.toLowerCase() !==
-                  // highestApyVault.vault.vaultAddress.toLowerCase()
-                  //   ? `/migrate?from=${token.vaultAddress.toLowerCase()}&to=${highestApyVault.vault.vaultAddress.toLowerCase()}&chain=${chainId}`
-                  //   : `/migrate?from=${token.vaultAddress.toLowerCase()}&to=${secHighApyVault.vault.vaultAddress.toLowerCase()}&chain=${chainId}`
-                  if (e.ctrlKey) {
-                    window.open(url, '_blank')
-                  } else {
-                    push(url)
-                  }
-                }}
+          {Number(curChain) !== 324 && (
+            <NewLabel>
+              <NewLabel
+                color={darkMode ? '#ffffff' : '#344054'}
+                size={isMobile ? '14px' : '14px'}
+                height={isMobile ? '20px' : '28px'}
+                weight="600"
+                padding="20px 24px 0px 24px"
               >
-                <ImageName>
-                  <ImagePart>
-                    {highestApyLogo.length === 0 ? (
-                      <AnimatedDots />
-                    ) : (
-                      highestApyLogo.map((el, i) => {
-                        return (
-                          <BigLogoImg
-                            key={i}
-                            className="logo-img"
-                            zIndex={10 - i}
-                            src={`.${el}`}
-                            alt={tokenNames[i]}
-                          />
-                        )
-                      })
-                    )}
-                  </ImagePart>
-                  <NamePart>
-                    <NewLabel
-                      color="#15202b"
-                      size={isMobile ? '14px' : '14px'}
-                      height={isMobile ? '20px' : '20px'}
-                      weight="600"
-                      padding="0px 10px"
-                    >
-                      {tokenNames.length === 0 ? <AnimatedDots /> : tokenNames.join(' - ')}
-                    </NewLabel>
-                    <NewLabel
-                      color="#15202b"
-                      size={isMobile ? '14px' : '10px'}
-                      height={isMobile ? '20px' : '20px'}
-                      weight="400"
-                      padding="0px 10px"
-                    >
-                      {platformNames.length === 0 ? <AnimatedDots /> : platformNames.join(', ')}
-                    </NewLabel>
-                  </NamePart>
-                </ImageName>
-                <ImageName className="top-apy">
-                  {topApyVault ? `${topApyVault}% APY` : <AnimatedDots />}
-                </ImageName>
-              </HighestVault>
-            </VaultContainer>
-          </NewLabel>
+                Psst, looking for alternatives on {networkName}?
+              </NewLabel>
+              <NewLabel
+                color={darkMode ? '#ffffff' : '#15202b'}
+                size={isMobile ? '14px' : '10px'}
+                height={isMobile ? '20px' : '20px'}
+                weight="400"
+                padding="0px 24px"
+              >
+                Click on the new opportunity below to open a Migrate tool.
+              </NewLabel>
+              <VaultContainer>
+                <HighestVault
+                  className="highest-vault"
+                  onClick={e => {
+                    const url = `/migrate?from=${fromTokenAddress}&to=${toVaultAddress}&chain=${chainId}`
+                    // token.vaultAddress.toLowerCase() !==
+                    // highestApyVault.vault.vaultAddress.toLowerCase()
+                    //   ? `/migrate?from=${token.vaultAddress.toLowerCase()}&to=${highestApyVault.vault.vaultAddress.toLowerCase()}&chain=${chainId}`
+                    //   : `/migrate?from=${token.vaultAddress.toLowerCase()}&to=${secHighApyVault.vault.vaultAddress.toLowerCase()}&chain=${chainId}`
+                    if (e.ctrlKey) {
+                      window.open(url, '_blank')
+                    } else {
+                      push(url)
+                    }
+                  }}
+                >
+                  <ImageName>
+                    <ImagePart>
+                      {highestApyLogo.length === 0 ? (
+                        <AnimatedDots />
+                      ) : (
+                        highestApyLogo.map((el, i) => {
+                          return (
+                            <BigLogoImg
+                              key={i}
+                              className="logo-img"
+                              zIndex={10 - i}
+                              src={`.${el}`}
+                              alt={tokenNames[i]}
+                            />
+                          )
+                        })
+                      )}
+                    </ImagePart>
+                    <NamePart>
+                      <NewLabel
+                        color="#15202b"
+                        size={isMobile ? '14px' : '14px'}
+                        height={isMobile ? '20px' : '20px'}
+                        weight="600"
+                        padding="0px 10px"
+                      >
+                        {tokenNames.length === 0 ? <AnimatedDots /> : tokenNames.join(' - ')}
+                      </NewLabel>
+                      <NewLabel
+                        color="#15202b"
+                        size={isMobile ? '14px' : '10px'}
+                        height={isMobile ? '20px' : '20px'}
+                        weight="400"
+                        padding="0px 10px"
+                      >
+                        {platformNames.length === 0 ? <AnimatedDots /> : platformNames.join(', ')}
+                      </NewLabel>
+                    </NamePart>
+                  </ImageName>
+                  <ImageName className="top-apy">
+                    {topApyVault ? `${topApyVault}% APY` : <AnimatedDots />}
+                  </ImageName>
+                </HighestVault>
+              </VaultContainer>
+            </NewLabel>
+          )}
           {!isEmpty(altVaultData) && progressStep === 4 && (
             <>
               <NewLabel

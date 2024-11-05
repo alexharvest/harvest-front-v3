@@ -45,6 +45,7 @@ const PositionModal = ({
   networkMatchList,
   setNoPosition,
   connected,
+  currencyRate,
 }) => {
   const [countFarm, setCountFarm] = useState(0)
   // const [balanceList, setBalanceList] = useState([])
@@ -157,6 +158,7 @@ const PositionModal = ({
         setId={setId}
         setToken={setToken}
         groupOfVaults={groupOfVaults}
+        currencyRate={currencyRate}
       />
     )
   })

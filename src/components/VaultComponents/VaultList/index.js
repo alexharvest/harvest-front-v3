@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js'
 import { debounce, find, get, isArray, isEqual, keys, orderBy, sortBy, uniq } from 'lodash'
 import move from 'lodash-move'
 import React, { useMemo, useRef, useState, useEffect } from 'react'
-import { Dropdown } from 'react-bootstrap'
+// import { Dropdown } from 'react-bootstrap'
 import useEffectWithPrevious from 'use-effect-with-previous'
-import { IoIosArrowDown } from 'react-icons/io'
+// import { IoIosArrowDown } from 'react-icons/io'
 import EmptyIcon from '../../../assets/images/logos/farm/empty.svg'
 import SortAPY from '../../../assets/images/logos/farm/sortAPY.svg'
 import SortBank from '../../../assets/images/logos/farm/sortBank.svg'
@@ -12,7 +12,7 @@ import SortCurrency from '../../../assets/images/logos/farm/sortCurrency.svg'
 import sortAscIcon from '../../../assets/images/ui/asc.svg'
 import sortDescIcon from '../../../assets/images/ui/desc.svg'
 import sortIcon from '../../../assets/images/ui/sort.svg'
-import MobileSortCheckedIcon from '../../../assets/images/logos/filter/mobile-sort-checked.svg'
+// import MobileSortCheckedIcon from '../../../assets/images/logos/filter/mobile-sort-checked.svg'
 import {
   FARM_TOKEN_SYMBOL,
   IFARM_TOKEN_SYMBOL,
@@ -40,17 +40,19 @@ import {
   FlexDiv,
   Header,
   HeaderCol,
-  MobileListFilter,
+  // MobileListFilter,
   VaultsListBody,
-  MobileFilterBtn,
+  // MobileFilterBtn,
   DisplayCount,
 } from './style'
+
+localStorage.setItem('sortingStatus', JSON.stringify('deposits'))
 
 const { tokens } = require('../../../data')
 
 const SortsList = [
-  { id: 0, name: 'Live APY', type: 'apy', img: SortAPY },
-  { id: 1, name: 'TVL', type: 'deposits', img: SortBank },
+  { id: 0, name: 'TVL', type: 'deposits', img: SortBank },
+  { id: 1, name: 'Live APY', type: 'apy', img: SortAPY },
   { id: 2, name: 'My Balance', type: 'balance', img: SortCurrency },
 ]
 
@@ -62,16 +64,16 @@ const getNetworkNames = selChain => {
   const selectedChains = chainList.filter(chain => selChain.includes(chain.chainId.toString()))
 
   if (selectedChains.length === 1) {
-    return `in ${selectedChains[0].name} network`
+    return `on ${selectedChains[0].name} network`
   }
 
   const networkNames = selectedChains.map(chain => chain.name)
 
   if (selectedChains.length === 2) {
-    return `in ${networkNames[0]} and ${networkNames[1]} networks`
+    return `on ${networkNames[0]} and ${networkNames[1]} networks`
   }
 
-  return `in ${networkNames.slice(0, -1).join(', ')} and ${networkNames.slice(-1)} networks`
+  return `on ${networkNames.slice(0, -1).join(', ')} and ${networkNames.slice(-1)} networks`
 }
 
 const formatVaults = (
@@ -398,17 +400,17 @@ const SortingIcon = ({ sortType, sortField, selectedField }) => {
 const VaultList = () => {
   const {
     fontColor,
-    fontColor1,
-    fontColor4,
+    // fontColor1,
+    // fontColor4,
     filterColor,
-    bgColor,
+    // bgColor,
     backColor,
     borderColor,
-    hoverColor,
-    mobileFilterBackColor,
+    // hoverColor,
+    // mobileFilterBackColor,
     darkMode,
-    inputFontColor,
-    inputBorderColor,
+    // inputFontColor,
+    // inputBorderColor,
   } = useThemeContext()
 
   const {
@@ -702,14 +704,12 @@ const VaultList = () => {
     [chain, account, userStats],
   )
 
-  const [sortId, setSortId] = useState(2)
+  const [sortId, setSortId] = useState(0)
 
   const updateSortQuery = sort => {
     const debouncedFn = debounce(() => {
-      if (sort === 'balance') {
-        if (account) {
-          setSortingParams(sort)
-        }
+      if (sort === 'deposits') {
+        setSortingParams(sort)
       } else {
         setSortingParams(sort)
       }
@@ -728,9 +728,13 @@ const VaultList = () => {
           onSelectStableCoin={onSelectStableCoin}
           onSelectFarmType={onSelectFarmType}
           onSelectActiveType={selectActiveType}
+          SortsList={SortsList}
+          sortId={sortId}
+          setSortId={setSortId}
+          updateSortQuery={updateSortQuery}
         />
       )}
-      <DisplayCount color={fontColor}>
+      <DisplayCount color={fontColor} mobileColor={darkMode ? '#fff' : '#000'}>
         Displaying <span>{vaultsSymbol.length}</span> of <span>{totalVaultsCount}</span>{' '}
         {selectedActiveType.length === 0
           ? 'my'
@@ -740,7 +744,7 @@ const VaultList = () => {
         farms {showNetworks}
       </DisplayCount>
       <VaultsListBody borderColor={borderColor} backColor={backColor}>
-        <MobileListFilter
+        {/* <MobileListFilter
           mobileBackColor={mobileFilterBackColor}
           backColor={backColor}
           bgColor={bgColor}
@@ -787,7 +791,7 @@ const VaultList = () => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
-        </MobileListFilter>
+        </MobileListFilter> */}
         <Header borderColor={borderColor} fontColor={fontColor} filterColor={filterColor}>
           <HeaderCol width="45%" justifyContent="start">
             Farm

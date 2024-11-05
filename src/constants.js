@@ -2,6 +2,8 @@ import React from 'react'
 import Dollar from './assets/images/logos/dashboard/flag_usd.svg'
 import Pound from './assets/images/logos/dashboard/flag_gbp.svg'
 import Euro from './assets/images/logos/dashboard/flag_euro.svg'
+import Franc from './assets/images/logos/dashboard/flag_chf.svg'
+import Yen from './assets/images/logos/dashboard/flag_jpy.svg'
 
 export const HARVEST_LAUNCH_DATE = new Date(1598986800000)
 
@@ -49,9 +51,9 @@ export const AVRList = {
 }
 
 export const ROUTES = {
-  PORTFOLIO: '/',
+  PORTFOLIO: '/portfolio',
   TUTORIAL: 'https://docs.harvest.finance/get-started-farming',
-  ADVANCED: '/farms',
+  ADVANCED: '/',
   LiveSupport: 'https://discord.com/channels/748967094745563176/749862621188194328',
   ANALYTIC: '/analytics',
   DOC: 'https://docs.harvest.finance',
@@ -805,6 +807,8 @@ export const SUPPORTED_CURRENCY = {
   USD: 0,
   GBP: 1,
   EUR: 2,
+  CHF: 3,
+  JPY: 4,
 }
 
 export const chainList = [
@@ -876,5 +880,17 @@ export const supportedCurrencies = [
     symbol: 'EUR',
     icon: '€',
     imgPath: Euro,
+  },
+  {
+    id: SUPPORTED_CURRENCY.CHF,
+    symbol: 'CHF',
+    icon: '₣',
+    imgPath: Franc,
+  },
+  {
+    id: SUPPORTED_CURRENCY.JPY,
+    symbol: 'JPY',
+    icon: '¥',
+    imgPath: Yen,
   },
 ]

@@ -166,7 +166,7 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
                 flexFlow="column"
                 gap="0px"
               >
-                <div>No activity found for this wallet.</div>
+                <div>No activity found for this wallet in this strategy.</div>
                 <ExploreButtonStyle
                   color="connectwallet"
                   onClick={() => {

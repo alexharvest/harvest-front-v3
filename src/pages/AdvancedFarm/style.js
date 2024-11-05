@@ -140,6 +140,12 @@ const NewLabel = styled.div`
   line-height: ${props => props.height || '0px'};
 
   ${props =>
+    props.cursor
+      ? `
+    cursor: ${props.cursor};
+  `
+      : ''}
+  ${props =>
     props.borderBottom
       ? `
     border-bottom: ${props.borderBottom};
@@ -292,6 +298,10 @@ const NewLabel = styled.div`
       margin-right: 5px;
       width: 11px;
     }
+  }
+
+  a:hover {
+    color: #0d6efd !important;
   }
 `
 
@@ -1502,8 +1512,56 @@ const BorderBottomDiv = styled.div`
   right: 0;
 `
 
+const Tip = styled.div`
+  background: #f6fef9;
+  border: 1px solid #6ce9a6;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0px 15px 15px 15px;
+  display: ${props => props.display};
+`
+
+const IconPart = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const TipTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+`
+
+const CrossDiv = styled.div`
+  display: flex;
+  cursor: pointer;
+`
+
+const StakingInfo = styled.div`
+  padding: 16px;
+  background: #fcfcfd;
+  border: 1px solid #d0d5dd;
+  border-radius: 12px;
+  display: ${props => props.display};
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+`
+
+const StakingInfoText = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export {
   DetailView,
+  StakingInfo,
+  StakingInfoText,
+  CrossDiv,
+  IconPart,
+  TipTop,
   TopPart,
   TopButton,
   TopDesc,
@@ -1570,4 +1628,5 @@ export {
   NetDetailContent,
   NetDetailImg,
   RewardValue,
+  Tip,
 }

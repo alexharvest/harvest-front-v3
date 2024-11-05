@@ -14,7 +14,8 @@ const PanelContainer = styled.div`
     flex-direction: row;
     align-items: baseline;
     position: relative;
-    padding: 10px;
+    padding: 10px 25px;
+    justify-content: space-between;
   }
 `
 
@@ -169,11 +170,11 @@ const BadgeIcon = styled.div`
     position: inherit;
     border-radius: 2.278px;
     border: 1.139px solid #29ce84;
-    background: rgba(255, 255, 255, 0.6);
+    background: ${props => props.badgeBack};
     box-shadow: 0px 0px 1.13876px 0px rgba(0, 0, 0, 0.15);
     width: 13.096px;
     height: 13.096px;
-    margin: auto 0px;
+    margin: auto 5px auto 0px;
     img {
       padding: 1.708px 1.706px 1.709px 1.71px;
     }
@@ -266,7 +267,7 @@ const MobileVaultValueContainer = styled.div`
   .title {
     img {
       margin-left: 7px;
-      margin-top: -4px;
+      margin-top: -2px;
       filter: ${props => props.filterColor};
     }
   }
@@ -284,6 +285,12 @@ const FlexDiv = styled.div`
       ? `
     align-self: ${props.alignSelf};
   `
+      : ''}
+  ${props =>
+    props.paddingBottom
+      ? `
+        padding-bottom: ${props.paddingBottom};
+      `
       : ''}
   ${props =>
     props.width
@@ -305,7 +312,7 @@ const FlexDiv = styled.div`
   }
   &.token-icons {
     display: flex;
-    margin: auto;
+    margin: auto 0px auto 5px;
     img {
       position: relative;
     }
@@ -349,8 +356,15 @@ const Value = styled.div`
   line-height: 20px;
 `
 
+const BadgePlatform = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: fit-content;
+`
+
 export {
   PanelContainer,
+  BadgePlatform,
   TokenLogo,
   RewardsContainer,
   TokenLogoContainer,

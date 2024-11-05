@@ -39,7 +39,7 @@ html {
 
     @media screen and (max-width: 992px) {
       .offcanvas {
-        display: block;
+        display: flex;
         width: 100% !important;
         height: fit-content !important;
         top: unset!important;
@@ -50,9 +50,6 @@ html {
         }
       }
       .farm-mobile-filter {
-        width: 65%!important;
-        height: 100%!important;
-        right: 0;
         background: #FFF;
         box-shadow: -3px 4px 4px 0px rgba(0, 0, 0, 0.10);
       }

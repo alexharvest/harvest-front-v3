@@ -157,12 +157,12 @@ const StakeBase = ({
         </NewLabel>
         <AmountInputSection fontColor5={fontColor5}>
           <TokenAmount
-            type="text"
+            type="number"
             value={inputAmount}
             onChange={onInputBalance}
             bgColor={bgColor}
             fontColor2={fontColor2}
-            inputmode="numeric"
+            inputMode="numeric"
             pattern="[0-9]*"
           />
           <input type="hidden" value={Number(inputAmount)} />

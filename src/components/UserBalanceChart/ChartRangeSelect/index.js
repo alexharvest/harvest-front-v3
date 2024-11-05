@@ -8,6 +8,7 @@ import { Container, Text, NewLabel } from './style'
 const ChartRangeSelect = ({ state, type, text, onClick }) => {
   const { darkMode, switchMode, fontColor3 } = useThemeContext()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
+  const isWeek = text === '1W'
   return (
     <Container
       state={state}
@@ -18,6 +19,7 @@ const ChartRangeSelect = ({ state, type, text, onClick }) => {
       onClick={() => {
         onClick()
       }}
+      display={isMobile && isWeek ? 'none' : 'flex'}
     >
       <Text activeItem={text === state}>
         {text}
