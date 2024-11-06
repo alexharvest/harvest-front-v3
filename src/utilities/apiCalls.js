@@ -474,6 +474,7 @@ export const getDataQuery = async (
 
 export const getUserBalanceVaults = async account => {
   const userBalanceVaults = []
+  let userBalanceFlag = true
   if (account) {
     account = account.toLowerCase()
   }
@@ -528,8 +529,9 @@ export const getUserBalanceVaults = async account => {
     })
   } catch (err) {
     console.log('Fetch data about user balance histories: ', err)
+    userBalanceFlag = false
   }
-  return { userBalanceVaults }
+  return { userBalanceVaults, userBalanceFlag }
 }
 
 export const getUserBalanceHistories = async (address, chainId, account) => {

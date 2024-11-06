@@ -152,6 +152,10 @@ const Portfolio = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [oneDayYield, setOneDayYield] = useState(0)
   const [showAddress, setShowAddress] = useState(true)
+  const [onceRun, setOnceRun] = useState(false)
+  const [safeFlag, setSafeFlag] = useState(true)
+  const [balanceFlag, setBalanceFlag] = useState(true)
+  const [correctRun, setCorrectRun] = useState(true)
 
   const beforeAccount = localStorage.getItem('address')
 
@@ -657,10 +661,17 @@ const Portfolio = () => {
       localStorage.setItem('address', account)
     }
 
-    if (beforeAccount !== null && account !== null && beforeAccount !== account) {
+    if (
+      (beforeAccount !== null && account !== null && beforeAccount !== account) ||
+      !safeFlag ||
+      !balanceFlag ||
+      !correctRun
+    ) {
       localStorage.setItem('address', account)
-      safeCount = 21
-      window.location.reload()
+      setTimeout(() => {
+        window.location.reload()
+        localStorage.setItem('safe', 31)
+      }, 5000)
     }
 
     if (Number(visited) !== 0 || visited !== null) {
@@ -668,18 +679,19 @@ const Portfolio = () => {
       localStorage.setItem('safe', safeCount)
     }
 
-    if (safeCount > 20) {
+    if (safeCount > 30) {
       localStorage.setItem('safe', 0)
       localStorage.setItem(totalNetProfitKey, 0)
       setIsLoading(true)
     }
-    if (Number(visited) === 0 || visited === null || Number(visited) === -1 || safeCount > 20) {
-      if (!isEmpty(userStats) && account) {
+    if (Number(visited) === 0 || visited === null || Number(visited) === -1 || safeCount > 30) {
+      if (!isEmpty(userStats) && account && !onceRun) {
         const getNetProfitValue = async () => {
           let totalNetProfitUSD = 0,
             combinedEnrichedData = []
 
-          const { userBalanceVaults } = await getUserBalanceVaults(account)
+          const { userBalanceVaults, userBalanceFlag } = await getUserBalanceVaults(account)
+          setBalanceFlag(userBalanceFlag)
           const stakedVaults = []
           const ul = userBalanceVaults.length
           for (let j = 0; j < ul; j += 1) {
@@ -732,12 +744,14 @@ const Portfolio = () => {
               const paramAddress = isSpecialVault
                 ? token.data.collateralAddress
                 : token.vaultAddress || token.tokenAddress
-              const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
+              const { sumNetChangeUsd, enrichedData, vaultHFlag } = await initBalanceAndDetailData(
                 paramAddress,
                 useIFARM ? token.data.chain : token.chain,
                 account,
                 token.decimals,
               )
+
+              setSafeFlag(vaultHFlag)
 
               vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
               const enrichedDataWithSymbol = enrichedData.map(data => ({
@@ -752,6 +766,7 @@ const Portfolio = () => {
             }
           })
 
+          setOnceRun(true)
           await Promise.all(promises)
 
           totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
@@ -776,7 +791,7 @@ const Portfolio = () => {
         localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
       }
     }
-  }, [account, userStats, showInactiveFarms, connected, beforeAccount]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [account, userStats, showInactiveFarms, connected, beforeAccount, safeFlag, correctRun]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const sortCol = field => {
     if (field === 'lifetimeYield') {
@@ -1242,6 +1257,8 @@ const Portfolio = () => {
                                 lastElement={i === farmTokenList.length - 1 ? 'yes' : 'no'}
                                 cKey={i}
                                 darkMode={darkMode}
+                                onceRun={onceRun}
+                                setCorrectRun={setCorrectRun}
                               />
                             )
                           })
@@ -1267,6 +1284,8 @@ const Portfolio = () => {
                                 lastElement={i === filteredFarmList.length - 1 ? 'yes' : 'no'}
                                 cKey={i}
                                 darkMode={darkMode}
+                                onceRun={onceRun}
+                                setCorrectRun={setCorrectRun}
                               />
                             )
                           })}

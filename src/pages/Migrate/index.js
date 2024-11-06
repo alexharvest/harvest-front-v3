@@ -40,6 +40,8 @@ import {
   getTokenPriceFromApi,
   // getUserBalanceVaults,
   // initBalanceAndDetailData,
+  // getUserBalanceVaults,
+  // initBalanceAndDetailData,
   getCoinListFromApi,
 } from '../../utilities/apiCalls'
 import {
@@ -718,7 +720,22 @@ const Migrate = () => {
   //           const paramAddressAll = isSpecialVaultAll
   //             ? groupOfVaults[key].data.collateralAddress
   //             : groupOfVaults[key].vaultAddress || groupOfVaults[key].tokenAddress
+  //       const { userBalanceVaults } = await getUserBalanceVaults(account)
+  //       const stakedVaults = []
+  //       const ul = userBalanceVaults.length
+  //       for (let j = 0; j < ul; j += 1) {
+  //         Object.keys(groupOfVaults).forEach(key => {
+  //           const isSpecialVaultAll =
+  //             groupOfVaults[key].liquidityPoolVault || groupOfVaults[key].poolVault
+  //           const paramAddressAll = isSpecialVaultAll
+  //             ? groupOfVaults[key].data.collateralAddress
+  //             : groupOfVaults[key].vaultAddress || groupOfVaults[key].tokenAddress
 
+  //           if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
+  //             stakedVaults.push(key)
+  //           }
+  //         })
+  //       }
   //           if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
   //             stakedVaults.push(key)
   //           }
@@ -729,7 +746,16 @@ const Migrate = () => {
   //       const promises = stakedVaults.map(async stakedVault => {
   //         let symbol = '',
   //           fAssetPool = {}
+  //       const vaultNetChanges = []
+  //       const promises = stakedVaults.map(async stakedVault => {
+  //         let symbol = '',
+  //           fAssetPool = {}
 
+  //         if (stakedVault === IFARM_TOKEN_SYMBOL) {
+  //           symbol = FARM_TOKEN_SYMBOL
+  //         } else {
+  //           symbol = stakedVault
+  //         }
   //         if (stakedVault === IFARM_TOKEN_SYMBOL) {
   //           symbol = FARM_TOKEN_SYMBOL
   //         } else {
@@ -740,7 +766,17 @@ const Migrate = () => {
   //           symbol === FARM_TOKEN_SYMBOL
   //             ? groupOfVaults[symbol].data
   //             : find(totalPools, pool => pool.id === symbol)
+  //         fAssetPool =
+  //           symbol === FARM_TOKEN_SYMBOL
+  //             ? groupOfVaults[symbol].data
+  //             : find(totalPools, pool => pool.id === symbol)
 
+  //         const token = find(
+  //           groupOfVaults,
+  //           vault =>
+  //             vault.vaultAddress === fAssetPool?.collateralAddress ||
+  //             (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
+  //         )
   //         const token = find(
   //           groupOfVaults,
   //           vault =>
@@ -754,11 +790,26 @@ const Migrate = () => {
   //           if (isSpecialVault) {
   //             fAssetPool = token.data
   //           }
+  //         if (token) {
+  //           const useIFARM = symbol === FARM_TOKEN_SYMBOL
+  //           const isSpecialVault = token.liquidityPoolVault || token.poolVault
+  //           if (isSpecialVault) {
+  //             fAssetPool = token.data
+  //           }
 
   //           const paramAddress = isSpecialVault
   //             ? token.data.collateralAddress
   //             : token.vaultAddress || token.tokenAddress
+  //           const paramAddress = isSpecialVault
+  //             ? token.data.collateralAddress
+  //             : token.vaultAddress || token.tokenAddress
 
+  //           const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
+  //             paramAddress,
+  //             useIFARM ? token.data.chain : token.chain,
+  //             account,
+  //             token.decimals,
+  //           )
   //           const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
   //             paramAddress,
   //             useIFARM ? token.data.chain : token.chain,
@@ -775,6 +826,7 @@ const Migrate = () => {
   //         }
   //       })
 
+  //       await Promise.all(promises)
   //       await Promise.all(promises)
 
   //       setVaultNetChangeList(vaultNetChanges)
