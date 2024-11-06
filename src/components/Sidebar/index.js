@@ -571,7 +571,7 @@ const Sidebar = ({ width }) => {
                       <UserDropDownMenu backcolor={backColor} bordercolor={borderColor}>
                         <UserDropDownItem
                           onClick={() => {
-                            disconnectAction()
+                            // disconnectAction()
                           }}
                           fontcolor={fontColor}
                           filtercolor={filterColor}
