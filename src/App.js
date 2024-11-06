@@ -28,8 +28,6 @@ const NewLoginModal = () => {
   // localStorage.setItem('darkmode', false)
   const [showModal, setShowModal] = useState(true)
 
-  localStorage.setItem('portfolioVisit', false)
-
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search)
     if (queryParams.has('utm_source') || queryParams.has('utm_medium')) {

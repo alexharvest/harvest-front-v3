@@ -130,6 +130,7 @@ const WithdrawStart = ({
   const [toVaultAddress, setToVaultAddress] = useState()
   const [isSpecialToken, setIsSpecialToken] = useState(false)
   const [matchVaultList, setMatchVaultList] = useState([])
+  // eslint-disable-next-line no-unused-vars
   const [networkName, setNetworkName] = useState('')
   const isFetchingRef = useRef(false)
 
@@ -867,7 +868,7 @@ const WithdrawStart = ({
                 weight="600"
                 padding="20px 24px 0px 24px"
               >
-                Psst, looking for alternatives on {networkName}?
+                Other users also like
               </NewLabel>
               <NewLabel
                 color={darkMode ? '#ffffff' : '#15202b'}
