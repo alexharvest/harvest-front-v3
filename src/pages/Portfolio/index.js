@@ -6,6 +6,7 @@ import { useMediaQuery } from 'react-responsive'
 import { Dropdown, Spinner } from 'react-bootstrap'
 import { PiQuestion } from 'react-icons/pi'
 import ReactTooltip from 'react-tooltip'
+import { toast } from 'react-toastify'
 import { useHistory } from 'react-router-dom'
 import { FaRegSquare, FaRegSquareCheck } from 'react-icons/fa6'
 import { BiLeftArrowAlt } from 'react-icons/bi'
@@ -667,11 +668,14 @@ const Portfolio = () => {
       !balanceFlag ||
       !correctRun
     ) {
+      toast.error('Oops, something went wrong. We will refresh page after 2 minutes', {
+        toastId: 'api-error',
+      })
       localStorage.setItem('address', account)
       setTimeout(() => {
         window.location.reload()
         localStorage.setItem('safe', 31)
-      }, 5000)
+      }, 120000)
     }
 
     if (Number(visited) !== 0 || visited !== null) {
@@ -686,6 +690,7 @@ const Portfolio = () => {
     }
     if (Number(visited) === 0 || visited === null || Number(visited) === -1 || safeCount > 30) {
       if (!isEmpty(userStats) && account && !onceRun) {
+        setOnceRun(true)
         const getNetProfitValue = async () => {
           let totalNetProfitUSD = 0,
             combinedEnrichedData = []
@@ -766,7 +771,6 @@ const Portfolio = () => {
             }
           })
 
-          setOnceRun(true)
           await Promise.all(promises)
 
           totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
@@ -791,7 +795,17 @@ const Portfolio = () => {
         localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
       }
     }
-  }, [account, userStats, showInactiveFarms, connected, beforeAccount, safeFlag, correctRun]) // eslint-disable-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    account,
+    userStats,
+    showInactiveFarms,
+    connected,
+    beforeAccount,
+    safeFlag,
+    correctRun,
+    balanceFlag,
+  ])
 
   const sortCol = field => {
     if (field === 'lifetimeYield') {

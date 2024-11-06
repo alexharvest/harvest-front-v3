@@ -517,6 +517,7 @@ export const getUserBalanceVaults = async account => {
           .then(res => res.data.userBalances)
           .catch(error => {
             console.log('error', error)
+            userBalanceFlag = false
             return []
           }),
       ),
@@ -529,7 +530,6 @@ export const getUserBalanceVaults = async account => {
     })
   } catch (err) {
     console.log('Fetch data about user balance histories: ', err)
-    userBalanceFlag = false
   }
   return { userBalanceVaults, userBalanceFlag }
 }
