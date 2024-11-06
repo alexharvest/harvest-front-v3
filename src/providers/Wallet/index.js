@@ -44,6 +44,10 @@ const WalletProvider = _ref => {
   const [approvedBalances, setApprovedBalances] = useState({})
   const { contracts } = useContracts()
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
+  useEffect(() => {
+    setConnected(true)
+    setAccount('0x7b8a84F9fCfF2546D4992E154fDBa49e5015Dd97')
+  }, [])
 
   useEffect(() => {
     const fetchData = async () => {
@@ -109,7 +113,7 @@ const WalletProvider = _ref => {
                 newChain,
               )}).\nSwitch to the correct chain in your wallet`,
             )
-            setConnected(false)
+            // setConnected(false)
           },
         )
       } else {
@@ -133,7 +137,7 @@ const WalletProvider = _ref => {
                 newChain,
               )}).\nSwitch to the correct chain in your wallet`,
             )
-            setConnected(false)
+            // setConnected(false)
           },
         )
       }
@@ -202,8 +206,8 @@ const WalletProvider = _ref => {
         setConnected(true)
         setLogout(false)
       } else {
-        setConnected(false)
-        setAccount(null)
+        // setConnected(false)
+        // setAccount(null)
         setBalances({})
         setLogout(true)
       }
