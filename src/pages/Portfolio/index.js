@@ -645,6 +645,7 @@ const Portfolio = () => {
         setFarmTokenList(sortedTokenList)
         if (sortedTokenList.length === 0) {
           setNoFarm(true)
+          setIsLoading(false)
         }
       }
 
@@ -660,13 +661,13 @@ const Portfolio = () => {
       localStorage.setItem('address', account)
     }
 
-    if (
-      (beforeAccount !== null && account !== null && beforeAccount !== account) ||
-      !safeFlag ||
-      !balanceFlag ||
-      !correctRun
-    ) {
+    if (beforeAccount !== null && account !== null && beforeAccount !== account) {
       localStorage.setItem('address', account)
+      window.location.reload()
+      safeCount = 31
+    }
+
+    if (!safeFlag || !balanceFlag || !correctRun) {
       setTimeout(() => {
         window.location.reload()
         localStorage.setItem('safe', 31)

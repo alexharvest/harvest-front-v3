@@ -55,7 +55,7 @@ const TotalValue = ({
         </ReactTooltip>
       </Div>
       <Price fontColor1={fontColor1}>
-        {!connected || isLoading ? (
+        {(!connected || isLoading) && Number(price) === 0 ? (
           `${currencySym}0.00`
         ) : farmTokenListLength === 0 && price === 0 ? (
           `${currencySym}0.00`
@@ -69,8 +69,10 @@ const TotalValue = ({
           `${currencySym}0.00`
         ) : parseFloat(price) < 0.01 ? (
           `<${currencySym}0.01`
-        ) : (
+        ) : !isLoading ? (
           `${currencySym}${formatNumber(price * Number(currencyRate), 2)}`
+        ) : (
+          `${currencySym}0.00`
         )}
       </Price>
     </Container>
