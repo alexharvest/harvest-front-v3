@@ -27,6 +27,8 @@ const DesktopPanelHeader = ({
   loadingFarmingBalance,
   lsdToken,
   desciToken,
+  allLoaded,
+  setAllLoaded,
 }) => {
   const location = useLocation()
   const BadgeAry = [ETHEREUM, POLYGON, ARBITRUM, BASE, ZKSYNC]
@@ -138,6 +140,8 @@ const DesktopPanelHeader = ({
             loadedVault={loadedVault}
             useIFARM={useIFARM}
             fontColor1={fontColor1}
+            allLoaded={allLoaded}
+            setAllLoaded={setAllLoaded}
           />
         </ValueContainer>
       </PanelContainer>

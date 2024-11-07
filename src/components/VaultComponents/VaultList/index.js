@@ -2,9 +2,7 @@ import BigNumber from 'bignumber.js'
 import { debounce, find, get, isArray, isEqual, keys, orderBy, sortBy, uniq } from 'lodash'
 import move from 'lodash-move'
 import React, { useMemo, useRef, useState, useEffect } from 'react'
-// import { Dropdown } from 'react-bootstrap'
 import useEffectWithPrevious from 'use-effect-with-previous'
-// import { IoIosArrowDown } from 'react-icons/io'
 import EmptyIcon from '../../../assets/images/logos/farm/empty.svg'
 import SortAPY from '../../../assets/images/logos/farm/sortAPY.svg'
 import SortBank from '../../../assets/images/logos/farm/sortBank.svg'
@@ -12,7 +10,6 @@ import SortCurrency from '../../../assets/images/logos/farm/sortCurrency.svg'
 import sortAscIcon from '../../../assets/images/ui/asc.svg'
 import sortDescIcon from '../../../assets/images/ui/desc.svg'
 import sortIcon from '../../../assets/images/ui/sort.svg'
-// import MobileSortCheckedIcon from '../../../assets/images/logos/filter/mobile-sort-checked.svg'
 import {
   FARM_TOKEN_SYMBOL,
   IFARM_TOKEN_SYMBOL,
@@ -40,9 +37,7 @@ import {
   FlexDiv,
   Header,
   HeaderCol,
-  // MobileListFilter,
   VaultsListBody,
-  // MobileFilterBtn,
   DisplayCount,
 } from './style'
 
@@ -357,29 +352,13 @@ const formatVaults = (
   if (selectFarmType !== '') {
     if (selectFarmType === 'New') {
       vaultsSymbol = orderBy(vaultsSymbol, v => get(groupOfVaults, `${v}.publishDate`), 'desc')
-      // console.log('New Filter: ', groupOfVaults)
     } else if (selectFarmType === 'PopularNow') {
-      // vaultsSymbol = orderBy(
-      //   orderBy(vaultsSymbol, v => get(groupOfVaults, `${v}.publishDate`), 'desc').slice(0, 10),
-      //   v => Number(getVaultValue(groupOfVaults[v])),
-      //   'desc',
-      // )
-      // console.log('Popular Now Filter: ', groupOfVaults)
-
       vaultsSymbol = orderBy(
         vaultsSymbol,
         [v => Number(getVaultValue(groupOfVaults[v])), v => get(groupOfVaults, `${v}.publishDate`)],
         ['desc', 'desc'],
       ).slice(0, 10)
     }
-    // vaultsSymbol = vaultsSymbol.filter(
-    //   tokenSymbol =>
-    //     get(groupOfVaults[tokenSymbol], 'tags') &&
-    //     groupOfVaults[tokenSymbol].tags
-    //       .join(', ')
-    //       .toLowerCase()
-    //       .includes(selectFarmType.toLowerCase().trim()),
-    // )
   }
   vaultsSymbol = [...new Set(vaultsSymbol)]
 
@@ -400,20 +379,7 @@ const SortingIcon = ({ sortType, sortField, selectedField, riskId }) => {
 }
 
 const VaultList = () => {
-  const {
-    fontColor,
-    // fontColor1,
-    // fontColor4,
-    filterColor,
-    // bgColor,
-    backColor,
-    borderColor,
-    // hoverColor,
-    // mobileFilterBackColor,
-    darkMode,
-    // inputFontColor,
-    // inputBorderColor,
-  } = useThemeContext()
+  const { fontColor, filterColor, backColor, borderColor, darkMode } = useThemeContext()
 
   const {
     vaultsData,
@@ -443,7 +409,8 @@ const VaultList = () => {
   const [selectStableCoin, onSelectStableCoin] = useState('')
   const [selectFarmType, onSelectFarmType] = useState('')
   const [selectedActiveType, selectActiveType] = useState([])
-  const [riskId, setRiskId] = useState(-1) // for risk id
+  const [riskId, setRiskId] = useState(-1)
+  const [allLoaded, setAllLoaded] = useState(false)
 
   const [loadComplete, setLoadComplete] = useState(false)
 
@@ -750,54 +717,6 @@ const VaultList = () => {
         farms {showNetworks}
       </DisplayCount>
       <VaultsListBody borderColor={borderColor} backColor={backColor}>
-        {/* <MobileListFilter
-          mobileBackColor={mobileFilterBackColor}
-          backColor={backColor}
-          bgColor={bgColor}
-          borderColor={borderColor}
-          fontColor={fontColor}
-          fontColor1={fontColor1}
-          fontColor4={fontColor4}
-          filterColor={filterColor}
-          hoverColor={hoverColor}
-        >
-          <Dropdown className="filter-sort">
-            <Dropdown.Toggle className="toggle">
-              <div>
-                Sort By: <img src={SortsList[sortId].img} className="sort-icon" alt="sort" />
-                <span>{sortId === -1 ? '' : SortsList[sortId].name}</span>
-              </div>
-              <MobileFilterBtn
-                inputBorderColor={inputBorderColor}
-                type="button"
-                darkmode={darkMode ? 'true' : 'false'}
-              >
-                <IoIosArrowDown color={inputFontColor} fontSize={20} />
-              </MobileFilterBtn>
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="menu">
-              {SortsList.map((item, i) => (
-                <Dropdown.Item
-                  className={`item ${
-                    sortId !== -1 && item.type === SortsList[sortId].type ? 'active-item' : ''
-                  }`}
-                  key={i}
-                  onClick={() => {
-                    setSortId(item.id)
-                    updateSortQuery(item.type)
-                  }}
-                >
-                  <div>
-                    <img src={item.img} className="sort-icon" alt="sort" />
-                    {item.name}
-                  </div>
-                  <img className="checked" src={MobileSortCheckedIcon} alt="" />
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </MobileListFilter> */}
         <Header borderColor={borderColor} fontColor={fontColor} filterColor={filterColor}>
           <HeaderCol width="45%" justifyContent="start">
             Farm
@@ -891,6 +810,8 @@ const VaultList = () => {
                   tokenSymbol={vaultSymbol}
                   tokenNum={i}
                   vaultsCount={vaultsSymbol.length - 1}
+                  allLoaded={allLoaded}
+                  setAllLoaded={setAllLoaded}
                 />
               )
             })

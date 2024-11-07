@@ -4,7 +4,7 @@ import { get } from 'lodash'
 import {
   FARM_TOKEN_SYMBOL,
   IFARM_TOKEN_SYMBOL,
-  SPECIAL_VAULTS,
+  // SPECIAL_VAULTS,
   MAX_DECIMALS,
 } from '../../../../constants'
 import { useVaults } from '../../../../providers/Vault'
@@ -22,11 +22,13 @@ const VaultUserBalance = ({
   tokenSymbol,
   multipleAssets,
   isSpecialVault,
-  loadingFarmingBalance,
+  // loadingFarmingBalance,
   vaultPool,
-  loadedVault,
+  // loadedVault,
   useIFARM,
   fontColor1,
+  allLoaded,
+  setAllLoaded,
 }) => {
   const { vaultsData, farmingBalances } = useVaults()
   const { connected, balances } = useWallet()
@@ -35,6 +37,8 @@ const VaultUserBalance = ({
   const { rates } = useRate()
   const [currencySym, setCurrencySym] = useState('$')
   const [currencyRate, setCurrencyRate] = useState(1)
+  const [allContentLoaded, setAllContentLoaded] = useState(false)
+  let resultValue = 0
 
   useEffect(() => {
     if (rates.rateData) {
@@ -63,16 +67,44 @@ const VaultUserBalance = ({
     )
   }, [vaultsData, tokenSymbol, vaultPool, userStats, farmingBalances, balances])
 
-  const isLoadingUserBalance =
-    loadedVault === false ||
-    loadingFarmingBalance ||
-    (isSpecialVault
-      ? connected &&
-        (!token.data ||
-          !get(userStats, `[${token.data.id}]['totalStaked']`) ||
-          (token.data.id === SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID &&
-            !balances[IFARM_TOKEN_SYMBOL]))
-      : userVaultBalance === false)
+  // const isLoadingUserBalance =
+  //   loadedVault === false ||
+  //   loadingFarmingBalance ||
+  //   (isSpecialVault
+  //     ? connected &&
+  //       (!token.data ||
+  //         !get(userStats, `[${token.data.id}]['totalStaked']`) ||
+  //         (token.data.id === SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID &&
+  //           !balances[IFARM_TOKEN_SYMBOL]))
+  //     : userVaultBalance === false)
+
+  const balanceVaultLoaded = Number(userVaultBalance) !== 0 && userVaultBalance !== 'NaN'
+  useEffect(() => {
+    if (!connected) {
+      setAllLoaded(false)
+      setAllContentLoaded(false)
+    } else if (balanceVaultLoaded) {
+      setAllContentLoaded(true)
+      setAllLoaded(true)
+    }
+  }, [balanceVaultLoaded, connected]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  if (allContentLoaded) {
+    resultValue = multipleAssets
+      ? Number(fromWei(parseValue(userVaultBalance), token.decimals, MAX_DECIMALS)) *
+        (token.usdPrice || 1) *
+        Number(currencyRate)
+      : Number(
+          fromWei(
+            parseValue(userVaultBalance),
+            isSpecialVault ? get(token, 'data.watchAsset.decimals', 18) : token.decimals,
+            MAX_DECIMALS,
+          ),
+        ) *
+          (tokenSymbol === FARM_TOKEN_SYMBOL
+            ? token.data.lpTokenData.price * pricePerFullShare
+            : token.usdPrice) || 1 * Number(currencyRate)
+  }
 
   return (
     <Monospace
@@ -83,20 +115,23 @@ const VaultUserBalance = ({
     >
       {!connected ? (
         ''
-      ) : isLoadingUserBalance ? (
+      ) : !allLoaded ? (
         <AnimatedDots />
+      ) : allLoaded && Number(userVaultBalance) === 0 ? (
+        `${currencySym}0.00`
       ) : (
         <>
-          {currencySym}
-          {multipleAssets
-            ? `${formatNumber(
+          {resultValue < 0.01
+            ? `<${currencySym}0.01`
+            : multipleAssets
+            ? `${currencySym}${formatNumber(
                 new BigNumber(fromWei(parseValue(userVaultBalance), token.decimals, MAX_DECIMALS))
                   .multipliedBy(token.usdPrice || 1)
                   .multipliedBy(new BigNumber(currencyRate))
                   .toString(),
                 2,
               )}`
-            : formatNumber(
+            : `${currencySym}${formatNumber(
                 new BigNumber(
                   fromWei(
                     parseValue(userVaultBalance),
@@ -112,7 +147,7 @@ const VaultUserBalance = ({
                   .multipliedBy(new BigNumber(currencyRate))
                   .toString(),
                 2,
-              )}
+              )}`}
         </>
       )}
     </Monospace>

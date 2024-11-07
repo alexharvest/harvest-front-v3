@@ -14,6 +14,8 @@ const VaultPanelHeader = ({
   multipleAssets,
   loadedVault,
   loadingFarmingBalance,
+  allLoaded,
+  setAllLoaded,
 }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
   const { pools } = usePools()
@@ -43,6 +45,8 @@ const VaultPanelHeader = ({
     loadingFarmingBalance,
     lsdToken,
     desciToken,
+    allLoaded,
+    setAllLoaded,
   }
 
   return (
