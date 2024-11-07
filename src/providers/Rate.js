@@ -1,7 +1,8 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react'
+import React, { createContext, useContext, useEffect, useRef } from 'react'
 import axios from 'axios'
 import { get } from 'lodash'
 import { CURRENCY_RATES_API_ENDPOINT, supportedCurrencies } from '../constants'
+import usePersistedState from './usePersistedState'
 
 const RateContext = createContext()
 const useRate = () => useContext(RateContext)
@@ -16,7 +17,7 @@ const fetchDataFromAPI = (endpoint, defaultValue = null) =>
     })
 
 const RateProvider = ({ children }) => {
-  const [rates, setRates] = useState({
+  const [rates, setRates] = usePersistedState('RATE', {
     currency: supportedCurrencies[0],
   })
 
@@ -39,7 +40,7 @@ const RateProvider = ({ children }) => {
       fetchRates()
       firstRateRender.current = false
     }
-  }, [])
+  }, [setRates])
 
   const updateCurrency = value => {
     setRates({

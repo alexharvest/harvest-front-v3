@@ -386,8 +386,10 @@ const formatVaults = (
   return { vaultsSymbol, totalVaultsCount }
 }
 
-const SortingIcon = ({ sortType, sortField, selectedField }) => {
+const SortingIcon = ({ sortType, sortField, selectedField, riskId }) => {
   switch (true) {
+    case riskId !== -1:
+      return <img className="sort-icon" src={sortIcon} alt="Sort" />
     case sortType === 'asc' && selectedField === sortField:
       return <img className="sort-icon" src={sortAscIcon} alt="Sort ASC" />
     case sortType === 'desc' && selectedField === sortField:
@@ -441,6 +443,7 @@ const VaultList = () => {
   const [selectStableCoin, onSelectStableCoin] = useState('')
   const [selectFarmType, onSelectFarmType] = useState('')
   const [selectedActiveType, selectActiveType] = useState([])
+  const [riskId, setRiskId] = useState(-1) // for risk id
 
   const [loadComplete, setLoadComplete] = useState(false)
 
@@ -732,6 +735,9 @@ const VaultList = () => {
           sortId={sortId}
           setSortId={setSortId}
           updateSortQuery={updateSortQuery}
+          riskId={riskId}
+          setRiskId={setRiskId}
+          setSortOrder={setSortOrder}
         />
       )}
       <DisplayCount color={fontColor} mobileColor={darkMode ? '#fff' : '#000'}>
@@ -800,7 +806,11 @@ const VaultList = () => {
             width="15%"
             justifyContent="start"
             textAlign="left"
-            onClick={() => setSortingParams('apy')}
+            onClick={() => {
+              setSortingParams('apy')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
           >
             <div className="hoverable">Live APY</div>
             <SortingIcon
@@ -808,13 +818,18 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="apy"
+              riskId={riskId}
             />
           </HeaderCol>
           <HeaderCol
             width="15%"
             justifyContent="start"
             textAlign="left"
-            onClick={() => setSortingParams('apy')}
+            onClick={() => {
+              setSortingParams('apy')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
           >
             <div className="hoverable">Daily APY</div>
             <SortingIcon
@@ -822,13 +837,18 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="apy"
+              riskId={riskId}
             />
           </HeaderCol>
           <HeaderCol
             width="15%"
             justifyContent="start"
             textAlign="left"
-            onClick={() => setSortingParams('deposits')}
+            onClick={() => {
+              setSortingParams('deposits')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
           >
             <div className="hoverable">TVL</div>
             <SortingIcon
@@ -836,10 +856,15 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="deposits"
+              riskId={riskId}
             />
           </HeaderCol>
           <HeaderCol
-            onClick={() => setSortingParams('balance')}
+            onClick={() => {
+              setSortingParams('balance')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
             justifyContent="start"
             width="10%"
             textAlign="left"
@@ -850,6 +875,7 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="balance"
+              riskId={riskId}
             />
           </HeaderCol>
         </Header>

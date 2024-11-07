@@ -68,7 +68,7 @@ const HeaderCol = styled.div`
   .hoverable {
     &:hover {
       cursor: pointer;
-      color: #ff9400;
+      color: #6988ff;
     }
   }
 

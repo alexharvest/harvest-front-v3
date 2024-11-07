@@ -12,6 +12,7 @@ const ButtonGroup = ({
   prevFocusId,
   isMobile,
   oneClass,
+  setSortOrder,
 }) => {
   const { backColor, filterChainHoverColor, darkMode } = useThemeContext()
 
@@ -19,6 +20,9 @@ const ButtonGroup = ({
     if (buttons[id].name !== 'Labs') {
       setClickedId(id)
       doSomethingAfterClick(id)
+      if (setSortOrder) {
+        setSortOrder('asc')
+      }
     }
   }
   const [focusId, setFocusId] = React.useState(prevFocusId)
@@ -58,7 +62,7 @@ const ButtonGroup = ({
             display={isMobile && button.name === 'Inactive' ? 'none' : 'flex'}
             borderDisplay={isMobile && button.border}
           >
-            {button.img && <img src={button.img} width="18" height="15" alt="" />}
+            {/* {button.img && <img src={button.img} width="18" height="15" alt="" />} */}
             <div>{button.name}</div>
           </ButtonStyle>
         )

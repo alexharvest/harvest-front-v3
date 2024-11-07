@@ -72,7 +72,7 @@ const SearchBtn = styled.button`
   border: none;
 
   &:hover {
-    background: #2ccda4;
+    background: #88a1ff;
   }
 
   img {

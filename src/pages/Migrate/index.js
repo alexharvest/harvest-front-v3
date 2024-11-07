@@ -38,8 +38,8 @@ import BASE from '../../assets/images/logos/badge/base.svg'
 import { CHAIN_IDS } from '../../data/constants'
 import {
   getTokenPriceFromApi,
-  getUserBalanceVaults,
-  initBalanceAndDetailData,
+  // getUserBalanceVaults,
+  // initBalanceAndDetailData,
   getCoinListFromApi,
 } from '../../utilities/apiCalls'
 import {
@@ -75,8 +75,8 @@ import {
 } from './style'
 // import { ConnectButtonStyle } from '../../components/EarningsHistory/HistoryData/style'
 
-const totalNetProfitKey = 'TOTAL_NET_PROFIT'
-const totalHistoryDataKey = 'TOTAL_HISTORY_DATA'
+// const totalNetProfitKey = 'TOTAL_NET_PROFIT'
+// const totalHistoryDataKey = 'TOTAL_HISTORY_DATA'
 const vaultProfitDataKey = 'VAULT_LIFETIME_YIELD'
 
 const Migrate = () => {
@@ -705,100 +705,100 @@ const Migrate = () => {
     }
   }, [account, userStats, balances]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  useEffect(() => {
-    if (!isEmpty(userStats) && account) {
-      const getNetProfitValue = async () => {
-        let totalNetProfitUSD = 0,
-          combinedEnrichedData = []
+  // useEffect(() => {
+  //   if (!isEmpty(userStats) && account) {
+  //     const getNetProfitValue = async () => {
+  //       let totalNetProfitUSD = 0,
+  //         combinedEnrichedData = []
 
-        const { userBalanceVaults } = await getUserBalanceVaults(account)
-        const stakedVaults = []
-        const ul = userBalanceVaults.length
-        for (let j = 0; j < ul; j += 1) {
-          Object.keys(groupOfVaults).forEach(key => {
-            const isSpecialVaultAll =
-              groupOfVaults[key].liquidityPoolVault || groupOfVaults[key].poolVault
-            const paramAddressAll = isSpecialVaultAll
-              ? groupOfVaults[key].data.collateralAddress
-              : groupOfVaults[key].vaultAddress || groupOfVaults[key].tokenAddress
+  //       const { userBalanceVaults } = await getUserBalanceVaults(account)
+  //       const stakedVaults = []
+  //       const ul = userBalanceVaults.length
+  //       for (let j = 0; j < ul; j += 1) {
+  //         Object.keys(groupOfVaults).forEach(key => {
+  //           const isSpecialVaultAll =
+  //             groupOfVaults[key].liquidityPoolVault || groupOfVaults[key].poolVault
+  //           const paramAddressAll = isSpecialVaultAll
+  //             ? groupOfVaults[key].data.collateralAddress
+  //             : groupOfVaults[key].vaultAddress || groupOfVaults[key].tokenAddress
 
-            if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
-              stakedVaults.push(key)
-            }
-          })
-        }
+  //           if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
+  //             stakedVaults.push(key)
+  //           }
+  //         })
+  //       }
 
-        const vaultNetChanges = []
-        const promises = stakedVaults.map(async stakedVault => {
-          let symbol = '',
-            fAssetPool = {}
+  //       const vaultNetChanges = []
+  //       const promises = stakedVaults.map(async stakedVault => {
+  //         let symbol = '',
+  //           fAssetPool = {}
 
-          if (stakedVault === IFARM_TOKEN_SYMBOL) {
-            symbol = FARM_TOKEN_SYMBOL
-          } else {
-            symbol = stakedVault
-          }
+  //         if (stakedVault === IFARM_TOKEN_SYMBOL) {
+  //           symbol = FARM_TOKEN_SYMBOL
+  //         } else {
+  //           symbol = stakedVault
+  //         }
 
-          fAssetPool =
-            symbol === FARM_TOKEN_SYMBOL
-              ? groupOfVaults[symbol].data
-              : find(totalPools, pool => pool.id === symbol)
+  //         fAssetPool =
+  //           symbol === FARM_TOKEN_SYMBOL
+  //             ? groupOfVaults[symbol].data
+  //             : find(totalPools, pool => pool.id === symbol)
 
-          const token = find(
-            groupOfVaults,
-            vault =>
-              vault.vaultAddress === fAssetPool?.collateralAddress ||
-              (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
-          )
+  //         const token = find(
+  //           groupOfVaults,
+  //           vault =>
+  //             vault.vaultAddress === fAssetPool?.collateralAddress ||
+  //             (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
+  //         )
 
-          if (token) {
-            const useIFARM = symbol === FARM_TOKEN_SYMBOL
-            const isSpecialVault = token.liquidityPoolVault || token.poolVault
-            if (isSpecialVault) {
-              fAssetPool = token.data
-            }
+  //         if (token) {
+  //           const useIFARM = symbol === FARM_TOKEN_SYMBOL
+  //           const isSpecialVault = token.liquidityPoolVault || token.poolVault
+  //           if (isSpecialVault) {
+  //             fAssetPool = token.data
+  //           }
 
-            const paramAddress = isSpecialVault
-              ? token.data.collateralAddress
-              : token.vaultAddress || token.tokenAddress
+  //           const paramAddress = isSpecialVault
+  //             ? token.data.collateralAddress
+  //             : token.vaultAddress || token.tokenAddress
 
-            const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
-              paramAddress,
-              useIFARM ? token.data.chain : token.chain,
-              account,
-              token.decimals,
-            )
+  //           const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
+  //             paramAddress,
+  //             useIFARM ? token.data.chain : token.chain,
+  //             account,
+  //             token.decimals,
+  //           )
 
-            vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
-            const enrichedDataWithSymbol = enrichedData.map(data => ({
-              ...data,
-              tokenSymbol: symbol,
-            }))
-            combinedEnrichedData = combinedEnrichedData.concat(enrichedDataWithSymbol)
-            totalNetProfitUSD += sumNetChangeUsd
-          }
-        })
+  //           vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
+  //           const enrichedDataWithSymbol = enrichedData.map(data => ({
+  //             ...data,
+  //             tokenSymbol: symbol,
+  //           }))
+  //           combinedEnrichedData = combinedEnrichedData.concat(enrichedDataWithSymbol)
+  //           totalNetProfitUSD += sumNetChangeUsd
+  //         }
+  //       })
 
-        await Promise.all(promises)
+  //       await Promise.all(promises)
 
-        totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
-        localStorage.setItem(totalNetProfitKey, totalNetProfitUSD.toString())
+  //       totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
+  //       localStorage.setItem(totalNetProfitKey, totalNetProfitUSD.toString())
 
-        setVaultNetChangeList(vaultNetChanges)
-        localStorage.setItem(vaultProfitDataKey, JSON.stringify(vaultNetChanges))
+  //       setVaultNetChangeList(vaultNetChanges)
+  //       localStorage.setItem(vaultProfitDataKey, JSON.stringify(vaultNetChanges))
 
-        combinedEnrichedData.sort((a, b) => b.timestamp - a.timestamp)
-        localStorage.setItem(totalHistoryDataKey, JSON.stringify(combinedEnrichedData))
-      }
+  //       combinedEnrichedData.sort((a, b) => b.timestamp - a.timestamp)
+  //       localStorage.setItem(totalHistoryDataKey, JSON.stringify(combinedEnrichedData))
+  //     }
 
-      getNetProfitValue()
-    } else {
-      localStorage.setItem(totalNetProfitKey, '0')
-      setVaultNetChangeList([])
-      localStorage.setItem(vaultProfitDataKey, JSON.stringify([]))
-      localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
-    }
-  }, [account, userStats, balances, showInactiveFarms]) // eslint-disable-line react-hooks/exhaustive-deps
+  //     getNetProfitValue()
+  //   } else {
+  //     localStorage.setItem(totalNetProfitKey, '0')
+  //     setVaultNetChangeList([])
+  //     localStorage.setItem(vaultProfitDataKey, JSON.stringify([]))
+  //     localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
+  //   }
+  // }, [account, userStats, balances, showInactiveFarms]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const filteredVaultList = showInactiveFarms

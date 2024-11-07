@@ -18,7 +18,16 @@ import {
 } from './style'
 // import AnimatedDots from '../../AnimatedDots'
 
-const VaultRow = ({ info, lifetimeYield, firstElement, lastElement, cKey, darkMode }) => {
+const VaultRow = ({
+  info,
+  lifetimeYield,
+  firstElement,
+  lastElement,
+  cKey,
+  darkMode,
+  onceRun,
+  setCorrectRun,
+}) => {
   const { push } = useHistory()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
   const {
@@ -40,6 +49,12 @@ const VaultRow = ({ info, lifetimeYield, firstElement, lastElement, cKey, darkMo
       setCurrencyRate(rates.rateData[rates.currency.symbol])
     }
   }, [rates])
+
+  useEffect(() => {
+    if (!onceRun && Number(lifetimeYield) === -1) {
+      setCorrectRun(false)
+    }
+  }, [onceRun, lifetimeYield, setCorrectRun])
 
   return (
     <DetailView
