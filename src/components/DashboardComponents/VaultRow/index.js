@@ -16,7 +16,6 @@ import {
   ContentInner,
   MobileContentContainer,
 } from './style'
-// import AnimatedDots from '../../AnimatedDots'
 
 const VaultRow = ({
   info,

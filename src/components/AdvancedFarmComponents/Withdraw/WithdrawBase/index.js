@@ -31,7 +31,6 @@ import {
   BalanceInfo,
   InsufficientSection,
   CloseBtn,
-  // ThemeMode,
   TokenSelectSection,
   SwitchTabTag,
   HasErrorSection,

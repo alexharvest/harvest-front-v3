@@ -62,7 +62,6 @@ import {
   Header,
   Inner,
   SubPart,
-  // ThemeMode,
   TransactionDetails,
   Col,
   TableContent,
@@ -1237,7 +1236,6 @@ const Portfolio = () => {
                           }}
                         >
                           {data.name}
-                          {/* {data.img && <img className="sortIcon" src={data.img} alt="sort" />} */}
                         </Col>
                       </Column>
                     ))}

@@ -929,21 +929,7 @@ const AdvancedFarm = () => {
             supNoBalanceList.shift()
             setSupTokenNoBalanceList(supNoBalanceList)
 
-            // const soonSupList = []
-            // for (let j = 0; j < curBalances.length; j += 1) {
-            //   const supToken = supList.find(el => el.address === curBalances[j].address)
-            //   if (!supToken) {
-            //     soonSupList.push(curBalances[j])
-            //   }
-
-            //   if (Object.keys(directInBalance).length === 0 && tokenAddress.length !== 2) {
-            //     if (curBalances[j].address.toLowerCase() === tokenAddress.toLowerCase()) {
-            //       directInBalance = curBalances[j]
-            //     }
-            //   }
-            // }
-            // setSoonToSupList(soonSupList)
-            setSoonToSupList({}) // TODO: remove soonToSupList once confirmed
+            setSoonToSupList({})
           } else {
             let tokenSymbol,
               decimals = 18

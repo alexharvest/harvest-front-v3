@@ -330,51 +330,7 @@ const ActionsProvider = ({ children }) => {
       const hasDeniedRequest = false
       let updatedLpTokenBalance, updatedLpTokenApprovedBalance
 
-      // await forEach(amountsToExecute, async (amount, amountIdx) => {
-      //   let hasEnoughApprovedAmount
-
-      //   if (multipleAssets) {
-      //     if (amount !== null) {
-      //       const tokenInstance = await newContractInstance(
-      //         null,
-      //         addresses[multipleAssets[amountIdx]],
-      //         tokenContractData.abi,
-      //       )
-
-      //       const currApprovedBalance = await tokenMethods.getApprovedAmount(
-      //         account,
-      //         token.vaultAddress,
-      //         tokenInstance,
-      //       )
-
-      //       hasEnoughApprovedAmount = new BigNumber(amount).isLessThanOrEqualTo(
-      //         new BigNumber(currApprovedBalance),
-      //       )
-      //     }
-      //   } else {
-      //     hasEnoughApprovedAmount = new BigNumber(amount).isLessThanOrEqualTo(
-      //       new BigNumber(approvedBalance),
-      //     )
-      //   }
-
-      //   if (amount !== null && !hasEnoughApprovedAmount && !hasDeniedRequest) {
-      //     setPendingAction(ACTIONS.APPROVE_DEPOSIT)
-
-      //     hasDeniedRequest = await handleOldApproval(
-      //       account,
-      //       contracts,
-      //       multipleAssets ? multipleAssets[amountIdx] : tokenSymbol,
-      //       vaultData.vaultAddress,
-      //       null,
-      //       setPendingAction,
-      //       onSuccessApproval,
-      //     )
-      //   }
-      // })
-
       if (!hasDeniedRequest) {
-        // setPendingAction(ACTIONS.DEPOSIT)
-
         try {
           if (multipleAssets) {
             const firstAmount =

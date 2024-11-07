@@ -705,101 +705,6 @@ const Migrate = () => {
     }
   }, [account, userStats, balances]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // useEffect(() => {
-  //   if (!isEmpty(userStats) && account) {
-  //     const getNetProfitValue = async () => {
-  //       let totalNetProfitUSD = 0,
-  //         combinedEnrichedData = []
-
-  //       const { userBalanceVaults } = await getUserBalanceVaults(account)
-  //       const stakedVaults = []
-  //       const ul = userBalanceVaults.length
-  //       for (let j = 0; j < ul; j += 1) {
-  //         Object.keys(groupOfVaults).forEach(key => {
-  //           const isSpecialVaultAll =
-  //             groupOfVaults[key].liquidityPoolVault || groupOfVaults[key].poolVault
-  //           const paramAddressAll = isSpecialVaultAll
-  //             ? groupOfVaults[key].data.collateralAddress
-  //             : groupOfVaults[key].vaultAddress || groupOfVaults[key].tokenAddress
-
-  //           if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
-  //             stakedVaults.push(key)
-  //           }
-  //         })
-  //       }
-
-  //       const vaultNetChanges = []
-  //       const promises = stakedVaults.map(async stakedVault => {
-  //         let symbol = '',
-  //           fAssetPool = {}
-
-  //         if (stakedVault === IFARM_TOKEN_SYMBOL) {
-  //           symbol = FARM_TOKEN_SYMBOL
-  //         } else {
-  //           symbol = stakedVault
-  //         }
-
-  //         fAssetPool =
-  //           symbol === FARM_TOKEN_SYMBOL
-  //             ? groupOfVaults[symbol].data
-  //             : find(totalPools, pool => pool.id === symbol)
-
-  //         const token = find(
-  //           groupOfVaults,
-  //           vault =>
-  //             vault.vaultAddress === fAssetPool?.collateralAddress ||
-  //             (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
-  //         )
-
-  //         if (token) {
-  //           const useIFARM = symbol === FARM_TOKEN_SYMBOL
-  //           const isSpecialVault = token.liquidityPoolVault || token.poolVault
-  //           if (isSpecialVault) {
-  //             fAssetPool = token.data
-  //           }
-
-  //           const paramAddress = isSpecialVault
-  //             ? token.data.collateralAddress
-  //             : token.vaultAddress || token.tokenAddress
-
-  //           const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
-  //             paramAddress,
-  //             useIFARM ? token.data.chain : token.chain,
-  //             account,
-  //             token.decimals,
-  //           )
-
-  //           vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
-  //           const enrichedDataWithSymbol = enrichedData.map(data => ({
-  //             ...data,
-  //             tokenSymbol: symbol,
-  //           }))
-  //           combinedEnrichedData = combinedEnrichedData.concat(enrichedDataWithSymbol)
-  //           totalNetProfitUSD += sumNetChangeUsd
-  //         }
-  //       })
-
-  //       await Promise.all(promises)
-
-  //       totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
-  //       localStorage.setItem(totalNetProfitKey, totalNetProfitUSD.toString())
-
-  //       setVaultNetChangeList(vaultNetChanges)
-  //       localStorage.setItem(vaultProfitDataKey, JSON.stringify(vaultNetChanges))
-
-  //       combinedEnrichedData.sort((a, b) => b.timestamp - a.timestamp)
-  //       localStorage.setItem(totalHistoryDataKey, JSON.stringify(combinedEnrichedData))
-  //     }
-
-  //     getNetProfitValue()
-  //   } else {
-  //     localStorage.setItem(totalNetProfitKey, '0')
-  //     setVaultNetChangeList([])
-  //     localStorage.setItem(vaultProfitDataKey, JSON.stringify([]))
-  //     localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
-  //   }
-  // }, [account, userStats, balances, showInactiveFarms]) // eslint-disable-line react-hooks/exhaustive-deps
-
   useEffect(() => {
     const filteredVaultList = showInactiveFarms
       ? farmTokenList
@@ -1299,13 +1204,6 @@ const Migrate = () => {
             ) : (
               <>
                 <Content alignItems="start">
-                  {/* <InfoText fontSize="10px" fontWeight="500" color="#5fCf76">
-                {highestPosition ? (
-                  `${currencySym}${formatNumber(highestPosition.balance)}`
-                ) : (
-                  <AnimatedDots />
-                )}
-              </InfoText> */}
                   <BadgeToken>
                     <BadgeIcon
                       width={!highestPosition ? 'auto' : '13.096px'}
@@ -1323,16 +1221,7 @@ const Migrate = () => {
                       )}
                     </BadgeIcon>
                     {highestPosition ? (
-                      <Token
-                      // href={`${window.location.origin}/${
-                      //   networkNames[getBadgeId(positionVaultAddress)]
-                      // }/${
-                      //   positionVaultAddress === '0x1571ed0bed4d987fe2b498ddbae7dfa19519f651'
-                      //     ? '0xa0246c9032bc3a600820415ae600c6388619a14d'
-                      //     : positionVaultAddress
-                      // }`}
-                      // onClick={stopPropagation}
-                      >
+                      <Token>
                         <>
                           <span>{highestPosition.token.tokenNames.join(', ')}</span>
                           <span
@@ -1345,27 +1234,6 @@ const Migrate = () => {
                     )}
                   </BadgeToken>
                 </Content>
-                {/* <ApyDownIcon>
-              <Content alignItems="end">
-                <InfoText fontSize="10px" fontWeight="700" color="#5fCf76">
-                  {highestPosition ? `${highestPosition.apy}% Live APY` : <AnimatedDots />}
-                </InfoText>
-                <InfoText fontSize="10px" fontWeight="500" color="#6988ff">
-                  {highestPosition ? (
-                    `${currencySym}${formatNumber(highestPosition.apy / 100)}/yr per $1 allocated`
-                  ) : (
-                    <AnimatedDots />
-                  )}
-                </InfoText>
-              </Content>
-              <img
-                src={ChevronDown}
-                alt="Chevron Down"
-                style={{
-                  marginLeft: '20px',
-                }}
-              />
-            </ApyDownIcon> */}
                 <Content alignItems="end">
                   <img src={ChevronDown} alt="Chevron Down" />
                 </Content>
@@ -1407,9 +1275,6 @@ const Migrate = () => {
             }}
           >
             <Content alignItems="start">
-              {/* <InfoText fontSize="10px" fontWeight="500" color="#5fCf76">
-                {matchedVault ? `${currencySym}${formatNumber(matchedVault.balance)}` : '-'}
-              </InfoText> */}
               <BadgeToken>
                 <BadgeIcon
                   width={!highestApyVault ? 'auto' : '13.096px'}
@@ -1424,12 +1289,7 @@ const Migrate = () => {
                   )}
                 </BadgeIcon>
                 {highestApyVault ? (
-                  <Token
-                  // href={`${window.location.origin}/${
-                  //   networkNames[getBadgeId(highestVaultAddress)]
-                  // }/${highestVaultAddress}`}
-                  // onClick={stopPropagation}
-                  >
+                  <Token>
                     <>
                       <span>{highestApyVault.vault.tokenNames.join(', ')}</span>
                       <span
@@ -1442,29 +1302,6 @@ const Migrate = () => {
                 )}
               </BadgeToken>
             </Content>
-            {/* <ApyDownIcon>
-              <Content alignItems="end">
-                <InfoText fontSize="10px" fontWeight="700" color="#5fCf76">
-                  {highestApyVault ? `${highestApyVault.vaultApy}% Live APY` : <AnimatedDots />}
-                </InfoText>
-                <InfoText fontSize="10px" fontWeight="500" color="#6988ff">
-                  {highestApyVault ? (
-                    `${currencySym}${formatNumber(
-                      highestApyVault.vaultApy / 100,
-                    )}/yr per $1 allocated`
-                  ) : (
-                    <AnimatedDots />
-                  )}
-                </InfoText>
-              </Content>
-              <img
-                src={ChevronDown}
-                alt="Chevron Down"
-                style={{
-                  marginLeft: '20px',
-                }}
-              />
-            </ApyDownIcon> */}
             <Content alignItems="end">
               <img src={ChevronDown} alt="Chevron Down" />
             </Content>
