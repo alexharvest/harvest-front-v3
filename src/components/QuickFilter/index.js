@@ -111,6 +111,8 @@ const QuickFilter = ({
   const [showInactiveFarms, setShowInactiveFarms] = useState(false)
   const [focusId, setFocusId] = useState(-1)
   const [inactiveId, setInactiveId] = useState(-1)
+  const [mobileRiskId, setMobileRiskId] = useState(-1)
+  const [mobileAssetsId, setMobileAssetsId] = useState(-1)
 
   useEffect(() => {
     onSelectActiveType(['Active'])
@@ -741,8 +743,8 @@ const QuickFilter = ({
                     <ButtonGroup
                       buttons={RiskListMobile}
                       doSomethingAfterClick={() => {}}
-                      clickedId={riskId}
-                      setClickedId={setRiskId}
+                      clickedId={mobileRiskId}
+                      setClickedId={setMobileRiskId}
                       fontColor={fontColor2}
                       unsetWidth={false}
                     />
@@ -751,8 +753,8 @@ const QuickFilter = ({
                     <ButtonGroup
                       buttons={AssetsList}
                       doSomethingAfterClick={() => {}}
-                      clickedId={assetsId}
-                      setClickedId={setAssetsId}
+                      clickedId={mobileAssetsId}
+                      setClickedId={setMobileAssetsId}
                       fontColor={fontColor2}
                     />
                   </DivWidth>
@@ -814,11 +816,13 @@ const QuickFilter = ({
                   <ApplyFilterBtn
                     type="button"
                     onClick={() => {
-                      if (riskId !== -1) {
-                        printRisk(riskId)
+                      if (mobileRiskId !== -1) {
+                        printRisk(mobileRiskId)
+                        setRiskId(mobileRiskId)
                       }
-                      if (assetsId !== -1) {
-                        printAsset(assetsId)
+                      if (mobileAssetsId !== -1) {
+                        printAsset(mobileAssetsId)
+                        setAssetsId(mobileAssetsId)
                       }
                       if (inactiveId !== -1) {
                         setFarmId(inactiveId)
@@ -924,6 +928,8 @@ const QuickFilter = ({
                   onDepositedOnlyClick(false)
                   setAssetsId(-1)
                   setRiskId(-1)
+                  setMobileAssetsId(-1)
+                  setMobileRiskId(-1)
                   setFarmId(-1)
                   setMobileFilterCount(0)
                   setSelectedClass([0, 1, 2, 3, 4])
