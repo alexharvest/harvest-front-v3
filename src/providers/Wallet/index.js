@@ -46,7 +46,7 @@ const WalletProvider = _ref => {
   const [{ wallet, connecting }, connect, disconnect] = useConnectWallet()
   useEffect(() => {
     setConnected(true)
-    setAccount('0x7b8a84F9fCfF2546D4992E154fDBa49e5015Dd97')
+    setAccount('0xd1621a7040cd9d0be444ef07621bead1c1166ad4')
   }, [])
 
   useEffect(() => {
@@ -197,7 +197,7 @@ const WalletProvider = _ref => {
       if (wallet) {
         const chainNum = parseInt(wallet.chains[0].id, 16).toString()
         // setAccount(wallet.accounts[0].address.toLowerCase())
-        setAccount('0x7b8a84F9fCfF2546D4992E154fDBa49e5015Dd97')
+        setAccount('0xd1621a7040cd9d0be444ef07621bead1c1166ad4')
         setChainId(chainNum)
         if (wallet?.provider) {
           const newWeb3 = new Web3(wallet.provider)
