@@ -72,9 +72,6 @@ import {
   CurrencyDropDownMenu,
   CurrencyDropDownItem,
 } from './style'
-// import { ConnectButtonStyle } from '../../components/EarningsHistory/HistoryData/style'
-
-const vaultProfitDataKey = 'VAULT_LIFETIME_YIELD'
 
 const Migrate = () => {
   const location = useLocation()
