@@ -31,9 +31,9 @@ export const SOCIAL_LINKS = {
 export const historyTags = [{ name: 'Harvests' }, { name: 'Rewards' }]
 
 export const ROUTES = {
-  PORTFOLIO: '/portfolio',
+  PORTFOLIO: '/',
   TUTORIAL: 'https://docs.harvest.finance/get-started-farming',
-  ADVANCED: '/',
+  ADVANCED: '/vaults',
   ACTIVITY: '/activity',
   SETTINGS: '/settings',
   LiveSupport: 'https://discord.com/channels/748967094745563176/749862621188194328',
