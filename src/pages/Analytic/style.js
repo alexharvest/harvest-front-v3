@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import Pattern from '../../assets/images/logos/pattern.png'
 
 const Container = styled.div`
-  margin-left: 280px;
+  margin-left: 260px;
   width: 100%;
   min-height: 100vh;
 
@@ -91,7 +91,7 @@ const StatsBox = styled.div`
   align-items: ${props => props.align || 'center'};
 
   transition: 0.25s;
-  border: 2px solid rgb(243, 246, 255);
+  border: 2px solid ${props => props.borderColor};
   color: ${props => props.fontColor};
   background: ${props => props.backColor};
 
@@ -300,7 +300,7 @@ const BigStatsExchange = styled(BigStatsSubheader)`
 `
 
 const ValueComponent = styled.div`
-  border: 2px solid rgb(243, 246, 255);
+  border: 2px solid ${props => props.borderColor};
   background: ${props => props.backColor};
   color: ${props => props.fontColor};
   padding: 28px 24px;

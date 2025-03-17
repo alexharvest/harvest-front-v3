@@ -591,13 +591,13 @@ const MigrateStart = ({
         <FTokenInfo>
           <div className="modal-header-part">
             <NewLabel margin="auto 16px auto 0px" display="flex" items="center">
-              <IconCard bgColor="#6988ff" display="flex" items="center">
+              <IconCard bgColor="#5dcf46" display="flex" items="center">
                 {progressStep === 4 ? <BsArrowDown /> : <img src={ClockIcon} alt="clock" />}
               </IconCard>
             </NewLabel>
             <NewLabel textAlign="left" marginRight="12px">
               <NewLabel
-                color="#6988FF"
+                color="#5dcf46"
                 size={isMobile ? '18px' : '18px'}
                 height={isMobile ? '28px' : '28px'}
                 weight="600"
@@ -977,7 +977,7 @@ const MigrateStart = ({
                 fontColor2={fontColor2}
                 backColor={backColor}
                 borderColor={
-                  customSlippage === null || customSlippage === 0 ? borderColor : '#15b088'
+                  customSlippage === null || customSlippage === 0 ? borderColor : '#5dcf46'
                 }
                 size="12px"
               >
@@ -998,7 +998,7 @@ const MigrateStart = ({
                     ? '#0C111D'
                     : '#fff'
                 }
-                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#15b088'}
+                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#5dcf46'}
                 cursor={customSlippage === null || customSlippage === 0 ? 'not-allowed' : 'pointer'}
                 hoverColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#2ccda4'}
                 activeColor={

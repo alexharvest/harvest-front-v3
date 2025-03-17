@@ -9,12 +9,17 @@ import {
   SPECIAL_VAULTS,
 } from '../constants'
 import { CHAIN_IDS } from '../data/constants'
-import { ceil10, floor10, round10 } from './formats'
+import { ceil10, floor10, formatNumber, round10 } from './formats'
 import Arbitrum from '../assets/images/chains/arbitrum.svg'
 import Base from '../assets/images/chains/base.svg'
 import Zksync from '../assets/images/chains/zksync.svg'
 import Ethereum from '../assets/images/chains/ethereum.svg'
 import Polygon from '../assets/images/chains/polygon.svg'
+import { fromWei } from '../services/web3'
+
+export const totalNetProfitKey = 'TOTAL_NET_PROFIT'
+export const totalHistoryDataKey = 'TOTAL_HISTORY_DATA'
+export const vaultProfitDataKey = 'VAULT_LIFETIME_YIELD'
 
 export const getNextEmissionsCutDate = () => {
   const result = new Date()
@@ -58,6 +63,12 @@ export const getUserVaultBalanceInDetail = (tokenSymbol, totalStakedInPool, iFAR
 }
 
 export const getVaultValue = token => {
+  if (token.isIPORVault) {
+    if (token.totalValueLocked) {
+      return new BigNumber(get(token, 'totalValueLocked', 0))
+    }
+    return new BigNumber(0)
+  }
   const poolId = get(token, 'data.id')
 
   switch (poolId) {
@@ -75,7 +86,7 @@ export const getVaultValue = token => {
       return get(token, 'data.totalValueLocked')
     default:
       return token.usdPrice
-        ? new BigNumber(token.underlyingBalanceWithInvestment.toString())
+        ? new BigNumber(token.underlyingBalanceWithInvestment?.toString())
             .times(token.usdPrice)
             .dividedBy(new BigNumber(10).pow(token.decimals))
         : null
@@ -347,6 +358,46 @@ export const findMin = data => {
   return min
 }
 
+export const findMaxData = data => {
+  let maxVal = -Infinity // Start with the smallest possible value
+
+  Object.values(data).forEach(item => {
+    if (item && item.value !== undefined) {
+      maxVal = Math.max(maxVal, item.value)
+    }
+  })
+
+  return maxVal === -Infinity ? null : maxVal // Return null if no valid value found
+}
+
+export const findMinData = data => {
+  let minVal = Infinity
+
+  Object.values(data).forEach(item => {
+    if (item && item.value !== undefined) {
+      minVal = Math.min(minVal, item.value)
+    }
+  })
+
+  return minVal === Infinity ? null : minVal
+}
+
+export const findMinMax = (data, key) => {
+  const filteredData = data.filter(item => item[key] !== undefined)
+
+  filteredData.sort((a, b) => a[key] - b[key])
+
+  return {
+    min: filteredData[0] ? { x: filteredData[0].x, value: filteredData[0][key] } : null,
+    max: filteredData[filteredData.length - 1]
+      ? {
+          x: filteredData[filteredData.length - 1].x,
+          value: filteredData[filteredData.length - 1][key],
+        }
+      : null,
+  }
+}
+
 export const findClosestIndex = (data, target) => {
   let closestIndex = 0,
     closestDistance = Math.abs(data[0].x - target)
@@ -483,24 +534,12 @@ export const getMigrateVaultApy = (vaultKey, vaultsGroup, vaultsData, pools) => 
     ? getTotalApy(null, token, true)
     : getTotalApy(vaultPool, tokenVault)
 
-  return totalApy
+  const vaultTvl = getVaultValue(isSpecialVault ? token : tokenVault)
+
+  return { totalApy, vaultTvl }
 }
 
-export const getWalletApy = (value, groupOfVaults, vaultsData, pools) => {
-  let totalMonthlyYield = 0,
-    walletTotalBalance = 0
-  Object.entries(value.vaults).map(([vaultKey, vaultValue]) => {
-    const vaultApy = getVaultApy(vaultKey, groupOfVaults, vaultsData, pools)
-    const vaultMonthlyYield = (vaultApy / 12 / 100) * vaultValue.balance
-    totalMonthlyYield += vaultMonthlyYield
-    walletTotalBalance += vaultValue.balance
-    return true
-  })
-  const realWalletApy = (totalMonthlyYield / walletTotalBalance) * 12 * 100
-  return [realWalletApy, totalMonthlyYield]
-}
-
-export const rearrangeApiData = (apiData, groupOfVaults, vaultsData, pools) => {
+export const rearrangeApiData = (apiData, groupOfVaults) => {
   const vaultsFilteredData = Object.entries(apiData)
     .map(([wallet, entry]) => {
       const vaultsNumber = Object.entries(entry.vaults).length
@@ -514,12 +553,9 @@ export const rearrangeApiData = (apiData, groupOfVaults, vaultsData, pools) => {
 
   const removeLowMonthlyYieldData = vaultsFilteredData
     .map(([wallet, entry]) => {
-      const result = getWalletApy(entry, groupOfVaults, vaultsData, pools)
-      if (Array.isArray(result)) {
-        const [, totalMonthlyYield] = result
-        if (totalMonthlyYield >= 0.01) {
-          return [wallet, entry]
-        }
+      const result = (entry.totalDailyYield * 365) / 12
+      if (result >= 0.01) {
+        return [wallet, entry]
       }
       return null
     })
@@ -533,7 +569,7 @@ export const rearrangeApiData = (apiData, groupOfVaults, vaultsData, pools) => {
       const totalVaultBalance = Object.values(data.vaults).reduce((sum, vault) => {
         return sum + vault.balance
       }, 0)
-
+      data.totalBalance = totalVaultBalance
       return { address, data, totalVaultBalance }
     })
     .sort((a, b) => b.totalVaultBalance - a.totalVaultBalance)
@@ -549,7 +585,6 @@ export const rearrangeApiData = (apiData, groupOfVaults, vaultsData, pools) => {
       )
     }
   })
-
   return vaultBalanceSortedData
 }
 
@@ -587,23 +622,8 @@ export const getSecondApy = (allVaults, chainName, vaultsData, pools) => {
   return null
 }
 
-export const addressMatchVault = (allVaults, vaultAddress, vaultsData, pools) => {
-  const matchVault = []
-  Object.entries(allVaults).map(vault => {
-    if (vault[1].vaultAddress.toLowerCase() === vaultAddress.toLowerCase()) {
-      const vaultApy = getVaultApy(vault[1].vaultAddress, allVaults, vaultsData, pools)
-      matchVault.push({ vaultApy: Number(vaultApy), vault: vault[1] })
-    }
-    return true
-  })
-  if (matchVault.length > 0) {
-    return matchVault[0]
-  }
-  return null
-}
-
 export const getMatchedVaultList = (allVaults, chainName, vaultsData, pools) => {
-  const sameNetworkVautls = []
+  const sameNetworkVaults = []
 
   Object.entries(allVaults).map(vault => {
     const compareChain = vault[1].poolVault
@@ -617,14 +637,92 @@ export const getMatchedVaultList = (allVaults, chainName, vaultsData, pools) => 
       vault[0] !== 'IFARM' &&
       compareChain !== null
     ) {
-      const vaultApy = getMigrateVaultApy(address, allVaults, vaultsData, pools)
-      sameNetworkVautls.push({ vaultApy: Number(vaultApy), vault: vault[1] })
+      const { totalApy: vaultApy, vaultTvl } = getMigrateVaultApy(
+        address,
+        allVaults,
+        vaultsData,
+        pools,
+      )
+      sameNetworkVaults.push({
+        vaultApy: Number(vaultApy),
+        vaultTvl: Number(vaultTvl),
+        vault: vault[1],
+      })
     }
     return true
   })
-  sameNetworkVautls.sort((a, b) => b.vaultApy - a.vaultApy)
-  if (sameNetworkVautls) {
-    return sameNetworkVautls
+  sameNetworkVaults.sort((a, b) => b.vaultApy - a.vaultApy)
+  if (sameNetworkVaults) {
+    return sameNetworkVaults
   }
   return false
 }
+
+export const mergeArrays = (rewardsAPIData, totalHistoryData) => {
+  const rewardsData = rewardsAPIData.map(reward => ({
+    event: 'Rewards',
+    symbol: reward.token.symbol,
+    timestamp: reward.timestamp,
+    rewards: fromWei(reward.value, reward.token.decimals, reward.token.decimals, true),
+    rewardsUSD:
+      parseFloat(reward.price) *
+      fromWei(reward.value, reward.token.decimals, reward.token.decimals, true),
+  }))
+
+  const combinedArray = [...totalHistoryData, ...rewardsData]
+
+  combinedArray.sort((a, b) => parseInt(b.timestamp, 10) - parseInt(a.timestamp, 10))
+
+  return combinedArray
+}
+
+export const handleToggle = setter => () => setter(prev => !prev)
+
+export const getUnderlyingId = vaultData => {
+  if (vaultData.isIPORVault && vaultData.allocPointData?.length > 1) {
+    if (vaultData?.allocPointData[0]?.hVaultId !== 'Not invested')
+      return vaultData.allocPointData[0].hVaultId
+    return vaultData.allocPointData[1].hVaultId
+  }
+  return ''
+}
+
+export const calculateApy = (vaultHData, latestSharePriceValue, vaultData, periodDays) => {
+  const filteredData = vaultHData.filter(
+    entry => Number(entry.timestamp) >= Number(vaultHData[0].timestamp) - periodDays * 24 * 3600,
+  )
+
+  if (filteredData.length === 0) return '0%'
+
+  const initialSharePrice = fromWei(
+    filteredData[filteredData.length - 1].sharePrice,
+    vaultData.decimals || vaultData.data.watchAsset.decimals,
+    vaultData.decimals || vaultData.data.watchAsset.decimals,
+    false,
+  )
+
+  return `${formatNumber(
+    ((latestSharePriceValue - initialSharePrice) / (periodDays / 365)) * 100,
+    2,
+  )}%`
+}
+
+/* eslint-disable no-plusplus, no-bitwise, one-var */
+export const generateColor = key => {
+  let hash = 0
+
+  // Generate a numeric hash from the key
+  for (let i = 0; i < key.length; i++) {
+    hash = key.charCodeAt(i) + ((hash << 5) - hash)
+  }
+
+  // Convert the hash to a hex color
+  let color = '#'
+  for (let i = 0; i < 3; i++) {
+    const value = (hash >> (i * 8)) & 0xff // Extract 8-bit values
+    color += `00${value.toString(16)}`.slice(-2) // Ensure two-digit hex
+  }
+
+  return color.toUpperCase() // Return as uppercase hex code
+}
+/* eslint-enable no-plusplus, no-bitwise, one-var */

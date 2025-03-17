@@ -8,20 +8,19 @@ const Container = styled.div`
   position: relative;
   border-radius: 10px;
   transition: 0.25s;
-  border: 1px solid ${props => props.borderColor};
   margin-right: 15px;
   height: fit-content;
 
   input {
     width: 100%;
-    border-width: 0px;
     box-sizing: border-box;
     border-radius: 10px 0 0 10px;
     color: ${props => props.fontColor};
+    border: 1px solid ${props => props.borderColor};
+    padding: 9px 10px;
     background: none;
     transition: 0.25s;
     margin: 0;
-    padding: 9px 10px;
     outline: 0;
     font-weight: 400;
     font-size: 14px;
@@ -38,7 +37,6 @@ const Container = styled.div`
     }
 
     @media screen and (max-width: 1480px) {
-      padding: 6px 10px;
       font-size: 12px;
       line-height: 16px;
     }
@@ -65,14 +63,14 @@ const Container = styled.div`
 `
 
 const SearchBtn = styled.button`
-  background: #6988ff;
+  background: #5dcf46;
   border-radius: 0px 8px 8px 0px;
-  padding: 8px 18px;
+  padding: 9px 18px;
   color: white;
   border: none;
 
   &:hover {
-    background: #2ccda4;
+    background: ${props => props.hoverColor};
   }
 
   img {
@@ -80,11 +78,11 @@ const SearchBtn = styled.button`
   }
 
   @media screen and (max-width: 1480px) {
-    padding: 5px 15px;
+    padding: 6px 15px;
   }
 
   @media screen and (max-width: 1280px) {
-    padding: 0px 10px;
+    padding: 1px 10px;
 
     img {
       height: 11px;
@@ -92,7 +90,7 @@ const SearchBtn = styled.button`
   }
 
   @media screen and (max-width: 992px) {
-    padding: 10px 18px;
+    padding: 9px 18px;
 
     img {
       height: 20px;

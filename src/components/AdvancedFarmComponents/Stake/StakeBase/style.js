@@ -11,6 +11,12 @@ const NewLabel = styled.div`
   font-size: ${props => props.size || '20px'};
   line-height: ${props => props.height || '0px'};
   ${props =>
+    props.bg
+      ? `
+    background: ${props.bg};
+  `
+      : ''}
+  ${props =>
     props.padding
       ? `
     padding: ${props.padding};
@@ -139,7 +145,7 @@ const TokenAmount = styled.input`
   white-space: nowrap;
   overflow: hidden;
   background: ${props => props.bgColor};
-  border: 1px solid #d0d5dd;
+  border: 1px solid ${props => props.borderColor};
   outline: 0;
   padding: 10px 55px 10px 14px;
   border-radius: 8px;
@@ -148,6 +154,7 @@ const TokenAmount = styled.input`
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: textfield;
     margin: 0;
@@ -378,6 +385,7 @@ const AmountInputSection = styled.div`
   position: relative;
 
   input[type='text'] {
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: textfield;
   }

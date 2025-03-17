@@ -20,19 +20,9 @@ import { useRate } from '../../../providers/Rate'
 import { chainList } from '../../../constants'
 import ChevronUp from '../../../assets/images/ui/chevron-up.svg'
 import ChevronDown from '../../../assets/images/ui/chevron-down.svg'
-import { getTokenNames, getVaultApy, getWalletApy } from '../../../utilities/parsers'
+import { getTokenNames, handleToggle } from '../../../utilities/parsers'
 
-const HolderRow = ({
-  value,
-  cKey,
-  accounts,
-  groupOfVaults,
-  lastItem,
-  selectedItem,
-  darkMode,
-  pools,
-  vaultsData,
-}) => {
+const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedItem, darkMode }) => {
   const [isExpand, setIsExpand] = useState(false)
   const [currencySym, setCurrencySym] = useState('$')
   const [currencyRate, setCurrencyRate] = useState(1)
@@ -43,7 +33,7 @@ const HolderRow = ({
   const networkNames = ['ethereum', 'polygon', 'arbitrum', 'base', 'zksync']
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
 
-  const { borderColor, hoverColor, fontColor1 } = useThemeContext()
+  const { borderColorBox, hoverColor, fontColor1 } = useThemeContext()
   const { rates } = useRate()
 
   useEffect(() => {
@@ -52,10 +42,6 @@ const HolderRow = ({
       setCurrencyRate(rates.rateData[rates.currency.symbol])
     }
   }, [rates])
-
-  const handleExpand = () => {
-    setIsExpand(prev => !prev)
-  }
 
   const matchedTokenNames = getTokenNames(value, groupOfVaults)
 
@@ -88,35 +74,26 @@ const HolderRow = ({
     return -1
   }
 
-  const getBalance = () => {
-    const valueVaults = Object.entries(value.vaults)
-    let harvestBalance = 0
-    for (let i = 0; i < valueVaults.length; i += 1) {
-      harvestBalance += valueVaults[i][1].balance
-    }
-    return harvestBalance
-  }
-
-  const userHarvestBalance = getBalance()
+  const userHarvestBalance = value.totalBalance
 
   useEffect(() => {
-    if (value && value.vaults && groupOfVaults) {
-      const [calculatedApy, calculatedYield] = getWalletApy(value, groupOfVaults, vaultsData, pools)
+    if (value) {
+      const calculatedApy = ((1 + value.totalDailyYield / value.totalBalance) ** 365 - 1) * 100
+      const calculatedYield =
+        ((1 + value.totalDailyYield / value.totalBalance) ** 30 - 1) * value.totalBalance
       setWalletApy(calculatedApy)
       setMonthlyYield(calculatedYield * currencyRate)
     }
-  }, [value, groupOfVaults]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [value]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const allocationValue = (walletApy * userHarvestBalance * currencyRate) / 100
 
   return isMobile ? (
     <DetailView
-      borderColor={borderColor}
+      borderColor={borderColorBox}
       hoverColor={hoverColor}
       key={cKey}
-      onClick={() => {
-        handleExpand()
-      }}
+      onClick={handleToggle(setIsExpand)}
     >
       <FlexDiv>
         <Content display="flex" width="100%">
@@ -238,7 +215,7 @@ const HolderRow = ({
                 width={isMobile ? '100%' : '100%'}
                 display={isMobile ? 'block' : 'flex'}
               >
-                <TopFiveText>Displaying top5 positions</TopFiveText>
+                <TopFiveText>Displaying top 5 positions</TopFiveText>
               </ContentInner>
             </Content>
           </FlexDiv>
@@ -248,7 +225,17 @@ const HolderRow = ({
                 {Object.entries(value.vaults)
                   .slice(0, 5)
                   .map(([vaultKey, vaultValue], index) => {
-                    const itemApy = getVaultApy(vaultKey, groupOfVaults, vaultsData, pools)
+                    const itemApy =
+                      (((vaultValue.dailyYield
+                        ? vaultValue.dailyYield
+                        : 0 + vaultValue.dailyReward
+                        ? vaultValue.dailyReward
+                        : 0) /
+                        vaultValue.balance +
+                        1) **
+                        365 -
+                        1) *
+                      100
                     return (
                       <div
                         key={vaultKey}
@@ -295,7 +282,7 @@ const HolderRow = ({
                             marginTop="0px"
                             marginRight="10px"
                             color="#5FCF76"
-                            value={`${itemApy}% APY`}
+                            value={`${formatNumber(itemApy, 2)}% APY`}
                             justifyContent="end"
                           />
                           <ListItem
@@ -321,13 +308,11 @@ const HolderRow = ({
     </DetailView>
   ) : (
     <DetailView
-      borderColor={borderColor}
+      borderColor={borderColorBox}
       hoverColor={hoverColor}
       key={cKey}
       lastItem={lastItem}
-      onClick={() => {
-        handleExpand()
-      }}
+      onClick={handleToggle(setIsExpand)}
     >
       <FlexDiv>
         <Content width="100%" display="flex">
@@ -480,7 +465,7 @@ const HolderRow = ({
                 display={isMobile ? 'block' : 'flex'}
               >
                 <TopFiveText color={darkMode ? '#ffffff' : '#101828'}>
-                  Displaying top5 positions
+                  Displaying top 5 positions
                 </TopFiveText>
               </ContentInner>
             </Content>
@@ -491,7 +476,17 @@ const HolderRow = ({
                 {Object.entries(value.vaults)
                   .slice(0, 5)
                   .map(([vaultKey, vaultValue], index) => {
-                    const itemApy = getVaultApy(vaultKey, groupOfVaults, vaultsData, pools)
+                    const itemApy =
+                      (((vaultValue.dailyYield
+                        ? vaultValue.dailyYield
+                        : 0 + vaultValue.dailyReward
+                        ? vaultValue.dailyReward
+                        : 0) /
+                        vaultValue.balance +
+                        1) **
+                        365 -
+                        1) *
+                      100
                     return (
                       <div
                         key={vaultKey}
@@ -533,7 +528,7 @@ const HolderRow = ({
                           marginTop="0px"
                           marginRight="10px"
                           color="#5FCF76"
-                          value={`${itemApy}% APY`}
+                          value={`${formatNumber(itemApy, 2)}% APY`}
                         />
                         <ListItem
                           weight={500}

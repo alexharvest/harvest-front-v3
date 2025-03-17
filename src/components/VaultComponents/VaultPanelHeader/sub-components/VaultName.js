@@ -1,8 +1,15 @@
 import React from 'react'
 import { IFARM_TOKEN_SYMBOL } from '../../../../constants'
 import { tokens } from '../../../../data'
-import { TokenDescriptionContainer, TokenNameContainer, BadgeIcon, BadgePlatform } from '../style'
-import { useThemeContext } from '../../../../providers/useThemeContext'
+import {
+  TokenDescriptionContainer,
+  TokenNameContainer,
+  BadgeIcon,
+  BadgePlatform,
+  Autopilot,
+  NewLabel,
+} from '../style'
+import Diamond from '../../../../assets/images/logos/diamond.svg'
 
 const VaultName = ({
   token,
@@ -17,7 +24,6 @@ const VaultName = ({
   DESCI,
   isMobile,
 }) => {
-  const { darkMode } = useThemeContext()
   return (
     <TokenDescriptionContainer>
       <TokenNameContainer fontColor1={fontColor1}>
@@ -27,7 +33,7 @@ const VaultName = ({
       </TokenNameContainer>
       {isMobile ? (
         <BadgePlatform>
-          <BadgeIcon badgeBack={darkMode ? 'transparent' : 'rgba(255, 255, 255, 0.6)'}>
+          <BadgeIcon>
             {BadgeAry[badgeId] ? (
               <img src={BadgeAry[badgeId]} width="10" height="10" alt="" />
             ) : (
@@ -46,13 +52,22 @@ const VaultName = ({
         </BadgePlatform>
       ) : (
         <>
-          {useIFARM
-            ? tokens[IFARM_TOKEN_SYMBOL].subLabel
-              ? `${tokens[IFARM_TOKEN_SYMBOL].platform[0]} - ${tokens[IFARM_TOKEN_SYMBOL].subLabel}`
-              : tokens[IFARM_TOKEN_SYMBOL].platform[0]
-            : token.subLabel
-            ? token.platform[0] && `${token.platform[0]} - ${token.subLabel}`
-            : token.platform[0] && token.platform[0]}
+          {useIFARM ? (
+            tokens[IFARM_TOKEN_SYMBOL].subLabel ? (
+              `${tokens[IFARM_TOKEN_SYMBOL].platform[0]} - ${tokens[IFARM_TOKEN_SYMBOL].subLabel}`
+            ) : (
+              tokens[IFARM_TOKEN_SYMBOL].platform[0]
+            )
+          ) : token.subLabel ? (
+            token.platform[0] && `${token.platform[0]} - ${token.subLabel}`
+          ) : token.platform[0] && token.platform[0] === 'Autopilot' ? (
+            <Autopilot>
+              <img src={Diamond} width="12" height="12" alt="" />
+              <NewLabel>{token.platform[0]}</NewLabel>
+            </Autopilot>
+          ) : (
+            token.platform[0] && token.platform[0]
+          )}
         </>
       )}
     </TokenDescriptionContainer>

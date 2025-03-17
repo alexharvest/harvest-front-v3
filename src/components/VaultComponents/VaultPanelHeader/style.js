@@ -158,25 +158,27 @@ const BadgeIcon = styled.div`
   position: absolute;
   top: 26px;
   left: 24px;
-  border: 2px solid ${props => props.borderColor};
-  border-radius: 8px;
   width: 23px;
   height: 23px;
   display: flex;
   justify-content: center;
   align-items: center;
 
+  img {
+    width: 16px;
+    height: 16px;
+  }
+
   @media screen and (max-width: 992px) {
     position: inherit;
-    border-radius: 2.278px;
-    border: 1.139px solid #29ce84;
-    background: ${props => props.badgeBack};
-    box-shadow: 0px 0px 1.13876px 0px rgba(0, 0, 0, 0.15);
+    border: none;
     width: 13.096px;
     height: 13.096px;
     margin: auto 5px auto 0px;
     img {
       padding: 1.708px 1.706px 1.709px 1.71px;
+      width: 13px;
+      height: 13px;
     }
   }
 `
@@ -362,6 +364,24 @@ const BadgePlatform = styled.div`
   width: fit-content;
 `
 
+const Autopilot = styled.div`
+  display: flex;
+  flex-flow: row;
+  border-radius: 13px;
+  justify-content: space-between;
+  align-items: center;
+  background: #ecfdf3;
+  color: #5dcf46;
+  padding: 3px 10px;
+  gap: 5px;
+`
+
+const NewLabel = styled.div`
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 15px;
+`
+
 export {
   PanelContainer,
   BadgePlatform,
@@ -383,4 +403,6 @@ export {
   DetailModal,
   Value,
   LogoImg,
+  Autopilot,
+  NewLabel,
 }

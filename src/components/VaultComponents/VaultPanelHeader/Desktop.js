@@ -38,7 +38,7 @@ const DesktopPanelHeader = ({
 
   const { push } = useHistory()
 
-  const { fontColor, fontColor1, borderColor, setPrevPage } = useThemeContext()
+  const { fontColor, fontColor1, borderColorBox, setPrevPage } = useThemeContext()
 
   const mouseDownHandler = event => {
     if (event.button === 1) {
@@ -67,7 +67,7 @@ const DesktopPanelHeader = ({
     <>
       <PanelContainer
         fontColor={fontColor}
-        borderColor={borderColor}
+        borderColor={borderColorBox}
         onClick={e => {
           const network = chainList[badgeId].name.toLowerCase()
           const address = isSpecialVault

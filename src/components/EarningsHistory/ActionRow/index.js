@@ -7,7 +7,12 @@ import { useRate } from '../../../providers/Rate'
 import { useThemeContext } from '../../../providers/useThemeContext'
 import TrendUp from '../../../assets/images/logos/advancedfarm/trend-up.svg'
 import TrendDown from '../../../assets/images/logos/advancedfarm/trend-down.svg'
-import { formatDateTime, formatDateTimeMobile, formatNumber } from '../../../utilities/formats'
+import {
+  formatDateTime,
+  formatDateTimeMobile,
+  formatNumber,
+  showUsdValueCurrency,
+} from '../../../utilities/formats'
 import { Content, DetailView, FlexDiv, IconWrapper, Badge, NetImg, NewLabel } from './style'
 
 const ActionRow = ({ info, showTotalBalance }) => {
@@ -18,8 +23,8 @@ const ActionRow = ({ info, showTotalBalance }) => {
   const {
     darkMode,
     switchMode,
-    backColor,
-    borderColorTable,
+    bgColorNew,
+    borderColorBox,
     hoverColorRow,
     fontColor,
   } = useThemeContext()
@@ -34,10 +39,10 @@ const ActionRow = ({ info, showTotalBalance }) => {
   return (
     <DetailView
       className="yield-row"
-      borderColor={borderColorTable}
+      borderColor={borderColorBox}
       hoverColor={hoverColorRow}
       mode={switchMode}
-      background={backColor}
+      background={bgColorNew}
     >
       <FlexDiv padding={isMobile ? '10px 15px' : '0'}>
         <Content display="flex" width={isMobile ? '25%' : '20%'}>
@@ -133,15 +138,8 @@ const ActionRow = ({ info, showTotalBalance }) => {
                   weight={500}
                   size={12}
                   height={18}
-                  color="#5FCF76"
-                  value={`${
-                    info.netChangeUsd < 0.01
-                      ? `<${currencySym}0.01`
-                      : `≈${currencySym}${formatNumber(
-                          info.netChangeUsd * Number(currencyRate),
-                          2,
-                        )}`
-                  }`}
+                  color={info.netChangeUsd < 0 ? '#B42318' : '#5FCF76'}
+                  value={showUsdValueCurrency(info.netChangeUsd, currencySym, currencyRate)}
                 />
                 <ListItem
                   weight={500}
@@ -201,13 +199,9 @@ const ActionRow = ({ info, showTotalBalance }) => {
                 weight={500}
                 size={12}
                 height={20}
-                color="#5FCF76"
+                color={info.netChangeUsd < 0 ? '#B42318' : '#5FCF76'}
                 justifyContent="end"
-                value={`${
-                  info.netChangeUsd < 0.01
-                    ? `<${currencySym}0.01`
-                    : `${currencySym}${formatNumber(info.netChangeUsd * Number(currencyRate), 2)}`
-                }`}
+                value={showUsdValueCurrency(info.netChangeUsd, currencySym, currencyRate)}
               />
               <ListItem
                 weight={500}

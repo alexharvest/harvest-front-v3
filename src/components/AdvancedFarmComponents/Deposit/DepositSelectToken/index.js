@@ -74,7 +74,7 @@ const DepositSelectToken = ({
             </NewLabel>
             <NewLabel align="left" marginRight="12px">
               <NewLabel
-                color="#15B088"
+                color="#5dcf46"
                 size={isMobile ? '18px' : '18px'}
                 height={isMobile ? '28px' : '28px'}
                 weight="600"

@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
+import { BigNumber } from 'bignumber.js'
 import ReactTooltip from 'react-tooltip'
 import { useMediaQuery } from 'react-responsive'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
@@ -8,7 +9,14 @@ import { useThemeContext } from '../../../providers/useThemeContext'
 import { useWallet } from '../../../providers/Wallet'
 import { useRate } from '../../../providers/Rate'
 import { formatDate, numberWithCommas, showTokenBalance } from '../../../utilities/formats'
-import { getPriceFeeds, getSequenceId, getUserBalanceHistories } from '../../../utilities/apiCalls'
+import {
+  getPriceFeeds,
+  getSequenceId,
+  getUserBalanceHistories,
+  getIPORUserBalanceHistories,
+  getIPORVaultHistories,
+} from '../../../utilities/apiCalls'
+import { handleToggle } from '../../../utilities/parsers'
 import {
   ButtonGroup,
   ChartDiv,
@@ -39,12 +47,11 @@ const UserBalanceData = ({
   useIFARM,
   farmPrice,
   underlyingPrice,
-  pricePerFullShare,
   lpTokenBalance,
   chartData,
 }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
-  const { darkMode, backColor, borderColor, fontColor3 } = useThemeContext()
+  const { darkMode, bgColorNew, borderColorBox, fontColor3 } = useThemeContext()
   const { account } = useWallet()
 
   const { rates } = useRate()
@@ -75,16 +82,12 @@ const UserBalanceData = ({
   const totalValueRef = useRef(totalValue)
   const farmPriceRef = useRef(farmPrice)
   const usdPriceRef = useRef(underlyingPrice)
-  const pricePerFullShareRef = useRef(pricePerFullShare)
-
-  const toggleExpand = () => setIsExpanded(prev => !prev)
 
   useEffect(() => {
     totalValueRef.current = totalValue
     farmPriceRef.current = farmPrice
     usdPriceRef.current = underlyingPrice
-    pricePerFullShareRef.current = pricePerFullShare
-  }, [totalValue, underlyingPrice, farmPrice, pricePerFullShare])
+  }, [totalValue, underlyingPrice, farmPrice])
 
   const handleTooltipContent = payload => {
     if (payload && payload.length) {
@@ -127,19 +130,29 @@ const UserBalanceData = ({
   useEffect(() => {
     let isMounted = true
     const initData = async () => {
-      if (account && address && chainId && pricePerFullShare) {
+      if (account && address && chainId && usdPriceRef.current > 0) {
         try {
           const uniqueData2 = []
           const timestamps = []
           const mergedData = []
           let priceFeedData, priceFeedFlag
 
-          const { balanceData, balanceFlag } = await getUserBalanceHistories(
-            address,
-            chainId,
-            account,
-          )
-          if (balanceFlag) {
+          const data = token.isIPORVault
+            ? await getIPORUserBalanceHistories(address.toLowerCase(), token.chain, account)
+            : await getUserBalanceHistories(address, chainId, account)
+
+          const balanceData = token.isIPORVault ? data.balanceIPORData : data.balanceData
+          const balanceFlag = token.isIPORVault ? data.balanceIPORFlag : data.balanceFlag
+          if (token.isIPORVault) {
+            balanceData.map(obj => {
+              obj.value = new BigNumber(obj.value)
+                .div(new BigNumber(10 ** token.vaultDecimals))
+                .toFixed()
+              return obj
+            })
+          }
+
+          if (balanceFlag && !token.isIPORVault) {
             const firstTimeStamp = balanceData[balanceData.length - 1].timestamp
             const { vaultPriceFeedCount } = await getSequenceId(address, chainId)
             const result = await getPriceFeeds(
@@ -152,14 +165,32 @@ const UserBalanceData = ({
             )
             priceFeedData = result.priceFeedData
             priceFeedFlag = result.priceFeedFlag
+          } else if (balanceFlag && token.isIPORVault) {
+            const result = await getIPORVaultHistories(token.chain, address.toLowerCase())
+            priceFeedFlag = result.vaultHIPORFlag
+            priceFeedData = result.vaultHIPORData
           }
 
-          if (priceFeedFlag) {
+          if (priceFeedFlag && !token.isIPORVault) {
             priceFeedData.forEach(obj => {
               if (!timestamps.includes(obj.timestamp)) {
                 timestamps.push(obj.timestamp)
                 const modifiedObj = { ...obj, priceUnderlying: obj.price }
                 delete modifiedObj.price
+                uniqueData2.push(modifiedObj)
+              }
+            })
+          } else if (priceFeedFlag && token.isIPORVault) {
+            priceFeedData.forEach(obj => {
+              if (!timestamps.includes(obj.timestamp)) {
+                timestamps.push(obj.timestamp)
+                const modifiedObj = {
+                  timestamp: obj.timestamp,
+                  sharePrice: new BigNumber(obj.sharePrice)
+                    .div(new BigNumber(10 ** Number(token.decimals)))
+                    .toFixed(),
+                  priceUnderlying: Number(obj.priceUnderlying),
+                }
                 uniqueData2.push(modifiedObj)
               }
             })
@@ -381,13 +412,12 @@ const UserBalanceData = ({
     underlyingPrice,
     useIFARM,
     farmPrice,
-    pricePerFullShare,
     chartData,
-    token.inactive,
+    token,
   ])
 
   return (
-    <Container backColor={backColor} borderColor={borderColor}>
+    <Container backColor={bgColorNew} borderColor={borderColorBox}>
       <Header>
         <Total>
           <FlexDiv>
@@ -442,6 +472,7 @@ const UserBalanceData = ({
       </Header>
       <ChartDiv className="advanced-price">
         <ApexChart
+          token={token}
           data={apiData}
           data1={apiData1}
           loadComplete={loadComplete}
@@ -457,14 +488,13 @@ const UserBalanceData = ({
           totalValue={totalValue}
           setSelectedState={setSelectedState}
           isExpanded={isExpanded}
-          toggleExpand={toggleExpand}
           isInactive={token.inactive}
         />
       </ChartDiv>
       <ButtonGroup>
         <ToggleButton
           type="button"
-          onClick={toggleExpand}
+          onClick={handleToggle(setIsExpanded)}
           className="collapse-button"
           backColor={darkMode ? '#3b3c3e' : '#e9f0f7'}
           color={darkMode ? 'white' : 'black'}

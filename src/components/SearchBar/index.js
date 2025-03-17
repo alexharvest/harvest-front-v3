@@ -10,17 +10,13 @@ const VaultSearchBar = ({
   inputText,
   setInputText,
 }) => {
-  const { fontColor, backColor, darkMode } = useThemeContext()
+  const { btnHoverColor, fontColor, bgColorNew, borderColorBox } = useThemeContext()
 
   const onChange = e => {
     setInputText(e.target.value)
   }
   return (
-    <Container
-      fontColor={fontColor}
-      borderColor={darkMode ? '#1F242F' : '#d1dbfb'}
-      backColor={backColor}
-    >
+    <Container fontColor={fontColor} borderColor={borderColorBox} backColor={bgColorNew}>
       <input
         id="search-input"
         value={inputText}
@@ -28,7 +24,7 @@ const VaultSearchBar = ({
         onKeyDown={onKeyDown}
         placeholder={placeholder}
       />
-      <SearchBtn type="button" onClick={() => onSearch(inputText)}>
+      <SearchBtn hoverColor={btnHoverColor} type="button" onClick={() => onSearch(inputText)}>
         <img src={SearchIcon} height={20} alt="" />
       </SearchBtn>
     </Container>

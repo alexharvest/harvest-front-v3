@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import '@fontsource/manrope'
 
 const FAQContainer = styled.div`
-  margin-left: 280px;
+  margin-left: 260px;
   width: 100%;
   position: relative;
 

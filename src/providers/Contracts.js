@@ -3,6 +3,7 @@ import promiseObject from 'promise-all-object'
 import importedContracts from '../services/web3/contracts'
 import {
   newContractInstance,
+  newIPORContractInstance,
   maticWeb3,
   arbitrumWeb3,
   baseWeb3,
@@ -40,20 +41,38 @@ const ContractsProvider = _ref => {
   useEffect(() => {
     const initializeContracts = async () => {
       const temporaryGroupOfContracts = {}
+      const iporContracts = {}
       Object.keys(importedContracts).forEach(contract => {
-        Object.assign(temporaryGroupOfContracts, {
-          [contract]: {
-            instance: newContractInstance(
-              contract,
-              null,
-              null,
-              getWeb3(importedContracts[contract].chain),
-            ),
-            methods: importedContracts[contract].methods,
-            address: importedContracts[contract].contract.address,
-          },
-        })
+        if (contract !== 'iporVaults') {
+          Object.assign(temporaryGroupOfContracts, {
+            [contract]: {
+              instance: newContractInstance(
+                contract,
+                null,
+                null,
+                getWeb3(importedContracts[contract].chain),
+              ),
+              methods: importedContracts[contract].methods,
+              address: importedContracts[contract].contract.address,
+            },
+          })
+        } else {
+          Object.keys(importedContracts.iporVaults).forEach(iporContract => {
+            Object.assign(iporContracts, {
+              [iporContract]: {
+                instance: newIPORContractInstance(
+                  importedContracts.iporVaults[iporContract].contract.address,
+                  importedContracts.iporVaults[iporContract].contract.abi,
+                  getWeb3(importedContracts.iporVaults[iporContract].chain),
+                ),
+                methods: importedContracts.iporVaults[iporContract].methods,
+                address: importedContracts.iporVaults[iporContract].contract.address,
+              },
+            })
+          })
+        }
       })
+      temporaryGroupOfContracts.iporVaults = iporContracts
       const initializedContracts = await promiseObject(temporaryGroupOfContracts)
       setContracts(initializedContracts)
     }

@@ -12,7 +12,6 @@ import SortCurrency from '../../../assets/images/logos/farm/sortCurrency.svg'
 import sortAscIcon from '../../../assets/images/ui/asc.svg'
 import sortDescIcon from '../../../assets/images/ui/desc.svg'
 import sortIcon from '../../../assets/images/ui/sort.svg'
-// import MobileSortCheckedIcon from '../../../assets/images/logos/filter/mobile-sort-checked.svg'
 import {
   FARM_TOKEN_SYMBOL,
   IFARM_TOKEN_SYMBOL,
@@ -40,9 +39,7 @@ import {
   FlexDiv,
   Header,
   HeaderCol,
-  // MobileListFilter,
   VaultsListBody,
-  // MobileFilterBtn,
   DisplayCount,
 } from './style'
 
@@ -339,6 +336,11 @@ const formatVaults = (
       if (assetLength === 2 && selectAsset === 'LP Token') {
         return true
       }
+
+      if (assetLength === 1 && selectAsset === 'Autopilot') {
+        return get(groupOfVaults[tokenSymbol], 'isIPORVault')
+      }
+
       return false
     })
   }
@@ -357,37 +359,23 @@ const formatVaults = (
   if (selectFarmType !== '') {
     if (selectFarmType === 'New') {
       vaultsSymbol = orderBy(vaultsSymbol, v => get(groupOfVaults, `${v}.publishDate`), 'desc')
-      // console.log('New Filter: ', groupOfVaults)
     } else if (selectFarmType === 'PopularNow') {
-      // vaultsSymbol = orderBy(
-      //   orderBy(vaultsSymbol, v => get(groupOfVaults, `${v}.publishDate`), 'desc').slice(0, 10),
-      //   v => Number(getVaultValue(groupOfVaults[v])),
-      //   'desc',
-      // )
-      // console.log('Popular Now Filter: ', groupOfVaults)
-
       vaultsSymbol = orderBy(
         vaultsSymbol,
         [v => Number(getVaultValue(groupOfVaults[v])), v => get(groupOfVaults, `${v}.publishDate`)],
         ['desc', 'desc'],
       ).slice(0, 10)
     }
-    // vaultsSymbol = vaultsSymbol.filter(
-    //   tokenSymbol =>
-    //     get(groupOfVaults[tokenSymbol], 'tags') &&
-    //     groupOfVaults[tokenSymbol].tags
-    //       .join(', ')
-    //       .toLowerCase()
-    //       .includes(selectFarmType.toLowerCase().trim()),
-    // )
   }
   vaultsSymbol = [...new Set(vaultsSymbol)]
 
   return { vaultsSymbol, totalVaultsCount }
 }
 
-const SortingIcon = ({ sortType, sortField, selectedField }) => {
+const SortingIcon = ({ sortType, sortField, selectedField, riskId }) => {
   switch (true) {
+    case riskId !== -1:
+      return <img className="sort-icon" src={sortIcon} alt="Sort" />
     case sortType === 'asc' && selectedField === sortField:
       return <img className="sort-icon" src={sortAscIcon} alt="Sort ASC" />
     case sortType === 'desc' && selectedField === sortField:
@@ -398,20 +386,7 @@ const SortingIcon = ({ sortType, sortField, selectedField }) => {
 }
 
 const VaultList = () => {
-  const {
-    fontColor,
-    // fontColor1,
-    // fontColor4,
-    filterColor,
-    // bgColor,
-    backColor,
-    borderColor,
-    // hoverColor,
-    // mobileFilterBackColor,
-    darkMode,
-    // inputFontColor,
-    // inputBorderColor,
-  } = useThemeContext()
+  const { fontColor, filterColor, bgColorNew, borderColorBox, darkMode } = useThemeContext()
 
   const {
     vaultsData,
@@ -441,6 +416,7 @@ const VaultList = () => {
   const [selectStableCoin, onSelectStableCoin] = useState('')
   const [selectFarmType, onSelectFarmType] = useState('')
   const [selectedActiveType, selectActiveType] = useState([])
+  const [riskId, setRiskId] = useState(-1) // for risk id
 
   const [loadComplete, setLoadComplete] = useState(false)
 
@@ -732,6 +708,9 @@ const VaultList = () => {
           sortId={sortId}
           setSortId={setSortId}
           updateSortQuery={updateSortQuery}
+          riskId={riskId}
+          setRiskId={setRiskId}
+          setSortOrder={setSortOrder}
         />
       )}
       <DisplayCount color={fontColor} mobileColor={darkMode ? '#fff' : '#000'}>
@@ -743,56 +722,8 @@ const VaultList = () => {
           : 'inactive'}{' '}
         farms {showNetworks}
       </DisplayCount>
-      <VaultsListBody borderColor={borderColor} backColor={backColor}>
-        {/* <MobileListFilter
-          mobileBackColor={mobileFilterBackColor}
-          backColor={backColor}
-          bgColor={bgColor}
-          borderColor={borderColor}
-          fontColor={fontColor}
-          fontColor1={fontColor1}
-          fontColor4={fontColor4}
-          filterColor={filterColor}
-          hoverColor={hoverColor}
-        >
-          <Dropdown className="filter-sort">
-            <Dropdown.Toggle className="toggle">
-              <div>
-                Sort By: <img src={SortsList[sortId].img} className="sort-icon" alt="sort" />
-                <span>{sortId === -1 ? '' : SortsList[sortId].name}</span>
-              </div>
-              <MobileFilterBtn
-                inputBorderColor={inputBorderColor}
-                type="button"
-                darkmode={darkMode ? 'true' : 'false'}
-              >
-                <IoIosArrowDown color={inputFontColor} fontSize={20} />
-              </MobileFilterBtn>
-            </Dropdown.Toggle>
-
-            <Dropdown.Menu className="menu">
-              {SortsList.map((item, i) => (
-                <Dropdown.Item
-                  className={`item ${
-                    sortId !== -1 && item.type === SortsList[sortId].type ? 'active-item' : ''
-                  }`}
-                  key={i}
-                  onClick={() => {
-                    setSortId(item.id)
-                    updateSortQuery(item.type)
-                  }}
-                >
-                  <div>
-                    <img src={item.img} className="sort-icon" alt="sort" />
-                    {item.name}
-                  </div>
-                  <img className="checked" src={MobileSortCheckedIcon} alt="" />
-                </Dropdown.Item>
-              ))}
-            </Dropdown.Menu>
-          </Dropdown>
-        </MobileListFilter> */}
-        <Header borderColor={borderColor} fontColor={fontColor} filterColor={filterColor}>
+      <VaultsListBody borderColor={borderColorBox} backColor={bgColorNew}>
+        <Header borderColor={borderColorBox} fontColor={fontColor} filterColor={filterColor}>
           <HeaderCol width="45%" justifyContent="start">
             Farm
           </HeaderCol>
@@ -800,7 +731,11 @@ const VaultList = () => {
             width="15%"
             justifyContent="start"
             textAlign="left"
-            onClick={() => setSortingParams('apy')}
+            onClick={() => {
+              setSortingParams('apy')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
           >
             <div className="hoverable">Live APY</div>
             <SortingIcon
@@ -808,13 +743,18 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="apy"
+              riskId={riskId}
             />
           </HeaderCol>
           <HeaderCol
             width="15%"
             justifyContent="start"
             textAlign="left"
-            onClick={() => setSortingParams('apy')}
+            onClick={() => {
+              setSortingParams('apy')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
           >
             <div className="hoverable">Daily APY</div>
             <SortingIcon
@@ -822,13 +762,18 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="apy"
+              riskId={riskId}
             />
           </HeaderCol>
           <HeaderCol
             width="15%"
             justifyContent="start"
             textAlign="left"
-            onClick={() => setSortingParams('deposits')}
+            onClick={() => {
+              setSortingParams('deposits')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
           >
             <div className="hoverable">TVL</div>
             <SortingIcon
@@ -836,10 +781,15 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="deposits"
+              riskId={riskId}
             />
           </HeaderCol>
           <HeaderCol
-            onClick={() => setSortingParams('balance')}
+            onClick={() => {
+              setSortingParams('balance')
+              onSelectFarmType('')
+              setRiskId(-1)
+            }}
             justifyContent="start"
             width="10%"
             textAlign="left"
@@ -850,6 +800,7 @@ const VaultList = () => {
               sortType={sortOrder}
               sortField={sortParam}
               selectedField="balance"
+              riskId={riskId}
             />
           </HeaderCol>
         </Header>

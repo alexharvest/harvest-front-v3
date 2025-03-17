@@ -2,13 +2,13 @@ import styled from 'styled-components'
 import { Dropdown, Offcanvas } from 'react-bootstrap'
 
 const Container = styled.div`
-  border-right: 1px solid #eaecf0;
+  border-right: 1px solid ${props => props.bordercolor};
 
   a.logo {
     color: ${props => props.fontColor};
   }
   transition: 0.25s;
-  background: ${props => props.backColor};
+  background: ${props => props.backcolor};
   color: ${props => props.fontColor};
 
   min-height: 652px;
@@ -17,7 +17,7 @@ const Container = styled.div`
   max-width: 100%;
   position: fixed;
   z-index: 10;
-  padding: 25px 25px;
+  padding: 24px;
 
   @media screen and (max-width: 992px) {
     display: flex;
@@ -29,7 +29,7 @@ const Container = styled.div`
     border: none;
     bottom: 0;
     height: fit-content;
-    border-top: 1px solid ${props => props.borderColor};
+    border-top: 1px solid ${props => props.bordercolor};
     padding: 0px 25px;
   }
 `
@@ -85,85 +85,21 @@ const LinksContainer = styled.div`
   }
 `
 
+const CategoryRow = styled.div`
+  color: ${props => props.color};
+  font-size: 13.176px;
+  font-weight: 300;
+  line-height: 26.352px;
+  padding-left: 13.18px;
+  margin-top: 25px;
+`
+
 const LinkContainer = styled.div`
   position: relative;
-  margin-bottom: 10px;
   cursor: pointer;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 
   @media screen and (min-width: 992px) {
     display: flex;
-  }
-
-  .leaderboard-dark-btn {
-    color: rgb(255, 255, 255);
-    --border-angle: 0turn;
-    --main-bg: conic-gradient(from var(--border-angle), #213, #112 5%, #112 60%, #213 95%);
-
-    border: solid 2px transparent;
-    --gradient-border: conic-gradient(
-      from var(--border-angle),
-      transparent 25%,
-      #08f,
-      #f03 99%,
-      transparent
-    );
-
-    background: var(--main-bg) padding-box, var(--gradient-border) border-box,
-      var(--main-bg) border-box !important;
-
-    background-position: center center;
-
-    animation: bg-spin 3s linear infinite;
-    @keyframes bg-spin {
-      to {
-        --border-angle: 1turn;
-      }
-    }
-
-    &:hover {
-      animation-play-state: paused;
-    }
-  }
-
-  .leaderboard-white-icon {
-    color: rgb(16, 24, 40);
-    --border-angle: 0turn;
-    --main-bg: conic-gradient(from var(--border-angle), #fff, #fff 5%, #fff 60%, #fff 95%);
-
-    border: solid 2px transparent;
-    --gradient-border: conic-gradient(
-      from var(--border-angle),
-      transparent 25%,
-      #08f,
-      #f03 99%,
-      transparent
-    );
-
-    background: var(--main-bg) padding-box, var(--gradient-border) border-box,
-      var(--main-bg) border-box !important;
-
-    background-position: center center;
-
-    animation: bg-spin 3s linear infinite;
-    @keyframes bg-spin {
-      to {
-        --border-angle: 1turn;
-      }
-    }
-
-    &:hover {
-      animation-play-state: paused;
-    }
-  }
-
-  @property --border-angle {
-    syntax: '<angle>';
-    inherits: true;
-    initial-value: 0turn;
   }
 `
 
@@ -212,10 +148,9 @@ const Link = styled.button`
   ${props =>
     props.active
       ? `
-      background: #6988FF !important;
-      color: #fff;
+      color: #5dcf46;
       img.sideIcon {
-        filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%);
+        filter: invert(75%) sepia(25%) saturate(1160%) hue-rotate(59deg) brightness(91%) contrast(89%);
       }
     `
       : ``}
@@ -224,6 +159,18 @@ const Link = styled.button`
     margin-left: 5px;
     margin-bottom: 14px;
     margin-top: 0;
+  }
+
+  @media screen and (max-width: 1536px) {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+    padding: 6px 12px;
+
+    .sideIcon {
+      width: 22px;
+      height: 22px;
+    }
   }
 
   @media screen and (max-width: 992px) {
@@ -277,6 +224,7 @@ const FlexDiv = styled.div`
   }
 
   .detail-info {
+    display: flex;
     margin: auto;
   }
 
@@ -290,20 +238,18 @@ const FlexDiv = styled.div`
 `
 
 const ConnectButtonStyle = styled.button`
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 600;
+  font-size: 15px;
+  line-height: 30px;
+  font-weight: 700;
   margin: 25px 0px;
   width: 100%;
-  border-radius: 8px;
-  border: 2px solid #6988ff;
-  background: none;
-  color: #6888ff;
-  border-radius: 9px;
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border: none;
+  background: #5dcf46;
+  color: #fff;
+  border-radius: 11px;
   cursor: pointer;
   transition: 0.5s;
-  padding: 15px 0px;
+  padding: 7.32px 10.98px;
 
   &:hover {
     background: ${props => props.hoverColor};
@@ -313,28 +259,10 @@ const ConnectButtonStyle = styled.button`
     font-size: 15px;
     font-weight: 400;
     border-radius: 9px;
-    background: #20d099;
-    color: #ffffff;
+    color: #fff;
     padding: 9.19px 16.08px 9.19px 16.08px;
-    border: none;
-    margin: auto 0px auto 10px;
+    margin: auto 0px;
   }
-
-  ${props =>
-    props.connected
-      ? `
-      // padding: 7px 45px 7px 11px;
-      // filter: drop-shadow(0px 4px 52px rgba(0, 0, 0, 0.25));
-
-      // &:hover {
-      //   background: #E6F8EB;
-      // }
-    `
-      : `
-      // padding: 15px 0px 15px 0px;
-    `}// img.connect-wallet {
-  //   margin-right: 25px;
-  // }
 `
 
 const AboutHarvest = styled.div`
@@ -378,7 +306,7 @@ const MobileView = styled.div`
 
   &.connect-modal {
     padding: 10px 25px;
-    border-top: 1px solid ${props => props.borderColor};
+    border-top: 1px solid ${props => props.bordercolor};
   }
 
   button {
@@ -387,82 +315,15 @@ const MobileView = styled.div`
   }
 `
 
-const MobileConnectBtn = styled.div`
-  display: ${props => (props.display ? props.display : '')};
-  justify-content: ${props => (props.justifyContent ? props.justifyContent : '')};
-  align-items: ${props => (props.alignItems ? props.alignItems : '')};
-`
-
 const MobileActionsContainer = styled.div`
   bottom: 0;
   position: absolute;
   width: 100%;
   border-radius: 15px 15px 0px 0px;
   background: ${props => props.bgColor};
-  box-shadow: 0px -4px 4px 0px ${props => props.borderColor};
+  box-shadow: 0px -4px 4px 0px ${props => props.bordercolor};
   &.full-menu-container {
     padding: 19px 19px 0px;
-  }
-`
-
-const MobileWalletTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 19px 19px 0px;
-`
-
-const MobileWalletTopNet = styled.div`
-  display: flex;
-  margin: auto 0px;
-
-  img.chainIcon {
-    padding: 3px 5px;
-    border-radius: 2px;
-    background: #fff;
-  }
-
-  img.chainStatus {
-    margin: auto 5px;
-  }
-`
-
-const MobileWalletBody = styled.div`
-  display: flex;
-  flex-flow: column;
-  padding: 25px 25px 0px;
-  &.connect-body {
-    padding: 80px 25px;
-  }
-`
-
-const MobileWalletBtn = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  padding: 25px 0px;
-`
-
-const MobileAmount = styled.div`
-  display: none;
-  /* display: flex; */
-  color: ${props => props.fontColor2};
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 28px;
-`
-
-const MobileAmountDiv = styled.div`
-  display: inline-block;
-  width: 50%;
-  text-align: center;
-  &.middle-letter {
-    width: 10%;
-    margin-top: -1px;
-  }
-  &.eth-letter {
-    text-align: end;
-  }
-  &.usdc-letter {
-    text-align: start;
   }
 `
 
@@ -476,12 +337,16 @@ const MobileWalletButton = styled.div`
   align-items: center;
   margin-left: ${props => (props.marginLeft ? props.marginLeft : '')};
   // padding: 10px 18px;
-  background: ${props => props.backColor};
+  background: ${props => props.backcolor};
   // border-radius: 5px;
-  // border: 1px solid ${props => props.borderColor};
+  // border: 1px solid ${props => props.bordercolor};
   cursor: pointer;
-  width: 45%;
+  width: 10%;
   text-align: center;
+
+  img.disconnect {
+    filter: ${props => props.filterColor};
+  }
 
   &.connect-button {
     padding: 10px 40px;
@@ -491,7 +356,6 @@ const MobileWalletButton = styled.div`
 const MobileLinkContainer = styled.div`
   display: flex;
   position: relative;
-  padding-bottom: 12px;
   margin: auto;
   width: 95%;
 
@@ -538,24 +402,20 @@ const MobileFollow = styled.div`
 
   @media screen and (max-width: 992px) {
     width: 95%;
-    margin: 0px auto 35px auto;
+    margin: 20px auto 35px auto;
   }
 `
 
 const ConnectAvatar = styled.div`
   display: flex;
   align-items: center;
-  margin-right: ${props => (props.avatar ? '13px' : '-13px')};
+  margin-right: ${props => (props.avatar ? '10px' : '-10px')};
   font-size: 15px;
   font-weight: 600;
   line-height: 24px;
   transition: 0.25s;
   letter-spacing: -0.15px;
   color: ${props => props.color};
-
-  img {
-    margin-right: 5px;
-  }
 
   @media screen and (max-width: 992px) {
     justify-content: center;
@@ -566,10 +426,11 @@ const ConnectAvatar = styled.div`
 const Address = styled.span`
   display: flex;
   color: ${props => (props.color ? props.color : '')};
-  font-size: 12px;
   font-weight: 500;
-  line-height: 12px;
   letter-spacing: -0.12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 26px;
 
   @media screen and (max-width: 992px) {
     text-align: center;
@@ -604,8 +465,8 @@ const ThemeMode = styled.div`
     }
 
     .switch-track {
-      background: ${props => props.backColor};
-      border: 1px solid ${props => props.borderColor};
+      background: ${props => props.backcolor};
+      border: 1px solid ${props => props.bordercolor};
       width: 105px;
       height: 40px;
       border-radius: 30px;
@@ -674,13 +535,14 @@ const SideIcons = styled.img`
   transition: 0.25s;
   width: ${props => props.width};
   height: ${props => props.height};
+  filter: ${props => props.filterColor};
   margin-top: ${props => (props.marginTop ? props.marginTop : '')};
 `
 
 const UserDropDown = styled(Dropdown.Toggle)`
-  background: none !important;
+  border-radius: 11px;
+  background: ${props => props.backcolor} !important;
   border: none !important;
-  border-radius: 10px !important;
   color: ${props => props.fontcolor2} !important;
   align-items: center;
   padding: 8px 18px 8px 5px !important;
@@ -696,15 +558,10 @@ const UserDropDown = styled(Dropdown.Toggle)`
     display: none !important;
   }
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     background: ${props => props.hovercolor} !important;
-    color: black;
-    font-weight: 500;
-  }
-
-  &:active {
-    background: green;
-    color: black;
   }
 
   .chain-name {
@@ -715,8 +572,9 @@ const UserDropDown = styled(Dropdown.Toggle)`
   }
 
   img.chain-icon {
-    width: 11px;
-    height: 11px;
+    width: 16.47px;
+    height: 16.47px;
+    margin: auto 8.78px auto 0px;
   }
 
   @media screen and (max-width: 992px) {
@@ -763,11 +621,10 @@ const UserDropDownItem = styled(Dropdown.Item)`
     background: none !important;
 
     img {
-      filter: invert(63%) sepia(58%) saturate(3702%) hue-rotate(0deg) brightness(107%)
-        contrast(105%);
+      filter: ${props => props.filtercolornew};
     }
     div {
-      color: #ff9400;
+      color: #5dcf46;
     }
   }
 
@@ -778,7 +635,7 @@ const UserDropDownItem = styled(Dropdown.Item)`
 
   div {
     align-self: center;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 14px;
     line-height: 18px;
   }
@@ -790,17 +647,6 @@ const UserDropDownItem = styled(Dropdown.Item)`
 
   img.change-icon {
     transform: scale(1.5);
-  }
-`
-
-const MobileToggle = styled.img`
-  filter: ${props => props.toggleColor};
-  &.wallet-btn {
-    margin-top: -3px;
-  }
-
-  &.connected-wallet-btn {
-    filter: invert(39%) sepia(83%) saturate(1585%) hue-rotate(137deg) brightness(103%) contrast(84%);
   }
 `
 
@@ -847,7 +693,6 @@ const Logo = styled.div`
     display: flex;
     justify-content: space-between;
     margin-bottom: 24px;
-    padding-left: 12px;
   }
 `
 
@@ -863,12 +708,12 @@ const Desktop = styled.div`
 `
 
 const NewTag = styled.div`
-  border-radius: 16px;
-  background: #00d26b;
-  padding: 2px 8px;
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 8.637px;
   font-weight: 500;
+  line-height: 12.955px;
+  border-radius: 16px;
+  background: #5dcf46;
+  padding: 2px 8px;
   color: white !important;
   margin-left: 10px;
 `
@@ -895,6 +740,10 @@ const LinkMobile = styled.button`
   padding-right: 0;
   flex-direction: column;
   display: ${props => (props.isDropdownLink ? 'none' : 'flex')};
+
+  &.more {
+    margin-top: -1px;
+  }
 
   img {
     filter: ${props => (props.farmsFilter ? props.farmsFilter : '')};
@@ -925,40 +774,19 @@ const MobileMenuContainer = styled.div`
   }
 `
 
-const ConnectSection = styled.div`
-  cursor: pointer;
-  display: ${props => (props.display ? props.display : 'flex')};
-`
-
-const MoreBtn = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #484c52;
-  font-size: 10.229px;
-  font-style: normal;
-  font-weight: 400;
-  padding: 0px;
-  align-items: center;
-`
-
-const CurrencyDiv = styled.div`
-  left: 12px;
-  display: flex;
-  justify-content: space-between;
-  width: 90%;
-  align-items: center;
-  margin-top: 15px;
-
-  @media screen and (max-width: 992px) {
-    width: 95%;
-    margin: 0px auto 35px auto;
-  }
-`
-
 const MobileMoreTop = styled.div`
+  width: 100%;
   display: flex;
   align-items: center;
+`
+
+const MobileMoreHeader = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 7px 11px;
+  width: 70%;
+  border-radius: 10.98px;
+  background: ${props => props.backcolor};
 `
 
 export {
@@ -973,15 +801,7 @@ export {
   ConnectButtonStyle,
   AboutHarvest,
   MobileView,
-  MobileConnectBtn,
-  MobileToggle,
   OffcanvasDiv,
-  MobileWalletTop,
-  MobileWalletTopNet,
-  MobileWalletBody,
-  MobileWalletBtn,
-  MobileAmount,
-  MobileAmountDiv,
   MobileWalletButton,
   MobileActionsContainer,
   MobileLinkContainer,
@@ -1001,9 +821,8 @@ export {
   LinkMobile,
   MobileMenuContainer,
   Mobile,
-  ConnectSection,
-  MoreBtn,
-  CurrencyDiv,
   LinkName,
   MobileMoreTop,
+  CategoryRow,
+  MobileMoreHeader,
 }

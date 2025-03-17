@@ -48,7 +48,8 @@ const UnstakeBase = ({
   setAmountsToExecute,
 }) => {
   const {
-    bgColor,
+    darkMode,
+    bgColorNew,
     fontColor,
     fontColor1,
     fontColor2,
@@ -57,6 +58,11 @@ const UnstakeBase = ({
     fontColor5,
     activeColor,
     bgColorMessage,
+    borderColorBox,
+    activeColorNew,
+    btnColor,
+    btnHoverColor,
+    btnActiveColor,
   } = useThemeContext()
   const { connected, connectAction, account, chainId, setChainId } = useWallet()
 
@@ -153,6 +159,7 @@ const UnstakeBase = ({
   return (
     <BaseSection show={!finalStep}>
       <NewLabel
+        bg={darkMode ? '#373D51' : '#fff'}
         size={isMobile ? '16px' : '16px'}
         height={isMobile ? '28px' : '28px'}
         weight="600"
@@ -161,7 +168,7 @@ const UnstakeBase = ({
         justifyContent="center"
         padding={isMobile ? '4px 0px' : '4px 0px'}
         marginBottom="13px"
-        border="1px solid #F8F8F8"
+        border={`1.3px solid ${borderColorBox}`}
         borderRadius="8px"
       >
         {mainTags.map((tag, i) => (
@@ -175,7 +182,7 @@ const UnstakeBase = ({
             num={i}
             color={i === 1 ? fontColor4 : fontColor3}
             borderColor={i === 1 ? activeColor : ''}
-            backColor={i === 1 ? activeColor : ''}
+            backColor={i === 1 ? activeColorNew : ''}
             boxShadow={
               i === 1
                 ? '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)'
@@ -203,8 +210,9 @@ const UnstakeBase = ({
             type="number"
             value={inputAmount}
             onChange={onInputBalance}
-            bgColor={bgColor}
+            bgColor={bgColorNew}
             fontColor2={fontColor2}
+            borderColor={borderColorBox}
             inputMode="numeric"
             pattern="[0-9]*"
           />
@@ -354,6 +362,9 @@ const UnstakeBase = ({
         <Button
           color="wido-deposit"
           width="100%"
+          btnColor={btnColor}
+          btnHoverColor={btnHoverColor}
+          btnActiveColor={btnActiveColor}
           onClick={async () => {
             if (!connected) {
               connectAction()

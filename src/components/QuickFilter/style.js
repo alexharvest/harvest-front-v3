@@ -35,7 +35,6 @@ const QuickFilterContainer = styled.div`
       : ''}
 
   @media screen and (max-width: 950px) {
-    background: white;
     padding: 30px;
     overflow: hidden;
     flex-direction: column;
@@ -384,7 +383,7 @@ const ClearFilter = styled.div`
   align-items: center;
 
   &:hover {
-    color: #036666;
+    color: #5dcf46;
   }
 
   @media screen and (max-width: 1480px) {
@@ -404,11 +403,11 @@ const Counter = styled.div`
   ${props =>
     props.count > 0
       ? `
-  background: #6988FF;
+  background: #5dcf46;
   color: white;
   `
       : `
-  background: #6988FF;
+  background: #5dcf46;
   color: #1F2937;
   `}
   width: 20px;
@@ -614,8 +613,9 @@ const MobileClearFilter = styled(ClearFilter)`
 
 const FilterOffCanvas = styled(Offcanvas)`
   background: ${props => props.backcolor} !important;
-  border: none !important;
   align-items: center;
+  border-top: 2px solid ${props => props.borderColor} !important;
+  border-radius: 15px;
   .offcanvas-header {
     .btn-close {
       filter: ${props => props.filtercolor};
@@ -630,8 +630,6 @@ const FilterOffCanvas = styled(Offcanvas)`
 const FilterOffCanvasHeader = styled(Offcanvas.Header)`
   padding: 25px 15px 25px 15px !important;
   width: 95%;
-  border-top: 2px solid #ced3e6;
-  border-radius: 3px;
 `
 
 const FilterOffCanvasBody = styled(Offcanvas.Body)`
@@ -1088,7 +1086,7 @@ const SpecDropDownItem = styled(Dropdown.Item)`
 `
 
 const TrendDropDown = styled(Dropdown.Toggle)`
-  background: #15b088;
+  background: #5dcf46;
   background-size: 100% !important;
   border: 1px solid ${props => props.bordercolor} !important;
   color: white;
@@ -1232,7 +1230,7 @@ const ApplyFilterBtn = styled.button`
   display: flex;
   justify-content: center;
   padding: 10px 16px;
-  background: #6988ff;
+  background: #5dcf46;
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   border-radius: 8px;
   width: 100%;
@@ -1244,7 +1242,7 @@ const ApplyFilterBtn = styled.button`
   opacity: 1;
 
   &:hover {
-    opacity: 0.8;
+    background: ${props => props.hoverColor};
   }
 `
 
@@ -1361,7 +1359,7 @@ const MobileListFilter = styled.div`
             }
           }
 
-          img.checked {
+          svg.checked {
             display: none;
           }
         }
@@ -1370,7 +1368,7 @@ const MobileListFilter = styled.div`
           display: flex;
           justify-content: space-between;
           background: transparent;
-          img.checked {
+          svg.checked {
             display: block;
           }
         }

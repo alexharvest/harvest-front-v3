@@ -125,6 +125,7 @@ const PortalsProvider = _ref => {
       const response = await axios.get(`${PORTALS_FI_API_URL}/v2/tokens`, {
         params: {
           addresses,
+          minLiquidity: 0,
         },
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -143,6 +144,7 @@ const PortalsProvider = _ref => {
       const response = await axios.get(`${PORTALS_FI_API_URL}/v2/tokens`, {
         params: {
           addresses,
+          minLiquidity: 0,
         },
         headers: {
           Authorization: `Bearer ${authToken}`,

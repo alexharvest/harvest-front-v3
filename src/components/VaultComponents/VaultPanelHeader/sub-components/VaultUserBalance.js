@@ -13,6 +13,7 @@ import { formatNumber, parseValue } from '../../../../utilities/formats'
 import { getUserVaultBalance } from '../../../../utilities/parsers'
 import AnimatedDots from '../../../AnimatedDots'
 import { useWallet } from '../../../../providers/Wallet'
+import { useContracts } from '../../../../providers/Contracts'
 import { Monospace } from '../../../GlobalStyle'
 import { usePools } from '../../../../providers/Pools'
 import { useRate } from '../../../../providers/Rate'
@@ -29,7 +30,8 @@ const VaultUserBalance = ({
   fontColor1,
 }) => {
   const { vaultsData, farmingBalances } = useVaults()
-  const { connected, balances } = useWallet()
+  const { contracts } = useContracts()
+  const { account, connected, balances } = useWallet()
   const { userStats } = usePools()
   const [userVaultBalance, setUserVaultBalance] = useState(null)
   const { rates } = useRate()
@@ -53,15 +55,43 @@ const VaultUserBalance = ({
 
   useEffect(() => {
     let iFARMBalance
-    if (tokenSymbol === FARM_TOKEN_SYMBOL) {
-      iFARMBalance = get(balances, IFARM_TOKEN_SYMBOL, 0)
+    const getBalance = async () => {
+      if (tokenSymbol === FARM_TOKEN_SYMBOL) {
+        iFARMBalance = get(balances, IFARM_TOKEN_SYMBOL, 0)
+      }
+
+      const totalStaked = get(userStats, `[${get(vaultPool, 'id')}]['totalStaked']`, 0)
+      if (token.isIPORVault && account) {
+        const vaultContract = contracts.iporVaults[token.id]
+        const vaultBalance = await vaultContract.methods.getBalanceOf(
+          vaultContract.instance,
+          account,
+        )
+        const AssetBalance = await vaultContract.methods.convertToAssets(
+          vaultContract.instance,
+          vaultBalance,
+        )
+
+        setUserVaultBalance(AssetBalance)
+      } else {
+        setUserVaultBalance(
+          getUserVaultBalance(tokenSymbol, farmingBalances, totalStaked, iFARMBalance),
+        )
+      }
     }
 
-    const totalStaked = get(userStats, `[${get(vaultPool, 'id')}]['totalStaked']`, 0)
-    setUserVaultBalance(
-      getUserVaultBalance(tokenSymbol, farmingBalances, totalStaked, iFARMBalance),
-    )
-  }, [vaultsData, tokenSymbol, vaultPool, userStats, farmingBalances, balances])
+    getBalance()
+  }, [
+    vaultsData,
+    tokenSymbol,
+    vaultPool,
+    userStats,
+    farmingBalances,
+    balances,
+    account,
+    contracts.iporVaults,
+    token,
+  ])
 
   const isLoadingUserBalance =
     loadedVault === false ||

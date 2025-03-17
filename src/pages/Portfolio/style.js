@@ -7,11 +7,10 @@ const Container = styled.div`
   width: 100%;
   min-height: 100vh;
   color: ${props => props.fontColor};
-
   background: ${props => props.bgColor};
   transition: 0.25s;
   position: relative;
-  margin-left: 280px;
+  margin-left: 260px;
 
   @media screen and (min-width: 1920px) {
     display: flex;
@@ -41,22 +40,63 @@ const Inner = styled.div`
 
   @media screen and (max-width: 992px) {
     padding: 0px 0px 25px 0px;
-    background: ${props => (props.bgColor ? props.bgColor : '')};
+  }
+`
+
+const ChartSection = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding-bottom: 24px;
+
+  @media screen and (max-width: 992px) {
+    display: none;
+    margin-top: -30px;
+    padding: unset;
+  }
+`
+
+const ChartBox = styled.div`
+  display: flex;
+  width: 70%;
+  flex-direction: ${props => props.direction || 'column'};
+  justify-content: start;
+  position: relative;
+  align-items: ${props => props.align || 'center'};
+  transition: 0.25s;
+  color: ${props => props.fontColor};
+  height: ${props => props.height};
+  margin: ${props => props.margin || 'unset'};
+  border-right: 0.556px solid rgba(255, 255, 255, 0.3);
+
+  @media screen and (max-width: 1100px) {
+    width: 60%;
+  }
+
+  h2 {
+    text-align: left;
+  }
+
+  @media screen and (max-width: 992px) {
+    width: 100%;
+    order: ${props => props.mobileOrder || 'unset'};
   }
 `
 
 const SubPart = styled.div`
   display: flex;
   justify-content: space-between;
-  gap: 10px;
   margin-bottom: 30px;
   border-top: 1px solid #ced3e6;
 
   @media screen and (max-width: 992px) {
     flex-wrap: wrap;
-    gap: 0px;
     margin: 0px 25px 25px 25px;
     border: none;
+  }
+
+  @media screen and (max-width: 992px) {
+    margin: 0px 10px 10px 10px;
   }
 `
 
@@ -67,9 +107,7 @@ const HeaderWrap = styled.div`
 
   @media screen and (max-width: 992px) {
     padding: ${props => (props.padding ? props.padding : '')};
-    // background-image: ${props => (props.backImg ? `url(${props.backImg})` : '')};
-    height: ${props => (props.height ? props.height : '')};
-    background: linear-gradient(to right, #5b86e5, #36d1dc);
+    border-bottom: 1px solid ${props => props.borderColor};
   }
 `
 
@@ -245,10 +283,10 @@ const ConnectButtonStyle = styled.button`
   justify-content: center;
   margin: 15px auto;
   width: 250px;
-  background: none;
   border-radius: 8px;
-  border: 2px solid #6988ff;
-  color: #6988ff;
+  border: none;
+  color: #fff;
+  background: ${props => props.backColor};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   cursor: pointer;
   transition: 0.5s;
@@ -301,7 +339,7 @@ const ExploreButtonStyle = styled.button`
   margin: 15px auto;
   padding: 12px 0px 12px 0px;
   width: 250px;
-  background: #6988ff;
+  background: ${props => props.backColor};
   border-radius: 8px;
   border: none;
   color: white;
@@ -311,7 +349,7 @@ const ExploreButtonStyle = styled.button`
   transition: 0.5s;
 
   &:hover {
-    background: #7692fb;
+    background: ${props => props.hoverColor};
   }
 
   img.explore-farms {
@@ -526,9 +564,6 @@ const TableContent = styled.div`
 `
 
 const TableWrap = styled.div`
-  display: flex;
-  gap: 35px;
-
   .table-title {
     color: ${props => props.fontColor1};
     font-size: 18px;
@@ -555,13 +590,6 @@ const TableWrap = styled.div`
   }
 `
 
-const SubBtnWrap = styled.div`
-  margin-top: 24px;
-  display: flex;
-  justify-content: end;
-  padding-right: 15px;
-`
-
 const MobileSwitch = styled.div`
   display: flex;
   padding: 4px;
@@ -585,14 +613,7 @@ const SwitchBtn = styled.div`
 `
 
 const PositionTable = styled.div`
-  width: 70%;
-
-  @media screen and (max-width: 1320px) {
-    width: 100%;
-  }
-
   @media screen and (max-width: 992px) {
-    width: 100%;
     display: ${props => props.display};
   }
 `
@@ -600,8 +621,14 @@ const PositionTable = styled.div`
 const YieldTable = styled.div`
   width: 30%;
 
-  @media screen and (max-width: 1320px) {
-    width: 100%;
+  div.table-title {
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+  }
+
+  @media screen and (max-width: 1100px) {
+    width: 40%;
   }
 
   @media screen and (max-width: 992px) {
@@ -623,83 +650,6 @@ const ContentBox = styled.div`
 
   @media screen and (max-width: 992px) {
     border: none;
-  }
-`
-
-const CheckBoxDiv = styled.div`
-  cursor: pointer;
-  margin-top: 25px;
-  margin-right: 25px;
-  display: inline-block;
-  position: relative;
-
-  svg {
-    position: absolute;
-    top: 4px;
-  }
-
-  div {
-    padding-left: 23px;
-  }
-
-  @media screen and (max-width: 992px) {
-    margin: unset;
-    font-size: 14px;
-    line-height: 20px;
-    font-weight: 500;
-    margin: auto 0px;
-  }
-`
-
-const SwitchView = styled.div`
-  display: flex;
-  justify-content: end;
-  padding: 10px;
-  gap: 8px;
-  width: fit-content;
-  height: 40px;
-  align-items: center;
-  color: ${props => props.color};
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  position: relative;
-  border-radius: 8px;
-  border: 1px solid #d0d5dd;
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-  background: ${props => props.backColor};
-  transition: 0.5s;
-
-  :hover {
-    cursor: pointer;
-    background: ${props => props.hovercolor};
-  }
-
-  img {
-    width: 20px;
-    height: 20px;
-    filter: ${props =>
-      props.darkMode
-        ? 'invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%)'
-        : 'invert(48%) sepia(4%) saturate(2341%) hue-rotate(183deg) brightness(87%) contrast(80%)'};
-  }
-
-  @media screen and (max-width: 992px) {
-    height: unset;
-    padding: 10px 16px;
-  }
-`
-
-const BackArrow = styled.div`
-  display: flex;
-  gap: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 20px;
-  margin-bottom: 10px;
-
-  :hover {
-    cursor: pointer;
   }
 `
 
@@ -809,7 +759,6 @@ const CurrencyDropDownMenu = styled(Dropdown.Menu)`
 
   @media screen and (max-width: 992px) {
     min-width: unset;
-    transform: translate3d(0px, -215px, 0px) !important;
   }
 `
 
@@ -906,18 +855,17 @@ const HeaderTop = styled.div`
   align-items: center;
 `
 const LifetimeValue = styled.div`
-  text-align: center;
-  margin-top: 30px;
-  font-size: ${props => (props.isLoading && props.connected ? '18px' : '45px')};
-  margin-bottom: ${props => (props.isLoading && props.connected ? '15px' : '0px')};
-  color: #fff;
+  margin-top: 35px;
+  font-size: ${props => (props.isLoading && props.connected && !props.noFarm ? '18px' : '38px')};
+  margin-bottom: ${props => (props.isLoading && props.connected && !props.noFarm ? '15px' : '0px')};
+  color: ${props => props.color};
   font-weight: 700;
 `
 const LifetimeSub = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #fff;
+  color: ${props => props.color};
+  line-height: 27px;
+  font-size: 12px;
 
   svg.question {
     font-size: 16px;
@@ -938,143 +886,15 @@ const LifetimeSub = styled.div`
   }
 `
 
-const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
-  ${props =>
-    props.borderBottom
-      ? `
-    border-bottom: ${props.borderBottom};
-  `
-      : ''}
-
-  ${props =>
-    props.color
-      ? `
-    color: ${props.color};
-  `
-      : ''}
-  ${props =>
-    props.position
-      ? `
-    position: ${props.position};
-  `
-      : ''}
-  ${props =>
-    props.align
-      ? `
-    text-align: ${props.align};
-  `
-      : ''}
-  ${props =>
-    props.justifyContent
-      ? `
-    justify-content: ${props.justifyContent};
-  `
-      : ''}
-  ${props =>
-    props.marginTop
-      ? `
-    margin-top: ${props.marginTop};
-  `
-      : ''}
-  ${props =>
-    props.marginLeft
-      ? `
-    margin-left: ${props.marginLeft};
-  `
-      : ''}
-  ${props =>
-    props.marginBottom
-      ? `
-    margin-bottom: ${props.marginBottom};
-  `
-      : ''}
-  ${props =>
-    props.marginRight
-      ? `
-    margin-right: ${props.marginRight};
-  `
-      : ''}
-  ${props =>
-    props.display
-      ? `
-    display: ${props.display};
-  `
-      : ''}
-  ${props =>
-    props.items
-      ? `
-    align-items: ${props.items};
-  `
-      : ''}
-  ${props =>
-    props.self
-      ? `
-    align-self: ${props.self};
-  `
-      : ''}
-  ${props =>
-    props.padding
-      ? `
-    padding: ${props.padding};
-  `
-      : ''}
-  ${props =>
-    props.width
-      ? `
-    width: ${props.width};
-  `
-      : ''}
-  ${props =>
-    props.borderRadius
-      ? `
-    border-radius: ${props.borderRadius};
-    `
-      : ``}
-  img.icon {
-    margin-right: 10px;
-  }
-
-  img.thumbs-up {
-    margin-right: 10px;
-  }
-
-  img.info-icon {
-    margin-left: 15px;
-  }
-
-  #info .tooltip-inner {
-    background: black;
-  }
-
-  @media screen and (max-width: 992px) {
-    img.icon {
-      margin-right: 5px;
-    }
-
-    img.info {
-      margin-left: 5px;
-    }
-
-    img.thumbs-up {
-      margin-right: 5px;
-      width: 11px;
-    }
-  }
-`
 const GreenBox = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 5.35px 9.37px;
-  border-radius: 5.35px;
-  background: #5dcf46;
+  color: #5dcf46;
   margin-left: 10px;
   font-size: 12px;
   align-items: center;
 
-  img {
+  svg {
     margin-right: 5px;
   }
 `
@@ -1103,16 +923,12 @@ export {
   TableContent,
   TableWrap,
   MobileSwitch,
-  SubBtnWrap,
   SwitchBtn,
   PositionTable,
   YieldTable,
   ContentBox,
   ConnectButtonStyle,
   ExploreButtonStyle,
-  CheckBoxDiv,
-  SwitchView,
-  BackArrow,
   CurrencyDropDown,
   CurrencySelect,
   CurrencyDropDownMenu,
@@ -1123,6 +939,7 @@ export {
   LifetimeSub,
   LogoDiv,
   Address,
-  NewLabel,
   GreenBox,
+  ChartSection,
+  ChartBox,
 }

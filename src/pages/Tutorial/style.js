@@ -9,7 +9,7 @@ const Container = styled.div`
   background: ${props => props.bgColor};
   transition: 0.25s;
   position: relative;
-  margin-left: 280px;
+  margin-left: 260px;
 
   @media screen and (min-width: 1921px) {
     flex-direction: row;

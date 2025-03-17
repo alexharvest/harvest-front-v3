@@ -1,9 +1,15 @@
 import React from 'react'
+import { CHAIN_IDS } from './data/constants'
 import Dollar from './assets/images/logos/dashboard/flag_usd.svg'
 import Pound from './assets/images/logos/dashboard/flag_gbp.svg'
 import Euro from './assets/images/logos/dashboard/flag_euro.svg'
 import Franc from './assets/images/logos/dashboard/flag_chf.svg'
 import Yen from './assets/images/logos/dashboard/flag_jpy.svg'
+import ARBITRUM from './assets/images/chains/arbitrum.svg'
+import BASE from './assets/images/chains/base.svg'
+import ETHEREUM from './assets/images/chains/ethereum.svg'
+import POLYGON from './assets/images/chains/polygon.svg'
+import ZKSYNC from './assets/images/chains/zksync.svg'
 
 export const HARVEST_LAUNCH_DATE = new Date(1598986800000)
 
@@ -22,44 +28,21 @@ export const SOCIAL_LINKS = {
   BUG_BOUNTY: 'https://immunefi.com/bounty/harvest/',
 }
 
-// Alternative Vault Recommendation List
-export const AVRList = {
-  '0x24174022D382CD155C33A847404cDA5Bc7978802': '0x3646B87C7DD1c87fe6663FFCAD167b8E5175F001',
-  '0x2b70238022589f17E7b266BC753E74027D57009F': '0x2b70238022589f17E7b266BC753E74027D57009F',
-  '0x32DB5Cbac1C278696875eB9F27eD4cD7423dd126': '0xABa0cB835f40E7Af29F8016a1DB401e704f855bE',
-  '0x2EC0160246461F0ce477887DdE2C931Ee8233de7': '0x0910723E98eB8961a50d8b09b296aDB84656529C',
-  '0xBCC2B58Ab9a4F6bb576F80Def62ea2BC91fC49c2': '0x9C35DC4A5dE5F399244b858e84465e23F9751d96',
-  '0xaEF3C262569e56FB494755110ca6F481f8A2e353': '0xcA2b2D11b497ce2cA6E21375f703b2E94787AC19',
-  '0x0D15225454474ab3cb124083278c7bE03f8a99Ff': '0xa1D4e9bDA2fC90EBFBa2372F4C4BA5ce4F8e8A46',
-  '0xDfd2214236B60FC0485288c959CB07dA4f6A15F7': '0xf51902f721136cA1fcE5C12a303d3A76bA177E62',
-  '0xEF39eF2069A9A65cD6476b6C9a6FB7dD2910f370': '0xBdE9Dbd8b1a1C52eC7f880a5172470da2e2aA04D',
-  '0x76FE2516D16d93fd20b03873aD0413a7c0AC9773': '0x0ffDC684cb69FaE92F26631614f9d6632bb658A8',
-  '0xc76387330F1614D7e10e045cfcc7C9f7Ff2AdC1F': '0x0B41D4728446FB4600c43b8fC468A245C092324a',
-  '0x36e53BFC4A8c306B8297A4A79fB2aC5CbFa391FB': '0xcC24852806165319252205E2ED0b5985D7d79164',
-  '0x7234433aC39035D75F3668A4187Af7b7B45Ea34f': '0x3646B87C7DD1c87fe6663FFCAD167b8E5175F001',
-  '0x3EeC57F8F3947D02e40B3C5616043eCCE755BD9d': '0xE5cfD03f32F2ebA7e5841f50544265beA368EE17',
-  '0xC86A216Cd1b82830f8663a11FA2aC4b911E86b31': '0xABa0cB835f40E7Af29F8016a1DB401e704f855bE',
-  '0xF2BDf16EfDCAD65B95eabACb4bbE5431C5CA227E': '0x0910723E98eB8961a50d8b09b296aDB84656529C',
-  '0x42f7Cd0A7dc5d8e84a06A5Bf6e2df649B230A4BC': '0x9C35DC4A5dE5F399244b858e84465e23F9751d96',
-  '0x028DD741997F0612E47b2099Fa311A7667227b6E': '0xcA2b2D11b497ce2cA6E21375f703b2E94787AC19',
-  '0x638bC199795E1E09A5D20e0e4E204594Cc5CFB92': '0xa1D4e9bDA2fC90EBFBa2372F4C4BA5ce4F8e8A46',
-  '0x2Aa935cF382e5bAD8353b36b044367294A8Ed154': '0xf51902f721136cA1fcE5C12a303d3A76bA177E62',
-  '0xB150B4246A7027F2e32c083Eeb6df4DD76B1a3EF': '0xBdE9Dbd8b1a1C52eC7f880a5172470da2e2aA04D',
-  '0x56ae35dCFC776Ca2d2475A2374cf2FFA95391E01': '0x0ffDC684cb69FaE92F26631614f9d6632bb658A8',
-  '0x2C136356A46681ded6BC37A5B49fbE7574f37743': '0x0B41D4728446FB4600c43b8fC468A245C092324a',
-  '0x29C53Aeb23F5927ae97d85389Fee9628CfF29eea': '0xcC24852806165319252205E2ED0b5985D7d79164',
-}
+export const historyTags = [{ name: 'Harvests' }, { name: 'Rewards' }]
 
 export const ROUTES = {
   PORTFOLIO: '/portfolio',
   TUTORIAL: 'https://docs.harvest.finance/get-started-farming',
   ADVANCED: '/',
+  ACTIVITY: '/activity',
+  SETTINGS: '/settings',
   LiveSupport: 'https://discord.com/channels/748967094745563176/749862621188194328',
   ANALYTIC: '/analytics',
   DOC: 'https://docs.harvest.finance',
   FAQ: '/faq',
   ADVANCEDFARM: '/:network/:paramAddress',
-  BEGINNERSFARM: '/beginners',
+  AUTOPILOTNOCHAIN: '/autopilot',
+  AUTOPILOT: '/autopilot/:network',
   CHARTS: '/charts',
   WORK: '/work',
   POOL: '/pool',
@@ -91,24 +74,18 @@ export const BASE_URL = `https://base-mainnet.g.alchemy.com/v2/${process.env.REA
 export const ARBITRUM_URL = `https://arb-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`
 export const ZKSYNC_URL = `https://zksync-mainnet.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`
 
-export const GRAPH_URL_MAINNET =
-  process.env.REACT_APP_GRAPH_URL_MAINNET ||
-  'https://api.studio.thegraph.com/query/48757/harvest-mainnet-test/version/latest'
-export const GRAPH_URL_POLYGON =
-  process.env.REACT_APP_GRAPH_URL_POLYGON ||
-  'https://api.studio.thegraph.com/query/48757/l2-polygon-test/version/latest'
-export const GRAPH_URL_ARBITRUM =
-  process.env.REACT_APP_GRAPH_URL_ARBITRUM ||
-  'https://api.studio.thegraph.com/query/48757/harvest-arbitrum/version/latest'
-export const GRAPH_URL_BASE =
-  process.env.REACT_APP_GRAPH_URL_BASE ||
-  'https://api.studio.thegraph.com/query/48757/harvest-base/version/latest'
-export const GRAPH_URL_BASE_MOONWELL =
-  process.env.REACT_APP_GRAPH_URL_BASE_MOONWELL ||
-  'https://api.studio.thegraph.com/query/48757/harvest-base/version/latest'
-export const GRAPH_URL_ZKSYNC =
-  process.env.REACT_APP_GRAPH_URL_ZKSYNC ||
-  'https://api.studio.thegraph.com/query/48757/l2-zksync-era/version/latest'
+export const GRAPH_URLS = {
+  1: process.env.REACT_APP_GRAPH_URL_MAINNET || 'https://monkfish-app-mhcjl.ondigitalocean.app/1',
+  137:
+    process.env.REACT_APP_GRAPH_URL_POLYGON || 'https://monkfish-app-mhcjl.ondigitalocean.app/137',
+  324:
+    process.env.REACT_APP_GRAPH_URL_ZKSYNC || 'https://monkfish-app-mhcjl.ondigitalocean.app/324',
+  8453:
+    process.env.REACT_APP_GRAPH_URL_BASE || 'https://monkfish-app-mhcjl.ondigitalocean.app/8453',
+  42161:
+    process.env.REACT_APP_GRAPH_URL_ARBITRUM ||
+    'https://monkfish-app-mhcjl.ondigitalocean.app/42161',
+}
 
 export const ETHERSCAN_URL = 'https://etherscan.io'
 
@@ -562,6 +539,7 @@ export const TVL_API_ENDPOINT = `${HARVEST_EXTERNAL_API_URL}/gmv/total?key=${pro
 export const TOTAL_TVL_API_ENDPOINT = `${HARVEST_API_URL}/tvl?key=${process.env.REACT_APP_EXTERNAL_API_KEY}`
 export const CURRENCY_RATES_API_ENDPOINT = `${HARVEST_API_URL}/rates?key=${process.env.REACT_APP_EXTERNAL_API_KEY}`
 export const HISTORICAL_RATES_API_ENDPOINT = `${HARVEST_API_URL}/historical-rates?key=${process.env.REACT_APP_EXTERNAL_API_KEY}`
+export const LEADERBOARD_API_ENDPOINT = `${HARVEST_API_URL}/leaderboard?key=${process.env.REACT_APP_EXTERNAL_API_KEY}`
 export const COINGECKO_API_KEY = `${process.env.REACT_APP_COINGECKO_API_KEY}`
 
 export const BEGINNERS_BALANCES_DECIMALS = 2
@@ -819,6 +797,19 @@ export const chainList = [
   { id: 5, name: 'Zksync', chainId: 324 },
 ]
 
+export const ChainsList = [
+  { id: 0, name: 'Ethereum', img: ETHEREUM, chainId: CHAIN_IDS.ETH_MAINNET },
+  { id: 1, name: 'Polygon', img: POLYGON, chainId: CHAIN_IDS.POLYGON_MAINNET },
+  { id: 2, name: 'Arbitrum', img: ARBITRUM, chainId: CHAIN_IDS.ARBITRUM_ONE },
+  { id: 3, name: 'Base', img: BASE, chainId: CHAIN_IDS.BASE },
+  { id: 4, name: 'Zksync', img: ZKSYNC, chainId: CHAIN_IDS.ZKSYNC },
+]
+
+export const someChainsList = [
+  { id: 0, name: 'base', img: BASE, chainId: CHAIN_IDS.BASE },
+  { id: 1, name: 'arbitrum', img: ARBITRUM, chainId: CHAIN_IDS.ARBITRUM_ONE },
+]
+
 export const fakeChartData = [
   { x: 1691637444000, y: 5, z: 1.5 },
   { x: 1691780004000, y: 6, z: 2 },
@@ -836,6 +827,124 @@ export const fakeChartData = [
   { x: 1693490724000, y: 12, z: 4.3 },
   { x: 1693633284000, y: 14, z: 4.5 },
   { x: 1693775844000, y: 15, z: 4.5 },
+]
+
+export const magicChartData = [
+  { x: 1691637444000, y: 0 },
+  { x: 1691780004000, y: 0.1 },
+  { x: 1691922564000, y: 0.4 },
+  { x: 1692065124000, y: 2.5 },
+  { x: 1692207684000, y: 2.7 },
+  { x: 1692350244000, y: 2.9 },
+  { x: 1692492804000, y: 3.1 },
+  { x: 1692635364000, y: 3.5 },
+  { x: 1692777924000, y: 4 },
+  { x: 1692920484000, y: 4.8 },
+  { x: 1693063044000, y: 5 },
+  { x: 1693205604000, y: 5.5 },
+  { x: 1693348164000, y: 5.6 },
+  { x: 1693490724000, y: 6.7 },
+  { x: 1693633284000, y: 6.9 },
+  { x: 1693775844000, y: 7.2 },
+]
+
+export const fakeYieldData = [
+  {
+    balance: 0.09543812368478512,
+    balanceUsd: 0.09617987541335737,
+    chain: '137',
+    event: 'Harvest',
+    lifetimeYield: '3.08407408664195',
+    name: 'jEUR - PAR',
+    netChange: 0.00005202724519889901,
+    netChangeUsd: 0.00005243160456357591,
+    platform: 'Aura Finance',
+    priceUnderlying: '1.007772069482653749245834699350357',
+    sharePrice: '1.162605195614969479',
+    timestamp: '1733229220',
+    tokenSymbol: 'balancer_2EUR_PAR_v2',
+    value: '0.082089882313232182',
+  },
+  {
+    balance: 0.252538629620844,
+    balanceUsd: 5.468231202454778,
+    chain: '8453',
+    event: 'Harvest',
+    lifetimeYield: '3.0840216550373865',
+    name: 'GENOME - ETH',
+    netChange: 0.00043985899598542044,
+    netChangeUsd: 0.009524288185689048,
+    platform: 'Aerodrome',
+    priceUnderlying: '21.65304852831687838280557137977929',
+    sharePrice: '1.262693148104220191',
+    timestamp: '1733225577',
+    tokenSymbol: 'aerodrome_GENOME_ETH',
+    value: '0.199999999999999952',
+  },
+  {
+    balance: 0.00011656154927212192,
+    balanceUsd: 0.4201860551481367,
+    chain: '8453',
+    event: 'Harvest',
+    lifetimeYield: '3.0744973668516975',
+    name: 'ETH',
+    netChange: 6.34764691833246e-9,
+    netChangeUsd: 0.000022882268936393218,
+    platform: 'Moonwell',
+    priceUnderlying: '3604.842744215589717608',
+    sharePrice: '1.165615492721219307',
+    timestamp: '1733224691',
+    tokenSymbol: 'moonwell_WETH',
+    value: '0.0001',
+  },
+  {
+    balance: 0.2520987706248586,
+    balanceUsd: 5.3210757750406,
+    chain: '8453',
+    event: 'Harvest',
+    lifetimeYield: '3.0655754408710605',
+    name: 'GENOME - ETH',
+    netChange: 0.0004570560812419133,
+    netChangeUsd: 0.009647131700417422,
+    platform: 'Aerodrome',
+    priceUnderlying: '21.10710719394483199243413743688557',
+    sharePrice: '1.260493853124293350',
+    timestamp: '1733201189',
+    tokenSymbol: 'aerodrome_GENOME_ETH',
+    value: '0.199999999999999952',
+  },
+  {
+    balance: 9.38282696011794e-8,
+    balanceUsd: 0.28714341600345744,
+    chain: '8453',
+    event: 'Harvest',
+    lifetimeYield: '3.055928309170643',
+    name: 'OVN - USD+',
+    netChange: 5.385914863878393e-11,
+    netChangeUsd: 0.00016482559029292796,
+    platform: 'Aerodrome',
+    priceUnderlying: '3060308.127006619367368306551062156',
+    sharePrice: '3.673910220345035168',
+    timestamp: '1733200751',
+    tokenSymbol: 'aerodrome_OVN_USDp',
+    value: '0.000000025539075256',
+  },
+  {
+    balance: 0.00011655520162520359,
+    balanceUsd: 0.42559854184086976,
+    chain: '8453',
+    event: 'Harvest',
+    lifetimeYield: '3.05576348358035',
+    name: 'ETH',
+    netChange: 6.300172165403127e-9,
+    netChangeUsd: 0.000023004928562211838,
+    platform: 'Moonwell',
+    priceUnderlying: '3651.476175292715931975',
+    sharePrice: '1.165552016252035849',
+    timestamp: '1733200337',
+    tokenSymbol: 'moonwell_WETH',
+    value: '0.0001',
+  },
 ]
 
 export const boostedVaults = [

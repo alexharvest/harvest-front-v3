@@ -31,7 +31,6 @@ import {
   BalanceInfo,
   InsufficientSection,
   CloseBtn,
-  // ThemeMode,
   TokenSelectSection,
   SwitchTabTag,
   HasErrorSection,
@@ -71,20 +70,25 @@ const WithdrawBase = ({
 }) => {
   const {
     darkMode,
-    bgColor,
+    bgColorNew,
     activeColor,
     fontColor,
     fontColor1,
     fontColor2,
     fontColor3,
     fontColor4,
+    activeColorNew,
+    borderColorBox,
     bgColorMessage,
+    btnColor,
+    btnHoverColor,
+    btnActiveColor,
   } = useThemeContext()
 
   const [withdrawName, setWithdrawName] = useState('Preview & Revert')
   const [showWarning, setShowWarning] = useState(false)
 
-  const { account, web3, connected, chainId } = useWallet()
+  const { account, web3, connected, chainId, balances } = useWallet()
   const { getPortalsEstimate, getPortalsToken } = usePortals()
 
   const { rates } = useRate()
@@ -99,6 +103,8 @@ const WithdrawBase = ({
   }, [rates])
 
   const slippage = 0.5 // Default slippage Percent
+
+  const tokenName = token.isIPORVault ? tokenSymbol : `f${tokenSymbol}`
 
   const fromToken = useIFARM ? addresses.iFARM : token.vaultAddress || token.tokenAddress1
 
@@ -188,18 +194,19 @@ const WithdrawBase = ({
                 : portalsEstimate.res.outputAmount,
             }
 
+            const defaultDecimal = token.isIPORVault ? token.vaultDecimals : token?.decimals
             fromInfoValue = new BigNumber(
               fromWei(
                 quoteResult.fromTokenAmount,
                 useIFARM
                   ? fAssetPool?.lpTokenData?.decimals
                   : pickedDefaultToken
-                  ? token?.decimals
+                  ? defaultDecimal
                   : fromTokenDetail?.decimals,
                 useIFARM
                   ? fAssetPool?.lpTokenData?.decimals
                   : pickedDefaultToken
-                  ? token?.decimals
+                  ? defaultDecimal
                   : fromTokenDetail?.decimals,
               ),
             ).toString()
@@ -212,19 +219,21 @@ const WithdrawBase = ({
                       useIFARM
                         ? fAssetPool?.lpTokenData?.decimals
                         : pickedDefaultToken
-                        ? token?.decimals
+                        ? defaultDecimal
                         : fromTokenDetail?.decimals,
                       useIFARM
                         ? fAssetPool?.lpTokenData?.decimals
                         : pickedDefaultToken
-                        ? token?.decimals
+                        ? defaultDecimal
                         : fromTokenDetail?.decimals,
                       true,
                     ) * quoteResult.fromTokenUsdPrice,
                     BEGINNERS_BALANCES_DECIMALS,
                   )
+            const pDecimal =
+              token.isIPORVault && pickedDefaultToken ? token.vaultDecimals : pickedToken.decimals
             minReceivedString = new BigNumber(
-              fromWei(quoteResult.minToTokenAmount, pickedToken.decimals, pickedToken.decimals),
+              fromWei(quoteResult.minToTokenAmount, pDecimal, pDecimal),
             ).toString()
             minReceivedUsdString = formatNumberWido(
               parseFloat(minReceivedString) * toTokenUsdPrice,
@@ -307,7 +316,14 @@ const WithdrawBase = ({
     const inputValue = e.currentTarget.value.replace(/,/g, '.')
     setUnstakeInputValue(inputValue)
     setUnstakeBalance(
-      toWei(inputValue, useIFARM ? fAssetPool.lpTokenData.decimals : token.decimals),
+      toWei(
+        inputValue,
+        useIFARM
+          ? fAssetPool.lpTokenData.decimals
+          : token.isIPORVault
+          ? token.vaultDecimals
+          : token.decimals,
+      ),
     )
   }
 
@@ -329,7 +345,9 @@ const WithdrawBase = ({
         setShowWarning(true)
       }
     } else if (
-      !new BigNumber(unstakeBalance.toString()).isLessThanOrEqualTo(lpTokenBalance.toString())
+      !new BigNumber(unstakeBalance.toString()).isLessThanOrEqualTo(
+        token.isIPORVault ? balances[token.id].toString() : lpTokenBalance.toString(),
+      )
     ) {
       setShowWarning(true)
       return
@@ -348,6 +366,7 @@ const WithdrawBase = ({
     <>
       <BaseWidoDiv>
         <NewLabel
+          bg={darkMode ? '#373D51' : '#fff'}
           size={isMobile ? '16px' : '16px'}
           height={isMobile ? '24px' : '24px'}
           weight="600"
@@ -356,7 +375,7 @@ const WithdrawBase = ({
           justifyContent="center"
           padding={isMobile ? '4px 0px' : '4px 0px'}
           marginBottom="13px"
-          border="1px solid #F8F8F8"
+          border={`1.3px solid ${borderColorBox}`}
           borderRadius="8px"
         >
           {mainTags.map((tag, i) => (
@@ -370,7 +389,7 @@ const WithdrawBase = ({
               num={i}
               color={i === 1 ? fontColor4 : fontColor3}
               borderColor={i === 1 ? activeColor : ''}
-              backColor={i === 1 ? activeColor : ''}
+              backColor={i === 1 ? activeColorNew : ''}
               boxShadow={
                 i === 1
                   ? '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)'
@@ -402,8 +421,9 @@ const WithdrawBase = ({
                 type="number"
                 value={unstakeInputValue}
                 onChange={onInputUnstake}
-                bgColor={bgColor}
+                bgColor={bgColorNew}
                 fontColor2={fontColor2}
+                borderColor={borderColorBox}
                 inputMode="numeric"
                 pattern="[0-9]*"
               />
@@ -453,15 +473,14 @@ const WithdrawBase = ({
           fontColor={fontColor}
           onClick={() => {
             if (account) {
-              setUnstakeBalance(useIFARM ? stakeAmountWei : lpTokenBalance)
+              const bal = token.isIPORVault ? balances[token.id] : lpTokenBalance
+              const decimal = token.isIPORVault
+                ? token.vaultDecimals
+                : fAssetPool.lpTokenData.decimals
+              setUnstakeBalance(useIFARM ? stakeAmountWei : bal)
               setUnstakeInputValue(
                 new BigNumber(
-                  fromWei(
-                    useIFARM ? stakeAmountWei : lpTokenBalance,
-                    fAssetPool.lpTokenData.decimals,
-                    fAssetPool.lpTokenData.decimals,
-                    false,
-                  ),
+                  fromWei(useIFARM ? stakeAmountWei : bal, decimal, decimal, false),
                 ).toString(),
               )
             }
@@ -473,14 +492,16 @@ const WithdrawBase = ({
               0
             ) : useIFARM ? (
               stakedAmount || <AnimatedDots />
-            ) : lpTokenBalance ? (
+            ) : lpTokenBalance || token.isIPORVault ? (
               new BigNumber(
-                fromWei(
-                  lpTokenBalance,
-                  fAssetPool.lpTokenData.decimals,
-                  fAssetPool.lpTokenData.decimals,
-                  false,
-                ),
+                token.isIPORVault
+                  ? fromWei(balances[token.id], token.vaultDecimals, token.vaultDecimals, false)
+                  : fromWei(
+                      lpTokenBalance,
+                      fAssetPool.lpTokenData.decimals,
+                      fAssetPool.lpTokenData.decimals,
+                      false,
+                    ),
               ).toString()
             ) : (
               <AnimatedDots />
@@ -500,8 +521,8 @@ const WithdrawBase = ({
               weight="600"
               color={fontColor2}
             >
-              The amount of {useIFARM ? `i${tokenSymbol}` : `f${tokenSymbol}`} you entered exceeds
-              deposited balance.
+              The amount of {useIFARM ? `i${tokenSymbol}` : tokenName} you entered exceeds deposited
+              balance.
             </NewLabel>
           </NewLabel>
           <div>
@@ -543,7 +564,7 @@ const WithdrawBase = ({
           </div>
         </HasErrorSection>
       </BaseWidoDiv>
-      <BaseWidoDiv>
+      <BaseWidoDiv borderColor={borderColorBox}>
         <NewLabel
           size={isMobile ? '14px' : '14px'}
           height={isMobile ? '24px' : '24px'}
@@ -647,6 +668,9 @@ const WithdrawBase = ({
           <Button
             color="wido-deposit"
             width="100%"
+            btnColor={btnColor}
+            btnHoverColor={btnHoverColor}
+            btnActiveColor={btnActiveColor}
             size="md"
             onClick={async () => {
               if (curChain !== tokenChain) {

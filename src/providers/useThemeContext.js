@@ -11,6 +11,7 @@ const ThemeContext = createContext({})
  */
 export function ThemeProvider({ children }) {
   /** usePersistedState for storing state in local store */
+  const [showInactiveFarms, setShowInactiveFarms] = usePersistedState('showInactiveFarms', false)
   // const [darkMode, setDarkMode] = useState(false);
   const [darkMode, setDarkMode] = usePersistedState('darkmode', false)
 
@@ -19,16 +20,18 @@ export function ThemeProvider({ children }) {
   const pageBackColor = darkMode ? '#15202B' : '#fff'
   const backColor = darkMode ? '#0C111D' : '#fff'
   const backColorButton = darkMode ? '#1E293B' : '#fff'
-  const bgColorTable = darkMode ? '#20273A' : '#fff'
-  const bgColorModal = darkMode ? '#0C111D' : '#F2F5FF'
+  const bgColorModal = darkMode ? '#15191C' : '#F2F5FF'
   const bgColor = darkMode ? '#161B26' : '#fff'
   const bgColorTooltip = darkMode ? '#59607A' : '#fff'
+  const bgColorNew = darkMode ? '#15191C' : '#fff'
   const bgColorFarm = darkMode ? '#213662' : '#f2f5ff'
   const bgColorSup = darkMode ? '#213662' : '#7289da'
   const bgColorMessage = darkMode ? '#242c3c' : '#fcfcfd'
   const bgColorButton = darkMode ? '#242c3c' : '#eaf1ff'
   const bgColorSlippage = darkMode ? '#1F242F' : '#15b088'
   const bgColorChart = darkMode ? '#161B26' : '#f3f6ff'
+  const bgColorBox = darkMode ? '#202325' : '#fff'
+  const toggleBackColor = darkMode ? '#181f27' : '#E9EAF0'
 
   const fontColor = darkMode ? '#fff' : '#475467'
   const fontColor1 = darkMode ? '#fff' : '#101828'
@@ -37,6 +40,8 @@ export function ThemeProvider({ children }) {
   const fontColor4 = darkMode ? '#fff' : '#1F2937'
   const fontColor5 = darkMode ? '#fff' : '#000'
   const fontColor6 = darkMode ? '#15b088' : '#000'
+  const fontColor7 = darkMode ? '#D9D9D9' : '#15191C'
+  const fontColor8 = darkMode ? '#ADADAD' : '#939BC7'
   const fontColorTooltip = darkMode ? '#fff' : '#6941c6'
   const inputFontColor = darkMode ? '#fff' : '#667085'
   const linkColor = darkMode ? '#FF9400' : '#6941c6'
@@ -44,24 +49,39 @@ export function ThemeProvider({ children }) {
   const linkColorOnHover = darkMode ? '#00d26b' : '#5318db'
 
   const borderColor = darkMode ? '#1F242F' : '#F3F6FF'
-  const borderColorTable = darkMode ? '#1F242F' : '#E6ECFF'
+  const borderColorBox = darkMode ? '#414141' : '#F2F5FF'
+  const borderColorBox2 = darkMode ? '#202325' : '#F2F5FF'
   const inputBorderColor = darkMode ? '#1F242F' : '#d0d5dd'
   const hoverColor = darkMode ? '#1F242F' : '#e9f0f7'
   const hoverColorRow = darkMode ? '#282D3A' : '#F7F9FF'
   const hoverColorNew = darkMode ? '#313E55' : '#F7F9FF'
   const hoverColorButton = darkMode ? '#1F242F' : '#F7F9FF'
-  const hoverColorAVR = darkMode ? '#1F242F' : '#fbe7ef'
-  const hoverColorSide = darkMode ? '#212c51' : '#E9EFFF'
+  const hoverColorSide = darkMode ? '#1E2225' : '#F0F1FA'
   const activeColor = darkMode ? '#242C3C' : '#F3F6FF'
+  const activeColorNew = darkMode ? '#5DCF46' : '#F2F5FF'
   const activeColorModal = darkMode ? '#242C3C' : '#ECFDF3'
   const modalInputColor = darkMode ? '#242C3C' : '#ffffff'
 
+  const btnColor = '#5dcf46'
+  const btnHoverColor = '#51e932'
+  const btnActiveColor = '#4bd72f'
   const highlightColor = darkMode ? '#bfbfbf' : '#F4F4F4'
 
+  const filterColorNew =
+    'invert(75%) sepia(25%) saturate(1160%) hue-rotate(59deg) brightness(91%) contrast(89%)'
   const filterColor = darkMode
     ? 'invert(100%) sepia(20%) saturate(0%) hue-rotate(40deg) brightness(104%) contrast(101%)'
     : ''
+  const filterColor2 = darkMode
+    ? 'invert(100%) sepia(20%) saturate(0%) hue-rotate(40deg) brightness(104%) contrast(101%)'
+    : 'invert(33%) sepia(11%) saturate(950%) hue-rotate(176deg) brightness(92%) contrast(91%)'
+  const filterColorBottom = darkMode
+    ? 'invert(100%) sepia(20%) saturate(0%) hue-rotate(40deg) brightness(104%) contrast(101%)'
+    : 'invert(57%) sepia(22%) saturate(0%) hue-rotate(197deg) brightness(79%) contrast(90%)'
   const boxShadowColor = darkMode ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)'
+  const boxShadowColor2 = darkMode
+    ? ''
+    : '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)'
   const hoverImgColor =
     'invert(57%) sepia(61%) saturate(2063%) hue-rotate(1deg) brightness(103%) contrast(105%)'
 
@@ -97,8 +117,6 @@ export function ThemeProvider({ children }) {
     : '1px solid #d0d5dd'
 
   const mobileFilterDisableColor = darkMode ? '#94949f' : 'rgba(21, 32, 43, 0.5)'
-
-  const toggleBackColor = darkMode ? '#24272C' : '#E9EAF0'
 
   const [switchBalance, setSwitchBalance] = useState(false) // true : USD, false: Token
 
@@ -147,7 +165,6 @@ export function ThemeProvider({ children }) {
   const toggleActiveBackColor = darkMode ? '' : '#7F56D9'
 
   const sidebarFontColor = darkMode ? '#D0D5DD' : '#000'
-  const sidebarActiveFontColor = darkMode ? 'white' : '#101828'
   const sidebarActiveIconColor = darkMode
     ? 'invert(95%) sepia(4%) saturate(441%) hue-rotate(183deg) brightness(89%) contrast(94%)'
     : 'invert(46%) sepia(10%) saturate(767%) hue-rotate(183deg) brightness(92%) contrast(90%)'
@@ -167,13 +184,14 @@ export function ThemeProvider({ children }) {
   return (
     <ThemeContext.Provider
       value={{
+        showInactiveFarms,
+        setShowInactiveFarms,
         darkMode,
         setDarkMode,
         switchMode,
         pageBackColor,
         backColorButton,
         bgColorModal,
-        bgColorTable,
         fontColor,
         fontColor1,
         fontColor2,
@@ -181,6 +199,8 @@ export function ThemeProvider({ children }) {
         fontColor4,
         fontColor5,
         fontColor6,
+        fontColor7,
+        fontColor8,
         inputFontColor,
         linkColor,
         linkColorTooltip,
@@ -188,17 +208,22 @@ export function ThemeProvider({ children }) {
         fontColorTooltip,
         backColor,
         bgColor,
+        bgColorNew,
         bgColorTooltip,
         borderColor,
-        borderColorTable,
+        borderColorBox,
+        borderColorBox2,
+        btnColor,
+        btnHoverColor,
+        btnActiveColor,
         inputBorderColor,
         hoverColor,
         hoverColorRow,
         hoverColorNew,
         hoverColorButton,
-        hoverColorAVR,
         hoverColorSide,
         activeColor,
+        activeColorNew,
         activeColorModal,
         modalInputColor,
         highlightColor,
@@ -208,8 +233,13 @@ export function ThemeProvider({ children }) {
         bgColorButton,
         bgColorSlippage,
         bgColorChart,
+        bgColorBox,
+        filterColorNew,
         filterColor,
+        filterColor2,
+        filterColorBottom,
         boxShadowColor,
+        boxShadowColor2,
         hoverImgColor,
         switchDarkIconFilter,
         switchLightIconFilter,
@@ -255,7 +285,6 @@ export function ThemeProvider({ children }) {
         toggleInactiveBackColor,
         toggleActiveBackColor,
         sidebarFontColor,
-        sidebarActiveFontColor,
         sidebarActiveIconColor,
         faqQueHoverColor,
         analyticTitleColor,

@@ -4,10 +4,10 @@ import { useThemeContext } from '../../../providers/useThemeContext'
 import { EmptyPanel, SkeletonDiv, SkeletonItem } from './style'
 
 const SkeletonLoader = props => {
-  const { borderColorTable, highlightColor } = useThemeContext()
+  const { borderColorBox, highlightColor } = useThemeContext()
 
   return (
-    <EmptyPanel borderColor={borderColorTable}>
+    <EmptyPanel borderColor={borderColorBox}>
       <SkeletonTheme baseColor="#ECECEC" highlightColor={highlightColor}>
         {[...Array(6)].map((_, index) => (
           <SkeletonItem key={index}>

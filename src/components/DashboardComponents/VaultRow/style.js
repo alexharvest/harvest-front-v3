@@ -20,8 +20,12 @@ const DetailView = styled.div`
   }
 
   @media screen and (max-width: 992px) {
-    border-bottom: 1px solid ${props => props.borderColor};
+    border-top: 1px solid ${props => props.borderColor};
     padding: 0px;
+
+    &:last-child {
+      border-bottom: 1px solid ${props => props.borderColor};
+    }
   }
 `
 
@@ -118,18 +122,13 @@ const Content = styled.div`
 
 const BadgeIcon = styled.div`
   margin: auto 17px auto 0px;
-  width: 13.096px;
-  height: 13.096px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 2.278px;
-  border: 1.139px solid ${props => props.borderColor};
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.15);
 
   img {
-    width: 9px;
-    height: 9px;
+    width: 16px;
+    height: 16px;
   }
 
   &.network-badge {
@@ -201,4 +200,33 @@ const MobileContentContainer = styled.div`
   width: 100%;
 `
 
-export { DetailView, FlexDiv, BadgeIcon, Content, LogoImg, ContentInner, MobileContentContainer }
+const Autopilot = styled.div`
+  display: flex;
+  flex-flow: row;
+  border-radius: 13px;
+  justify-content: left;
+  align-items: center;
+  background: #ecfdf3;
+  color: #5dcf46;
+  padding: 3px 10px;
+  gap: 5px;
+  width: 85px;
+`
+
+const NewLabel = styled.div`
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 15px;
+`
+
+export {
+  DetailView,
+  FlexDiv,
+  BadgeIcon,
+  Content,
+  LogoImg,
+  ContentInner,
+  MobileContentContainer,
+  Autopilot,
+  NewLabel,
+}

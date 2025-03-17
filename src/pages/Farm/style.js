@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const FarmContainer = styled.div`
   text-align: left;
   width: 100%;
-  margin-left: 280px;
+  margin-left: 260px;
   background: ${props => props.bgColor};
   transition: 0.25s;
   display: flex;

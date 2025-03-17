@@ -591,13 +591,13 @@ const PositionModal = ({
         <FTokenInfo>
           <div className="modal-header-part">
             <NewLabel margin="auto 16px auto 0px">
-              <IconCard bgColor="#6988ff">
+              <IconCard bgColor="#5dcf46">
                 <BsArrowDown />
               </IconCard>
             </NewLabel>
             <NewLabel align="left" marginRight="12px">
               <NewLabel
-                color="#6988FF"
+                color="#5dcf46"
                 size={isMobile ? '18px' : '18px'}
                 height={isMobile ? '28px' : '28px'}
                 weight="600"

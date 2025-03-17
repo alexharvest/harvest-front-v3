@@ -22,6 +22,8 @@ import amplifierMethods from '../services/web3/contracts/amplifier/methods'
 import boostStakingMethods from '../services/web3/contracts/boost-staking/methods'
 import poolContractData from '../services/web3/contracts/pool/contract.json'
 import poolMethods from '../services/web3/contracts/pool/methods'
+import iporVaultData from '../services/web3/contracts/ipor-vault/contract.json'
+import iporVaultMethods from '../services/web3/contracts/ipor-vault/methods'
 import tokenContractData from '../services/web3/contracts/token/contract.json'
 import tokenMethods from '../services/web3/contracts/token/methods'
 import uniStatusViewerContractData from '../services/web3/contracts/unistatus-viewer/contract.json'
@@ -330,51 +332,7 @@ const ActionsProvider = ({ children }) => {
       const hasDeniedRequest = false
       let updatedLpTokenBalance, updatedLpTokenApprovedBalance
 
-      // await forEach(amountsToExecute, async (amount, amountIdx) => {
-      //   let hasEnoughApprovedAmount
-
-      //   if (multipleAssets) {
-      //     if (amount !== null) {
-      //       const tokenInstance = await newContractInstance(
-      //         null,
-      //         addresses[multipleAssets[amountIdx]],
-      //         tokenContractData.abi,
-      //       )
-
-      //       const currApprovedBalance = await tokenMethods.getApprovedAmount(
-      //         account,
-      //         token.vaultAddress,
-      //         tokenInstance,
-      //       )
-
-      //       hasEnoughApprovedAmount = new BigNumber(amount).isLessThanOrEqualTo(
-      //         new BigNumber(currApprovedBalance),
-      //       )
-      //     }
-      //   } else {
-      //     hasEnoughApprovedAmount = new BigNumber(amount).isLessThanOrEqualTo(
-      //       new BigNumber(approvedBalance),
-      //     )
-      //   }
-
-      //   if (amount !== null && !hasEnoughApprovedAmount && !hasDeniedRequest) {
-      //     setPendingAction(ACTIONS.APPROVE_DEPOSIT)
-
-      //     hasDeniedRequest = await handleOldApproval(
-      //       account,
-      //       contracts,
-      //       multipleAssets ? multipleAssets[amountIdx] : tokenSymbol,
-      //       vaultData.vaultAddress,
-      //       null,
-      //       setPendingAction,
-      //       onSuccessApproval,
-      //     )
-      //   }
-      // })
-
       if (!hasDeniedRequest) {
-        // setPendingAction(ACTIONS.DEPOSIT)
-
         try {
           if (multipleAssets) {
             const firstAmount =
@@ -561,6 +519,64 @@ const ActionsProvider = ({ children }) => {
       }
     },
     [],
+  )
+
+  const handleIPORDeposit = useCallback(
+    async (
+      account,
+      token,
+      amount,
+      onSuccessDeposit = async () => {},
+      onFailureDeposit = () => {},
+    ) => {
+      const tokenDisplayName = token.tokenNames[0]
+      const web3Instance = await getWeb3(false, account, web3)
+
+      const iporVaultInstance = await newContractInstance(
+        null,
+        token.vaultAddress,
+        iporVaultData.abi,
+        web3Instance,
+      )
+      try {
+        await iporVaultMethods.deposit(amount, account, iporVaultInstance)
+        toast.success(`${tokenDisplayName} deposit completed`)
+        await onSuccessDeposit()
+        return true
+      } catch (err) {
+        const errorMessage = formatWeb3PluginErrorMessage(err)
+        toast.error(errorMessage)
+        onFailureDeposit()
+        return false
+      }
+    },
+    [web3],
+  )
+
+  const handleIPORWithdraw = useCallback(
+    async (account, token, amount, onSuccess = () => {}) => {
+      const tokenDisplayName = token.tokenNames[0]
+      const web3Instance = await getWeb3(false, account, web3)
+
+      const iporVaultInstance = await newContractInstance(
+        null,
+        token.vaultAddress,
+        iporVaultData.abi,
+        web3Instance,
+      )
+
+      try {
+        await iporVaultMethods.withdraw(amount, account, iporVaultInstance)
+        toast.success(`${tokenDisplayName} withdraw completed`)
+        await onSuccess()
+        return true
+      } catch (err) {
+        const errorMessage = formatWeb3PluginErrorMessage(err)
+        toast.error(errorMessage)
+        return false
+      }
+    },
+    [web3],
   )
 
   const handleOldStake = useCallback(
@@ -979,6 +995,8 @@ const ActionsProvider = ({ children }) => {
         handleApproval,
         handleOldApproval,
         handleDeposit,
+        handleIPORDeposit,
+        handleIPORWithdraw,
         handleStakeApproval,
         handleStakeTransaction,
         handleOldStake,

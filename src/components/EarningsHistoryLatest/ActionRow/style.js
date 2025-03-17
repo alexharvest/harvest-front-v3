@@ -5,15 +5,22 @@ const DetailView = styled.div`
   padding: 15px 25px;
   cursor: pointer;
   transition: 0.25s;
-  border-bottom: 1px solid ${props => props.borderColor};
 
   &:hover {
     background: ${props => props.hoverColor};
   }
 
+  @media screen and (max-width: 1100px) {
+    padding: 10px 15px;
+  }
+
   @media screen and (max-width: 992px) {
     padding: 0px;
     border-bottom: 1px solid ${props => props.borderColor};
+
+    &:first-child {
+      border-top: 1px solid ${props => props.borderColor};
+    }
   }
 `
 
@@ -68,6 +75,12 @@ const NewLabel = styled.div`
     props.justifyContent
       ? `
     justify-content: ${props.justifyContent};
+  `
+      : ''}
+  ${props =>
+    props.margin
+      ? `
+    margin: ${props.margin};
   `
       : ''}
   ${props =>
@@ -258,12 +271,23 @@ const MobileGreenBox = styled.div`
 const BadgePart = styled.div`
   display: flex;
   justify-content: end;
-  margin-top: 10px;
+  margin-top: 5px;
   align-items: center;
 
-  img {
+  img.network {
     margin-right: 5px;
   }
 `
 
-export { DetailView, FlexDiv, Content, NetImg, NewLabel, MobileGreenBox, BadgePart }
+const Autopilot = styled.div`
+  display: flex;
+  justify-content: center;
+  border-radius: 13px;
+  background: #ecfdf3;
+  color: #5dcf46;
+  padding: 3px 10px;
+  margin-left: 5px;
+  width: 85px;
+`
+
+export { DetailView, FlexDiv, Content, NetImg, NewLabel, MobileGreenBox, BadgePart, Autopilot }

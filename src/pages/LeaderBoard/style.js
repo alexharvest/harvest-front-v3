@@ -9,7 +9,7 @@ const Container = styled.div`
   background: ${props => props.bgColor};
   transition: 0.25s;
   position: relative;
-  margin-left: 280px;
+  margin-left: 260px;
 
   @media screen and (min-width: 1920px) {
     display: flex;
@@ -47,7 +47,6 @@ const TransactionDetails = styled.div`
   border-radius: 15px;
   transition: 0.25s;
   margin-top: 25px;
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.06);
   @media screen and (max-width: 992px) {
     margin-top: 0px;
   }
@@ -132,8 +131,6 @@ const TableContent = styled.div`
       : ``}
   @media screen and (max-width: 992px) {
     // overflow-x: scroll;
-    border-radius: 15px 15px 0px 0px;
-    border: 1px solid ${props => props.borderColor};
     ${props =>
       props.count === 0
         ? `
@@ -163,7 +160,7 @@ const TableIntro = styled.div`
   margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '20px')};
 `
 const SpaceLine = styled.div`
-  border-bottom: 1px solid rgba(234, 236, 240, 1);
+  border-bottom: 1px solid ${props => props.borderColor};
 `
 const NewLabel = styled.div`
   font-weight: ${props => props.weight || '400'};
@@ -361,7 +358,7 @@ const CurrencyDropDown = styled(Dropdown.Toggle)`
 const CurrencySelect = styled.div`
   width: 100%;
   height: 40px;
-  border: 1px solid #d0d5dd;
+  border: 1px solid ${props => props.borderColor};
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   transition: 0.5s;
   border-radius: 8px;
@@ -408,7 +405,7 @@ const CurrencySelect = styled.div`
 
 const CurrencyDropDownMenu = styled(Dropdown.Menu)`
   background-color: ${props => props.backcolor} !important;
-  border: 1px solid #d0d5dd;
+  border: 1px solid ${props => props.borderColor};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   border-radius: 8px !important;
   padding: 0;

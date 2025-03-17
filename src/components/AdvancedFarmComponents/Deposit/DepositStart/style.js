@@ -178,7 +178,7 @@ const NewLabel = styled.div`
 `
 
 const Buttons = styled.button`
-  background: #15b088;
+  background: #5dcf46;
   border: none;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   color: white;
@@ -188,11 +188,11 @@ const Buttons = styled.button`
   width: 100%;
 
   &:hover {
-    background: #2ccda4;
+    background: ${props => props.hoverColor};
   }
 
   &:active {
-    background: #4fdfbb;
+    background: #46eb25;
   }
 `
 
@@ -239,7 +239,7 @@ const IconCard = styled.div`
   height: 48px;
   border-radius: 50%;
   padding: 8px;
-  background: #15b088;
+  background: #5dcf46;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   justify-content: center;
 `
@@ -323,6 +323,7 @@ const SlippageInput = styled.div`
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
+      appearance: none;
       -webkit-appearance: none;
       -moz-appearance: textfield;
       margin: 0;

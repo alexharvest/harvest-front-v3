@@ -17,8 +17,6 @@ import Farm from '../../assets/images/logos/analytics/farm.svg'
 import IFarm from '../../assets/images/logos/iFarm.svg'
 import GasSavedImage from '../../assets/images/logos/analytics/GasFeeSave.svg'
 import AutoHarvest from '../../assets/images/logos/analytics/AutoHarvest.svg'
-// import TotalDeposit from '../../assets/images/logos/analytics/TotalDeposit.svg'
-// import MonthlyProfit from '../../assets/images/logos/analytics/MonthlyProfit.svg'
 import ExternalLink from '../../assets/images/logos/analytics/ExternalLink.svg'
 import AnalyticChart from '../../components/AnalyticComponents/AnalyticChart'
 import AnimatedDots from '../../components/AnimatedDots'
@@ -102,10 +100,9 @@ const Analytic = () => {
   } = useStats()
   const {
     darkMode,
-    pageBackColor,
+    bgColorNew,
     fontColor,
-    borderColor,
-    backColor,
+    borderColorBox,
     boxShadowColor,
     analyticTitleColor,
   } = useThemeContext()
@@ -134,17 +131,16 @@ const Analytic = () => {
   }, [])
 
   return (
-    <Container pageBackColor={pageBackColor}>
+    <Container pageBackColor={bgColorNew}>
       <Content>
         <FarmStatsContainer firstLine>
           <ValueComponent
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             fontColor={fontColor}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
             <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
-              {/* <img src={TotalDeposit} alt="total value locked" /> */}
               Total Value Locked
             </CompHeader>
             <FarmSubTitle bold={600} size="30px" lineHeight="38px">
@@ -171,13 +167,12 @@ const Analytic = () => {
           </ValueComponent>
 
           <ValueComponent
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             fontColor={fontColor}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
             <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
-              {/* <img src={MonthlyProfit} alt="monthly crops" /> */}
               Monthly Crops to Farmers
             </CompHeader>
             <FarmSubTitle
@@ -214,29 +209,23 @@ const Analytic = () => {
           </ValueComponent>
 
           <ValueComponent
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             fontColor={fontColor}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader fontColor={analyticTitleColor}>
-              {/* <img src={Farm} width="32px" height="32px" alt="" /> */}
-              iFARM/FARM staking APY:
-            </CompHeader>
+            <CompHeader fontColor={analyticTitleColor}>iFARM/FARM staking APY:</CompHeader>
             <FarmSubTitle data-tip data-for="details-box" bold={600} size="30px" lineHeight="38px">
               {profitShareAPY ? `${Number(profitShareAPY).toFixed(2)}%` : <AnimatedDots />}
             </FarmSubTitle>
           </ValueComponent>
           <ValueComponent
             fontColor={fontColor}
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader fontColor={analyticTitleColor}>
-              {/* <img src={Farm} width="32px" height="32px" alt="" /> */}
-              Total FARM staked:
-            </CompHeader>
+            <CompHeader fontColor={analyticTitleColor}>Total FARM staked:</CompHeader>
             <FarmSubTitle data-tip data-for="details-box" bold={600} size="30px" lineHeight="38px">
               {percentOfFarmStaked ? (
                 `${Math.round(Number(percentOfFarmStaked))}%`
@@ -276,8 +265,8 @@ const Analytic = () => {
             direction="row"
             height="450px"
             fontColor={fontColor}
-            backColor={backColor}
-            borderColor={borderColor}
+            backColor={bgColorNew}
+            borderColor={borderColorBox}
           >
             {loadComplete && <AnalyticChart />}
           </StatsBox>
@@ -331,9 +320,9 @@ const Analytic = () => {
           <StatsValue width={isMobile ? '100%' : '50%'}>
             <StatsValue width="100%" direction="row" fontColor={fontColor}>
               <ValueComponent
-                borderColor={borderColor}
+                borderColor={borderColorBox}
                 fontColor={fontColor}
-                backColor={backColor}
+                backColor={bgColorNew}
                 width="49%"
                 className="child first-comp"
               >
@@ -371,8 +360,8 @@ const Analytic = () => {
               </ValueComponent>
 
               <ValueComponent
-                borderColor={borderColor}
-                backColor={backColor}
+                borderColor={borderColorBox}
+                backColor={bgColorNew}
                 fontColor={fontColor}
                 width="49%"
                 className="child"
@@ -417,8 +406,8 @@ const Analytic = () => {
               align="flex-start"
               direction="column"
               fontColor={fontColor}
-              backColor={backColor}
-              borderColor={borderColor}
+              backColor={bgColorNew}
+              borderColor={borderColorBox}
             >
               <StatsContainerRow margin="27px 29px">
                 <DataSourceInner>
@@ -452,8 +441,8 @@ const Analytic = () => {
             width={isMobile ? '100%' : '50%'}
             direction="row"
             fontColor={fontColor}
-            backColor={backColor}
-            borderColor={borderColor}
+            backColor={bgColorNew}
+            borderColor={borderColorBox}
           >
             <StatsContainer>
               <BigStatsExchange fontColor={fontColor}>

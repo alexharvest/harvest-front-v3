@@ -48,7 +48,7 @@ const UnstakeStart = ({
   multipleAssets,
   amountsToExecute,
 }) => {
-  const { fontColor1, fontColor2 } = useThemeContext()
+  const { fontColor1, fontColor2, btnColor, btnHoverColor, btnActiveColor } = useThemeContext()
   const { connected, connectAction, account, chainId, setChainId, getWalletBalances } = useWallet()
 
   const [
@@ -155,7 +155,7 @@ const UnstakeStart = ({
             </NewLabel>
             <NewLabel align="left" marginRight="12px">
               <NewLabel
-                color="#15B088"
+                color="#5dcf46"
                 size={isMobile ? '18px' : '18px'}
                 height={isMobile ? '28px' : '28px'}
                 weight="600"
@@ -279,6 +279,9 @@ const UnstakeStart = ({
             <Button
               color="wido-deposit"
               width="100%"
+              btnColor={btnColor}
+              btnHoverColor={btnHoverColor}
+              btnActiveColor={btnActiveColor}
               onClick={async () => {
                 if (!connected) {
                   connectAction()

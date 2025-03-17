@@ -211,6 +211,10 @@ export const newContractInstance = async (contractName, address, customAbi, web3
   return null
 }
 
+export const newIPORContractInstance = async (address, abi, web3Instance) => {
+  return new web3Instance.eth.Contract(abi, address)
+}
+
 export const getExplorerLink = chainId => {
   switch (chainId) {
     case CHAIN_IDS.POLYGON_MAINNET:

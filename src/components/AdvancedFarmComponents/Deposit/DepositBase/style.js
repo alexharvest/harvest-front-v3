@@ -7,7 +7,7 @@ const BaseWidoDiv = styled.div`
 
   &:nth-child(2) {
     padding: 10px 15px 18px 15px;
-    border-top: 1px solid #e3e3e3;
+    border-top: 1px solid ${props => props.borderColor};
   }
 `
 
@@ -15,6 +15,12 @@ const NewLabel = styled.div`
   font-weight: ${props => props.weight || '400'};
   font-size: ${props => props.size || '20px'};
   line-height: ${props => props.height || '0px'};
+  ${props =>
+    props.bg
+      ? `
+    background: ${props.bg};
+  `
+      : ''}
   ${props =>
     props.color
       ? `
@@ -172,6 +178,7 @@ const TokenInput = styled.div`
   position: relative;
 
   input[type='text'] {
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: textfield;
   }
@@ -192,7 +199,7 @@ const TokenAmount = styled.input`
   white-space: nowrap;
   overflow: hidden;
   background: ${props => props.bgColor};
-  border: 1px solid #d0d5dd;
+  border: 1px solid ${props => props.borderColor};
   outline: 0;
   padding: 7px 14px 13px 14px;
   border-radius: 8px;
@@ -201,6 +208,7 @@ const TokenAmount = styled.input`
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: textfield;
     margin: 0;

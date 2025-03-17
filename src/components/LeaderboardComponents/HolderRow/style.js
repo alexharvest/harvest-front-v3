@@ -3,6 +3,7 @@ import styled from 'styled-components'
 const DetailView = styled.div`
   width: 100%;
   padding: 16px 24px;
+  cursor: pointer;
   background: ${props => props.background};
   border: 1px solid ${props => props.borderColor};
   border-top: 0px;

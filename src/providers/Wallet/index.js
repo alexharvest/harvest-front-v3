@@ -217,6 +217,7 @@ const WalletProvider = _ref => {
   const connectAction = useCallback(async () => {
     await connect()
   }, [connect])
+
   const getWalletBalances = useCallback(
     // eslint-disable-next-line func-names
     async function (selectedTokens, newAccount, fresh) {
@@ -233,7 +234,9 @@ const WalletProvider = _ref => {
           selectedTokens
             .filter(token => !isArray(tokens[token].tokenAddress))
             .map(async token => {
-              const { methods, instance } = contracts[token]
+              const { methods, instance } = tokens[token].isIPORVault
+                ? contracts.iporVaults[token]
+                : contracts[token]
               const vaultAddress =
                 token === IFARM_TOKEN_SYMBOL
                   ? tokens[token].tokenAddress
@@ -285,6 +288,7 @@ const WalletProvider = _ref => {
               }
             }),
         )
+
         setBalancesToLoad([])
         setBalances(currBalances => ({ ...(newAccount ? {} : currBalances), ...fetchedBalances }))
         setApprovedBalances(currApprovedBalances => ({

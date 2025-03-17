@@ -60,11 +60,11 @@ const MobilePanelHeader = ({
 
   const { logoUrl } = token
 
-  const { badgeIconBackColor, fontColor, borderColor, setPrevPage } = useThemeContext()
+  const { badgeIconBackColor, fontColor, borderColorBox, setPrevPage } = useThemeContext()
   return (
     <PanelContainer
       fontColor={fontColor}
-      borderColor={borderColor}
+      borderColor={borderColorBox}
       onClick={() => {
         const network = chainList[badgeId].name.toLowerCase()
         const address = isSpecialVault
@@ -75,17 +75,6 @@ const MobilePanelHeader = ({
         push(url)
       }}
     >
-      {/* <FlexDiv className="token-icons" width="10%">
-        <BadgeIcon badgeBack={badgeIconBackColor}>
-          {BadgeAry[badgeId] ? (
-            <img src={BadgeAry[badgeId]} width="10" height="10" alt="" />
-          ) : (
-            <></>
-          )}
-        </BadgeIcon>
-        {lsdToken ? <img className="tag" src={LSD} alt="" /> : null}
-        {desciToken ? <img className="tag" src={DESCI} alt="" /> : null}
-      </FlexDiv> */}
       <FlexDiv
         className="token-symbols"
         width="60%"

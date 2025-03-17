@@ -1,7 +1,6 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 import BigNumber from 'bignumber.js'
-import mobile from 'is-mobile'
 import { get, isArray, isNaN, isEmpty } from 'lodash'
 import {
   DECIMAL_PRECISION,
@@ -170,19 +169,23 @@ export const showUsdValue = (value, currencySym) => {
 }
 
 export const showUsdValueCurrency = (value, currencySym, currencyRate) => {
-  if (value === 0) {
+  let numValue = Number(value)
+  if (numValue === 0) {
     return `${currencySym}0`
   }
-  value *= currencyRate
-  if (value < 0.01) {
+  numValue *= currencyRate
+  if (numValue > 0 && numValue < 0.01) {
     return `<${currencySym}0.01`
   }
+  if (numValue < 0 && numValue > -0.01) {
+    return `-<${currencySym}0.01`
+  }
   const formattedValue = new Intl.NumberFormat('en-US', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value)
+    minimumFractionDigits: currencySym === '¥' ? 0 : 2,
+    maximumFractionDigits: currencySym === '¥' ? 0 : 2,
+  }).format(Math.abs(numValue))
 
-  return `${currencySym}${formattedValue}`
+  return `${numValue < 0 ? '-' : ''}${currencySym}${formattedValue}`
 }
 
 export const formatFrequency = value => {
@@ -207,7 +210,7 @@ export const formatFrequency = value => {
   return [daysText, hoursText, minutesText].filter(Boolean).join(' ')
 }
 
-export const showTokenBalance = balance => {
+export const showTokenBalance = (balance, decimals = 6) => {
   let value = parseFloat(balance.toString().replace(/,/g, ''))
   if (isNaN(value)) {
     return '0'
@@ -215,13 +218,13 @@ export const showTokenBalance = balance => {
   if (value === 0) {
     return '0'
   }
-  if (value < 0.000001) {
+  if (value > 0 && value < 0.000001) {
     return '<0.000001'
   }
-  value = value.toFixed(6).replace(/\.?0+$/, '')
+  value = value.toFixed(decimals).replace(/\.?0+$/, '')
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 6,
+    maximumFractionDigits: decimals,
   }).format(value)
 }
 
@@ -247,10 +250,7 @@ export const getCurrencyRate = (sym, item, rateData) => {
 
 export const formatAddress = address => {
   if (address) {
-    return `${address.substring(0, mobile() ? 6 : 7)}...${address.substring(
-      address.length - 4,
-      address.length,
-    )}`
+    return `${address.substring(0, 6)}...${address.substring(address.length - 4, address.length)}`
   }
   return '0x...0'
 }

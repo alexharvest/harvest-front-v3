@@ -34,7 +34,7 @@ import {
   CoinSection,
 } from './style'
 
-const Home = () => {
+const Tutorial = () => {
   const { bgColor, fontColor, fontColor1, fontColor5, linkColor, bgColorFarm } = useThemeContext()
 
   return (
@@ -399,4 +399,4 @@ const Home = () => {
   )
 }
 
-export default Home
+export default Tutorial

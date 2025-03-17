@@ -24,20 +24,22 @@ import {
   ThemeMode,
   ExploreButtonStyle,
 } from './style'
+import { handleToggle } from '../../../utilities/parsers'
 
 const HistoryData = ({ historyData, isDashboard, noData }) => {
   const { push } = useHistory()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
-  const itemsPerPage = isMobile ? 6 : 5
+  const itemsPerPage = isMobile ? 5 : isDashboard ? 25 : 5
+  const filteredHistoryData = historyData.filter(el => el.event !== 'Rewards')
 
   const {
-    borderColorTable,
-    bgColorTable,
-    bgColorFarm,
+    borderColorBox,
+    bgColorNew,
     fontColor,
     fontColor1,
     fontColor2,
-    hoverColorButton,
+    btnHoverColor,
+    btnColor,
     inputBorderColor,
   } = useThemeContext()
 
@@ -46,22 +48,20 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
   const [itemOffset, setItemOffset] = useState(0)
   const [showTotalBalance, setShowTotalBalance] = useState(true)
 
-  const switchEarnings = () => setShowTotalBalance(prev => !prev)
-
   const { currentItems, pageCount } = useMemo(() => {
     const endOffset = itemOffset + itemsPerPage
-    const currentItems1 = historyData?.slice(itemOffset, endOffset)
-    const pageCount1 = Math.ceil(historyData?.length / itemsPerPage)
+    const currentItems1 = filteredHistoryData?.slice(itemOffset, endOffset)
+    const pageCount1 = Math.ceil(filteredHistoryData?.length / itemsPerPage)
 
     return { currentItems: currentItems1, pageCount: pageCount1 }
-  }, [historyData, itemOffset, itemsPerPage])
+  }, [filteredHistoryData, itemOffset, itemsPerPage])
 
   const handlePageClick = useCallback(
     event => {
-      const newOffset = (event.selected * itemsPerPage) % historyData.length
+      const newOffset = (event.selected * itemsPerPage) % filteredHistoryData.length
       setItemOffset(newOffset)
     },
-    [historyData, itemsPerPage],
+    [filteredHistoryData, itemsPerPage],
   )
 
   const CustomPreviousComponent = () => (
@@ -78,10 +78,12 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
 
   return (
     <TransactionDetails
-      hasData={(connected && historyData?.length > 0) || isDashboard === 'true' ? 'unset' : '80vh'}
+      hasData={
+        (connected && filteredHistoryData?.length > 0) || isDashboard === true ? 'unset' : '80vh'
+      }
     >
       <TableContent>
-        <Header borderColor={borderColorTable} backColor={bgColorTable}>
+        <Header borderColor={borderColorBox} backColor={bgColorNew}>
           <Column width={isMobile ? '25%' : '20%'} color={fontColor}>
             <Col>Event</Col>
           </Column>
@@ -105,7 +107,7 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
                   <input
                     type="checkbox"
                     checked={showTotalBalance}
-                    onChange={switchEarnings}
+                    onChange={handleToggle(setShowTotalBalance)}
                     aria-label="Switch between balance and netChange earnings"
                   />
                 </div>
@@ -120,7 +122,7 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
             <Col>Net change</Col>
           </Column>
         </Header>
-        {connected && historyData?.length > 0 ? (
+        {connected && filteredHistoryData?.length > 0 ? (
           <div>
             <ContentBox>
               {currentItems
@@ -128,14 +130,14 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
                   const info = currentItems[i]
                   return <ActionRow key={i} info={info} showTotalBalance={showTotalBalance} />
                 })
-                .slice(0, 5)}
+                .slice(0, isMobile ? 5 : isDashboard ? 25 : 5)}
             </ContentBox>
             <HistoryPagination
-              bgColor={bgColorFarm}
+              bgColor={bgColorNew}
               fontColor={fontColor}
               fontColor1={fontColor1}
               fontColor2={fontColor2}
-              borderColor={inputBorderColor}
+              borderColor={borderColorBox}
             >
               <ReactPaginate
                 breakLabel="..."
@@ -157,7 +159,7 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
           !noData ? (
             <SkeletonLoader isPosition="false" />
           ) : (
-            <EmptyPanel borderColor={borderColorTable}>
+            <EmptyPanel borderColor={borderColorBox}>
               <EmptyInfo
                 weight={500}
                 size={14}
@@ -166,9 +168,12 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
                 flexFlow="column"
                 gap="0px"
               >
-                <div>No activity found for this wallet in this strategy.</div>
+                <div>
+                  {isDashboard
+                    ? 'No activity found for this wallet.'
+                    : 'No activity found for this wallet in this strategy.'}
+                </div>
                 <ExploreButtonStyle
-                  color="connectwallet"
                   onClick={() => {
                     push(ROUTES.ADVANCED)
                   }}
@@ -176,20 +181,21 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
                   inputBorderColor={inputBorderColor}
                   bordercolor={fontColor}
                   disabled={disableWallet}
+                  backColor={btnColor}
+                  hoverColor={btnHoverColor}
                 >
                   <img src={AdvancedImg} className="explore-farms" alt="" />
-                  Explore Farms
+                  Explore Vaults
                 </ExploreButtonStyle>
               </EmptyInfo>
             </EmptyPanel>
           )
         ) : (
-          <EmptyPanel>
+          <EmptyPanel borderColor={borderColorBox}>
             <EmptyInfo weight={500} size={14} lineHeight={20} color={fontColor}>
               Connect wallet to see full event history.
             </EmptyInfo>
             <ConnectButtonStyle
-              color="connectwallet"
               onClick={() => {
                 connectAction()
               }}
@@ -197,9 +203,10 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
               inputBorderColor={inputBorderColor}
               bordercolor={fontColor}
               disabled={disableWallet}
-              hoverColor={hoverColorButton}
+              hoverColor={btnHoverColor}
+              backColor={btnColor}
             >
-              Connect Wallet
+              Connect
             </ConnectButtonStyle>
           </EmptyPanel>
         )}

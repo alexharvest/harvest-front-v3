@@ -9,14 +9,32 @@ import {
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
+  ReferenceLine,
+  ReferenceArea,
 } from 'recharts'
 import { round } from 'lodash'
 import { ClipLoader } from 'react-spinners'
+import Slider from 'rc-slider'
 import { useWindowWidth } from '@react-hook/window-size'
 import { useThemeContext } from '../../../providers/useThemeContext'
-import { ceil10, floor10, round10, numberWithCommas, formatDate } from '../../../utilities/formats'
-import { findMax, findMin, getRangeNumber, getTimeSlots } from '../../../utilities/parsers'
-import { LoadingDiv, NoData } from './style'
+import {
+  ceil10,
+  floor10,
+  round10,
+  numberWithCommas,
+  formatDate,
+  denormalizeSliderValue,
+  normalizeSliderValue,
+} from '../../../utilities/formats'
+import {
+  findClosestIndex,
+  findMax,
+  findMin,
+  getChartDomain,
+  getRangeNumber,
+  getTimeSlots,
+} from '../../../utilities/parsers'
+import { ChartWrapper, LoadingDiv, NoData } from './style'
 import { fromWei } from '../../../services/web3'
 import { useRate } from '../../../providers/Rate'
 
@@ -119,15 +137,24 @@ const ApexChart = ({
   handleTooltipContent,
   setFixedLen,
   fixedLen,
+  setSelectedState,
+  isExpanded,
 }) => {
-  const { fontColor, fontColor5 } = useThemeContext()
-
-  const [mainSeries, setMainSeries] = useState([])
+  const { fontColor, fontColor5, bgColorChart } = useThemeContext()
 
   const onlyWidth = useWindowWidth()
+  const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
 
+  const [mainSeries, setMainSeries] = useState([])
+  const [allMainSeries, setAllMainSeries] = useState([])
   const [loading, setLoading] = useState(false)
   const [isDataReady, setIsDataReady] = useState(true)
+  const [startPoint, setStartPoint] = useState(0)
+  const [endPoint, setEndPoint] = useState(0)
+  const [minAllVal, setMinAllVal] = useState(0)
+  const [maxAllVal, setMaxAllVal] = useState(0)
+  const [startTimeStampPos, setStartTimeStampPos] = useState()
+  const [endTimeStampPos, setEndTimeStampPos] = useState()
 
   const { rates } = useRate()
   const [currencySym, setCurrencySym] = useState('$')
@@ -139,8 +166,6 @@ const ApexChart = ({
       setCurrencyRate(rates.rateData[rates.currency.symbol])
     }
   }, [rates])
-
-  const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
 
   const CustomTooltip = ({ active, payload, onTooltipContentChange }) => {
     useEffect(() => {
@@ -209,15 +234,10 @@ const ApexChart = ({
   useEffect(() => {
     const init = async () => {
       setLoading(true)
-      if (data === undefined) {
-        setIsDataReady(false)
-        return
-      }
 
       let mainData = [],
-        tvlData = [],
-        apyData = [],
-        userPriceFeedData = [],
+        allMainData = [],
+        usedData = [],
         maxAPY = lastAPY,
         minAPY,
         maxTVL = lastTVL,
@@ -229,28 +249,81 @@ const ApexChart = ({
         len = 0,
         unitBtw,
         roundNum,
-        firstDate,
-        slotCount = 100,
+        slots = [],
+        slotCount = 50,
+        allSlotCount = 50,
         ago
 
-      if (range === 'ALL' || range === '1Y') {
-        if (filter === 0) {
-          firstDate =
-            data?.generalApies?.length > 0
-              ? data.generalApies[data.generalApies.length - 1]?.timestamp
-              : null
-        } else if (filter === 1) {
-          firstDate = data?.tvls?.length > 0 ? data.tvls[data.tvls.length - 1]?.timestamp : null
-        } else {
-          firstDate =
-            data?.vaultHistories?.length > 0
-              ? data.vaultHistories[data.vaultHistories.length - 1]?.timestamp
-              : null
-        }
+      if ((Object.keys(data).length === 0 && data.constructor === Object) || data.length === 0) {
+        setIsDataReady(false)
+        return
+      }
 
-        const nowDate = new Date(),
-          toDate = Math.floor(nowDate.getTime() / 1000),
-          periodDate = (toDate - Number(firstDate)) / (24 * 60 * 60)
+      if (filter === 1) {
+        if (isIFARM) {
+          if (iFarmTVL && iFarmTVL.FARM) {
+            if (iFarmTVL.FARM.length === 0) {
+              setIsDataReady(false)
+              return
+            }
+            usedData = iFarmTVL && iFarmTVL.FARM ? iFarmTVL.FARM : []
+          } else {
+            return
+          }
+        } else {
+          if (data && data.tvls) {
+            if (data.tvls.length === 0) {
+              setIsDataReady(false)
+              return
+            }
+          }
+          usedData = data && data.tvls ? data.tvls : []
+          if (usedData.length !== 0 && lastTVL && !Number.isNaN(lastTVL)) {
+            usedData[0].value = lastTVL
+          }
+        }
+      } else if (filter === 0) {
+        if (data && data.generalApies) {
+          if (data.generalApies.length === 0) {
+            setIsDataReady(false)
+            return
+          }
+        }
+        usedData = data.generalApies !== undefined ? data.generalApies : []
+        if (lastAPY && !Number.isNaN(lastAPY) && usedData.length > 0) {
+          usedData[0].apy = lastAPY
+        }
+      } else {
+        if (data && data.vaultHistories) {
+          if (data.vaultHistories.length === 0) {
+            setIsDataReady(false)
+            return
+          }
+        }
+        usedData = data && data.vaultHistories ? data.vaultHistories : []
+      }
+
+      const nowDate = new Date(),
+        currentTimeStamp = Math.floor(nowDate.getTime() / 1000),
+        firstDate =
+          usedData.length > 0
+            ? usedData[isIFARM && filter === 1 ? 0 : usedData.length - 1]?.timestamp
+            : null
+
+      const maxTimestamp =
+        usedData[isIFARM && filter === 1 ? usedData.length - 1 : 0].timestamp * 1000
+      const minTimestamp =
+        usedData[isIFARM && filter === 1 ? 0 : usedData.length - 1].timestamp * 1000
+      const startTimestamp = denormalizeSliderValue(startPoint, minTimestamp, maxTimestamp)
+      const endTimestamp = denormalizeSliderValue(endPoint, minTimestamp, maxTimestamp)
+
+      if (range === 'ALL' || range === '1Y' || range === 'CUSTOM') {
+        let periodDate
+        if (range === 'CUSTOM') {
+          periodDate = (maxTimestamp / 1000 - startTimestamp) / (24 * 60 * 60)
+        } else {
+          periodDate = (currentTimeStamp - Number(firstDate)) / (24 * 60 * 60)
+        }
 
         if (range === '1Y' && periodDate > 365) {
           ago = getRangeNumber(range)
@@ -276,68 +349,71 @@ const ApexChart = ({
         ago = getRangeNumber(range)
       }
 
-      const slots = getTimeSlots(ago, slotCount)
+      slots = getTimeSlots(ago, slotCount)
 
-      if (filter === 1) {
-        if (isIFARM) {
-          if (iFarmTVL && iFarmTVL.FARM) {
-            if (iFarmTVL.FARM.length === 0) {
-              setIsDataReady(false)
-              return
-            }
-          } else {
-            return
-          }
-        } else {
-          if (data && data.tvls) {
-            if (data.tvls.length === 0) {
-              setIsDataReady(false)
-              return
-            }
-          }
-          tvlData = data && data.tvls ? data.tvls : []
-          if (tvlData.length !== 0 && lastTVL && !Number.isNaN(lastTVL)) tvlData[0].value = lastTVL
-        }
-      } else if (filter === 0) {
-        if (data && data.generalApies) {
-          if (data.generalApies.length === 0) {
-            setIsDataReady(false)
-            return
-          }
-        }
-        apyData = data.generalApies !== undefined ? data.generalApies : []
-
-        if (lastAPY && !Number.isNaN(lastAPY) && apyData.length > 0) apyData[0].apy = lastAPY
+      const allPeriodDate = (currentTimeStamp - Number(firstDate)) / (24 * 60 * 60)
+      const allAgo = Math.ceil(allPeriodDate)
+      if (allAgo > 700) {
+        allSlotCount = 500
+      } else if (allAgo > 365) {
+        allSlotCount = 400
+      } else if (allAgo > 180) {
+        allSlotCount = 300
+      } else if (allAgo > 90) {
+        allSlotCount = 150
+      } else if (allAgo > 60) {
+        allSlotCount = 100
+      } else if (allAgo > 30) {
+        allSlotCount = 100
       } else {
-        if (data && data.vaultHistories) {
-          if (data.vaultHistories.length === 0) {
-            setIsDataReady(false)
-            return
-          }
-        }
-        userPriceFeedData = data && data.vaultHistories ? data.vaultHistories : []
+        allSlotCount = 50
+      }
+
+      const allSlots = getTimeSlots(allAgo, allSlotCount)
+      const allChartData = usedData.filter(obj => parseInt(obj.timestamp, 10) >= firstDate)
+      const allChartSlot = allSlots.filter(obj => parseInt(obj, 10) >= firstDate)
+      if (filter === 1 && isIFARM) {
+        allMainData = generateIFARMTVLWithSlots(allChartSlot, iFarmTVL, 'value')
+      } else {
+        allMainData = generateChartDataWithSlots(
+          allChartSlot,
+          allChartData,
+          filter === 0 ? 'apy' : filter === 1 ? 'value' : 'sharePrice',
+          filter,
+          token.decimals || token.data.watchAsset.decimals,
+        )
+      }
+
+      if (range === 'CUSTOM') {
+        usedData = usedData.filter(obj => {
+          const timestamp = parseInt(obj.timestamp, 10)
+          return timestamp >= startTimestamp && timestamp <= endTimestamp
+        })
+        slots = slots.filter(obj => {
+          const timestamp = parseInt(obj, 10)
+          return timestamp >= startTimestamp && timestamp <= endTimestamp
+        })
       }
 
       if (filter === 1) {
         if (isIFARM) {
-          if (iFarmTVL.length === 0) {
+          if (iFarmTVL.FARM.length === 0) {
             return
           }
           const filteredSlots = slots.filter(
-            timestamp => timestamp > Number(iFarmTVL[iFarmTVL.length - 1].timestamp),
+            timestamp => timestamp > Number(iFarmTVL.FARM[0].timestamp),
           )
           mainData = generateIFARMTVLWithSlots(filteredSlots, iFarmTVL, 'value')
         } else {
-          if (tvlData.length === 0) {
-            // setIsDataReady(false)
+          if (usedData.length === 0) {
             return
           }
           const filteredSlots = slots.filter(
-            timestamp => timestamp > Number(tvlData[tvlData.length - 1].timestamp),
+            timestamp => timestamp > Number(usedData[usedData.length - 1].timestamp),
           )
           mainData = generateChartDataWithSlots(
             filteredSlots,
-            tvlData,
+            usedData,
             'value',
             filter,
             token.decimals || token.data.watchAsset.decimals,
@@ -346,16 +422,16 @@ const ApexChart = ({
         maxTVL = findMax(mainData)
         minTVL = findMin(mainData)
       } else if (filter === 0) {
-        if (apyData.length === 0) {
+        if (usedData.length === 0) {
           setIsDataReady(false)
           return
         }
         const filteredSlots = slots.filter(
-          timestamp => timestamp > Number(apyData[apyData.length - 1].timestamp),
+          timestamp => timestamp > Number(usedData[usedData.length - 1].timestamp),
         )
         mainData = generateChartDataWithSlots(
           filteredSlots,
-          apyData,
+          usedData,
           'apy',
           filter,
           token.decimals || token.data.watchAsset.decimals,
@@ -363,16 +439,15 @@ const ApexChart = ({
         maxAPY = findMax(mainData)
         minAPY = findMin(mainData)
       } else {
-        if (userPriceFeedData.length === 0) {
+        if (usedData.length === 0) {
           return
         }
         const filteredSlots = slots.filter(
-          timestamp =>
-            timestamp > Number(userPriceFeedData[userPriceFeedData.length - 1].timestamp),
+          timestamp => timestamp > Number(usedData[usedData.length - 1].timestamp),
         )
         mainData = generateChartDataWithSlots(
           filteredSlots,
-          userPriceFeedData,
+          usedData,
           'sharePrice',
           filter,
           token.decimals || token.data.watchAsset.decimals,
@@ -428,9 +503,7 @@ const ApexChart = ({
           maxValue = ceil10(maxValue, -len)
           minValue = floor10(minValue, -len + 1)
         }
-        /**
-         * Set min value with 0, and max value *1.5 - trello card
-         */
+
         if (unitBtw !== 0) {
           maxValue *= 1.5
           minValue = 0
@@ -451,13 +524,22 @@ const ApexChart = ({
         roundNum = maxValue - minValue < 0.001 ? 6 : 5
       }
 
+      const maxAllValue = findMax(allMainData)
+      const minAllValue = findMin(allMainData)
+      const { maxValue: maxAllDomain, minValue: minAllDomain } = getChartDomain(
+        maxAllValue,
+        minAllValue,
+      )
+
       setMinVal(minValue)
       setMaxVal(maxValue)
+      setMinAllVal(minAllDomain)
+      setMaxAllVal(maxAllDomain)
 
       setFixedLen(filter === 1 ? 0 : len)
       setRoundNumber(roundNum)
 
-      setCurDate(formatDate(mainData[mainData.length - 1].x))
+      setCurDate(formatDate(mainData[mainData.length - 1]?.x))
       const content = numberWithCommas(
         (
           Number(mainData[mainData.length - 1].y) * (filter === 1 ? Number(currencyRate) : 1)
@@ -465,10 +547,26 @@ const ApexChart = ({
       )
       setCurContent(content)
 
+      const startSliderPoint = mainData[0].x
+      const endSliderPoint = mainData[mainData.length - 1].x
+
+      if (range !== 'CUSTOM') {
+        setStartPoint(normalizeSliderValue(startSliderPoint, minTimestamp, maxTimestamp))
+        setEndPoint(normalizeSliderValue(endSliderPoint, minTimestamp, maxTimestamp))
+      }
+
+      if (allMainSeries.length > 0) {
+        const startIndex = findClosestIndex(allMainSeries, startTimestamp * 1000)
+        const endIndex = findClosestIndex(allMainSeries, endTimestamp * 1000)
+        setStartTimeStampPos(startIndex)
+        setEndTimeStampPos(endIndex)
+      }
+
       const yAxisAry = getYAxisValues(minValue, maxValue, roundNum, filter)
       setYAxisTicks(yAxisAry)
 
       setMainSeries(mainData)
+      setAllMainSeries(allMainData)
 
       setLoading(false)
     }
@@ -488,93 +586,163 @@ const ApexChart = ({
     setCurDate,
     token.decimals,
     currencyRate,
+    startPoint,
+    endPoint,
   ])
+
+  const handleSliderChange = value => {
+    setSelectedState('CUSTOM')
+    setStartPoint(value[0])
+    setEndPoint(value[1])
+  }
 
   return (
     <>
       {!loading ? (
-        <ResponsiveContainer
-          width="100%"
-          // height={onlyWidth > 1250 ? 350 : onlyWidth > 1050 ? 330 : 330}
-          height={
-            onlyWidth > 1291
-              ? 346
-              : onlyWidth > 1262
-              ? 365
-              : onlyWidth > 1035
-              ? 365
-              : onlyWidth > 992
-              ? 365
-              : 365
-          }
-        >
-          <ComposedChart
-            data={mainSeries}
-            margin={{
-              top: 20,
-              right: 0,
-              bottom: 0,
-              left: isMobile ? 0 : 0,
-            }}
+        <ChartWrapper bgColorChart={bgColorChart}>
+          <ResponsiveContainer
+            width="100%"
+            // height={onlyWidth > 1250 ? 350 : onlyWidth > 1050 ? 330 : 330}
+            height={
+              onlyWidth > 1291
+                ? 346
+                : onlyWidth > 1262
+                ? 365
+                : onlyWidth > 1035
+                ? 365
+                : onlyWidth > 992
+                ? 365
+                : 365
+            }
           >
-            <defs>
-              <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#00D26B" stopOpacity={0.1} />
-                <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid
-              strokeDasharray="0"
-              strokeLinecap="butt"
-              stroke="rgba(228, 228, 228, 0.2)"
-              vertical={false}
-            />
-            <XAxis
-              dataKey="x"
-              tickLine={false}
-              // interval={20}
-              tickCount={isMobile ? 7 : 5}
-              tick={renderCustomXAxisTick}
-              padding={{ right: 10 }}
-            />
-            <YAxis
-              dataKey="y"
-              tickLine={false}
-              tickCount={5}
-              tick={renderCustomYAxisTick}
-              ticks={yAxisTicks}
-              domain={[minVal, maxVal]}
-            />
-            <Line
-              dataKey="y"
-              type="monotone"
-              unit="M"
-              strokeLinecap="round"
-              strokeWidth={2.5}
-              stroke="#00D26B"
-              dot={false}
-              legendType="none"
-            />
-            <Area
-              type="monotone"
-              dataKey="y"
-              stroke="#00D26B"
-              strokeWidth={2}
-              fillOpacity={1}
-              fill="url(#colorUv)"
-            />
-            <Tooltip
-              content={<CustomTooltip onTooltipContentChange={handleTooltipContent} />}
-              legendType="none"
-              dot={false}
-              cursor={{
-                stroke: '#00D26B',
-                strokeDasharray: 3,
-                strokeLinecap: 'butt',
+            <ComposedChart
+              data={mainSeries}
+              margin={{
+                top: 20,
+                right: 0,
+                bottom: 0,
+                left: isMobile ? 0 : 0,
               }}
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
+            >
+              <defs>
+                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#00D26B" stopOpacity={0.1} />
+                  <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
+                </linearGradient>
+              </defs>
+              <CartesianGrid
+                strokeDasharray="0"
+                strokeLinecap="butt"
+                stroke="rgba(228, 228, 228, 0.2)"
+                vertical={false}
+              />
+              <XAxis
+                dataKey="x"
+                tickLine={false}
+                // interval={20}
+                tickCount={isMobile ? 7 : 5}
+                tick={renderCustomXAxisTick}
+                padding={{ right: 10 }}
+              />
+              <YAxis
+                dataKey="y"
+                tickLine={false}
+                tickCount={5}
+                tick={renderCustomYAxisTick}
+                ticks={yAxisTicks}
+                domain={[minVal, maxVal]}
+              />
+              <Line
+                dataKey="y"
+                type="monotone"
+                unit="M"
+                strokeLinecap="round"
+                strokeWidth={2.5}
+                stroke="#00D26B"
+                dot={false}
+                legendType="none"
+              />
+              <Area
+                type="monotone"
+                dataKey="y"
+                stroke="#00D26B"
+                strokeWidth={2}
+                fillOpacity={1}
+                fill="url(#colorUv)"
+              />
+              <Tooltip
+                content={<CustomTooltip onTooltipContentChange={handleTooltipContent} />}
+                legendType="none"
+                dot={false}
+                cursor={{
+                  stroke: '#00D26B',
+                  strokeDasharray: 3,
+                  strokeLinecap: 'butt',
+                }}
+              />
+            </ComposedChart>
+          </ResponsiveContainer>
+          {isExpanded && (
+            <>
+              {mainSeries.length > 0 && (
+                <div className="chart-slider-wrapper">
+                  <Slider
+                    className="chart-slider"
+                    range
+                    value={[startPoint, endPoint]}
+                    onChange={handleSliderChange}
+                    pushable={1}
+                  />
+                </div>
+              )}
+              <ResponsiveContainer className="bottom-chart" width="100%" height={50}>
+                <ComposedChart
+                  data={allMainSeries}
+                  margin={{ top: 10, right: 0, bottom: 0, left: 0 }}
+                >
+                  <defs>
+                    <linearGradient id="colorUvSmallChart" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#00D26B" stopOpacity={0.1} />
+                      <stop offset="95%" stopColor="#FFFFFF" stopOpacity={0.1} />
+                    </linearGradient>
+                  </defs>
+                  <YAxis
+                    dataKey="y"
+                    tickCount={0}
+                    domain={[minAllVal, maxAllVal]}
+                    stroke="#00D26B"
+                    yAxisId="left"
+                    orientation="left"
+                    mirror
+                  />
+                  <Line
+                    dataKey="y"
+                    type="monotone"
+                    unit="$"
+                    strokeLinecap="round"
+                    strokeWidth={1}
+                    stroke="#00D26B"
+                    dot={false}
+                    legendType="none"
+                    yAxisId="left"
+                  />
+                  <ReferenceLine x={startTimeStampPos} stroke="grey" label="" yAxisId="left" />
+                  <ReferenceLine x={endTimeStampPos} stroke="grey" label="" yAxisId="left" />
+                  <ReferenceArea
+                    x1={startTimeStampPos}
+                    x2={endTimeStampPos}
+                    y1={minAllVal}
+                    y2={maxAllVal}
+                    stroke="#161B26"
+                    fill="#161B26"
+                    strokeOpacity={1}
+                    yAxisId="left"
+                  />
+                </ComposedChart>
+              </ResponsiveContainer>
+            </>
+          )}
+        </ChartWrapper>
       ) : (
         <LoadingDiv>
           {isDataReady ? (
