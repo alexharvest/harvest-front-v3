@@ -54,7 +54,7 @@ const AutopilotPanel = ({
     btnActiveColor,
   } = useThemeContext()
   const { rates } = useRate()
-  // const firstAutopilot = localStorage.getItem('firstAutopilot')
+  const firstAutopilot = localStorage.getItem('firstAutopilot')
 
   const [subscribe, setSubscribe] = useState(true)
   const [modalShow, setModalShow] = useState(false)
@@ -168,11 +168,10 @@ const AutopilotPanel = ({
       }
     } else if (Number(inputAmount) !== 0) {
       if (subscribe) {
-        // if (firstAutopilot === null || firstAutopilot === 'true') {
-        //   localStorage.setItem('firstAutopilot', true)
-        //   setDisclaimersModalShow(true)
-        // } else
-        if (walletBalance >= Number(inputAmount)) {
+        if (firstAutopilot === null || firstAutopilot === 'true') {
+          localStorage.setItem('firstAutopilot', true)
+          setDisclaimersModalShow(true)
+        } else if (walletBalance >= Number(inputAmount)) {
           setModalShow(true)
         } else {
           toast.error(`InputAmount exceeds wallet Balance!`)

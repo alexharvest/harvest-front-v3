@@ -27,7 +27,7 @@ import Migrate from './pages/Migrate'
 const NewLoginModal = () => {
   const newLogin = localStorage.getItem('newLogin')
   const [open, setOpen] = useState(false)
-  const [showModal, setShowModal] = useState(true)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search)
