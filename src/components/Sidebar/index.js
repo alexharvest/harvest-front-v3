@@ -238,9 +238,9 @@ const SideLink = ({
   const { pathname } = useLocation()
   const pageName =
     pathname === '/'
-      ? 'all vaults'
-      : pathname === ROUTES.PORTFOLIO
       ? 'portfolio'
+      : pathname === ROUTES.ADVANCED
+      ? 'all vaults'
       : pathname === ROUTES.TUTORIAL
       ? 'tutorial'
       : pathname === ROUTES.MIGRATE
@@ -286,7 +286,7 @@ const MobileMenu = ({
 }) => {
   const { pathname } = useLocation()
   const pageName =
-    pathname === '/' ? 'all vaults' : pathname === ROUTES.PORTFOLIO ? 'portfolio' : pathname
+    pathname === '/' ? 'portfolio' : pathname === ROUTES.ADVANCED ? 'all vaults' : pathname
   const active = !isWallet && pageName.includes(item.name.toLowerCase())
   const farmsFilter = active
     ? 'invert(75%) sepia(89%) saturate(343%) hue-rotate(52deg) brightness(89%) contrast(86%)'
