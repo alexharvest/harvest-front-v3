@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Dropdown, Offcanvas } from 'react-bootstrap'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation, Link } from 'react-router-dom'
 import { SlArrowDown } from 'react-icons/sl'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import ConnectSuccessIcon from '../../assets/images/logos/sidebar/connect-success.svg'
@@ -41,7 +41,7 @@ import {
   Container,
   FlexDiv,
   Layout,
-  Link,
+  LinkWrap,
   LinkContainer,
   LinksContainer,
   MobileFollow,
@@ -248,7 +248,7 @@ const SideLink = ({
       : pathname
   return (
     /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-    <Link
+    <LinkWrap
       fontColor1={fontColor1}
       active={pageName.includes(item.name.toLowerCase().trim())}
       subItem={subItem}
@@ -269,7 +269,7 @@ const SideLink = ({
       </div>
       <div className="item-name">{item.name}</div>
       {item.new ? <NewTag>New</NewTag> : <></>}
-    </Link>
+    </LinkWrap>
   )
 }
 
@@ -509,7 +509,7 @@ const Sidebar = ({ width }) => {
                 const shouldOpenNewTab = item.newTab || item.enabled === false
 
                 return (
-                  <Fragment key={item.name}>
+                  <Link to={url} key={item.name} style={{ textDecoration: 'none' }}>
                     <LinkContainer
                       href={url}
                       target={shouldOpenNewTab ? '_blank' : '_self'}
@@ -536,7 +536,7 @@ const Sidebar = ({ width }) => {
                         hoverColorSide={hoverColorSide}
                       />
                     </LinkContainer>
-                  </Fragment>
+                  </Link>
                 )
               })}
             </LinksContainer>

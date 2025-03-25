@@ -94,17 +94,16 @@ const CategoryRow = styled.div`
   margin-top: 25px;
 `
 
-const LinkContainer = styled.a`
+const LinkContainer = styled.div`
   position: relative;
   cursor: pointer;
-  text-decoration: none;
 
   @media screen and (min-width: 992px) {
     display: flex;
   }
 `
 
-const Link = styled.button`
+const LinkWrap = styled.button`
   color: ${props => props.fontColor1};
   transition: 0.25s;
   font-size: 15px;
@@ -795,7 +794,7 @@ export {
   Layout,
   LinksContainer,
   LinkContainer,
-  Link,
+  LinkWrap,
   MiddleActionsContainer,
   FlexDiv,
   Address,
