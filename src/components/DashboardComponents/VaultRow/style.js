@@ -1,8 +1,7 @@
 import styled from 'styled-components'
 
-const DetailView = styled.div`
+const DetailView = styled.a`
   width: 100%;
-  padding: 16px 24px;
   cursor: pointer;
   background: ${props => props.background};
   ${props =>
@@ -14,19 +13,7 @@ const DetailView = styled.div`
         ${props.lastElement === 'yes' ? `` : ``}
   `}
   transition: 0.25s;
-
-  &:hover {
-    background: ${props => props.hoverColor};
-  }
-
-  @media screen and (max-width: 992px) {
-    border-top: 1px solid ${props => props.borderColor};
-    padding: 0px;
-
-    &:last-child {
-      border-bottom: 1px solid ${props => props.borderColor};
-    }
-  }
+  text-decoration: none;
 `
 
 const FlexDiv = styled.div`
@@ -36,13 +23,14 @@ const FlexDiv = styled.div`
   width: ${props => (props.width ? props.width : 'auto')};
   padding: ${props => (props.padding ? props.padding : 'unset')};
 
+  &:hover {
+    background: ${props => props.hoverColor};
+  }
+
   @media screen and (max-width: 992px) {
-    ${props =>
-      props.display
-        ? `
-      display: ${props.display};
-    `
-        : ``};
+    border-top: 1px solid ${props => props.borderColor};
+    border-bottom: ${props =>
+      props.lastElement === 'yes' ? `1px solid ${props.borderColor}` : ''};
   }
 `
 const Content = styled.div`

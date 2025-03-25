@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { Modal } from 'react-bootstrap'
 
-const PanelContainer = styled.div`
+const PanelContainer = styled.a`
   display: flex;
   justify-content: start;
   align-items: center;
@@ -9,6 +9,11 @@ const PanelContainer = styled.div`
   border-bottom: 1px solid ${props => props.borderColor};
   cursor: pointer;
   color: ${props => props.fontColor};
+  text-decoration: none;
+
+  &:hover {
+    color: ${props => props.fontColor};
+  }
 
   @media screen and (max-width: 992px) {
     flex-direction: row;

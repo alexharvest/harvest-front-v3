@@ -172,11 +172,11 @@ const Autopilot = () => {
           accountVal,
           vault.decimals,
           iporVFlag,
-          vault.decimals,
+          vault.vaultDecimals,
         )
 
         if (bFlag && vHFlag) {
-          yieldMap[vault.id] = parseFloat(sumNetChange).toFixed(6)
+          yieldMap[vault.id] = sumNetChange
         }
       }),
     )

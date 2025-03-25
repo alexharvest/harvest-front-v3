@@ -335,7 +335,7 @@ const ApexChart = ({
                 vertical={false}
               />
               {Object.keys(sharePriceData).map(key => {
-                const color = generateColor(key)
+                const color = key === token.id ? '#5dcf46' : generateColor(key)
                 return (
                   <Line
                     key={key}

@@ -13,6 +13,7 @@ import { useThemeContext } from '../../providers/useThemeContext'
 import { useVaults } from '../../providers/Vault'
 import { useWallet } from '../../providers/Wallet'
 import {
+  checkIPORUserBalance,
   getAllRewardEntities,
   getUserBalanceVaults,
   initBalanceAndDetailData,
@@ -103,7 +104,8 @@ const Activity = () => {
           const stakedVaults = []
           const ul = userBalanceVaults.length
           for (let j = 0; j < ul; j += 1) {
-            Object.keys(groupOfVaults).forEach(key => {
+            /* eslint-disable no-restricted-syntax, no-await-in-loop */
+            for (const key of Object.keys(groupOfVaults)) {
               const isSpecialVaultAll =
                 groupOfVaults[key].liquidityPoolVault || groupOfVaults[key].poolVault
               const paramAddressAll = isSpecialVaultAll
@@ -113,7 +115,18 @@ const Activity = () => {
               if (userBalanceVaults[j] === paramAddressAll.toLowerCase()) {
                 stakedVaults.push(key)
               }
-            })
+
+              const iporBalCheck = groupOfVaults[key].isIPORVault
+                ? await checkIPORUserBalance(
+                    account,
+                    groupOfVaults[key]?.vaultAddress.toLowerCase(),
+                    groupOfVaults[key]?.chain,
+                  )
+                : false
+              if (iporBalCheck && !stakedVaults.includes(key)) {
+                stakedVaults.push(key)
+              }
+            }
           }
 
           if (stakedVaults.length === 0) {
@@ -123,7 +136,8 @@ const Activity = () => {
           const vaultNetChanges = []
           const promises = stakedVaults.map(async stakedVault => {
             let symbol = '',
-              fAssetPool = {}
+              fAssetPool = {},
+              token = null
 
             if (stakedVault === IFARM_TOKEN_SYMBOL) {
               symbol = FARM_TOKEN_SYMBOL
@@ -136,12 +150,16 @@ const Activity = () => {
                 ? groupOfVaults[symbol].data
                 : find(totalPools, pool => pool.id === symbol)
 
-            const token = find(
-              groupOfVaults,
-              vault =>
-                vault.vaultAddress === fAssetPool?.collateralAddress ||
-                (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
-            )
+            if (symbol.includes('IPOR')) {
+              token = groupOfVaults[symbol]
+            } else {
+              token = find(
+                groupOfVaults,
+                vault =>
+                  vault.vaultAddress === fAssetPool?.collateralAddress ||
+                  (vault.data && vault.data.collateralAddress === fAssetPool.collateralAddress),
+              )
+            }
 
             if (token) {
               const useIFARM = symbol === FARM_TOKEN_SYMBOL
@@ -149,6 +167,7 @@ const Activity = () => {
               const tokenName = token.poolVault ? 'FARM' : token.tokenNames.join(' - ')
               const tokenPlatform = token.platform.join(', ')
               const tokenChain = token.poolVault ? token.data.chain : token.chain
+              const tokenSym = token.isIPORVault ? token.vaultSymbol : symbol
               if (isSpecialVault) {
                 fAssetPool = token.data
               }
@@ -163,7 +182,7 @@ const Activity = () => {
                 account,
                 token.decimals,
                 iporVFlag,
-                token.decimals,
+                token.vaultDecimals,
               )
 
               setSafeFlag(vaultHFlag)
@@ -171,7 +190,7 @@ const Activity = () => {
               vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
               const enrichedDataWithSymbol = enrichedData.map(data => ({
                 ...data,
-                tokenSymbol: symbol,
+                tokenSymbol: tokenSym,
                 name: tokenName,
                 platform: tokenPlatform,
                 chain: tokenChain,

@@ -94,9 +94,10 @@ const CategoryRow = styled.div`
   margin-top: 25px;
 `
 
-const LinkContainer = styled.div`
+const LinkContainer = styled.a`
   position: relative;
   cursor: pointer;
+  text-decoration: none;
 
   @media screen and (min-width: 992px) {
     display: flex;

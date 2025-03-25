@@ -17,7 +17,7 @@ import {
 
 const { tokens } = require('../../../data')
 
-const SharePricesData = ({ token }) => {
+const SharePricesData = ({ token, setSharePricesData }) => {
   const { bgColorNew, borderColorBox, fontColor3 } = useThemeContext()
 
   const [loadComplete, setLoadComplete] = useState(false)
@@ -77,14 +77,14 @@ const SharePricesData = ({ token }) => {
     }
 
     const adjustTimestamps = (sharepriceData, id) => {
-      const referenceTimestamps = sharepriceData[id].map(entry => entry.timestamp)
+      const referenceTimestamps = sharepriceData[id]
+        .map(entry => entry.timestamp)
+        .filter(timestamp => timestamp > 1741284000)
       const referenceStartPrice = parseFloat(
-        sharepriceData[id][sharepriceData[id].length - 1].sharePrice,
+        sharepriceData[id][referenceTimestamps.length - 1].sharePrice,
       )
 
       Object.keys(sharepriceData).forEach(key => {
-        if (key === id) return // Skip itself
-
         const targetEntries = sharepriceData[key],
           adjustedEntries = []
 
@@ -142,7 +142,9 @@ const SharePricesData = ({ token }) => {
           if (token.allocPointData && token.allocPointData.length > 0) {
             await Promise.all(
               token.allocPointData
-                .filter(data => data.hVaultId !== 'Not invested')
+                .filter(
+                  data => data.hVaultId !== 'Not invested' && data.hVaultId !== 'morphoGC_ETH',
+                )
                 .map(async data => {
                   const vaultAddress = tokens[data.hVaultId].vaultAddress
                   const vaultChain = tokens[data.hVaultId].chain
@@ -178,6 +180,7 @@ const SharePricesData = ({ token }) => {
               })
               sharePricesData[token.id] = vaultHIPORData
             }
+            setSharePricesData(sharePricesData)
 
             if (sharePricesData[token.id].length > 0) {
               sharePricesData = adjustTimestamps(sharePricesData, token.id)
@@ -203,7 +206,7 @@ const SharePricesData = ({ token }) => {
     return () => {
       isMounted = false
     }
-  }, [address, chainId, token])
+  }, [address, chainId, token, setSharePricesData])
 
   return (
     <Container backColor={bgColorNew} borderColor={borderColorBox}>

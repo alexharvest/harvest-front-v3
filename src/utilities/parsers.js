@@ -711,18 +711,18 @@ export const calculateApy = (vaultHData, latestSharePriceValue, vaultData, perio
 export const generateColor = key => {
   let hash = 0
 
-  // Generate a numeric hash from the key
   for (let i = 0; i < key.length; i++) {
     hash = key.charCodeAt(i) + ((hash << 5) - hash)
   }
 
-  // Convert the hash to a hex color
-  let color = '#'
-  for (let i = 0; i < 3; i++) {
-    const value = (hash >> (i * 8)) & 0xff // Extract 8-bit values
-    color += `00${value.toString(16)}`.slice(-2) // Ensure two-digit hex
-  }
+  const r = hash & 0x7f
+  const g = (hash >> 3) & 0x7f
+  const b = 128 + ((hash >> 6) & 0x7f)
 
-  return color.toUpperCase() // Return as uppercase hex code
+  const color = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b
+    .toString(16)
+    .padStart(2, '0')}`
+
+  return color.toUpperCase()
 }
 /* eslint-enable no-plusplus, no-bitwise, one-var */

@@ -720,14 +720,16 @@ const Portfolio = () => {
                 ? groupOfVaults[symbol].data
                 : find(totalPools, pool => pool.id === symbol)
 
-            if (symbol.includes('IPOR')) token = groupOfVaults[symbol]
-            else
+            if (symbol.includes('IPOR')) {
+              token = groupOfVaults[symbol]
+            } else {
               token = find(
                 groupOfVaults,
                 vault =>
                   vault.vaultAddress === fAssetPool?.collateralAddress ||
                   (vault.data && vault.data.collateralAddress === fAssetPool?.collateralAddress),
               )
+            }
 
             if (token) {
               const useIFARM = symbol === FARM_TOKEN_SYMBOL
@@ -735,6 +737,7 @@ const Portfolio = () => {
               const tokenName = token.poolVault ? 'FARM' : token.tokenNames.join(' - ')
               const tokenPlatform = token.platform.join(', ')
               const tokenChain = token.poolVault ? token.data.chain : token.chain
+              const tokenSym = token.isIPORVault ? token.vaultSymbol : symbol
               if (isSpecialVault) {
                 fAssetPool = token.data
               }
@@ -750,13 +753,13 @@ const Portfolio = () => {
                 account,
                 token.decimals,
                 iporVFlag,
-                token.decimals,
+                token.vaultDecimals,
               )
 
               vaultNetChanges.push({ id: symbol, sumNetChangeUsd })
               const enrichedDataWithSymbol = enrichedData.map(data => ({
                 ...data,
-                tokenSymbol: symbol,
+                tokenSymbol: tokenSym,
                 name: tokenName,
                 platform: tokenPlatform,
                 chain: tokenChain,
@@ -1232,7 +1235,6 @@ const Portfolio = () => {
                               key={i}
                               info={info}
                               lifetimeYield={lifetimeYield}
-                              firstElement={i === 0 ? 'yes' : 'no'}
                               lastElement={i === farmTokenList.length - 1 ? 'yes' : 'no'}
                               cKey={i}
                               darkMode={darkMode}
@@ -1258,7 +1260,6 @@ const Portfolio = () => {
                               key={i}
                               info={info}
                               lifetimeYield={lifetimeYield}
-                              firstElement={i === 0 ? 'yes' : 'no'}
                               lastElement={i === filteredFarmList.length - 1 ? 'yes' : 'no'}
                               cKey={i}
                               darkMode={darkMode}
