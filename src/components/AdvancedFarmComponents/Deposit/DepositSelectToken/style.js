@@ -44,7 +44,7 @@ const IconCard = styled.div`
   height: 48px;
   border-radius: 50%;
   padding: 14px;
-  background: #15b088;
+  background: #5dcf46;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   justify-content: center;
 `

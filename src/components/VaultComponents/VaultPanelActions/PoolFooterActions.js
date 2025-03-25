@@ -2,13 +2,7 @@ import { get } from 'lodash'
 import React, { useMemo } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useSetChain } from '@web3-onboard/react'
-import {
-  ACTIONS,
-  FARM_GRAIN_TOKEN_SYMBOL,
-  FARM_TOKEN_SYMBOL,
-  FARM_WETH_TOKEN_SYMBOL,
-  SPECIAL_VAULTS,
-} from '../../../constants'
+import { ACTIONS, FARM_TOKEN_SYMBOL, SPECIAL_VAULTS } from '../../../constants'
 import { useActions } from '../../../providers/Actions'
 import { usePools } from '../../../providers/Pools'
 import { useStats } from '../../../providers/Stats'
@@ -66,8 +60,6 @@ const PoolFooterActions = ({
   const farmProfitSharingPool = pools.find(
     pool => pool.id === SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID,
   )
-  const farmWethPool = pools.find(pool => pool.id === SPECIAL_VAULTS.FARM_WETH_POOL_ID)
-  const farmGrainPool = pools.find(pool => pool.id === SPECIAL_VAULTS.FARM_GRAIN_POOL_ID)
 
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
 
@@ -95,24 +87,8 @@ const PoolFooterActions = ({
         rewardSymbol: FARM_TOKEN_SYMBOL,
         tokenNames: ['FARM'],
       },
-      [FARM_WETH_TOKEN_SYMBOL]: {
-        liquidityPoolVault: true,
-        tokenNames: ['FARM, ETH'], // 'FARM/ETH',
-        platform: ['Uniswap'],
-        data: farmWethPool,
-        logoUrl: ['./icons/farm.svg', './icons/eth.svg'],
-        rewardSymbol: FARM_TOKEN_SYMBOL,
-      },
-      [FARM_GRAIN_TOKEN_SYMBOL]: {
-        liquidityPoolVault: true,
-        tokenNames: ['FARM, GRAIN'], // 'FARM/GRAIN',
-        platform: ['Uniswap'],
-        data: farmGrainPool,
-        logoUrl: ['./icons/farm.svg', './icons/grain.svg'],
-        rewardSymbol: FARM_TOKEN_SYMBOL,
-      },
     }),
-    [farmGrainPool, farmWethPool, farmProfitSharingPool, profitShareAPY],
+    [farmProfitSharingPool, profitShareAPY],
   )
   const groupOfVaults = { ...vaultsData, ...poolVaults }
 

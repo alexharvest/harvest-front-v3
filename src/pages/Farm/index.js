@@ -5,7 +5,7 @@ import BswapBG from '../../assets/images/logos/bswap_bg.png'
 import FarmContainer from './style'
 
 const Farm = () => {
-  const { bgColor } = useThemeContext()
+  const { bgColorNew } = useThemeContext()
   const [baseswapBG, setBaseswapBG] = useState(false)
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const Farm = () => {
     setUrlData()
   }, [window.location.search]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <FarmContainer bgColor={bgColor}>
+    <FarmContainer bgColor={bgColorNew}>
       {baseswapBG ? <img className="bswap-bg" src={BswapBG} width="100%" alt="" /> : <></>}
       <VaultList />
     </FarmContainer>

@@ -74,6 +74,7 @@ const DepositStart = ({
     fontColor3,
     bgColorSlippage,
     borderColor,
+    btnHoverColor,
   } = useThemeContext()
   const { account, web3, approvedBalances, getWalletBalances } = useWallet()
 
@@ -102,7 +103,7 @@ const DepositStart = ({
   const [buttonName, setButtonName] = useState('Approve Token')
   const [receiveAmount, setReceiveAmount] = useState('')
   const [receiveUsd, setReceiveUsd] = useState('')
-  const { handleApproval, handleDeposit } = useActions()
+  const { handleApproval, handleDeposit, handleIPORDeposit } = useActions()
   const { contracts } = useContracts()
   const { vaultsData } = useVaults()
 
@@ -124,6 +125,7 @@ const DepositStart = ({
   }, [rates])
 
   const SlippageValues = [null, 0.1, 0.5, 1, 5]
+  const tokenName = token.isIPORVault ? tokenSymbol : `f${tokenSymbol}`
 
   const onInputSlippage = e => {
     let inputValue = e.target.value
@@ -166,8 +168,12 @@ const DepositStart = ({
     const receiveString = portalData
       ? fromWei(
           portalData.context?.outputAmount,
-          token.decimals || token.data.lpTokenData.decimals,
-          token.decimals || token.data.lpTokenData.decimals,
+          token.isIPORVault
+            ? token.vaultDecimals
+            : token.decimals || token.data.lpTokenData.decimals,
+          token.isIPORVault
+            ? token.vaultDecimals
+            : token.decimals || token.data.lpTokenData.decimals,
         )
       : ''
     const receiveUsdString = portalData ? portalData.context?.outputAmountUsd : ''
@@ -196,17 +202,18 @@ const DepositStart = ({
   }
 
   const startDeposit = async () => {
+    const tokenSym = token.isIPORVault ? token.id : tokenSymbol
     if (progressStep === 0) {
       setStartSpinner(true)
       setProgressStep(1)
       setButtonName('Pending Approval in Wallet')
       if (pickedDefaultToken) {
-        const allowanceCheck = useIFARM ? approvedBalances.IFARM : approvedBalances[tokenSymbol]
+        const allowanceCheck = useIFARM ? approvedBalances.IFARM : approvedBalances[tokenSym]
         if (!new BigNumber(allowanceCheck.toString()).gte(new BigNumber(amount.toString()))) {
           await handleApproval(
             account,
             contracts,
-            tokenSymbol,
+            tokenSym,
             amount,
             toToken,
             null,
@@ -217,7 +224,7 @@ const DepositStart = ({
               setReceiveAmount(minReceiveAmountString)
               setReceiveUsd(minReceiveUsdAmount)
               await fetchUserPoolStats([fAssetPool], account, userStats)
-              await getWalletBalances([tokenSymbol], false, true)
+              await getWalletBalances([tokenSym], false, true)
             },
             async () => {
               setStartSpinner(false)
@@ -265,29 +272,45 @@ const DepositStart = ({
         if (useIFARM) {
           tokenSymbol = 'IFARM'
         }
-        isSuccess = await handleDeposit(
-          token,
-          account,
-          tokenSymbol,
-          [amount],
-          approvedBalances[tokenSymbol],
-          contracts,
-          vaultsData[tokenSymbol],
-          false,
-          fAssetPool,
-          false,
-          false,
-          async () => {
-            await getWalletBalances([tokenSymbol])
-            await fetchUserPoolStats([fAssetPool], account, userStats)
-          },
-          async () => {
-            setDepositFailed(true)
-            setStartSpinner(false)
-            setProgressStep(0)
-            setButtonName('Approve Token')
-          },
-        )
+        isSuccess = token.isIPORVault
+          ? await handleIPORDeposit(
+              account,
+              token,
+              amount,
+              async () => {
+                await getWalletBalances([token.id], false, true)
+                await fetchUserPoolStats([fAssetPool], account, userStats)
+              },
+              () => {
+                setDepositFailed(true)
+                setStartSpinner(false)
+                setProgressStep(0)
+                setButtonName('Approve Token')
+              },
+            )
+          : await handleDeposit(
+              token,
+              account,
+              tokenSym,
+              [amount],
+              approvedBalances[tokenSym],
+              contracts,
+              vaultsData[tokenSym],
+              false,
+              fAssetPool,
+              false,
+              false,
+              async () => {
+                await getWalletBalances([tokenSym], false, true)
+                await fetchUserPoolStats([fAssetPool], account, userStats)
+              },
+              async () => {
+                setDepositFailed(true)
+                setStartSpinner(false)
+                setProgressStep(0)
+                setButtonName('Approve Token')
+              },
+            )
       } else {
         try {
           setProgressStep(3)
@@ -305,6 +328,7 @@ const DepositStart = ({
       }
       // End Approve and Deposit successfully
       if (isSuccess) {
+        await getWalletBalances([tokenSym], false, true)
         setStartSpinner(false)
         setDepositFailed(false)
         setProgressStep(4)
@@ -350,7 +374,7 @@ const DepositStart = ({
             </NewLabel>
             <NewLabel textAlign="left" marginRight="12px">
               <NewLabel
-                color="#15B088"
+                color="#5dcf46"
                 size={isMobile ? '18px' : '18px'}
                 height={isMobile ? '28px' : '28px'}
                 weight="600"
@@ -404,11 +428,8 @@ const DepositStart = ({
             >
               <NewLabel weight="500">{progressStep === 4 ? 'Converted' : 'Converting'}</NewLabel>
               <NewLabel display="flex" flexFlow="column" weight="600" textAlign="right">
-                <>
-                  {fromInfoAmount !== '' ? fromInfoAmount : inputAmount}
-                  {(fromInfoAmount + pickedToken.symbol).length > 20 ? <br /> : ' '}{' '}
-                  {pickedToken.symbol}
-                </>
+                {fromInfoAmount !== '' ? fromInfoAmount : inputAmount}
+                <span>{pickedToken.symbol}</span>
                 <span>
                   {fromInfoUsdAmount !== '' ? <>{fromInfoUsdAmount}</> : <AnimatedDots />}
                 </span>
@@ -438,7 +459,7 @@ const DepositStart = ({
                       >
                         {useIFARM
                           ? `The estimated number of i${tokenSymbol} you will receive in your wallet. The default slippage is set as 'Auto'.`
-                          : `The estimated number of f${tokenSymbol} you will receive in your wallet. The default slippage is set as 'Auto'.`}
+                          : `The estimated number of ${tokenName} you will receive in your wallet. The default slippage is set as 'Auto'.`}
                       </NewLabel>
                     </ReactTooltip>
                   </>
@@ -494,7 +515,7 @@ const DepositStart = ({
                   </ReactTooltip>
                 </>
                 <NewLabel display="flex" flexFlow="column" weight="600" textAlign="right">
-                  <span>{useIFARM ? `i${tokenSymbol}` : `f${tokenSymbol}`}</span>
+                  <span>{useIFARM ? `i${tokenSymbol}` : tokenName}</span>
                   <span>
                     {!pickedDefaultToken && progressStep === 4 ? (
                       receiveUsd !== '' ? (
@@ -638,6 +659,7 @@ const DepositStart = ({
               )}
             </SlippageBox>
             <Buttons
+              hoverColor={btnHoverColor}
               onClick={() => {
                 startDeposit()
               }}
@@ -699,7 +721,7 @@ const DepositStart = ({
                 fontColor2={fontColor2}
                 backColor={backColor}
                 borderColor={
-                  customSlippage === null || customSlippage === 0 ? borderColor : '#15b088'
+                  customSlippage === null || customSlippage === 0 ? borderColor : '#5dcf46'
                 }
               >
                 <input
@@ -719,11 +741,11 @@ const DepositStart = ({
                     ? '#0C111D'
                     : '#fff'
                 }
-                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#15b088'}
+                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#5dcf46'}
                 cursor={customSlippage === null || customSlippage === 0 ? 'not-allowed' : 'pointer'}
-                hoverColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#2ccda4'}
+                hoverColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#51e932'}
                 activeColor={
-                  customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#4fdfbb'
+                  customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#46eb25'
                 }
               >
                 {slippageBtnLabel}

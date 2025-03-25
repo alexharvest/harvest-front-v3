@@ -1,7 +1,6 @@
 import axios from 'axios'
 import axiosRetry from 'axios-retry'
 import BigNumber from 'bignumber.js'
-import mobile from 'is-mobile'
 import { get, isArray, isNaN, isEmpty } from 'lodash'
 import {
   DECIMAL_PRECISION,
@@ -41,13 +40,14 @@ export const toAPYPercentage = number => {
 
 export const abbreaviteNumber = (number, decPlaces) => {
   const signs = ['K', 'M', 'B', 'T']
+  const sl = signs.length
   const adjDecPlaces = 10 ** decPlaces
 
   if (number < 1 / adjDecPlaces) {
     return number.toFixed(decPlaces)
   }
 
-  for (let i = signs.length - 1; i >= 0; i -= 1) {
+  for (let i = sl - 1; i >= 0; i -= 1) {
     const size = 10 ** ((i + 1) * 3)
     if (size <= number) {
       number = (Math.floor((number * adjDecPlaces) / size) / adjDecPlaces).toFixed(decPlaces)
@@ -160,19 +160,72 @@ export const showUsdValue = (value, currencySym) => {
   if (value < 0.01) {
     return `<${currencySym}0.01`
   }
-  return `${currencySym}${value.toFixed(2)}`
+  const formattedValue = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value)
+
+  return `${currencySym}${formattedValue}`
 }
 
-export const showTokenBalance = balance => {
-  let value = parseFloat(balance)
+export const showUsdValueCurrency = (value, currencySym, currencyRate) => {
+  let numValue = Number(value)
+  if (numValue === 0) {
+    return `${currencySym}0`
+  }
+  numValue *= currencyRate
+  if (numValue > 0 && numValue < 0.01) {
+    return `<${currencySym}0.01`
+  }
+  if (numValue < 0 && numValue > -0.01) {
+    return `-<${currencySym}0.01`
+  }
+  const formattedValue = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: currencySym === '¥' ? 0 : 2,
+    maximumFractionDigits: currencySym === '¥' ? 0 : 2,
+  }).format(Math.abs(numValue))
+
+  return `${numValue < 0 ? '-' : ''}${currencySym}${formattedValue}`
+}
+
+export const formatFrequency = value => {
+  if (value === '-') {
+    return '-'
+  }
+
+  if (value === '') {
+    return ''
+  }
+
+  const totalHours = 24 / value
+
+  const days = Math.floor(totalHours / 24)
+  const hours = Math.floor(totalHours % 24)
+  const minutes = Math.floor((totalHours % 1) * 60)
+
+  const daysText = days > 0 ? `${days}d` : ''
+  const hoursText = hours > 0 ? `${hours}h` : ''
+  const minutesText = minutes > 0 ? `${minutes}m` : '0m'
+
+  return [daysText, hoursText, minutesText].filter(Boolean).join(' ')
+}
+
+export const showTokenBalance = (balance, decimals = 6) => {
+  let value = parseFloat(balance.toString().replace(/,/g, ''))
+  if (isNaN(value)) {
+    return '0'
+  }
   if (value === 0) {
     return '0'
   }
-  if (value < 0.000001) {
+  if (value > 0 && value < 0.000001) {
     return '<0.000001'
   }
-  value = value.toFixed(6).replace(/\.?0+$/, '')
-  return value
+  value = value.toFixed(decimals).replace(/\.?0+$/, '')
+  return new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: decimals,
+  }).format(value)
 }
 
 export const getCurrencyRate = (sym, item, rateData) => {
@@ -197,10 +250,7 @@ export const getCurrencyRate = (sym, item, rateData) => {
 
 export const formatAddress = address => {
   if (address) {
-    return `${address.substring(0, mobile() ? 4 : 6)}...${address.substring(
-      address.length - 4,
-      address.length,
-    )}`
+    return `${address.substring(0, 6)}...${address.substring(address.length - 4, address.length)}`
   }
   return '0x...0'
 }
@@ -208,6 +258,11 @@ export const formatAddress = address => {
 export const stringToArray = value => (isArray(value) ? value : [value])
 
 export const displayAPY = (apy, ...args) =>
+  new BigNumber(apy).isGreaterThan(MAX_APY_DISPLAY)
+    ? `${MAX_APY_DISPLAY}%+`
+    : `${truncateNumberString(apy, ...args)}%`
+
+export const displayApyRefusingNegative = (apy, ...args) =>
   new BigNumber(apy).isGreaterThan(MAX_APY_DISPLAY)
     ? `${MAX_APY_DISPLAY}%+`
     : new BigNumber(apy).isLessThanOrEqualTo(0)
@@ -380,6 +435,51 @@ export const formatDate = value => {
   return `${month} ${day} ${year}`
 }
 
+export const normalizeSliderValue = (value, min, max) => ((value - min) / (max - min)) * 100
+export const denormalizeSliderValue = (value, min, max) =>
+  ((value / 100) * (max - min) + min) / 1000
+
+export const calculateMarks = (data, minTimestamp, maxTimestamp) => {
+  const length = data.length
+  if (length === 0) {
+    return ''
+  }
+
+  const marks = {}
+  data.forEach(item => {
+    if (item.event !== 'Harvest') {
+      const timestamp = parseFloat(item.timestamp) * 1000
+      const position = formatNumber(normalizeSliderValue(timestamp, minTimestamp, maxTimestamp), 2)
+      let dotColor = ''
+      if (item.event === 'Convert') {
+        dotColor = '#00D26B'
+      } else if (item.event === 'Revert') {
+        dotColor = '#FF5733'
+      }
+
+      marks[position] = {
+        style: { borderColor: dotColor, color: dotColor },
+        label: ' ',
+        dotColor,
+      }
+    }
+  })
+
+  return marks
+}
+
+export const formatXAxis = (value, hourUnit) => {
+  const date = new Date(value)
+
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+
+  const hour = date.getHours()
+  const mins = date.getMinutes()
+
+  return hourUnit ? `${hour}:${mins}` : `${month} / ${day}`
+}
+
 export const formatDateTime = value => {
   const date = new Date(value * 1000) // Multiply by 1000 to convert seconds to milliseconds
   const year = date.getFullYear()
@@ -446,4 +546,63 @@ export const formatDateTimeMobile = value => {
   const time = `${hours}:${minutes < 10 ? `0${minutes}` : minutes} ${ampm}`
 
   return { __html: `${time}<br /> ${month} ${day}<br /> ${year}` }
+}
+
+export const formatAge = timestamp => {
+  let nowDate = new Date(),
+    result = '',
+    duration = 0,
+    day = 0,
+    hour = 0,
+    min = 0,
+    week = 0,
+    month = 0
+
+  nowDate = Math.floor(nowDate.getTime() / 1000)
+  duration = Number(nowDate) - Number(timestamp)
+
+  month = Math.floor(duration / 2592000)
+  duration -= month * 2592000
+
+  week = Math.floor(duration / 604800)
+  duration -= week * 604800
+
+  day = Math.floor(duration / 86400)
+  duration -= day * 86400
+
+  hour = Math.floor(duration / 3600) % 24
+  duration -= hour * 3600
+
+  min = Math.floor(duration / 60) % 60
+
+  const monthString = month > 0 ? `${month}m` : ''
+  const weekString = week > 0 ? `${week}w` : ''
+  const dayString = day > 0 ? `${day}d` : ''
+  const hourString = hour > 0 ? `${hour}h` : ''
+  const minString = min > 0 ? `${min}m` : ''
+  result = monthString || weekString || dayString || hourString || minString
+
+  return result
+}
+
+export const truncateAddress = address => {
+  if (!address || address.length < 10) {
+    return address
+  }
+  const start = address.slice(0, 6)
+  const end = address.slice(-4)
+
+  return `${start}...${end}`
+}
+
+export const formatNetworkName = networkName => {
+  let splitName = []
+  if (networkName) {
+    splitName = networkName.toLowerCase().split(' ')
+    for (let i = 0; i < splitName.length; i += 1) {
+      splitName[i] = splitName[i].charAt(0).toUpperCase() + splitName[i].substring(1)
+    }
+  }
+
+  return splitName.join(' ')
 }

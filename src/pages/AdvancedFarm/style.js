@@ -1,9 +1,10 @@
 import styled from 'styled-components'
+import BgImage from '../../assets/images/logos/advancedfarm/texture.webp'
 
 const DetailView = styled.div`
   width: 100%;
-  margin-left: 280px;
-  background: ${props => props.bgColor};
+  margin-left: 260px;
+  background: ${props => props.backColor};
   color: ${props => props.fontColor};
   transition: 0.25s;
 
@@ -14,6 +15,7 @@ const DetailView = styled.div`
 `
 
 const Inner = styled.div`
+  background: ${props => props.backColor};
   padding: 25px 72px 200px 76px;
   display: flex;
   justify-content: center;
@@ -33,9 +35,7 @@ const Inner = styled.div`
 `
 
 const TopInner = styled.div`
-  background: ${props => props.bgColorFarm};
-  background-size: cover;
-  background-repeat: no-repeat;
+  background: ${props => (props.darkMode ? `url(${BgImage})` : '#f2f5ff')};
   padding: 50px 72px 0px 76px;
   display: flex;
   justify-content: center;
@@ -134,11 +134,54 @@ const RewardValue = styled.div`
   }
 `
 
+const SwitchTabTag = styled.div`
+  width: 50%;
+  transition: 0.25s;
+  color: ${props => props.color};
+  background: ${props => props.backColor};
+  box-shadow: ${props => props.boxShadow};
+  padding: 8px 12px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+
+  svg {
+    font-size: 16px;
+    margin: auto 0px;
+  }
+
+  p {
+    margin-bottom: 0px;
+    padding-left: 5px;
+    font-size: 14px;
+    line-height: 20px;
+  }
+`
+
 const NewLabel = styled.div`
   font-weight: ${props => props.weight || '400'};
   font-size: ${props => props.size || '20px'};
   line-height: ${props => props.height || '0px'};
 
+  ${props =>
+    props.backColor
+      ? `
+    background: ${props.backColor};
+  `
+      : ''}
+  ${props =>
+    props.cursor
+      ? `
+    cursor: ${props.cursor};
+  `
+      : ''}
+  ${props =>
+    props.border
+      ? `
+    border: ${props.border};
+  `
+      : ''}
   ${props =>
     props.borderBottom
       ? `
@@ -229,6 +272,12 @@ const NewLabel = styled.div`
     border-radius: ${props.borderRadius};
     `
       : ``}
+  ${props =>
+    props.transition
+      ? `
+    transition: ${props.transition};
+    `
+      : ``}
 
   svg.question {
     font-size: 16px;
@@ -292,6 +341,10 @@ const NewLabel = styled.div`
       margin-right: 5px;
       width: 11px;
     }
+  }
+
+  a:hover {
+    color: #0d6efd !important;
   }
 `
 
@@ -382,6 +435,108 @@ const ThemeMode = styled.div`
 
     ${props =>
       props.mode === 'latest'
+        ? `
+        #theme-switch {
+          .switch-thumb {
+            left: 12px;
+          }
+      `
+        : `
+        #theme-switch {
+        .switch-thumb {
+          left: 2px;
+        }
+      `}
+  }
+`
+
+const SwitchMode = styled.div`
+  display: flex;
+  align-items: center;
+
+  #theme-switch {
+    position: relative;
+    width: fit-content;
+    height: fit-content;
+    touch-action: pan-x;
+    user-select: none;
+
+    input {
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+    }
+
+    .switch-track {
+      background: #036666;
+      height: 16px;
+      width: 32px;
+      border-radius: 30px;
+      transition: all 0.2s ease 0s;
+    }
+    .switch-thumb {
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-color: white;
+      height: 14px;
+      left: 1px;
+      position: absolute;
+      top: 1px;
+      width: 14px;
+      border-radius: 50%;
+      transition: all 0.25s ease 0s;
+    }
+
+    &:hover .switch-thumb {
+      box-shadow: 0 0 2px 3px #ff9400;
+    }
+  }
+
+  ${props =>
+    props.mode === 'apy'
+      ? `
+      #theme-switch {
+        .switch-check {
+          opacity: 1;
+        }
+        .switch-x {
+          opacity: 0;
+        }
+        .switch-thumb {
+          left: 17px;
+        }
+        .switch-track {
+          background: #6B8AFF;
+        }
+      }
+    `
+      : `
+      #theme-switch {
+        .switch-thumb {
+        }
+      }
+    `}
+
+  @media screen and (max-width: 992px) {
+    #theme-switch {
+      .switch-track {
+        width: 24px;
+        height: 12px;
+      }
+
+      .switch-thumb {
+        width: 10px;
+        height: 10px;
+        top: 1px;
+      }
+    }
+
+    ${props =>
+      props.mode === 'apy'
         ? `
         #theme-switch {
           .switch-thumb {
@@ -516,6 +671,7 @@ const WelcomeTitle = styled.div`
 const WelcomeText = styled.div`
   @media screen and (max-width: 992px) {
     font-size: 12px;
+    margin-top: 12px;
   }
 
   a.badge-body {
@@ -747,6 +903,105 @@ const EarningsBadge = styled.div`
 `
 
 const MyTotalReward = styled.div`
+  background: linear-gradient(to right, #d17218, #fdc165);
+  display: flex;
+  color: white;
+  border-radius: 12px;
+  justify-content: center;
+  height: 120px;
+  padding: 24px;
+
+  ${props =>
+    props.marginTop
+      ? `
+      margin-top: ${props.marginTop};
+    `
+      : ``}
+
+  ${props =>
+    props.marginBottom
+      ? `
+      margin-bottom: ${props.marginBottom};
+    `
+      : ``}
+
+  .box-image {
+    margin: auto 0px;
+  }
+
+  .box-text {
+    font-size: 14px;
+    line-height: 20px;
+    margin: auto 0px;
+    padding: 0px 24px 0px 15px;
+
+    .box-text-first {
+      font-weight: 700;
+    }
+    .box-text-second {
+      font-weight: 500;
+      padding-top: 8px;
+
+      span {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .box-btn-wrap {
+    margin: auto;
+
+    .box-btn {
+      font-size: 14px;
+      line-height: 20px;
+      font-weight: 600;
+      border-radius: 6.801px;
+      background: linear-gradient(90deg, #28a0f0 0%, #96bedc 100%);
+      box-shadow: 0px 0.85px 1.7px 0px rgba(16, 24, 40, 0.05);
+      width: 176.82px;
+      height: 46.755px;
+      padding: 8.501px 15.302px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: 0.5s;
+
+      &:hover {
+        background: linear-gradient(90deg, #39a8f1 0%, #96bedc 100%);
+      }
+    }
+  }
+
+  @media screen and (max-width: 992px) {
+    flex-wrap: wrap;
+    height: auto;
+
+    .box-image {
+      width: 15%;
+
+      img {
+        margin-left: -5px;
+      }
+    }
+
+    .box-text {
+      width: 85%;
+      padding: 0px 0px 0px 15px;
+    }
+
+    .box-btn-wrap {
+      width: 100%;
+
+      .box-btn {
+        width: 100%;
+        margin-top: 25px;
+      }
+    }
+  }
+`
+
+const TotalRewardBox = styled.div`
   background: ${props => props.backColor};
   border-radius: 12px;
   border: 2px solid ${props => props.borderColor};
@@ -786,11 +1041,6 @@ const GuideSection = styled.div`
     margin-bottom: 50px;
     display: flex;
     justify-content: center;
-  }
-
-  @media screen and (max-width: 343px) {
-    flex-direction: column;
-    gap: 10px;
   }
 `
 
@@ -923,10 +1173,6 @@ const ValueBox = styled.div`
       display: none;
     }
   }
-
-  @media screen and (max-width: 400px) {
-    padding: 5px;
-  }
 `
 
 const BoxTitle = styled.div`
@@ -996,27 +1242,50 @@ const MainTag = styled.div`
   display: flex;
   justify-content: center;
   width: ${props => (props.useIFARM ? '33%' : '25%')};
-  padding: 12px 15px;
+  padding: 12px 0px;
   align-items: center;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   cursor: pointer;
   color: ${props => props.fontColor4};
+  transition: 0.25s;
+
+  &:hover {
+    background: ${props => props.backColor};
+    ${props => (props.active === 'true' ? 'opacity: 1;' : 'opacity: 0.8;')}
+
+    &:first-child {
+      border-radius: 8px 0px 0px 0px;
+    }
+
+    &:nth-child(4) {
+      border-radius: 0px 8px 0px 0px;
+    }
+  }
 
   ${props =>
     props.active === 'true'
       ? `
-      background: ${props.bgColor};
-      border-radius: 6px 6px 0px 0px;
+      background: ${props.backColor};
     `
       : `
       color: ${props.fontColor3};
-      background: ${props.bgColorFarm};
     `}
+
+  &:first-child {
+    ${props => props.active === 'true' && `border-radius: 8px 0px 0px 0px;`}
+  }
+
+  &:nth-child(4) {
+    ${props => props.active === 'true' && `border-radius: 0px 8px 0px 0px;`}
+  }
 
   &:nth-child(2) {
     display: ${props => (props.useIFARM ? 'none' : 'flex')};
+  }
+
+  &:nth-child(3) {
     width: ${props => (props.useIFARM ? '34%' : '25%')};
   }
 
@@ -1025,6 +1294,9 @@ const MainTag = styled.div`
     &:nth-child(2) {
       width: ${props => (props.useIFARM ? '34%' : props.active === 'true' ? '40%' : '20%')};
     }
+    &:nth-child(3) {
+      width: ${props => (props.useIFARM ? '33%' : props.active === 'true' ? '40%' : '20%')};
+    }
   }
 
   p {
@@ -1032,7 +1304,14 @@ const MainTag = styled.div`
     padding-left: 8px;
 
     @media screen and (max-width: 992px) {
-      display: ${props => (props.useIFARM ? 'block' : props.active === 'true' ? 'block' : 'none')};
+      display: ${props =>
+        props.useIFARM
+          ? 'block'
+          : props.active === 'true'
+          ? 'block'
+          : props.campMobileRewards
+          ? 'block'
+          : 'none'};
     }
   }
 
@@ -1083,85 +1362,6 @@ const HalfInfo = styled.div`
       : ''}
 `
 
-const InfoLabel = styled.a`
-  ${props =>
-    props.weight
-      ? `
-  font-weight: ${props.weight};
-  `
-      : ''}
-  ${props =>
-    props.display
-      ? `
-  display: ${props.display};
-  `
-      : ''}
-  ${props =>
-    props.size
-      ? `
-  font-size: ${props.size};
-  `
-      : ''}
-  ${props =>
-    props.height
-      ? `
-  line-height: ${props.height};
-  `
-      : ''}
-  margin-right: 15px;
-  justify-content: center;
-  background: ${props => props.bgColor};
-  border-radius: 8px;
-  border: 1px solid ${props => props.borderColor};
-  text-decoration: none;
-  padding: 9px 17px;
-  align-self: center;
-  position: relative;
-  color: #15202b;
-
-  img.icon {
-    margin-right: 5px;
-  }
-
-  img.external-link {
-    position: absolute;
-    top: 3px;
-    right: 3px;
-  }
-
-  &:hover {
-    color: #1f2937;
-    background: ${props => props.hoverColor};
-    .address {
-      font-weight: bold;
-    }
-  }
-`
-
-const DescInfo = styled.div`
-  color: ${props => props.fontColor3};
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 24px;
-  padding: 10px 15px;
-  display: flex;
-  align-items: center;
-
-  @media screen and (max-width: 992px) {
-    font-size: 12px;
-  }
-
-  .help-message {
-    margin-top: 0;
-  }
-  p {
-    a {
-      cursor: pointer;
-      color: ${props => props.fontColor6};
-    }
-  }
-`
-
 const LastHarvestInfo = styled.div`
   background: ${props => props.backColor};
   border-radius: 12px;
@@ -1178,6 +1378,17 @@ const RestInternal = styled.div`
   // justify-content: space-between;
   flex-direction: column;
   height: 100%;
+`
+
+const RestInternalBenchmark = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  height: 100%;
+  @media screen and (max-width: 992px) {
+    width: 100%;
+    margin-top: 20px;
+  }
 `
 
 const StakeSection = styled.div`
@@ -1208,7 +1419,8 @@ const MainTagPanel = styled.div`
   display: flex;
   justify-content: space-between;
   width: 50%;
-  border-radius: 8px;
+  border-radius: 8px 8px 0px 0px;
+  background: rgba(245, 245, 245, 0.12);
 
   @media screen and (max-width: 1200px) {
     width: 55%;
@@ -1297,8 +1509,58 @@ const BorderBottomDiv = styled.div`
   right: 0;
 `
 
+const Tip = styled.div`
+  background: #f6fef9;
+  border: 1px solid #6ce9a6;
+  border-radius: 12px;
+  padding: 16px;
+  margin: 0px 15px 15px 15px;
+  display: ${props => props.display};
+`
+
+const IconPart = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
+const TipTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+`
+
+const CrossDiv = styled.div`
+  display: flex;
+  cursor: pointer;
+`
+
+const StakingInfo = styled.div`
+  padding: 16px;
+  background: ${props => props.bgColorTooltip};
+  border: 1px solid ${props => props.borderColor};
+  color: ${props => props.fontColorTooltip};
+  border-radius: 12px;
+  display: ${props => props.display};
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+  gap: 12px;
+`
+
+const StakingInfoText = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export {
   DetailView,
+  StakingInfo,
+  StakingInfoText,
+  CrossDiv,
+  IconPart,
+  TipTop,
   TopPart,
   TopButton,
   TopDesc,
@@ -1322,7 +1584,9 @@ export {
   MyBalance,
   EarningsBadge,
   MyTotalReward,
+  TotalRewardBox,
   ThemeMode,
+  SwitchMode,
   GuideSection,
   GuidePart,
   DepositSection,
@@ -1341,10 +1605,9 @@ export {
   WelcomeTicket,
   WelcomeClose,
   HalfInfo,
-  InfoLabel,
-  DescInfo,
   LastHarvestInfo,
   RestInternal,
+  RestInternalBenchmark,
   StakeSection,
   UnstakeSection,
   MainTagPanel,
@@ -1363,4 +1626,6 @@ export {
   NetDetailContent,
   NetDetailImg,
   RewardValue,
+  SwitchTabTag,
+  Tip,
 }

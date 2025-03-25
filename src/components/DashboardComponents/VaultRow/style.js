@@ -5,8 +5,6 @@ const DetailView = styled.div`
   padding: 16px 24px;
   cursor: pointer;
   background: ${props => props.background};
-  border: 1px solid ${props => props.borderColor};
-  border-top: 0px;
   ${props =>
     props.mode === 'dark'
       ? `
@@ -22,10 +20,12 @@ const DetailView = styled.div`
   }
 
   @media screen and (max-width: 992px) {
+    border-top: 1px solid ${props => props.borderColor};
     padding: 0px;
-    border: unset;
-    border-bottom: 1px solid ${props => props.borderColor};
-    ${props => (props.firstElement === 'yes' ? `border-radius: 16px 16px 0px 0px;` : ``)}
+
+    &:last-child {
+      border-bottom: 1px solid ${props => props.borderColor};
+    }
   }
 `
 
@@ -70,6 +70,12 @@ const Content = styled.div`
       ? `
     margin-top: ${props.marginTop};
   `
+      : ''}
+  ${props =>
+    props.flexDirection
+      ? `
+        flex-direction: ${props.flexDirection};
+      `
       : ''}
   font-weight: 400;
   font-size: 20px;
@@ -116,18 +122,19 @@ const Content = styled.div`
 
 const BadgeIcon = styled.div`
   margin: auto 17px auto 0px;
-  width: 23px;
-  height: 23px;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
-  border: 1px solid ${props => props.borderColor};
-  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.15);
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
 
   &.network-badge {
     @media screen and (max-width: 992px) {
-      margin-bottom: 15px;
+      margin: 0px 5px 0px 0px;
+      display: inline-flex;
     }
   }
 `
@@ -142,15 +149,10 @@ const LogoImg = styled.img`
     margin-left: ${props.marginLeft}
   `
       : ``};
-`
 
-const Img = styled.img`
-  width: 37px;
-  height: 37px;
-  margin: auto 6px auto 0px;
   @media screen and (max-width: 992px) {
-    width: 26px;
-    height: 26px;
+    width: 21px;
+    height: 21px;
   }
 `
 
@@ -173,10 +175,58 @@ const ContentInner = styled.div`
     margin-left: ${props.marginLeft};
   `
       : ''}
+  ${props =>
+    props.alignItems
+      ? `
+        align-items: ${props.alignItems};
+      `
+      : ''}
+  ${props =>
+    props.marginTop
+      ? `
+        margin-top: ${props.marginTop};
+       `
+      : ''}
   font-weight: 400;
   font-size: 20px;
   line-height: 23px;
   align-self: center;
 `
 
-export { DetailView, FlexDiv, BadgeIcon, Content, LogoImg, Img, ContentInner }
+const MobileContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+`
+
+const Autopilot = styled.div`
+  display: flex;
+  flex-flow: row;
+  border-radius: 13px;
+  justify-content: left;
+  align-items: center;
+  background: #ecfdf3;
+  color: #5dcf46;
+  padding: 3px 10px;
+  gap: 5px;
+  width: 85px;
+`
+
+const NewLabel = styled.div`
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 15px;
+`
+
+export {
+  DetailView,
+  FlexDiv,
+  BadgeIcon,
+  Content,
+  LogoImg,
+  ContentInner,
+  MobileContentContainer,
+  Autopilot,
+  NewLabel,
+}

@@ -120,5 +120,5 @@ workers-site
 wrangler.toml
 prod/
 
-# Reference Data
-reference
+# VScode setting
+.vscode

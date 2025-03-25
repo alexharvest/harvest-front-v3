@@ -13,8 +13,6 @@ const TransactionDetails = styled.div`
 const TableContent = styled.div`
   @media screen and (max-width: 992px) {
     // overflow-x: scroll;
-    border-radius: 15px 15px 0px 0px;
-    border: 1px solid ${props => props.borderColor};
     ${props =>
       props.count === 0
         ? `
@@ -103,11 +101,13 @@ const Header = styled.div`
   background: ${props => props.backColor};
   display: flex;
   border: 1px solid ${props => props.borderColor};
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
 
   @media screen and (max-width: 992px) {
-    padding: 10px;
+    border-radius: 0px;
+    border: unset;
+    border-bottom: 1px solid ${props => props.borderColor};
   }
 `
 
@@ -153,14 +153,23 @@ const Col = styled.div`
 const EmptyPanel = styled.div`
   padding-top: 12%;
   padding-bottom: 12%;
-  border-radius: 5px;
-  border-right: 1px solid ${props => props.borderColor};
-  border-bottom: 1px solid ${props => props.borderColor};
-  border-left: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.borderColor};
+  border-top: none;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+
   @media screen and (max-width: 992px) {
     padding: 0px;
     border: none;
-    min-height: 100px;
+    height: 100%;
+    margin: auto;
+  }
+`
+
+const ContentBox = styled.div`
+  div.yield-row:last-child {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
   }
 `
 
@@ -178,9 +187,15 @@ const EmptyInfo = styled.div`
   `
       : ''}
   ${props =>
+    props.lineHeight
+      ? `
+    line-height: ${props.lineHeight}px;
+  `
+      : ''}
+  ${props =>
     props.height
       ? `
-    line-height: ${props.height}px;
+    height: ${props.height};
   `
       : ''}
   ${props =>
@@ -195,11 +210,23 @@ const EmptyInfo = styled.div`
     margin-top: ${props.marginTop};
   `
       : ''}
+  ${props =>
+    props.flexFlow
+      ? `
+    flex-flow: ${props.flexFlow};
+  `
+      : ''}
+  ${props =>
+    props.gap
+      ? `
+    gap: ${props.gap};
+  `
+      : 'gap: 23px;'}
 
   display: flex;
   justify-content: center;
   text-align: center;
-  gap: 23px;
+
   @media screen and (max-width: 992px) {
     display: flex;
     justify-content: center;
@@ -216,14 +243,19 @@ const ConnectButtonStyle = styled.button`
   font-weight: 600;
   display: flex;
   justify-content: center;
-  margin: 25px auto;
+  margin: 15px auto;
   width: 250px;
-  background: ${props => props.backColor};
   border-radius: 8px;
-  border: 1px solid ${props => props.inputBorderColor};
-  color: ${props => props.fontColor2};
+  border: none;
+  color: #fff;
+  background: ${props => props.backColor};
   box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
   cursor: pointer;
+  transition: 0.5s;
+
+  &:hover {
+    background: ${props => props.hoverColor};
+  }
 
   ${props =>
     props.connected
@@ -238,19 +270,6 @@ const ConnectButtonStyle = styled.button`
       : `
       padding: 15px 0px 15px 0px;
     `}
-
-  &:hover {
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-      0px 0px 0px 4px ${props => props.hoverColorButton};
-    img.connect-wallet {
-      filter: brightness(0) saturate(100%) invert(69%) sepia(55%) saturate(4720%) hue-rotate(110deg)
-        brightness(91%) contrast(86%);
-    }
-  }
-
-  img.connect-wallet {
-    margin: auto 25px auto 0px;
-  }
 
   @media screen and (max-width: 992px) {
     display: flex;
@@ -270,12 +289,41 @@ const ConnectButtonStyle = styled.button`
       padding: 10px 11px;
       font-size: 13px;
       `}
+  }
+`
 
-    img.connect-wallet {
-      margin-right: 15px;
-      width: 14px;
-      height: 14px;
-    }
+const ExploreButtonStyle = styled.button`
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  margin: 15px auto;
+  padding: 12px 0px 12px 0px;
+  width: 250px;
+  background: ${props => props.backColor};
+  border-radius: 8px;
+  border: none;
+  color: white;
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  cursor: pointer;
+  gap: 8px;
+  transition: 0.5s;
+
+  img.explore-farms {
+    filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%);
+  }
+
+  &:hover {
+    background: ${props => props.hoverColor};
+  }
+
+  @media screen and (max-width: 992px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 11px;
+    font-size: 13px;
   }
 `
 
@@ -381,6 +429,96 @@ const ThemeMode = styled.div`
   }
 `
 
+const LeaderboardPagination = styled.div`
+  margin-top: 25px;
+
+  ul.paginate-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+    padding: 12px 24px 16px 24px;
+    margin-bottom: 0px;
+    gap: 5px;
+  }
+
+  li.previous,
+  li.next {
+    border-radius: 8px;
+    border: 1px solid ${props => props.borderColor};
+    background: ${props => props.bgColor};
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+    display: flex;
+    padding: 8px 14px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+  }
+
+  li.previous {
+    margin-right: 100px;
+  }
+
+  li.next {
+    margin-left: 100px;
+  }
+
+  li.paginate-item {
+    margin: auto 0px;
+  }
+
+  li.break {
+    margin: auto 0px;
+  }
+
+  li.previous a,
+  li.next a {
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    color: ${props => props.fontColor2};
+  }
+
+  li.previous a svg,
+  li.next a svg {
+    margin-top: -2px;
+  }
+
+  a.paginate-item-link {
+    text-decoration: none;
+    color: ${props => props.fontColor};
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    display: flex;
+    width: 40px;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+  }
+
+  li.disabled a {
+    color: #b2b2b2;
+  }
+
+  li.selected a {
+    color: #1d2939;
+    background: #f9fafb;
+  }
+
+  @media screen and (max-width: 992px) {
+    li.previous {
+      margin-right: 0px;
+    }
+
+    li.next {
+      margin-left: 0px;
+    }
+  }
+`
+
 export {
   TransactionDetails,
   HistoryPagination,
@@ -388,8 +526,11 @@ export {
   Header,
   Column,
   Col,
+  ContentBox,
   EmptyPanel,
   EmptyInfo,
   ConnectButtonStyle,
+  ExploreButtonStyle,
   ThemeMode,
+  LeaderboardPagination,
 }

@@ -5,11 +5,19 @@ import { PiQuestion } from 'react-icons/pi'
 import { formatNumber } from '../../utilities/formats'
 import { useThemeContext } from '../../providers/useThemeContext'
 import AnimatedDots from '../AnimatedDots'
-import { Container, Div, Price, NewLabel } from './style'
+import { Container, Div, Price, NewLabel, BetaBadge } from './style'
 import { useRate } from '../../providers/Rate'
 
-const TotalValue = ({ content, price, toolTipTitle, toolTip, connected, farmTokenListLength }) => {
-  const { darkMode, borderColor, backColor, fontColor1, fontColor3 } = useThemeContext()
+const TotalValue = ({
+  content,
+  price,
+  toolTipTitle,
+  toolTip,
+  connected,
+  farmTokenListLength,
+  isLoading,
+}) => {
+  const { darkMode, borderColor, fontColor1, fontColor3 } = useThemeContext()
   const { rates } = useRate()
   const [currencySym, setCurrencySym] = useState('$')
   const [currencyRate, setCurrencyRate] = useState(1)
@@ -24,12 +32,12 @@ const TotalValue = ({ content, price, toolTipTitle, toolTip, connected, farmToke
   return (
     <Container
       borderColor={borderColor}
-      backColor={backColor}
       isNetProfit={content === 'Total Net Profit' ? 'true' : 'false'}
     >
       <Div fontColor3={fontColor3}>
         {content}
-        <PiQuestion className="question" data-tip data-for={toolTipTitle} />
+        {content === 'Lifetime Yield' && <BetaBadge>Beta</BetaBadge>}
+        <PiQuestion className="question" data-tip data-for={toolTipTitle} color="#718BC5" />
         <ReactTooltip
           id={toolTipTitle}
           backgroundColor={darkMode ? 'white' : '#101828'}
@@ -46,18 +54,18 @@ const TotalValue = ({ content, price, toolTipTitle, toolTip, connected, farmToke
           </NewLabel>
         </ReactTooltip>
       </Div>
-      <Price fontColor1={content === 'Total Net Profit' ? '#00D26B' : fontColor1}>
-        {!connected ? (
+      <Price fontColor1={fontColor1}>
+        {!connected || isLoading ? (
           `${currencySym}0.00`
-        ) : farmTokenListLength === 0 ? (
+        ) : farmTokenListLength === 0 && price === 0 ? (
           `${currencySym}0.00`
         ) : parseFloat(price) === 0 ? (
-          content === 'Rewards' ? (
+          content === 'Claimable Rewards' ? (
             `${currencySym}0.00`
           ) : (
             <AnimatedDots />
           )
-        ) : content === 'Total Net Profit' && parseFloat(price) === -1 ? (
+        ) : content === 'Lifetime Yield' && parseFloat(price) === -1 ? (
           `${currencySym}0.00`
         ) : parseFloat(price) < 0.01 ? (
           `<${currencySym}0.01`

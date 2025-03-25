@@ -20,30 +20,29 @@ const ButtonStyle = styled.button`
   ${props =>
     props.size === 'lg'
       ? `
-  font-size: 20px;
-  line-height: 24px;`
+        font-size: 20px;
+        line-height: 24px;`
       : ''}
 
   ${props =>
     props.fontWeight
       ? `
-  font-weight: ${props.fontWeight};`
+        font-weight: ${props.fontWeight};`
       : ''}
     
-${props =>
-  props.size === 'md'
-    ? `
-  font-size: 16px;
-  line-height: 20px;`
-    : ''}
+  ${props =>
+    props.size === 'md'
+      ? `
+    font-size: 16px;
+    line-height: 20px;`
+      : ''}
 
-${props =>
-  props.size === 'sm'
-    ? `
-  font-size: 14px;
-  line-height: 17px;`
-    : ''}
-
+  ${props =>
+    props.size === 'sm'
+      ? `
+    font-size: 14px;
+    line-height: 17px;`
+      : ''}
 
   ${props =>
     props.color === 'primary'
@@ -51,19 +50,19 @@ ${props =>
       background: radial-gradient(81.9% 81.9% at 50% 18.1%, #2D2D2D 0%, #000000 100%);
       color: #FFF;
 
-  ${
-    !props.disabled
-      ? `
-  &:hover {
-    background: #FFC87C;
-  }`
-      : ''
-  }
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: #FFC87C;
+      }`
+          : ''
+      }
 
-  &:active {
-    background-color: #cc9549;
-  }
-  `
+      &:active {
+        background-color: #cc9549;
+      }
+      `
       : ''}
 
   ${props =>
@@ -92,23 +91,23 @@ ${props =>
       `
       : ''}
 
-    ${props =>
-      props.color === 'max'
-        ? `
-        background: #FF9940;
-        color: #FFFFFF;
-        border-radius: 6px;
-      
-        ${
-          !props.disabled
-            ? `
-        &:hover {
-          background: #FF9400D0;
-        }`
-            : ''
-        }
-        `
-        : ''}
+  ${props =>
+    props.color === 'max'
+      ? `
+      background: #FF9940;
+      color: #FFFFFF;
+      border-radius: 6px;
+    
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: #FF9400D0;
+      }`
+          : ''
+      }
+      `
+      : ''}
 
   ${props =>
     props.color === 'reward'
@@ -144,8 +143,8 @@ ${props =>
   ${props =>
     props.color === 'advanced-reward'
       ? `
-      background: #15B088;
-      border: 1px solid #15B088;
+      background: #5dcf46;
+      border: 1px solid #5dcf46;
       font-weight: 600;
       font-size: 16px;
       line-height: 24px;
@@ -174,147 +173,302 @@ ${props =>
       `
       : ''}
 
-    ${props =>
-      props.color === 'earn'
-        ? `
-        background: #FF9400;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 21px;
-        display: flex;
-        align-items: center;
-        text-align: center;
-        color: white;
-        padding: 15px 28px;
-        border-radius: 12px;
-        ${
-          !props.disabled
-            ? `
-        &:hover {
-          background: #FF9400D0;
-        }`
-            : ''
-        }
-  
-        &:active {
-          background: #FF9400A0;
-        }
-        `
-        : ''}
-        
-    ${props =>
-      props.color === 'wido-deposit'
-        ? `
-        background: #15B088;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: white;
-        padding: 15px 18px;
-        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-        border-radius: 8px;
-        img {
-          margin-left: 8px;
-        }
-        ${
-          !props.disabled
-            ? `
-        &:hover {
-          background: #2ccda4;
-        }`
-            : ''
-        }
-  
-        &:active {
-          background: #4fdfbb;
-        }
-        `
-        : ''}
-        
-    ${props =>
-      props.color === 'wido-stake'
-        ? `
-        background: #1F2937;
-        font-weight: 600;
-        font-family: 'Inter',sans-serif;
-        font-size: 18px;
-        line-height: 28px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: white;
-        padding: 16px 28px;
-        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-        border-radius: 8px;
-        ${
-          !props.disabled
-            ? `
-        &:hover {
-          background: #1F2937D0;
-        }`
-            : ''
-        }
-  
-        &:active {
-          background: #1F2937A0;
-        }
-        `
-        : ''}
+  ${props =>
+    props.color === 'earn'
+      ? `
+      background: #FF9400;
+      font-weight: 700;
+      font-size: 16px;
+      line-height: 21px;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 15px 28px;
+      border-radius: 12px;
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: #FF9400D0;
+      }`
+          : ''
+      }
 
-    ${props =>
-      props.color === 'wido-save'
-        ? `
-        background: #027948;
-        font-weight: 600;
-        font-family: 'Inter',sans-serif;
-        font-size: 18px;
-        line-height: 28px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        text-align: center;
-        color: white;
-        padding: 16px 28px;
-        box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
-        border-radius: 8px;
-        ${
-          !props.disabled
-            ? `
-        &:hover {
-          background: #027948D0;
-        }`
-            : ''
-        }
-  
-        &:active {
-          background: #027948A0;
-        }
-        `
-        : ''}
+      &:active {
+        background: #FF9400A0;
+      }
+      `
+      : ''}
+        
+  ${props =>
+    props.color === 'wido-deposit'
+      ? `
+      background: ${props.btnColor};
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 15px 18px;
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      img {
+        margin-left: 8px;
+      }
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: ${props.btnHoverColor};
+      }`
+          : ''
+      }
+
+      &:active {
+        background: ${props.btnActiveColor};
+      }
+      `
+      : ''}
+
+  ${props =>
+    props.color === 'subscribe'
+      ? `
+      background: ${props.btnColor};
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 15px 18px;
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      img {
+        margin-left: 8px;
+      }
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: ${props.btnHoverColor};
+      }`
+          : ''
+      }
+
+      &:active {
+        background: ${props.btnActiveColor};
+      }
+      `
+      : ''}
+
+  ${props =>
+    props.color === 'disclaimers-btn'
+      ? `
+      background: ${props.btnColor};
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 10px 18px;
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      img {
+        margin-left: 8px;
+      }
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: ${props.btnHoverColor};
+      }`
+          : ''
+      }
+
+      &:active {
+        background: ${props.btnActiveColor};
+      }
+      `
+      : ''}
+
+  ${props =>
+    props.color === 'unsubscribe'
+      ? `
+      background: #7F9BFF;
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 15px 18px;
+      box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      img {
+        margin-left: 8px;
+      }
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: #2c3d79;
+      }`
+          : ''
+      }
+
+      &:active {
+        background: #7F9BFF;
+      }
+      `
+      : ''}
+      
+  ${props =>
+    props.color === 'wido-stake'
+      ? `
+      background: #1F2937;
+      font-weight: 600;
+      font-family: 'Inter',sans-serif;
+      font-size: 18px;
+      line-height: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 16px 28px;
+      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: #1F2937D0;
+      }`
+          : ''
+      }
+
+      &:active {
+        background: #1F2937A0;
+      }
+      `
+      : ''}
+
+  ${props =>
+    props.color === 'wido-save'
+      ? `
+      background: #027948;
+      font-weight: 600;
+      font-family: 'Inter',sans-serif;
+      font-size: 18px;
+      line-height: 28px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+      padding: 16px 28px;
+      box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+      border-radius: 8px;
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: #027948D0;
+      }`
+          : ''
+      }
+
+      &:active {
+        background: #027948A0;
+      }
+      `
+      : ''}
+
+  ${props =>
+    props.color === 'autopilot'
+      ? `
+      font-size: 12px;
+      background: unset;
+      border-radius: 6.928px;
+      border: 2px solid #6988FF;
+      box-shadow: 0px 0.866px 1.732px 0px rgba(16, 24, 40, 0.05);
+      color: #6988FF;
+      font-weight: 600;
+      line-height: 20.785px;
+
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: rgba(105, 136, 255, 0.15);
+      }`
+          : ''
+      }
+
+      &:active {
+        background: rgba(105, 136, 255, 0.15);
+      }
+      `
+      : ''}
+
+  ${props =>
+    props.color === 'autopilot-cancel'
+      ? `
+      font-size: 16px;
+      background: unset;
+      border-radius: 8px;
+      border: 2px solid ${props.borderColor};
+      box-shadow: 0px 0.866px 1.732px 0px rgba(16, 24, 40, 0.05);
+      color: ${props.btnColor};
+      font-weight: 600;
+      line-height: 24px;
+      margin-top: 12px;
+      padding: 8px 18px;
+
+      ${
+        !props.disabled
+          ? `
+      &:hover {
+        background: rgba(105, 136, 255, 0.15);
+      }`
+          : ''
+      }
+
+      &:active {
+        background: rgba(105, 136, 255, 0.15);
+      }
+      `
+      : ''}
 
   ${props =>
     props.color === 'connectwallet'
       ? `
-      background: #188E54;
+      background: #5dcf46;
       color: white;
 
       ${
         !props.disabled
           ? `
       &:hover {
-        background: #188E54D0;
+        background: #51e932;
         box-shadow: 0px 14px 24px rgba(2, 2, 2, 0.2);
       }`
           : ''
       }
 
       &:active {
-        background: #188E54;
+        background: #4bd72f;
       }
       `
       : ''}
@@ -345,28 +499,24 @@ ${props =>
       `
       : ''}
 
+  ${props =>
+    props.color === 'info'
+      ? `
+      background-color: white;
+      border: 2px solid #DADFE6;
+      color: #DADFE6;
 
-      ${props =>
-        props.color === 'info'
-          ? `
-          background-color: white;
-          border: 2px solid #DADFE6;
-          color: #DADFE6;
+      img {
+        opacity: 0.1;
+      }
+      `
+      : ''}
 
-          img {
-            opacity: 0.1;
-          }
-          `
-          : ''}
-      
-
-    &:disabled {
-      cursor: not-allowed;
-      color: #a9aeb3;
-      background-color: #dadfe6;
-      border-color: #dadfe6;
-    }
-
+  &:disabled {
+    cursor: not-allowed;
+    color: #a9aeb3;
+    background-color: #dadfe6;
+    border-color: #dadfe6;
   }
 `
 

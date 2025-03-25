@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Countdown from 'react-countdown'
+// import Countdown from 'react-countdown'
 import CountUp from 'react-countup'
 import { useMediaQuery } from 'react-responsive'
 import ReactTooltip from 'react-tooltip'
@@ -17,19 +17,17 @@ import Farm from '../../assets/images/logos/analytics/farm.svg'
 import IFarm from '../../assets/images/logos/iFarm.svg'
 import GasSavedImage from '../../assets/images/logos/analytics/GasFeeSave.svg'
 import AutoHarvest from '../../assets/images/logos/analytics/AutoHarvest.svg'
-import TotalDeposit from '../../assets/images/logos/analytics/TotalDeposit.svg'
-import MonthlyProfit from '../../assets/images/logos/analytics/MonthlyProfit.svg'
 import ExternalLink from '../../assets/images/logos/analytics/ExternalLink.svg'
 import AnalyticChart from '../../components/AnalyticComponents/AnalyticChart'
 import AnimatedDots from '../../components/AnimatedDots'
-import CountdownLabel from '../../components/CountdownLabel'
+// import CountdownLabel from '../../components/CountdownLabel'
 import { Divider, Monospace, TextContainer } from '../../components/GlobalStyle'
 import { CURVE_APY } from '../../constants'
 import { useStats } from '../../providers/Stats'
 import { useRate } from '../../providers/Rate'
 import { useThemeContext } from '../../providers/useThemeContext'
 import { truncateNumberString } from '../../utilities/formats'
-import { getNextEmissionsCutDate } from '../../utilities/parsers'
+// import { getNextEmissionsCutDate } from '../../utilities/parsers'
 import {
   BigStatsExchange,
   Container,
@@ -37,7 +35,7 @@ import {
   DataSource,
   DataSourceDirect,
   DataSourceInner,
-  EmissionsCountdownText,
+  // EmissionsCountdownText,
   FarmStatsContainer,
   FarmSubTitle,
   ImgList,
@@ -54,7 +52,7 @@ import {
 } from './style'
 
 const MemoizedCounter = React.memo(CountUp)
-const MemoizedCountdown = React.memo(Countdown)
+// const MemoizedCountdown = React.memo(Countdown)
 const imgList = [
   { url: 'https://pro.coinbase.com/trade/FARM-USD', img: ExchangeCoinbase },
   { url: 'https://pro.kraken.com/app/trade/farm-usd', img: ExchangeKraken },
@@ -102,10 +100,9 @@ const Analytic = () => {
   } = useStats()
   const {
     darkMode,
-    pageBackColor,
+    bgColorNew,
     fontColor,
-    borderColor,
-    backColor,
+    borderColorBox,
     boxShadowColor,
     analyticTitleColor,
   } = useThemeContext()
@@ -134,18 +131,17 @@ const Analytic = () => {
   }, [])
 
   return (
-    <Container pageBackColor={pageBackColor}>
+    <Container pageBackColor={bgColorNew}>
       <Content>
         <FarmStatsContainer firstLine>
           <ValueComponent
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             fontColor={fontColor}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
             <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
-              <img src={TotalDeposit} alt="total deposit" />
-              Total Deposits
+              Total Value Locked
             </CompHeader>
             <FarmSubTitle bold={600} size="30px" lineHeight="38px">
               {Number(totalValueLocked) === 0 ? (
@@ -171,14 +167,13 @@ const Analytic = () => {
           </ValueComponent>
 
           <ValueComponent
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             fontColor={fontColor}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
             <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
-              <img src={MonthlyProfit} alt="monthly profit" />
-              Monthly Profits to Farmers
+              Monthly Crops to Farmers
             </CompHeader>
             <FarmSubTitle
               data-tip
@@ -214,29 +209,23 @@ const Analytic = () => {
           </ValueComponent>
 
           <ValueComponent
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             fontColor={fontColor}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader fontColor={analyticTitleColor}>
-              <img src={Farm} width="32px" height="32px" alt="" />
-              FARM staking APY:
-            </CompHeader>
+            <CompHeader fontColor={analyticTitleColor}>iFARM/FARM staking APY:</CompHeader>
             <FarmSubTitle data-tip data-for="details-box" bold={600} size="30px" lineHeight="38px">
               {profitShareAPY ? `${Number(profitShareAPY).toFixed(2)}%` : <AnimatedDots />}
             </FarmSubTitle>
           </ValueComponent>
           <ValueComponent
             fontColor={fontColor}
-            borderColor={borderColor}
-            backColor={backColor}
+            borderColor={borderColorBox}
+            backColor={bgColorNew}
             width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader fontColor={analyticTitleColor}>
-              <img src={Farm} width="32px" height="32px" alt="" />
-              Total FARM staked:
-            </CompHeader>
+            <CompHeader fontColor={analyticTitleColor}>Total FARM staked:</CompHeader>
             <FarmSubTitle data-tip data-for="details-box" bold={600} size="30px" lineHeight="38px">
               {percentOfFarmStaked ? (
                 `${Math.round(Number(percentOfFarmStaked))}%`
@@ -271,17 +260,17 @@ const Analytic = () => {
         <Divider height="20px" />
         <FarmStatsLastContainer>
           <StatsBox
-            width={isMobile ? '100%' : '50%'}
+            width={isMobile ? '100%' : '100%'}
             align="flex-start"
             direction="row"
             height="450px"
             fontColor={fontColor}
-            backColor={backColor}
-            borderColor={borderColor}
+            backColor={bgColorNew}
+            borderColor={borderColorBox}
           >
             {loadComplete && <AnalyticChart />}
           </StatsBox>
-          <StatsBox
+          {/* <StatsBox
             width={isMobile ? '100%' : '50%'}
             align="flex-start"
             compNum={2}
@@ -324,16 +313,16 @@ const Analytic = () => {
                 )
               }}
             />
-          </StatsBox>
+          </StatsBox> */}
         </FarmStatsLastContainer>
         <Divider height="30px" />
         <FarmStatsLastContainer>
           <StatsValue width={isMobile ? '100%' : '50%'}>
             <StatsValue width="100%" direction="row" fontColor={fontColor}>
               <ValueComponent
-                borderColor={borderColor}
+                borderColor={borderColorBox}
                 fontColor={fontColor}
-                backColor={backColor}
+                backColor={bgColorNew}
                 width="49%"
                 className="child first-comp"
               >
@@ -371,8 +360,8 @@ const Analytic = () => {
               </ValueComponent>
 
               <ValueComponent
-                borderColor={borderColor}
-                backColor={backColor}
+                borderColor={borderColorBox}
+                backColor={bgColorNew}
                 fontColor={fontColor}
                 width="49%"
                 className="child"
@@ -417,8 +406,8 @@ const Analytic = () => {
               align="flex-start"
               direction="column"
               fontColor={fontColor}
-              backColor={backColor}
-              borderColor={borderColor}
+              backColor={bgColorNew}
+              borderColor={borderColorBox}
             >
               <StatsContainerRow margin="27px 29px">
                 <DataSourceInner>
@@ -452,8 +441,8 @@ const Analytic = () => {
             width={isMobile ? '100%' : '50%'}
             direction="row"
             fontColor={fontColor}
-            backColor={backColor}
-            borderColor={borderColor}
+            backColor={bgColorNew}
+            borderColor={borderColorBox}
           >
             <StatsContainer>
               <BigStatsExchange fontColor={fontColor}>

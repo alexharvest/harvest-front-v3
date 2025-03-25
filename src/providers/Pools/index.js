@@ -16,6 +16,7 @@ import { forEach } from 'promised-loops'
 import { useInterval } from 'react-interval-hook'
 import { toast } from 'react-toastify'
 import useEffectWithPrevious from 'use-effect-with-previous'
+import BigNumber from 'bignumber.js'
 import { POLL_POOL_DATA_INTERVAL_MS, POOLS_API_ENDPOINT, SPECIAL_VAULTS } from '../../constants'
 import { CHAIN_IDS } from '../../data/constants'
 import { getWeb3, ledgerWeb3, newContractInstance, safeProvider } from '../../services/web3'
@@ -47,6 +48,8 @@ const getReader = (selectedChain, contracts) => {
       return contracts.readerBase
     case CHAIN_IDS.POLYGON_MAINNET:
       return contracts.readerMatic
+    case CHAIN_IDS.ZKSYNC:
+      return contracts.readerZksync
     default:
       return contracts.readerEth
   }
@@ -239,6 +242,7 @@ const PoolsProvider = _ref => {
         ...apiData.matic,
         ...apiData.arbitrum,
         ...apiData.base,
+        ...apiData.zksync,
       ])
       setDisableWallet(false)
     } catch (err) {
@@ -318,7 +322,8 @@ const PoolsProvider = _ref => {
           const chains = isSpecialApp ? [chainId] : selChain
           // selChain.forEach( async (ch)=> {
           /* eslint-disable no-await-in-loop */
-          for (let i = 0; i < chains.length; i += 1) {
+          const cl = chains.length
+          for (let i = 0; i < cl; i += 1) {
             const ch = chains[i]
             const readerType = getReader(ch, contracts)
             const poolAddresses = []
@@ -375,6 +380,28 @@ const PoolsProvider = _ref => {
               }
             })
           }
+
+          /* eslint-disable no-restricted-syntax, no-await-in-loop */
+          for (const vaultId of Object.keys(contracts.iporVaults)) {
+            const vaultContract = contracts.iporVaults[vaultId]
+            const vaultBalance = await vaultContract.methods.getBalanceOf(
+              vaultContract.instance,
+              account,
+            )
+            const AssetBalance = await vaultContract.methods.convertToAssets(
+              vaultContract.instance,
+              vaultBalance,
+            )
+
+            if (new BigNumber(AssetBalance).gt(0)) {
+              // eslint-disable-next-line camelcase
+              stats[vaultId] = {
+                lpTokenBalance: 0,
+                totalStaked: AssetBalance,
+              }
+            }
+          }
+          /* eslint-enable no-restricted-syntax, no-await-in-loop */
           /* eslint-enable no-await-in-loop */
           // })
           setUserStats(currStats => ({ ...currStats, ...stats }))
@@ -405,59 +432,61 @@ const PoolsProvider = _ref => {
       setLoadingUserPoolStats(true)
       await Promise.all(
         selectedPools.map(async pool => {
-          const web3Client = await getWeb3(pool.chain, false)
-          const contractInstance = await newContractInstance(
-            null,
-            pool.contractAddress,
-            poolContractData.abi,
-            web3Client,
-          )
-          const autoStakeContractInstance = await newContractInstance(
-            null,
-            pool.autoStakePoolAddress,
-            poolContractData.abi,
-            web3Client,
-          )
-          // const lpSymbol = Object.keys(tokens).filter(
-          //   symbol => tokens[symbol].tokenAddress === pool.lpTokenData.address || tokens[symbol].vaultAddress === pool.lpTokenData.address,
-          // )
-          // if(lpSymbol.length !== 0) {
-          const tokenInstance = await newContractInstance(
-            null,
-            pool.lpTokenData.address,
-            poolContractData.abi,
-            web3Client,
-          )
-
-          const fetchedStats = await getUserStats(
-            contractInstance,
-            tokenInstance,
-            pool.contractAddress,
-            pool.autoStakePoolAddress,
-            selectedAccount,
-            autoStakeContractInstance,
-          )
-
-          if (!isEqual(fetchedStats, currentStats[pool.id])) {
-            stats[pool.id] = fetchedStats
-          } else {
-            await pollUpdatedUserStats(
-              getUserStats(
-                contractInstance,
-                tokenInstance,
-                pool.contractAddress,
-                pool.autoStakePoolAddress,
-                selectedAccount,
-                autoStakeContractInstance,
-              ),
-              currentStats,
-              () => {
-                console.error(`Something went wrong during the fetching of ${pool.id} user stats`)
-              },
-              updatedStats => {
-                stats[pool.id] = updatedStats
-              },
+          if (pool) {
+            const web3Client = await getWeb3(pool.chain, false)
+            const contractInstance = await newContractInstance(
+              null,
+              pool.contractAddress,
+              poolContractData.abi,
+              web3Client,
             )
+            const autoStakeContractInstance = await newContractInstance(
+              null,
+              pool.autoStakePoolAddress,
+              poolContractData.abi,
+              web3Client,
+            )
+            // const lpSymbol = Object.keys(tokens).filter(
+            //   symbol => tokens[symbol].tokenAddress === pool.lpTokenData.address || tokens[symbol].vaultAddress === pool.lpTokenData.address,
+            // )
+            // if(lpSymbol.length !== 0) {
+            const tokenInstance = await newContractInstance(
+              null,
+              pool.lpTokenData.address,
+              poolContractData.abi,
+              web3Client,
+            )
+
+            const fetchedStats = await getUserStats(
+              contractInstance,
+              tokenInstance,
+              pool.contractAddress,
+              pool.autoStakePoolAddress,
+              selectedAccount,
+              autoStakeContractInstance,
+            )
+
+            if (!isEqual(fetchedStats, currentStats[pool.id])) {
+              stats[pool.id] = fetchedStats
+            } else {
+              await pollUpdatedUserStats(
+                getUserStats(
+                  contractInstance,
+                  tokenInstance,
+                  pool.contractAddress,
+                  pool.autoStakePoolAddress,
+                  selectedAccount,
+                  autoStakeContractInstance,
+                ),
+                currentStats,
+                () => {
+                  console.error(`Something went wrong during the fetching of ${pool.id} user stats`)
+                },
+                updatedStats => {
+                  stats[pool.id] = updatedStats
+                },
+              )
+            }
           }
           // }
         }),
@@ -474,6 +503,7 @@ const PoolsProvider = _ref => {
     {
       value: {
         pools: loadedPools,
+        allPools: pools,
         fetchUserPoolStats,
         userStats,
         loadedUserPoolsWeb3Provider: loadedUserPoolsWeb3Provider.current,

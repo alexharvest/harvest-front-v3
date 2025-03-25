@@ -10,11 +10,15 @@ const ButtonsGroup = styled.div`
 
   @media screen and (max-width: 992px) {
     width: 100%;
+
+    &.time-filter {
+      width: 65%;
+    }
   }
 `
 
 const ButtonStyle = styled.button`
-  display: flex;
+  display: ${props => props.display};
   justify-content: center;
   background: transparent;
   ${props => (props.fontColor ? `color: ${props.fontColor}` : '')};
@@ -22,11 +26,11 @@ const ButtonStyle = styled.button`
   line-height: 20px;
   font-weight: 600;
   border: none;
-  border-right: 1px solid ${props => props.borderColor};
+  border-right: ${props => (props.borderDisplay ? 'none' : `1px solid ${props.borderColor}`)};
   cursor: pointer;
   padding: 10px 16px;
   position: relative;
-  transition: 0.25s;
+  transition: 0.5s;
 
   &:first-child {
     border-radius: 8px 0 0 8px;
@@ -39,9 +43,8 @@ const ButtonStyle = styled.button`
 
   &.active,
   &:hover {
-    background: ${props => props.hoverColor};
+    ${props => `background: ${props.hoverColor};`}
   }
-  transition: 0.25s;
 
   img {
     filter: ${props => props.filterColor};
@@ -68,9 +71,11 @@ const ButtonStyle = styled.button`
   }
 
   @media screen and (max-width: 992px) {
-    font-size: 14px;
+    font-size: 12px;
     line-height: 20px;
     padding: 10px 16px;
+    font-weight: 400;
+    color: ${props => (props.mobileFontColor ? props.mobileFontColor : '')};
     ${props => (props.unsetWidth ? `width: unset` : `width: ${props.percent}%`)};
   }
 `

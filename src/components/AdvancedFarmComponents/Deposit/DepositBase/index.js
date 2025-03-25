@@ -10,11 +10,11 @@ import { BsArrowDown, BsArrowUp } from 'react-icons/bs'
 import DropDownIcon from '../../../../assets/images/logos/advancedfarm/drop-down.svg'
 // import WalletIcon from '../../../../assets/images/logos/beginners/wallet-in-button.svg'
 import InfoIcon from '../../../../assets/images/logos/beginners/info-circle.svg'
+import ThumbUpIcon from '../../../../assets/images/logos/thumb-up.svg'
 import CloseIcon from '../../../../assets/images/logos/beginners/close.svg'
 import { useThemeContext } from '../../../../providers/useThemeContext'
 import { useWallet } from '../../../../providers/Wallet'
 import { useRate } from '../../../../providers/Rate'
-import { CHAIN_IDS } from '../../../../data/constants'
 import { fromWei, toWei, checkNativeToken } from '../../../../services/web3'
 import { addresses } from '../../../../data'
 import { isSpecialApp, showTokenBalance } from '../../../../utilities/formats'
@@ -38,34 +38,16 @@ import {
   CloseBtn,
   DepositTokenSection,
   SwitchTabTag,
+  ThumbUp,
 } from './style'
 import { usePortals } from '../../../../providers/Portals'
-
-const getChainName = chain => {
-  let chainName = 'Ethereum'
-  switch (chain) {
-    case CHAIN_IDS.POLYGON_MAINNET:
-      chainName = 'Polygon'
-      break
-    case CHAIN_IDS.ARBITRUM_ONE:
-      chainName = 'Arbitrum'
-      break
-    case CHAIN_IDS.BASE:
-      chainName = 'Base'
-      break
-    default:
-      chainName = 'Ethereum'
-      break
-  }
-  return chainName
-}
+import { getChainName } from '../../../../utilities/parsers'
 
 const DepositBase = ({
   setSelectToken,
   deposit,
   setDeposit,
   balance,
-  balanceList,
   pickedToken,
   defaultToken,
   inputAmount,
@@ -75,15 +57,17 @@ const DepositBase = ({
   switchMethod,
   tokenSymbol,
   useIFARM,
-  useBeginnersFarm,
   setFromInfoAmount,
   setFromInfoUsdAmount,
   fromInfoUsdAmount,
-  convertMonthlyYieldUSD,
-  convertDailyYieldUSD,
+  convertYearlyYieldUSD,
+  // convertMonthlyYieldUSD,
+  // convertDailyYieldUSD,
   minReceiveAmountString,
   setMinReceiveAmountString,
+  minReceiveUsdAmount,
   setMinReceiveUsdAmount,
+  setConvertYearlyYieldUSD,
   setConvertMonthlyYieldUSD,
   setConvertDailyYieldUSD,
   hasErrorOccurred,
@@ -95,14 +79,19 @@ const DepositBase = ({
 }) => {
   const {
     darkMode,
-    bgColor,
+    bgColorNew,
     fontColor,
     fontColor1,
     fontColor2,
     fontColor3,
     fontColor4,
     activeColor,
+    activeColorNew,
+    borderColorBox,
     bgColorMessage,
+    btnColor,
+    btnHoverColor,
+    btnActiveColor,
   } = useThemeContext()
 
   const { connected, connectAction, account, chainId, setChainId } = useWallet()
@@ -117,6 +106,7 @@ const DepositBase = ({
 
   const slippage = 0.5 // Default slippage Percent
   const tokenChain = token.chain || token.data.chain
+  const tokenSym = token.isIPORVault ? tokenSymbol : `f${tokenSymbol}`
   const curChain = isSpecialApp
     ? chainId
     : connectedChain
@@ -159,7 +149,6 @@ const DepositBase = ({
         pickedToken.symbol !== 'Select Token' &&
         !new BigNumber(amount.toString()).isEqualTo(0) &&
         curChain === tokenChain &&
-        (balanceList.length !== 0 || pickedToken.balance !== '0') &&
         failureCount < 5
       ) {
         setFromInfoAmount('')
@@ -281,6 +270,7 @@ const DepositBase = ({
             setFailureCount(prevCount => prevCount + 1)
 
             if (failureCount === 4) {
+              setConvertYearlyYieldUSD('-')
               setConvertMonthlyYieldUSD('-')
               setConvertDailyYieldUSD('-')
               setMinReceiveAmountString('-')
@@ -305,14 +295,12 @@ const DepositBase = ({
     getQuoteResult()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    amount,
     inputAmount,
     account,
     chainId,
     curChain,
     currencyRate,
     currencySym,
-    balanceList.length,
     defaultToken,
     token,
     tokenChain,
@@ -367,7 +355,7 @@ const DepositBase = ({
   }, [balance, setInputAmount, pickedToken, deposit])
 
   const onInputBalance = e => {
-    const inputValue = e.currentTarget.value.replace(/,/g, '.')
+    const inputValue = e.currentTarget.value.replace(/,/g, '.').replace(/[^0-9.]/g, '')
     setInputAmount(inputValue)
   }
 
@@ -382,6 +370,7 @@ const DepositBase = ({
     <>
       <BaseWidoDiv>
         <NewLabel
+          bg={darkMode ? '#373D51' : '#fff'}
           size={isMobile ? '16px' : '16px'}
           height={isMobile ? '24px' : '24px'}
           weight="600"
@@ -390,7 +379,7 @@ const DepositBase = ({
           justifyContent="center"
           padding={isMobile ? '4px 0px' : '4px 0px'}
           marginBottom="13px"
-          border="1px solid #F8F8F8"
+          border={`1.3px solid ${borderColorBox}`}
           borderRadius="8px"
         >
           {mainTags.map((tag, i) => (
@@ -404,7 +393,7 @@ const DepositBase = ({
               }}
               color={i === 0 ? fontColor4 : fontColor3}
               borderColor={i === 0 ? activeColor : ''}
-              backColor={i === 0 ? activeColor : ''}
+              backColor={i === 0 ? activeColorNew : ''}
               boxShadow={
                 i === 0
                   ? '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)'
@@ -417,9 +406,7 @@ const DepositBase = ({
           ))}
         </NewLabel>
         <DepoTitle fontColor={fontColor}>
-          {useBeginnersFarm
-            ? `Convert your crypto into interest-bearing f${tokenSymbol} to earn yield`
-            : useIFARM
+          {useIFARM
             ? `Convert your crypto into interest-bearing i${tokenSymbol}.`
             : 'Convert your crypto into interest-bearing fTokens.'}
         </DepoTitle>
@@ -437,13 +424,19 @@ const DepositBase = ({
             <TokenInput>
               <TokenAmount
                 type="number"
-                value={Number(inputAmount)}
+                value={inputAmount}
                 onChange={onInputBalance}
-                bgColor={bgColor}
+                bgColor={bgColorNew}
                 fontColor2={fontColor2}
+                borderColor={borderColorBox}
+                inputMode="numeric"
+                pattern="[0-9]*"
               />
+              <input type="hidden" value={Number(inputAmount)} />
               <TokenUSDAmount fontColor3={fontColor3}>
-                {inputAmount === '0' || inputAmount === '' ? (
+                {inputAmount === '0' ||
+                inputAmount === '' ||
+                pickedToken.symbol === 'Select Token' ? (
                   `${currencySym}0`
                 ) : fromInfoUsdAmount === '' ? (
                   <TokenInfo>
@@ -553,7 +546,7 @@ const DepositBase = ({
           </div>
         </HasErrorSection>
       </BaseWidoDiv>
-      <BaseWidoDiv>
+      <BaseWidoDiv borderColor={borderColorBox}>
         <NewLabel
           size={isMobile ? '14px' : '14px'}
           height={isMobile ? '24px' : '24px'}
@@ -570,7 +563,7 @@ const DepositBase = ({
               color={fontColor3}
               weight="500"
             >
-              Est. Monthly Yield
+              Est. Yearly Yield
               <PiQuestion className="question" data-tip data-for="monthly-yield" />
               <ReactTooltip
                 id="monthly-yield"
@@ -584,11 +577,9 @@ const DepositBase = ({
                   height={isMobile ? '18px' : '18px'}
                   weight="500"
                 >
-                  {useBeginnersFarm
-                    ? `Based on live USD prices of tokens involved in this farm. Subject to change due to market fluctuations and the number of users in this farm.`
-                    : useIFARM
+                  {useIFARM
                     ? 'Based on live USD price of iFARM. Considers live APY. Subject to change.'
-                    : 'Based on live USD prices of underlying and reward tokens. Considers live APY and assumes staked fTokens. Subject to change.'}
+                    : 'Calculated using live APY and current values of underlying and reward tokens. Subject to market fluctuations; performance may vary.'}
                 </NewLabel>
               </ReactTooltip>
             </NewLabel>
@@ -601,86 +592,18 @@ const DepositBase = ({
             >
               {account &&
               pickedToken.symbol !== 'Select Token' &&
-              !new BigNumber(amount).isEqualTo(0) &&
-              balanceList.length !== 0 ? (
+              !new BigNumber(amount).isEqualTo(0) ? (
                 minReceiveAmountString !== '' ? (
-                  convertMonthlyYieldUSD === '0' ? (
+                  convertYearlyYieldUSD === '0' ? (
                     `${currencySym}0.00`
-                  ) : convertMonthlyYieldUSD === '-' ? (
+                  ) : convertYearlyYieldUSD === '-' ? (
                     '-'
-                  ) : convertMonthlyYieldUSD === 'NaN' ? (
+                  ) : convertYearlyYieldUSD === 'NaN' ? (
                     '-'
-                  ) : Number(convertMonthlyYieldUSD) < 0.01 ? (
+                  ) : Number(convertYearlyYieldUSD) < 0.01 ? (
                     `<${currencySym}0.01`
                   ) : (
-                    `${currencySym}${round(convertMonthlyYieldUSD * Number(currencyRate), 2)}`
-                  )
-                ) : (
-                  <TokenInfo>
-                    <AnimatedDots />
-                  </TokenInfo>
-                )
-              ) : (
-                '-'
-              )}
-            </NewLabel>
-          </NewLabel>
-          <NewLabel
-            display="flex"
-            justifyContent="space-between"
-            padding={isMobile ? '10px 0' : '10px 0'}
-          >
-            <NewLabel
-              size={isMobile ? '12px' : '14px'}
-              height={isMobile ? '24px' : '24px'}
-              color={fontColor3}
-              weight="500"
-            >
-              Est. Daily Yield
-              <PiQuestion className="question" data-tip data-for="daily-yield" />
-              <ReactTooltip
-                id="daily-yield"
-                backgroundColor={darkMode ? 'white' : '#101828'}
-                borderColor={darkMode ? 'white' : 'black'}
-                textColor={darkMode ? 'black' : 'white'}
-                place="right"
-                width="100px"
-              >
-                <NewLabel
-                  size={isMobile ? '12px' : '12px'}
-                  height={isMobile ? '18px' : '18px'}
-                  weight="500"
-                >
-                  {useBeginnersFarm
-                    ? `Based on live USD prices of tokens involved in this farm. Subject to change due to market fluctuations and the number of users in this farm.`
-                    : useIFARM
-                    ? 'Based on live USD price of iFARM. Considers live APY. Subject to change.'
-                    : 'Based on live USD prices of underlying and reward tokens. Considers live APY and assumes staked fTokens. Subject to change.'}
-                </NewLabel>
-              </ReactTooltip>
-            </NewLabel>
-            <NewLabel
-              size={isMobile ? '12px' : '14px'}
-              height={isMobile ? '24px' : '24px'}
-              color={fontColor4}
-              weight="600"
-              textAlign="right"
-            >
-              {account &&
-              pickedToken.symbol !== 'Select Token' &&
-              !new BigNumber(amount).isEqualTo(0) &&
-              balanceList.length !== 0 ? (
-                minReceiveAmountString !== '' ? (
-                  convertDailyYieldUSD === '0' ? (
-                    `${currencySym}0.00`
-                  ) : convertDailyYieldUSD === '-' ? (
-                    '-'
-                  ) : convertDailyYieldUSD === 'NaN' ? (
-                    '-'
-                  ) : Number(convertDailyYieldUSD) < 0.01 ? (
-                    `<${currencySym}0.01`
-                  ) : (
-                    `${currencySym}${round(convertDailyYieldUSD * Number(currencyRate), 2)}`
+                    `${currencySym}${round(convertYearlyYieldUSD * Number(currencyRate), 2)}`
                   )
                 ) : (
                   <TokenInfo>
@@ -717,9 +640,8 @@ const DepositBase = ({
                   height={isMobile ? '14px' : '14px'}
                   weight="500"
                 >
-                  {useBeginnersFarm
-                    ? `The estimated number of interest-bearing fTokens you will receive in your wallet. The default slippage is set as 'Auto'.`
-                    : `The estimated number of fTokens you will receive in your wallet. The default slippage is set as 'Auto'.`}
+                  The estimated number of fTokens you will receive in your wallet. The default
+                  slippage is set as &apos;Auto&apos;.
                 </NewLabel>
               </ReactTooltip>
             </NewLabel>
@@ -737,8 +659,7 @@ const DepositBase = ({
                 <div data-tip data-for="est-fToken-receive">
                   {account &&
                   pickedToken.symbol !== 'Select Token' &&
-                  !new BigNumber(amount).isEqualTo(0) &&
-                  balanceList.length !== 0 ? (
+                  !new BigNumber(amount).isEqualTo(0) ? (
                     minReceiveAmountString !== '' ? (
                       showTokenBalance(minReceiveAmountString)
                     ) : (
@@ -767,16 +688,38 @@ const DepositBase = ({
                   </NewLabel>
                 </ReactTooltip>
               </>
-              <span className="token-symbol">
-                {useIFARM ? `i${tokenSymbol}` : `f${tokenSymbol}`}
-              </span>
+              <NewLabel display="flex" flexFlow="column" weight="600" align="right">
+                <span className="token-symbol">{useIFARM ? `i${tokenSymbol}` : tokenSym}</span>
+                <span className="token-symbol">
+                  {account &&
+                  pickedToken.symbol !== 'Select Token' &&
+                  !new BigNumber(amount).isEqualTo(0) ? (
+                    minReceiveUsdAmount !== '' ? (
+                      `${minReceiveUsdAmount}`
+                    ) : (
+                      <AnimatedDots />
+                    )
+                  ) : (
+                    '-'
+                  )}
+                </span>
+              </NewLabel>
             </NewLabel>
           </NewLabel>
+          <ThumbUp padding={isMobile ? '15px' : '16px'}>
+            <img src={ThumbUpIcon} alt="thumb-up" style={{ marginRight: '15px' }} />
+            <NewLabel size={isMobile ? '10px' : '12px'} weight="600" height="20px" color="#027A48">
+              You can exit this position anytime, in full, at no cost.
+            </NewLabel>
+          </ThumbUp>
         </NewLabel>
         <NewLabel>
           <Button
             color="wido-deposit"
             width="100%"
+            btnColor={btnColor}
+            btnHoverColor={btnHoverColor}
+            btnActiveColor={btnActiveColor}
             onClick={() => {
               onClickDeposit()
             }}

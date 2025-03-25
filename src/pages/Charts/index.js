@@ -108,6 +108,10 @@ const Charts = () => {
     groupOfVaults,
   ])
 
+  const zksyncVaultsSymbol = useMemo(() => formatVaults(groupOfVaults, CHAIN_IDS.ZKSYNC), [
+    groupOfVaults,
+  ])
+
   const [, setLoadData] = useState(true)
 
   return (
@@ -201,6 +205,49 @@ const Charts = () => {
         })}
         <Title>Arbitrum: </Title>
         {arbVaultsSymbol.map((symbol, i) => {
+          const token = groupOfVaults[symbol]
+          const isSpecialVault = token.liquidityPoolVault || token.poolVault
+          let vaultPool
+
+          const tokenVault = get(vaultsData, token.hodlVaultId || symbol)
+
+          if (isSpecialVault) {
+            vaultPool = token.data
+          } else {
+            vaultPool = find(
+              pools,
+              pool => pool.collateralAddress === get(tokenVault, `vaultAddress`),
+            )
+          }
+
+          const vaultValue = getVaultValue(token)
+          const totalApy = isSpecialVault
+            ? getTotalApy(null, token, true)
+            : getTotalApy(vaultPool, tokenVault)
+
+          return (
+            <ChartSection key={i}>
+              <PriceChartArea>
+                <UserBalanceData
+                  token={token}
+                  vaultPool={vaultPool}
+                  tokenSymbol={symbol}
+                  setLoadData={setLoadData}
+                />
+              </PriceChartArea>
+              <PriceChartArea>
+                <FarmDetailChart
+                  token={token}
+                  vaultPool={vaultPool}
+                  lastTVL={Number(vaultValue)}
+                  lastAPY={Number(totalApy)}
+                />
+              </PriceChartArea>
+            </ChartSection>
+          )
+        })}
+        <Title>Zksync: </Title>
+        {zksyncVaultsSymbol.map((symbol, i) => {
           const token = groupOfVaults[symbol]
           const isSpecialVault = token.liquidityPoolVault || token.poolVault
           let vaultPool

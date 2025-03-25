@@ -2,13 +2,13 @@ import styled from 'styled-components'
 import { Dropdown, Offcanvas } from 'react-bootstrap'
 
 const Container = styled.div`
-  border: ${props => (props.darkMode ? '' : '1px solid #E9E9E9')};
+  border-right: 1px solid ${props => props.bordercolor};
 
   a.logo {
     color: ${props => props.fontColor};
   }
   transition: 0.25s;
-  background: ${props => props.backColor};
+  background: ${props => props.backcolor};
   color: ${props => props.fontColor};
 
   min-height: 652px;
@@ -17,7 +17,7 @@ const Container = styled.div`
   max-width: 100%;
   position: fixed;
   z-index: 10;
-  padding: 25px 25px;
+  padding: 24px;
 
   @media screen and (max-width: 992px) {
     display: flex;
@@ -29,7 +29,7 @@ const Container = styled.div`
     border: none;
     bottom: 0;
     height: fit-content;
-    border-top: 1px solid ${props => props.borderColor};
+    border-top: 1px solid ${props => props.bordercolor};
     padding: 0px 25px;
   }
 `
@@ -66,10 +66,10 @@ const LinksContainer = styled.div`
     align-items: inherit;
     text-decoration: none;
     font-weight: 700;
-    font-size: 24px;
+    font-size: 16.7px;
 
     &:after {
-      margin-left: 22px;
+      margin-left: 15px;
       display: block;
       content: 'Harvest';
       color: ${props => props.fontColor};
@@ -85,14 +85,18 @@ const LinksContainer = styled.div`
   }
 `
 
+const CategoryRow = styled.div`
+  color: ${props => props.color};
+  font-size: 13.176px;
+  font-weight: 300;
+  line-height: 26.352px;
+  padding-left: 13.18px;
+  margin-top: 25px;
+`
+
 const LinkContainer = styled.div`
   position: relative;
-  margin-bottom: 10px;
   cursor: pointer;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
 
   @media screen and (min-width: 992px) {
     display: flex;
@@ -100,9 +104,9 @@ const LinkContainer = styled.div`
 `
 
 const Link = styled.button`
-  color: ${props => props.fontColor2};
+  color: ${props => props.fontColor1};
   transition: 0.25s;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 24px;
   transition: 0.25s;
@@ -115,15 +119,18 @@ const Link = styled.button`
   padding: 8px 12px;
   border-width: 0;
   border-radius: 6px;
+  transition: 0.5s;
 
   .sideIcon {
-    width: 24px;
-    height: 24px;
     margin-right: 12px;
     filter: ${props =>
       props.darkMode
         ? 'invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%)'
-        : 'invert(48%) sepia(4%) saturate(2341%) hue-rotate(183deg) brightness(87%) contrast(80%)'};
+        : ''};
+  }
+
+  &:hover {
+    background: ${props => props.hoverColorSide};
   }
 
   ${props =>
@@ -141,32 +148,29 @@ const Link = styled.button`
   ${props =>
     props.active
       ? `
-    color: #15b088;
-    background: rgba(187, 187, 187, 0.07);
-    .sideIcon {
-      filter: invert(46%) sepia(96%) saturate(382%) hue-rotate(114deg) brightness(99%) contrast(89%);
-    }
-    ${
-      props.darkMode
-        ? `
-      img {
-        filter: invert(46%) sepia(96%) saturate(382%) hue-rotate(114deg) brightness(99%) contrast(89%);
+      color: #5dcf46;
+      img.sideIcon {
+        filter: invert(75%) sepia(25%) saturate(1160%) hue-rotate(59deg) brightness(91%) contrast(89%);
       }
     `
-        : `
-        img {
-          filter: invert(46%) sepia(96%) saturate(382%) hue-rotate(114deg) brightness(99%) contrast(89%);
-        }
-      `
-    }
-  `
-      : `
-      `}
+      : ``}
 
   .external-link {
     margin-left: 5px;
     margin-bottom: 14px;
     margin-top: 0;
+  }
+
+  @media screen and (max-width: 1536px) {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+    padding: 6px 12px;
+
+    .sideIcon {
+      width: 22px;
+      height: 22px;
+    }
   }
 
   @media screen and (max-width: 992px) {
@@ -190,7 +194,6 @@ const Link = styled.button`
         ? `
         font-weight: bold;
         background: unset;
-        color: #15b088;
     `
         : `
     `}
@@ -199,13 +202,6 @@ const Link = styled.button`
     img {
       width: 20px;
       height: 20px;
-    }
-  }
-
-  &:hover {
-    color: #15b088;
-    img {
-      filter: invert(46%) sepia(96%) saturate(382%) hue-rotate(114deg) brightness(99%) contrast(89%);
     }
   }
 `
@@ -228,7 +224,8 @@ const FlexDiv = styled.div`
   }
 
   .detail-info {
-    align-self: center;
+    display: flex;
+    margin: auto;
   }
 
   input[type='checkbox'] {
@@ -241,70 +238,30 @@ const FlexDiv = styled.div`
 `
 
 const ConnectButtonStyle = styled.button`
-  font-size: 16px;
-  line-height: 20px;
-  font-weight: 600;
+  font-size: 15px;
+  line-height: 30px;
+  font-weight: 700;
   margin: 25px 0px;
   width: 100%;
-  background: ${props => props.backColor};
-  border-radius: 8px;
-  border: 1px solid ${props => props.inputBorderColor};
-  color: ${props => props.fontColor2};
-  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border: none;
+  background: #5dcf46;
+  color: #fff;
+  border-radius: 11px;
   cursor: pointer;
-
-  ${props =>
-    props.connected
-      ? `
-      padding: 7px 45px 7px 11px;
-      filter: drop-shadow(0px 4px 52px rgba(0, 0, 0, 0.25));
-
-      &:hover {
-        background: #E6F8EB;
-      }
-    `
-      : `
-      padding: 15px 0px 15px 0px;
-    `}
+  transition: 0.5s;
+  padding: 7.32px 10.98px;
 
   &:hover {
-    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05),
-      0px 0px 0px 4px ${props => props.hoverColorButton};
-    img.connect-wallet {
-      filter: brightness(0) saturate(100%) invert(69%) sepia(55%) saturate(4720%) hue-rotate(110deg)
-        brightness(91%) contrast(86%);
-    }
-  }
-
-  img.connect-wallet {
-    margin-right: 25px;
+    background: ${props => props.hoverColor};
   }
 
   @media screen and (max-width: 992px) {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 0 20px 13px;
-
-    ${props =>
-      props.connected
-        ? `
-      background: none;
-      color: ${props.fontcolor};
-      font-size: 11px;
-      padding: 2px 16px 2px 7px;
-      border: 1px solid ${props.bordercolor};
-      `
-        : `
-      padding: 10px 11px;
-      font-size: 13px;
-      `}
-
-    img.connect-wallet {
-      margin-right: 15px;
-      width: 14px;
-      height: 14px;
-    }
+    font-size: 15px;
+    font-weight: 400;
+    border-radius: 9px;
+    color: #fff;
+    padding: 9.19px 16.08px 9.19px 16.08px;
+    margin: auto 0px;
   }
 `
 
@@ -342,14 +299,14 @@ const Mobile = styled.div`
 
 const MobileView = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   position: relative;
   width: 100%;
-  padding: 10px 0px;
+  padding: 10px 0px 5px 0px;
 
   &.connect-modal {
     padding: 10px 25px;
-    border-top: 1px solid ${props => props.borderColor};
+    border-top: 1px solid ${props => props.bordercolor};
   }
 
   button {
@@ -358,78 +315,15 @@ const MobileView = styled.div`
   }
 `
 
-const MobileConnectBtn = styled.div``
-
 const MobileActionsContainer = styled.div`
   bottom: 0;
   position: absolute;
   width: 100%;
   border-radius: 15px 15px 0px 0px;
   background: ${props => props.bgColor};
-  box-shadow: 0px -4px 4px 0px ${props => props.borderColor};
+  box-shadow: 0px -4px 4px 0px ${props => props.bordercolor};
   &.full-menu-container {
     padding: 19px 19px 0px;
-  }
-`
-
-const MobileWalletTop = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 19px 19px 0px;
-`
-
-const MobileWalletTopNet = styled.div`
-  display: flex;
-  margin: auto 0px;
-
-  img.chainIcon {
-    padding: 3px 5px;
-    border-radius: 2px;
-    background: #fff;
-  }
-
-  img.chainStatus {
-    margin: auto 5px;
-  }
-`
-
-const MobileWalletBody = styled.div`
-  display: flex;
-  flex-flow: column;
-  padding: 25px 25px 0px;
-  &.connect-body {
-    padding: 80px 25px;
-  }
-`
-
-const MobileWalletBtn = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  padding: 25px 0px;
-`
-
-const MobileAmount = styled.div`
-  display: none;
-  /* display: flex; */
-  color: ${props => props.fontColor2};
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 28px;
-`
-
-const MobileAmountDiv = styled.div`
-  display: inline-block;
-  width: 50%;
-  text-align: center;
-  &.middle-letter {
-    width: 10%;
-    margin-top: -1px;
-  }
-  &.eth-letter {
-    text-align: end;
-  }
-  &.usdc-letter {
-    text-align: start;
   }
 `
 
@@ -438,13 +332,21 @@ const MobileWalletButton = styled.div`
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
-  padding: 10px 18px;
-  background: ${props => props.backColor};
-  border-radius: 5px;
-  border: 1px solid ${props => props.borderColor};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: ${props => (props.marginLeft ? props.marginLeft : '')};
+  // padding: 10px 18px;
+  background: ${props => props.backcolor};
+  // border-radius: 5px;
+  // border: 1px solid ${props => props.bordercolor};
   cursor: pointer;
-  width: 45%;
+  width: 10%;
   text-align: center;
+
+  img.disconnect {
+    filter: ${props => props.filterColor};
+  }
 
   &.connect-button {
     padding: 10px 40px;
@@ -454,7 +356,6 @@ const MobileWalletButton = styled.div`
 const MobileLinkContainer = styled.div`
   display: flex;
   position: relative;
-  padding-bottom: 12px;
   margin: auto;
   width: 95%;
 
@@ -498,27 +399,23 @@ const MobileFollow = styled.div`
   display: flex;
   justify-content: space-between;
   width: 90%;
-  margin-top: 15px;
 
   @media screen and (max-width: 992px) {
     width: 95%;
-    margin: 0px auto 35px auto;
+    margin: 20px auto 35px auto;
   }
 `
 
 const ConnectAvatar = styled.div`
   display: flex;
   align-items: center;
-  margin-right: ${props => (props.avatar ? '13px' : '-13px')};
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 14px;
+  margin-right: ${props => (props.avatar ? '10px' : '-10px')};
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 24px;
   transition: 0.25s;
-  img {
-    width: 39px;
-    height: 39px;
-    margin-right: 5px;
-  }
+  letter-spacing: -0.15px;
+  color: ${props => props.color};
 
   @media screen and (max-width: 992px) {
     justify-content: center;
@@ -527,14 +424,19 @@ const ConnectAvatar = styled.div`
 `
 
 const Address = styled.span`
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 22px;
+  display: flex;
+  color: ${props => (props.color ? props.color : '')};
+  font-weight: 500;
+  letter-spacing: -0.12px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 26px;
 
   @media screen and (max-width: 992px) {
     text-align: center;
-    line-height: 28px;
-    margin: 4px auto;
+    line-height: 25px;
+    margin-left: 10px;
+    font-size: 15px;
   }
 `
 
@@ -563,28 +465,44 @@ const ThemeMode = styled.div`
     }
 
     .switch-track {
-      background: ${props => props.backColor};
-      border: 1px solid ${props => props.borderColor};
-      height: 28px;
-      width: 58px;
+      background: ${props => props.backcolor};
+      border: 1px solid ${props => props.bordercolor};
+      width: 105px;
+      height: 40px;
       border-radius: 30px;
       transition: all 0.2s ease 0s;
     }
 
     .switch-thumb {
-      color: ${props => props.backColor};
-      background: ${props => props.circleBgColor};
+      color: #000;
+      background: #fff;
       background-size: cover;
-      height: 20px;
-      left: 5px;
+      height: 32px;
+      right: 5px;
       position: absolute;
       top: 4px;
-      width: 20px;
-      border-radius: 50%;
+      width: 48px;
+      border-radius: 32px;
       transition: all 0.25s ease 0s;
 
       svg {
-        margin: -7px 0px 0px 2px;
+        font-size: 24px;
+        margin: 4px 0px 0px 12px;
+      }
+    }
+
+    .switch-icon {
+      color: ${props => props.color};
+      height: 32px;
+      ${props => (props.mode === 'dark' ? 'left: 5px;' : 'right: 5px;')}
+      position: absolute;
+      top: 4px;
+      width: 48px;
+      transition: all 0.25s ease 0s;
+
+      svg {
+        font-size: 24px;
+        margin: 4px 0px 0px 12px;
       }
     }
 
@@ -604,7 +522,7 @@ const ThemeMode = styled.div`
           opacity: 0;
         }
         .switch-thumb {
-          left: 33px;
+          left: 6px;
         }
       }
     `
@@ -615,12 +533,16 @@ const ThemeMode = styled.div`
 
 const SideIcons = styled.img`
   transition: 0.25s;
+  width: ${props => props.width};
+  height: ${props => props.height};
+  filter: ${props => props.filterColor};
+  margin-top: ${props => (props.marginTop ? props.marginTop : '')};
 `
 
 const UserDropDown = styled(Dropdown.Toggle)`
-  background: ${props => props.bgcolor} !important;
+  border-radius: 11px;
+  background: ${props => props.backcolor} !important;
   border: none !important;
-  border-radius: 10px !important;
   color: ${props => props.fontcolor2} !important;
   align-items: center;
   padding: 8px 18px 8px 5px !important;
@@ -630,20 +552,16 @@ const UserDropDown = styled(Dropdown.Toggle)`
   text-align: left;
   position: relative;
   margin: 20px 0px;
+  transition: 0.5s;
 
   &:after {
     display: none !important;
   }
 
-  &:hover {
+  &:hover,
+  &:active,
+  &:focus {
     background: ${props => props.hovercolor} !important;
-    color: black;
-    font-weight: 500;
-  }
-
-  &:active {
-    background: green;
-    color: black;
   }
 
   .chain-name {
@@ -653,10 +571,10 @@ const UserDropDown = styled(Dropdown.Toggle)`
     margin-left: 5px;
   }
 
-  img.narrow {
-    position: absolute;
-    right: 15px;
-    top: 15px;
+  img.chain-icon {
+    width: 16.47px;
+    height: 16.47px;
+    margin: auto 8.78px auto 0px;
   }
 
   @media screen and (max-width: 992px) {
@@ -703,11 +621,10 @@ const UserDropDownItem = styled(Dropdown.Item)`
     background: none !important;
 
     img {
-      filter: invert(63%) sepia(58%) saturate(3702%) hue-rotate(0deg) brightness(107%)
-        contrast(105%);
+      filter: ${props => props.filtercolornew};
     }
     div {
-      color: #ff9400;
+      color: #5dcf46;
     }
   }
 
@@ -718,7 +635,7 @@ const UserDropDownItem = styled(Dropdown.Item)`
 
   div {
     align-self: center;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 14px;
     line-height: 18px;
   }
@@ -730,16 +647,6 @@ const UserDropDownItem = styled(Dropdown.Item)`
 
   img.change-icon {
     transform: scale(1.5);
-  }
-`
-
-const MobileToggle = styled.img`
-  filter: ${props => props.toggleColor};
-  &.wallet-btn {
-    margin-top: -3px;
-  }
-  &.connected-wallet-btn {
-    filter: invert(39%) sepia(83%) saturate(1585%) hue-rotate(137deg) brightness(103%) contrast(84%);
   }
 `
 
@@ -784,7 +691,8 @@ const Logo = styled.div`
 
   @media screen and (max-width: 992px) {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    margin-bottom: 24px;
   }
 `
 
@@ -800,14 +708,22 @@ const Desktop = styled.div`
 `
 
 const NewTag = styled.div`
-  border-radius: 16px;
-  background: #00d26b;
-  padding: 2px 8px;
-  font-size: 12px;
-  line-height: 18px;
+  font-size: 8.637px;
   font-weight: 500;
+  line-height: 12.955px;
+  border-radius: 16px;
+  background: #5dcf46;
+  padding: 2px 8px;
   color: white !important;
   margin-left: 10px;
+`
+
+const LinkName = styled.div`
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 25px;
+  color: ${props => (props.color ? props.color : '')};
+  margin-top: ${props => (props.marginTop ? props.marginTop : '')};
 `
 
 const LinkMobile = styled.button`
@@ -825,24 +741,19 @@ const LinkMobile = styled.button`
   flex-direction: column;
   display: ${props => (props.isDropdownLink ? 'none' : 'flex')};
 
-  ${props =>
-    props.darkMode
-      ? `
-          img.sideIcon {
-            filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%);
-          }
-      `
-      : ``}
+  &.more {
+    margin-top: -1px;
+  }
+
+  img {
+    filter: ${props => (props.farmsFilter ? props.farmsFilter : '')};
+  }
 
   ${props =>
     props.enabled === 'false'
       ? `
       pointer-events: none;
       color: #a4a4a4;
-
-      img.sideIcon {
-        filter: invert(81%) sepia(0%) saturate(1%) hue-rotate(315deg) brightness(82%) contrast(85%);
-      }
     `
       : ``}
 
@@ -851,9 +762,6 @@ const LinkMobile = styled.button`
       ? `
           font-weight: 500;
           color: #15B088;
-          img {
-            filter: invert(56%) sepia(65%) saturate(2880%) hue-rotate(127deg) brightness(93%) contrast(84%);
-          }
       `
       : `font-weight: 400;`}
 `
@@ -866,209 +774,19 @@ const MobileMenuContainer = styled.div`
   }
 `
 
-const ConnectSection = styled.div`
-  cursor: pointer;
-  display: flex;
-`
-
-const MoreBtn = styled.button`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #484c52;
-  font-size: 10.229px;
-  font-style: normal;
-  font-weight: 400;
-  width: 21px;
-  height: 21px;
-  padding: 0px;
-`
-
-const CurrencyDropDown = styled(Dropdown.Toggle)`
-  left: 12px;
-  background: ${props => props.bgcolor} !important;
-  border: none !important;
-  border-radius: 10px !important;
-  color: ${props => props.fontcolor2} !important;
-  align-items: center;
+const MobileMoreTop = styled.div`
   width: 100%;
-  display: flex !important;
-  justify-content: space-between;
-  text-align: left;
-  position: relative;
-  margin: 0px 0px;
-  &:after {
-    display: none !important;
-  }
-
-  &:hover {
-    background: ${props => props.hovercolor} !important;
-    color: black;
-    font-weight: 500;
-  }
-
-  &:active {
-    background: green;
-    color: black;
-  }
-
-  .chain-name {
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 16px;
-    margin-left: 5px;
-  }
-
-  img.narrow {
-    position: absolute;
-    right: 15px;
-    top: 15px;
-  }
-
-  @media screen and (max-width: 992px) {
-    margin-left: 13px;
-  }
-`
-
-const CurrencySelect = styled.div`
-  width: 100%;
-  background: ${props => props.bgcolor} !important;
-  border: 1px solid #d0d5dd;
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-  transition: 0.25s;
-
-  border-radius: 8px;
-  padding: 5px 7px;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 24px;
-  text-align: right;
-  color: ${props => props.fontcolor2} !important;
-
   display: flex;
   align-items: center;
-
-  &:hover {
-    background: ${props => props.hovercolor} !important;
-  }
-
-  img.logo {
-    margin-right: 7.5px;
-  }
-
-  img.logo-dark {
-    margin-right: 7.5px;
-    filter: invert(100%);
-  }
-
-  span {
-    max-width: 150px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-right: 4px;
-  }
 `
 
-const CurrencyDiv = styled.div`
-  left: 12px;
+const MobileMoreHeader = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 90%;
   align-items: center;
-  margin-top: 15px;
-
-  @media screen and (max-width: 992px) {
-    width: 95%;
-    margin: 0px auto 35px auto;
-  }
-`
-
-const CurrencyDropDownMenu = styled(Dropdown.Menu)`
-  background-color: ${props => props.backcolor} !important;
-  border: 1px solid ${props => props.bordercolor} !important;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
-  border-radius: 12px !important;
-  padding: 0;
-  min-width: 6rem;
-  width: 100% !important;
-  z-index: 120;
-
-  &:focus {
-    box-shadow: none;
-  }
-`
-
-const CurrencyDropDownItem = styled(Dropdown.Item)`
-  text-align: left;
-  display: flex !important;
-  justify-content: start;
-  align-items: center;
-  font-size: 12px;
-  padding: 5px 0px;
-  ${props =>
-    props.bordercolor
-      ? `
-    border-bottom: 0.5px solid ${props.bordercolor} !important;
-  `
-      : `
-  `}
-  width: auto !important;
-  color: ${props => props.fontcolor} !important;
-
-  img {
-    filter: ${props => props.filtercolor};
-  }
-
-  &:hover {
-    background: none !important;
-
-    img {
-      filter: invert(63%) sepia(58%) saturate(3702%) hue-rotate(0deg) brightness(107%)
-        contrast(105%);
-    }
-
-    img.logo-dark {
-      filter: invert(63%) sepia(58%) saturate(3702%) hue-rotate(0deg) brightness(107%)
-        contrast(105%);
-    }
-
-    span {
-      filter: invert(37%) sepia(58%) saturate(3702%) hue-rotate(0deg) brightness(107%)
-        contrast(105%);
-    }
-
-    div {
-      color: #ff9400;
-    }
-  }
-
-  img {
-    margin-right: 15px;
-    margin-left: 10px;
-  }
-
-  img.logo {
-    margin-right: 7.5px;
-  }
-
-  img.logo-dark {
-    margin-right: 7.5px;
-    filter: invert(100%);
-  }
-
-  div {
-    align-self: center;
-    font-weight: 700;
-    font-size: 14px;
-    line-height: 18px;
-  }
-
-  img.check-icon {
-    width: 8px;
-    height: 6px;
-    margin-right: 2px;
-  }
+  padding: 7px 11px;
+  width: 70%;
+  border-radius: 10.98px;
+  background: ${props => props.backcolor};
 `
 
 export {
@@ -1083,15 +801,7 @@ export {
   ConnectButtonStyle,
   AboutHarvest,
   MobileView,
-  MobileConnectBtn,
-  MobileToggle,
   OffcanvasDiv,
-  MobileWalletTop,
-  MobileWalletTopNet,
-  MobileWalletBody,
-  MobileWalletBtn,
-  MobileAmount,
-  MobileAmountDiv,
   MobileWalletButton,
   MobileActionsContainer,
   MobileLinkContainer,
@@ -1111,11 +821,8 @@ export {
   LinkMobile,
   MobileMenuContainer,
   Mobile,
-  ConnectSection,
-  MoreBtn,
-  CurrencyDropDown,
-  CurrencySelect,
-  CurrencyDiv,
-  CurrencyDropDownMenu,
-  CurrencyDropDownItem,
+  LinkName,
+  MobileMoreTop,
+  CategoryRow,
+  MobileMoreHeader,
 }

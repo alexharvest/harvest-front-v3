@@ -91,6 +91,9 @@ const VaultsProvider = _ref => {
             underlyingBalanceWithInvestmentForHolder = '0',
             pricePerFullShare = '0',
             totalSupply = '0',
+            totalValueLocked = '0',
+            allocPointData = [],
+            vaultName = null,
             boostedEstimatedAPY = null,
             uniswapV3PositionId = null,
             uniswapV3UnderlyingTokenPrices = [],
@@ -124,6 +127,13 @@ const VaultsProvider = _ref => {
             usdPrice = apiData[vaultSymbol].usdPrice
             underlyingBalanceWithInvestment = apiData[vaultSymbol].underlyingBalanceWithInvestment
             totalSupply = apiData[vaultSymbol].totalSupply
+            totalValueLocked = apiData[vaultSymbol].totalValueLocked
+              ? apiData[vaultSymbol].totalValueLocked
+              : '0'
+            allocPointData = apiData[vaultSymbol].allocPointData
+              ? apiData[vaultSymbol].allocPointData
+              : []
+            vaultName = apiData[vaultSymbol].vaultSymbol ? apiData[vaultSymbol].vaultSymbol : null
             pricePerFullShare = importedVaults[vaultSymbol].pricePerFullShareOverride
               ? importedVaults[vaultSymbol].pricePerFullShareOverride
               : apiData[vaultSymbol].pricePerFullShare
@@ -184,6 +194,9 @@ const VaultsProvider = _ref => {
             underlyingBalanceWithInvestmentForHolder,
             pricePerFullShare,
             totalSupply,
+            totalValueLocked,
+            allocPointData,
+            vaultSymbol: vaultName,
             instance,
             uniswapV3PositionId,
             dataFetched,
@@ -271,10 +284,11 @@ const VaultsProvider = _ref => {
           if (chainId === CHAIN_IDS.ETH_MAINNET) await setFormattedVaults(apiData.eth)
           else if (chainId === CHAIN_IDS.POLYGON_MAINNET) await setFormattedVaults(apiData.matic)
           else if (chainId === CHAIN_IDS.BASE) await setFormattedVaults(apiData.base)
+          else if (chainId === CHAIN_IDS.ZKSYNC) await setFormattedVaults(apiData.zksync)
           else await setFormattedVaults(apiData.arbitrum)
         } else {
           await setFormattedVaults(
-            merge(apiData.eth, apiData.matic, apiData.arbitrum, apiData.base),
+            merge(apiData.eth, apiData.matic, apiData.arbitrum, apiData.base, apiData.zksync),
           )
         }
         setLoadingVaults(false)
@@ -318,6 +332,7 @@ const VaultsProvider = _ref => {
         loadingVaults,
         loadingFarmingBalances,
         vaultsData: loadedVaults,
+        allVaultsData: vaultsData,
         symbols: Object.keys(loadedVaults),
         farmingBalances,
         getFarmingBalances,

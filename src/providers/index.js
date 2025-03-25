@@ -58,6 +58,12 @@ const web3Onboard = init({
       label: 'Arbitrum One',
       rpcUrl: 'https://rpc.ankr.com/arbitrum',
     },
+    {
+      id: 324,
+      token: 'ZETH',
+      label: 'Zksync',
+      rpcUrl: 'https://rpc.ankr.com/zksync_era',
+    },
   ],
   appMetadata: {
     name: 'Harvest',
@@ -65,7 +71,7 @@ const web3Onboard = init({
     logo: HavestLogo, // svg string logo
     description: 'Home to Yield Farming',
     gettingStartedGuide: 'https://docs.harvest.finance',
-    explore: 'https://docs.harvest.finance/how-it-works/contract-addresses-1',
+    explore: 'https://app.harvest.finance',
     recommendedInjectedWallets: [
       { name: 'MetaMask', url: 'https://metamask.io' },
       { name: 'Coinbase', url: 'https://wallet.coinbase.com/' },
@@ -82,7 +88,7 @@ const web3Onboard = init({
   accountCenter: {
     desktop: {
       position: 'topRight',
-      enabled: true,
+      enabled: false,
       minimal: true,
     },
     mobile: {

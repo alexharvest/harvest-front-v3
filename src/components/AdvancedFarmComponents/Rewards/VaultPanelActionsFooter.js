@@ -22,7 +22,8 @@ const getPoolRewardSymbol = chain => {
   if (
     chain === CHAIN_IDS.ARBITRUM_ONE ||
     chain === CHAIN_IDS.POLYGON_MAINNET ||
-    chain === CHAIN_IDS.BASE
+    chain === CHAIN_IDS.BASE ||
+    chain === CHAIN_IDS.ZKSYNC
   ) {
     return IFARM_TOKEN_SYMBOL
   }

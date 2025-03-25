@@ -1,6 +1,7 @@
 import React from 'react'
 import { useThemeContext } from '../../../providers/useThemeContext'
 import { Container, Content, Label } from './style'
+import AnimatedDots from '../../AnimatedDots'
 
 const ListItem = ({ weight, size, height, color, label, icon, value, marginBottom, marginTop }) => {
   const { fontColor } = useThemeContext()
@@ -21,9 +22,15 @@ const ListItem = ({ weight, size, height, color, label, icon, value, marginBotto
         ''
       )}
       {value ? (
-        <Content weight={weight} size={size} height={height} color={color}>
-          {value}
-        </Content>
+        value === '-1' ? (
+          <Content height={height}>
+            <AnimatedDots />
+          </Content>
+        ) : (
+          <Content weight={weight} size={size} height={height} color={color}>
+            {value}
+          </Content>
+        )
       ) : (
         ''
       )}

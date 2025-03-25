@@ -7,7 +7,6 @@ import InfoIcon from '../../../../assets/images/logos/beginners/info-circle.svg'
 import CloseIcon from '../../../../assets/images/logos/beginners/close.svg'
 import AnimatedDots from '../../../AnimatedDots'
 import { useWallet } from '../../../../providers/Wallet'
-import { CHAIN_IDS } from '../../../../data/constants'
 import { isSpecialApp } from '../../../../utilities/formats'
 import { fromWei, toWei } from '../../../../services/web3'
 import Button from '../../../Button'
@@ -25,25 +24,7 @@ import {
   SwitchTabTag,
 } from './style'
 import { useThemeContext } from '../../../../providers/useThemeContext'
-
-const getChainName = chain => {
-  let chainName = 'Ethereum'
-  switch (chain) {
-    case CHAIN_IDS.POLYGON_MAINNET:
-      chainName = 'Polygon'
-      break
-    case CHAIN_IDS.ARBITRUM_ONE:
-      chainName = 'Arbitrum'
-      break
-    case CHAIN_IDS.BASE:
-      chainName = 'Base'
-      break
-    default:
-      chainName = 'Ethereum'
-      break
-  }
-  return chainName
-}
+import { getChainName } from '../../../../utilities/parsers'
 
 const StakeBase = ({
   setStakeStart,
@@ -56,7 +37,8 @@ const StakeBase = ({
   fAssetPool,
 }) => {
   const {
-    bgColor,
+    darkMode,
+    bgColorNew,
     fontColor,
     fontColor1,
     fontColor2,
@@ -65,6 +47,11 @@ const StakeBase = ({
     fontColor5,
     activeColor,
     bgColorMessage,
+    borderColorBox,
+    activeColorNew,
+    btnColor,
+    btnHoverColor,
+    btnActiveColor,
   } = useThemeContext()
   const { connected, connectAction, account, chainId, setChainId } = useWallet()
 
@@ -129,6 +116,7 @@ const StakeBase = ({
   return (
     <BaseSection>
       <NewLabel
+        bg={darkMode ? '#373D51' : '#fff'}
         size={isMobile ? '16px' : '16px'}
         height={isMobile ? '24px' : '24px'}
         weight="600"
@@ -137,7 +125,7 @@ const StakeBase = ({
         justifyContent="center"
         padding={isMobile ? '4px 0px' : '4px 0px'}
         marginBottom="13px"
-        border="1px solid #F8F8F8"
+        border={`1.3px solid ${borderColorBox}`}
         borderRadius="8px"
       >
         {mainTags.map((tag, i) => (
@@ -151,7 +139,7 @@ const StakeBase = ({
             }}
             color={i === 0 ? fontColor4 : fontColor3}
             borderColor={i === 0 ? activeColor : ''}
-            backColor={i === 0 ? activeColor : ''}
+            backColor={i === 0 ? activeColorNew : ''}
             boxShadow={
               i === 0
                 ? '0px 1px 2px 0px rgba(16, 24, 40, 0.06), 0px 1px 3px 0px rgba(16, 24, 40, 0.10)'
@@ -177,11 +165,15 @@ const StakeBase = ({
         <AmountInputSection fontColor5={fontColor5}>
           <TokenAmount
             type="number"
-            value={Number(inputAmount)}
+            value={inputAmount}
             onChange={onInputBalance}
-            bgColor={bgColor}
+            bgColor={bgColorNew}
             fontColor2={fontColor2}
+            borderColor={borderColorBox}
+            inputMode="numeric"
+            pattern="[0-9]*"
           />
+          <input type="hidden" value={Number(inputAmount)} />
           <button
             className="max-btn"
             type="button"
@@ -270,6 +262,9 @@ const StakeBase = ({
         <Button
           color="wido-deposit"
           width="100%"
+          btnColor={btnColor}
+          btnHoverColor={btnHoverColor}
+          btnActiveColor={btnActiveColor}
           onClick={async () => {
             if (!connected) {
               connectAction()

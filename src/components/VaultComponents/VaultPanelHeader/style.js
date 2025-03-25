@@ -14,7 +14,8 @@ const PanelContainer = styled.div`
     flex-direction: row;
     align-items: baseline;
     position: relative;
-    padding: 10px;
+    padding: 10px 25px;
+    justify-content: space-between;
   }
 `
 
@@ -87,6 +88,24 @@ const RewardsContainer = styled.div`
     justify-content: center;
     align-items: center;
   }
+
+  div.boost-apy {
+    font-weight: 600;
+    display: flex;
+
+    div.boost-img {
+      margin: auto 0px auto 5px;
+
+      img {
+        width: 16px;
+        margin-top: -2px;
+
+        @media screen and (max-width: 992px) {
+          margin-top: -4px;
+        }
+      }
+    }
+  }
 `
 
 const ValueContainer = styled.div`
@@ -101,6 +120,7 @@ const ValueContainer = styled.div`
   padding-left: ${props => props.paddingLeft || '0px'};
 
   .tag {
+    display: none;
     position: absolute;
     left: 53px;
     top: 31px;
@@ -138,25 +158,27 @@ const BadgeIcon = styled.div`
   position: absolute;
   top: 26px;
   left: 24px;
-  border: 2px solid ${props => props.borderColor};
-  border-radius: 8px;
   width: 23px;
   height: 23px;
   display: flex;
   justify-content: center;
   align-items: center;
 
+  img {
+    width: 16px;
+    height: 16px;
+  }
+
   @media screen and (max-width: 992px) {
     position: inherit;
-    border-radius: 2.278px;
-    border: 1.139px solid #29ce84;
-    background: rgba(255, 255, 255, 0.6);
-    box-shadow: 0px 0px 1.13876px 0px rgba(0, 0, 0, 0.15);
+    border: none;
     width: 13.096px;
     height: 13.096px;
-    margin: auto 0px;
+    margin: auto 5px auto 0px;
     img {
       padding: 1.708px 1.706px 1.709px 1.71px;
+      width: 13px;
+      height: 13px;
     }
   }
 `
@@ -247,7 +269,7 @@ const MobileVaultValueContainer = styled.div`
   .title {
     img {
       margin-left: 7px;
-      margin-top: -4px;
+      margin-top: -2px;
       filter: ${props => props.filterColor};
     }
   }
@@ -267,6 +289,12 @@ const FlexDiv = styled.div`
   `
       : ''}
   ${props =>
+    props.paddingBottom
+      ? `
+        padding-bottom: ${props.paddingBottom};
+      `
+      : ''}
+  ${props =>
     props.width
       ? `
     width: ${props.width};
@@ -280,12 +308,13 @@ const FlexDiv = styled.div`
       : ''}
 
   .tag {
+    display: none;
     position: absolute;
     left: 6px;
   }
   &.token-icons {
     display: flex;
-    margin: auto;
+    margin: auto 0px auto 5px;
     img {
       position: relative;
     }
@@ -329,8 +358,33 @@ const Value = styled.div`
   line-height: 20px;
 `
 
+const BadgePlatform = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: fit-content;
+`
+
+const Autopilot = styled.div`
+  display: flex;
+  flex-flow: row;
+  border-radius: 13px;
+  justify-content: space-between;
+  align-items: center;
+  background: #ecfdf3;
+  color: #5dcf46;
+  padding: 3px 10px;
+  gap: 5px;
+`
+
+const NewLabel = styled.div`
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 15px;
+`
+
 export {
   PanelContainer,
+  BadgePlatform,
   TokenLogo,
   RewardsContainer,
   TokenLogoContainer,
@@ -349,4 +403,6 @@ export {
   DetailModal,
   Value,
   LogoImg,
+  Autopilot,
+  NewLabel,
 }

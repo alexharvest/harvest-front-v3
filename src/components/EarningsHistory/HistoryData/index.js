@@ -1,12 +1,15 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import ReactPaginate from 'react-paginate'
 import { useMediaQuery } from 'react-responsive'
+import { useHistory } from 'react-router-dom'
 import { IoArrowBackSharp, IoArrowForwardSharp } from 'react-icons/io5'
-import ConnectDisableIcon from '../../../assets/images/logos/sidebar/connect-disable.svg'
+import SkeletonLoader from '../../DashboardComponents/SkeletonLoader'
 import { useThemeContext } from '../../../providers/useThemeContext'
 import { usePools } from '../../../providers/Pools'
 import { useWallet } from '../../../providers/Wallet'
 import ActionRow from '../ActionRow'
+import AdvancedImg from '../../../assets/images/logos/sidebar/advanced.svg'
+import { ROUTES } from '../../../constants'
 import {
   TransactionDetails,
   HistoryPagination,
@@ -14,25 +17,29 @@ import {
   Header,
   Column,
   Col,
+  ContentBox,
   EmptyPanel,
   EmptyInfo,
   ConnectButtonStyle,
   ThemeMode,
+  ExploreButtonStyle,
 } from './style'
+import { handleToggle } from '../../../utilities/parsers'
 
-const itemsPerPage = 5
-
-const HistoryData = ({ tokenSymbol, historyData }) => {
+const HistoryData = ({ historyData, isDashboard, noData }) => {
+  const { push } = useHistory()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
+  const itemsPerPage = isMobile ? 5 : isDashboard ? 25 : 5
+  const filteredHistoryData = historyData.filter(el => el.event !== 'Rewards')
 
   const {
-    borderColor,
-    backColor,
-    bgColorFarm,
+    borderColorBox,
+    bgColorNew,
     fontColor,
     fontColor1,
     fontColor2,
-    hoverColorButton,
+    btnHoverColor,
+    btnColor,
     inputBorderColor,
   } = useThemeContext()
 
@@ -41,22 +48,20 @@ const HistoryData = ({ tokenSymbol, historyData }) => {
   const [itemOffset, setItemOffset] = useState(0)
   const [showTotalBalance, setShowTotalBalance] = useState(true)
 
-  const switchEarnings = () => setShowTotalBalance(prev => !prev)
-
   const { currentItems, pageCount } = useMemo(() => {
     const endOffset = itemOffset + itemsPerPage
-    const currentItems1 = historyData?.slice(itemOffset, endOffset)
-    const pageCount1 = Math.ceil(historyData?.length / itemsPerPage)
+    const currentItems1 = filteredHistoryData?.slice(itemOffset, endOffset)
+    const pageCount1 = Math.ceil(filteredHistoryData?.length / itemsPerPage)
 
     return { currentItems: currentItems1, pageCount: pageCount1 }
-  }, [historyData, itemOffset])
+  }, [filteredHistoryData, itemOffset, itemsPerPage])
 
   const handlePageClick = useCallback(
     event => {
-      const newOffset = (event.selected * itemsPerPage) % historyData.length
+      const newOffset = (event.selected * itemsPerPage) % filteredHistoryData.length
       setItemOffset(newOffset)
     },
-    [historyData],
+    [filteredHistoryData, itemsPerPage],
   )
 
   const CustomPreviousComponent = () => (
@@ -72,19 +77,23 @@ const HistoryData = ({ tokenSymbol, historyData }) => {
   )
 
   return (
-    <TransactionDetails hasData={connected && historyData?.length > 0 ? 'unset' : '80vh'}>
-      <TableContent borderColor={borderColor}>
-        <Header borderColor={borderColor} backColor={backColor}>
-          <Column width={isMobile ? '22%' : '20%'} color={fontColor}>
+    <TransactionDetails
+      hasData={
+        (connected && filteredHistoryData?.length > 0) || isDashboard === true ? 'unset' : '80vh'
+      }
+    >
+      <TableContent>
+        <Header borderColor={borderColorBox} backColor={bgColorNew}>
+          <Column width={isMobile ? '25%' : '20%'} color={fontColor}>
             <Col>Event</Col>
           </Column>
-          <Column width={isMobile ? '20%' : '20%'} color={fontColor}>
+          <Column width={isMobile ? '35%' : '20%'} color={fontColor}>
             <Col>Date</Col>
           </Column>
           <Column
             display="flex"
             justifyContent="space-between"
-            width={isMobile ? '57%' : '30%'}
+            width={isMobile ? '40%' : '30%'}
             color={fontColor}
           >
             <Col>{showTotalBalance ? 'Total Balance' : 'Net change'}</Col>
@@ -98,7 +107,7 @@ const HistoryData = ({ tokenSymbol, historyData }) => {
                   <input
                     type="checkbox"
                     checked={showTotalBalance}
-                    onChange={switchEarnings}
+                    onChange={handleToggle(setShowTotalBalance)}
                     aria-label="Switch between balance and netChange earnings"
                   />
                 </div>
@@ -113,27 +122,22 @@ const HistoryData = ({ tokenSymbol, historyData }) => {
             <Col>Net change</Col>
           </Column>
         </Header>
-        {connected && historyData?.length > 0 ? (
-          <>
-            {currentItems
-              .map((el, i) => {
-                const info = currentItems[i]
-                return (
-                  <ActionRow
-                    key={i}
-                    info={info}
-                    tokenSymbol={tokenSymbol}
-                    showTotalBalance={showTotalBalance}
-                  />
-                )
-              })
-              .slice(0, 5)}
+        {connected && filteredHistoryData?.length > 0 ? (
+          <div>
+            <ContentBox>
+              {currentItems
+                .map((el, i) => {
+                  const info = currentItems[i]
+                  return <ActionRow key={i} info={info} showTotalBalance={showTotalBalance} />
+                })
+                .slice(0, isMobile ? 5 : isDashboard ? 25 : 5)}
+            </ContentBox>
             <HistoryPagination
-              bgColor={bgColorFarm}
+              bgColor={bgColorNew}
               fontColor={fontColor}
               fontColor1={fontColor1}
               fontColor2={fontColor2}
-              borderColor={inputBorderColor}
+              borderColor={borderColorBox}
             >
               <ReactPaginate
                 breakLabel="..."
@@ -150,36 +154,60 @@ const HistoryData = ({ tokenSymbol, historyData }) => {
                 pageLinkClassName="paginate-item-link"
               />
             </HistoryPagination>
-          </>
-        ) : (
-          <EmptyPanel borderColor={borderColor}>
-            {connected ? (
-              <EmptyInfo weight={500} size={14} height={20} color={fontColor}>
-                No interaction history found for this wallet.
-              </EmptyInfo>
-            ) : (
-              <>
-                <EmptyInfo weight={500} size={14} height={20} color={fontColor}>
-                  Connect wallet to see your positions.
-                </EmptyInfo>
-                <ConnectButtonStyle
-                  color="connectwallet"
+          </div>
+        ) : connected ? (
+          !noData ? (
+            <SkeletonLoader isPosition="false" />
+          ) : (
+            <EmptyPanel borderColor={borderColorBox}>
+              <EmptyInfo
+                weight={500}
+                size={14}
+                lineHeight={20}
+                color={fontColor}
+                flexFlow="column"
+                gap="0px"
+              >
+                <div>
+                  {isDashboard
+                    ? 'No activity found for this wallet.'
+                    : 'No activity found for this wallet in this strategy.'}
+                </div>
+                <ExploreButtonStyle
                   onClick={() => {
-                    connectAction()
+                    push(ROUTES.ADVANCED)
                   }}
                   minWidth="190px"
                   inputBorderColor={inputBorderColor}
-                  fontColor2={fontColor2}
-                  backColor={backColor}
                   bordercolor={fontColor}
                   disabled={disableWallet}
-                  hoverColorButton={hoverColorButton}
+                  backColor={btnColor}
+                  hoverColor={btnHoverColor}
                 >
-                  <img src={ConnectDisableIcon} className="connect-wallet" alt="" />
-                  Connect Wallet
-                </ConnectButtonStyle>
-              </>
-            )}
+                  <img src={AdvancedImg} className="explore-farms" alt="" />
+                  Explore Vaults
+                </ExploreButtonStyle>
+              </EmptyInfo>
+            </EmptyPanel>
+          )
+        ) : (
+          <EmptyPanel borderColor={borderColorBox}>
+            <EmptyInfo weight={500} size={14} lineHeight={20} color={fontColor}>
+              Connect wallet to see full event history.
+            </EmptyInfo>
+            <ConnectButtonStyle
+              onClick={() => {
+                connectAction()
+              }}
+              minWidth="190px"
+              inputBorderColor={inputBorderColor}
+              bordercolor={fontColor}
+              disabled={disableWallet}
+              hoverColor={btnHoverColor}
+              backColor={btnColor}
+            >
+              Connect
+            </ConnectButtonStyle>
           </EmptyPanel>
         )}
       </TableContent>

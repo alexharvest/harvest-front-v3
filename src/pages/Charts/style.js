@@ -8,7 +8,7 @@ const Container = styled.div`
   background: ${props => props.pageBackColor};
   transition: 0.25s;
   position: relative;
-  margin-left: 280px;
+  margin-left: 260px;
   display: flex;
   justify-content: center;
 

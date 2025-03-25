@@ -13,10 +13,10 @@ const ChartButtonsGroup = ({ buttons, clickedId, setClickedId }) => {
   const [focusId, setFocusId] = React.useState(-1)
   let tempId = -1
 
-  const { backColor, borderColor, darkMode, filterChainHoverColor } = useThemeContext()
+  const { bgColorNew, borderColorBox, darkMode, filterChainHoverColor } = useThemeContext()
 
   return (
-    <ButtonsGroup backColor={backColor} borderColor={borderColor}>
+    <ButtonsGroup backColor={bgColorNew} borderColor={borderColorBox}>
       {buttons.map((button, i) => (
         <ButtonStyle
           key={i}
@@ -34,7 +34,7 @@ const ChartButtonsGroup = ({ buttons, clickedId, setClickedId }) => {
           className={i === clickedId || i === focusId ? 'active' : ''}
           backcolor={filterChainHoverColor}
           mode={darkMode.toString()}
-          borderColor={borderColor}
+          borderColor={borderColorBox}
         >
           <img
             src={button.img}

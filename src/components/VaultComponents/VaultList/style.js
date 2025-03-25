@@ -5,7 +5,7 @@ import TokensIcon from '../../../assets/images/ui/tokens.svg'
 const Container = styled.div`
   overflow: hidden;
   margin-bottom: 20px;
-  padding: 100px 100px 50px;
+  padding: 50px 100px 50px;
   width: 100%;
   position: relative;
 
@@ -15,11 +15,11 @@ const Container = styled.div`
 
   @media screen and (max-width: 1480px) {
     width: 100%;
-    padding: 70px 30px 40px;
+    padding: 50px 30px;
   }
 
   @media screen and (max-width: 992px) {
-    padding: 16px 10px;
+    padding: 25px 0px 0px 0px;
   }
 `
 
@@ -68,7 +68,7 @@ const HeaderCol = styled.div`
   .hoverable {
     &:hover {
       cursor: pointer;
-      color: #ff9400;
+      color: #6988ff;
     }
   }
 
@@ -157,7 +157,6 @@ const MobileListFilter = styled.div`
       background: ${props => props.mobileBackColor} !important;
       border: 1px solid ${props => props.borderColor};
       border-radius: 8px;
-      position: relative;
 
       .toggle {
         background: ${props => props.mobileBackColor};
@@ -190,7 +189,7 @@ const MobileListFilter = styled.div`
         img.sort-icon {
           width: 15px;
           height: 15px;
-          margin-right: 6px;
+          margin-left: 6px;
           filter: ${props => props.filterColor};
         }
 
@@ -350,7 +349,6 @@ const MobileFilterBtn = styled.div`
 `
 
 const DisplayCount = styled.div`
-  display: none;
   font-size: 12px;
   line-height: 20px;
   font-weight: 300;
@@ -359,6 +357,11 @@ const DisplayCount = styled.div`
 
   span {
     font-weight: 500;
+  }
+
+  @media screen and (max-width: 992px) {
+    color: ${props => (props.mobileColor ? props.mobileColor : '')};
+    padding-left: 15px;
   }
 `
 

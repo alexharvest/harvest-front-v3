@@ -173,7 +173,7 @@ const VaultFooterActions = ({
       />
       <BottomPart>
         <SelectedVaultLabel fontWeight="400" lineHeight="20px" color={fontColor}>
-          You can only claim your rewards all at once.
+          Claim all rewards into your wallet.
         </SelectedVaultLabel>
         <Button
           color="advanced-reward"

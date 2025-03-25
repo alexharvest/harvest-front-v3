@@ -10,7 +10,6 @@ const { POOL_TYPES } = require('../data/constants')
 const nowInSeconds = Date.now() / 1000
 
 const Counter = ({
-  rate,
   pool,
   totalTokensEarned,
   totalStaked,
@@ -45,11 +44,8 @@ const Counter = ({
     case pool.type === POOL_TYPES.INCENTIVE_BUYBACK:
       return (
         <CountUp
-          start={Number(totalTokensEarned) * Number(rate)}
-          end={
-            (Number(totalTokensEarned) + Number(totalTokensEarned) * Number(ratePerDay)) *
-            Number(rate)
-          }
+          start={Number(totalTokensEarned)}
+          end={Number(totalTokensEarned) + Number(totalTokensEarned) * Number(ratePerDay)}
           useEasing={false}
           separator=","
           formattingFn={number => number}
@@ -63,11 +59,8 @@ const Counter = ({
     case pool.type === POOL_TYPES.PROFIT_SHARING && !!pool.autoStakePoolAddress:
       return (
         <CountUp
-          start={Number(totalStakedInEther) * Number(rate)}
-          end={
-            (Number(totalStakedInEther) + Number(totalStakedInEther) * Number(ratePerDay)) *
-            Number(rate)
-          }
+          start={Number(totalStakedInEther)}
+          end={Number(totalStakedInEther) + Number(totalStakedInEther) * Number(ratePerDay)}
           useEasing={false}
           separator=","
           formattingFn={number => number}
@@ -81,8 +74,8 @@ const Counter = ({
     case pool.finishTime > nowInSeconds && pool.type === POOL_TYPES.PROFIT_SHARING:
       return (
         <CountUp
-          start={Number(totalTokensEarned) * Number(rate)}
-          end={Number(sharingPoolEndTarget) * Number(rate)}
+          start={Number(totalTokensEarned)}
+          end={Number(sharingPoolEndTarget)}
           useEasing={false}
           separator=","
           formattingFn={number => number}

@@ -10,8 +10,10 @@ import {
   ARBISCAN_URL,
   ARBITRUM_URL,
   BASE_URL,
+  ZKSYNC_URL,
   BASESCAN_URL,
   ETHERSCAN_URL,
+  ZKSYNCSCAN_URL,
   INFURA_URL,
   isDebugMode,
   MATICSCAN_URL,
@@ -29,6 +31,7 @@ export const infuraWeb3 = new Web3(INFURA_URL)
 export const maticWeb3 = new Web3(MATIC_URL)
 export const arbitrumWeb3 = new Web3(ARBITRUM_URL)
 export const baseWeb3 = new Web3(BASE_URL)
+export const zksyncWeb3 = new Web3(ZKSYNC_URL)
 export const ledgerProvider = new ethers.providers.Web3Provider(new IFrameEthereumProvider())
 export const ledgerWeb3 = new Web3(new IFrameEthereumProvider())
 export const safeProvider = async () => {
@@ -148,6 +151,8 @@ export const getChainName = chainId => {
       return 'Arbitrum One'
     case getChainHexadecimal(CHAIN_IDS.BASE):
       return 'Base'
+    case getChainHexadecimal(CHAIN_IDS.ZKSYNC):
+      return 'Zksync Era'
     case Number(CHAIN_IDS.ETH_MAINNET):
     case getChainHexadecimal(CHAIN_IDS.ETH_MAINNET):
       return 'Ethereum Mainnet'
@@ -186,6 +191,10 @@ export const getWeb3 = async (chainId, account, web3 = null) => {
     return baseWeb3
   }
 
+  if (chainId === CHAIN_IDS.ZKSYNC) {
+    return zksyncWeb3
+  }
+
   return infuraWeb3
 }
 
@@ -202,6 +211,10 @@ export const newContractInstance = async (contractName, address, customAbi, web3
   return null
 }
 
+export const newIPORContractInstance = async (address, abi, web3Instance) => {
+  return new web3Instance.eth.Contract(abi, address)
+}
+
 export const getExplorerLink = chainId => {
   switch (chainId) {
     case CHAIN_IDS.POLYGON_MAINNET:
@@ -210,6 +223,8 @@ export const getExplorerLink = chainId => {
       return ARBISCAN_URL
     case CHAIN_IDS.BASE:
       return BASESCAN_URL
+    case CHAIN_IDS.ZKSYNC:
+      return ZKSYNCSCAN_URL
     default:
       return ETHERSCAN_URL
   }

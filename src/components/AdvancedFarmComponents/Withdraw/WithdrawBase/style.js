@@ -7,11 +7,17 @@ const BaseWidoDiv = styled.div`
 
   &:nth-child(2) {
     padding: 10px 15px 15px 15px;
-    border-top: 1px solid #e3e3e3;
+    border-top: 1px solid ${props => props.borderColor};
   }
 `
 
 const NewLabel = styled.div`
+  ${props =>
+    props.bg
+      ? `
+      background: ${props.bg};
+    `
+      : ''}
   ${props =>
     props.padding
       ? `
@@ -125,6 +131,7 @@ const NewLabel = styled.div`
   span.token-symbol {
     font-weight: 400;
     font-size: 10px;
+    line-height: 12px;
   }
 `
 
@@ -191,6 +198,18 @@ const SwitchTabTag = styled.div`
 
 const TokenInput = styled.div`
   position: relative;
+
+  input[type='text'] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+  }
+
+  input[type='text']::-webkit-outer-spin-button,
+  input[type='text']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 `
 
 const TokenUSDAmount = styled.div`
@@ -211,7 +230,7 @@ const TokenAmount = styled.input`
   white-space: nowrap;
   overflow: hidden;
   background: ${props => props.bgColor};
-  border: 1px solid #d0d5dd;
+  border: 1px solid ${props => props.borderColor};
   outline: 0;
   padding: 7px 14px 13px 14px;
   border-radius: 8px;
@@ -220,6 +239,7 @@ const TokenAmount = styled.input`
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: textfield;
     margin: 0;

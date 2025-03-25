@@ -10,6 +10,13 @@ import { Value } from '../style'
 const getVaultValue = (token, rate) => {
   const poolId = get(token, 'data.id')
 
+  if (token.isIPORVault) {
+    if (token.totalValueLocked) {
+      return new BigNumber(get(token, 'totalValueLocked', 0)) * Number(rate)
+    }
+    return new BigNumber(0)
+  }
+
   switch (poolId) {
     case SPECIAL_VAULTS.FARM_WETH_POOL_ID:
       return Number(get(token, 'data.lpTokenData.liquidity')) * Number(rate)

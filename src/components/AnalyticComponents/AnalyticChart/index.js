@@ -23,7 +23,7 @@ const AnalyticChart = () => {
 
   const chainId = farmProfitSharingPool.chain
 
-  const [selectedState, setSelectedState] = useState('1M')
+  const [selectedState, setSelectedState] = useState('1Y')
 
   const address =
     farmProfitSharingPool.autoStakePoolAddress || farmProfitSharingPool.contractAddress

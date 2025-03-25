@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react'
+import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import apyActive from '../../../assets/images/logos/earn/percent-circle.svg'
 import tvlActive from '../../../assets/images/logos/earn/bank.svg'
 import myBalanceActive from '../../../assets/images/logos/earn/chart-graph.svg'
 import { addresses } from '../../../data/index'
-import { getDataQuery, getSequenceId, getTotalTVLData } from '../../../utilities/apiCalls'
+import {
+  getDataQuery,
+  getSequenceId,
+  getTotalTVLData,
+  getIPORSequenceId,
+  getIPORDataQuery,
+} from '../../../utilities/apiCalls'
 import { formatDate, numberWithCommas } from '../../../utilities/formats'
 import { useThemeContext } from '../../../providers/useThemeContext'
 import ApexChart from '../ApexChart'
@@ -11,6 +18,7 @@ import ChartButtonsGroup from '../ChartButtonsGroup'
 import ChartRangeSelect from '../../ChartRangeSelect'
 import { useRate } from '../../../providers/Rate'
 import { fromWei } from '../../../services/web3'
+import { calculateApy, handleToggle } from '../../../utilities/parsers'
 import {
   ButtonGroup,
   ChartDiv,
@@ -22,6 +30,8 @@ import {
   TooltipInfo,
   FlexDiv,
   LabelInfo,
+  ToggleButton,
+  ChevronIcon,
 } from './style'
 
 const filterList = [
@@ -50,8 +60,13 @@ const FarmDetailChart = ({
   setVaultBirthday,
   setVaultTotalPeriod,
   setLatestSharePrice,
+  set7DHarvest,
+  set30DHarvest,
+  set180DHarvest,
+  set360DHarvest,
+  setHarvestFrequency,
 }) => {
-  const { fontColor3, fontColor4 } = useThemeContext()
+  const { darkMode, fontColor3, fontColor4 } = useThemeContext()
 
   const [clickedId, setClickedId] = useState(2)
   const [selectedState, setSelectedState] = useState('1Y')
@@ -62,6 +77,7 @@ const FarmDetailChart = ({
   const [tooltipLabel, setTooltipLabel] = useState('')
   const [roundNumber, setRoundNumber] = useState(0)
   const [fixedLen, setFixedLen] = useState(0)
+  const [isExpanded, setIsExpanded] = useState(false)
 
   const { rates } = useRate()
   const [currencySym, setCurrencySym] = useState('$')
@@ -101,8 +117,12 @@ const FarmDetailChart = ({
     const initData = async () => {
       if (address && chainId) {
         try {
-          const { vaultTVLCount } = await getSequenceId(address, chainId)
-          const data = await getDataQuery(address, chainId, vaultTVLCount, false)
+          const { vaultTVLCount } = token.isIPORVault
+            ? await getIPORSequenceId(address.toLowerCase(), chainId)
+            : await getSequenceId(address, chainId)
+          const data = token.isIPORVault
+            ? await getIPORDataQuery(address.toLowerCase(), chainId, vaultTVLCount, false)
+            : await getDataQuery(address, chainId, vaultTVLCount, false)
           const filteredData = {
             ...data,
             generalApies: data.generalApies.filter(entry => parseFloat(entry.apy) <= 100000),
@@ -112,93 +132,182 @@ const FarmDetailChart = ({
             history => history.sharePrice !== '0',
           )
 
-          const latestSharePriceValue = fromWei(
-            updatedData.vaultHistories[0].sharePrice,
-            token.decimals || token.data.watchAsset.decimals,
-            token.decimals || token.data.watchAsset.decimals,
-            false,
-          )
-
-          // Calculate Detailed APY Breakdown values
-          const vaultInitialDate = formatDate(
-            Number(updatedData.generalApies[updatedData.generalApies.length - 1].timestamp) * 1000,
-          )
-          const totalPeriod =
-            (Number(updatedData.generalApies[0].timestamp) -
-              Number(updatedData.generalApies[updatedData.generalApies.length - 1].timestamp)) /
-            (24 * 3600)
+          updatedData.vaultHistories.forEach(item => {
+            if (item.sharePrice === '1') {
+              item.sharePrice = '1000000000000000000'
+            }
+          })
 
           let [sevenDaysApy, thirtyDaysApy, oneEightyDaysApy, threeSixtyFiveDaysApy] = Array(
               4,
             ).fill('-'),
-            lifetimeApyValue = 0
+            [
+              sevenDaysHarvest,
+              thirtyDaysHarvest,
+              oneEightyDaysHarvest,
+              threeSixtyFiveDaysHarvest,
+            ] = Array(4).fill('-'),
+            lifetimeApyValue = 0,
+            frequencyOfHarvest = '-',
+            latestSharePriceValue = '-',
+            vaultInitialDate = '-',
+            totalPeriod = '-'
 
-          updatedData.generalApies.forEach(item => {
-            lifetimeApyValue += Number(item.apy)
-          })
-          lifetimeApyValue /= updatedData.generalApies.length
-          lifetimeApyValue = `${lifetimeApyValue.toFixed(2)}%`
+          if (updatedData.vaultHistories.length !== 0) {
+            latestSharePriceValue = fromWei(
+              updatedData.vaultHistories[0].sharePrice,
+              token.decimals || token.data.watchAsset.decimals,
+              token.decimals || token.data.watchAsset.decimals,
+              false,
+            )
 
-          if (totalPeriod >= 7) {
-            const lastSevenDaysData = updatedData.generalApies.filter(
-              entry =>
-                Number(entry.timestamp) >=
-                Number(updatedData.generalApies[0].timestamp) - 7 * 24 * 3600,
-            )
-            const sumApy = lastSevenDaysData.reduce(
-              (accumulator, currentValue) => accumulator + parseFloat(currentValue.apy),
-              0,
-            )
-            sevenDaysApy = `${(sumApy / lastSevenDaysData.length).toFixed(2)}%`
+            const totalPeriodBasedOnSharePrice =
+              (Number(updatedData.vaultHistories[0].timestamp) -
+                Number(
+                  updatedData.vaultHistories[updatedData.vaultHistories.length - 1].timestamp,
+                )) /
+              (24 * 3600)
+
+            frequencyOfHarvest = updatedData.vaultHistories.length / totalPeriodBasedOnSharePrice
+
+            // Calculate Harvest Frequency
+            if (totalPeriodBasedOnSharePrice >= 7) {
+              const lastSevenDaysData = updatedData.vaultHistories.filter(
+                entry =>
+                  Number(entry.timestamp) >=
+                  Number(updatedData.vaultHistories[0].timestamp) - 7 * 24 * 3600,
+              )
+              sevenDaysHarvest = lastSevenDaysData.length / 7
+            }
+
+            if (totalPeriodBasedOnSharePrice >= 30) {
+              const lastSevenDaysData = updatedData.vaultHistories.filter(
+                entry =>
+                  Number(entry.timestamp) >=
+                  Number(updatedData.vaultHistories[0].timestamp) - 30 * 24 * 3600,
+              )
+              thirtyDaysHarvest = lastSevenDaysData.length / 30
+            }
+
+            if (totalPeriodBasedOnSharePrice >= 180) {
+              const lastSevenDaysData = updatedData.vaultHistories.filter(
+                entry =>
+                  Number(entry.timestamp) >=
+                  Number(updatedData.vaultHistories[0].timestamp) - 180 * 24 * 3600,
+              )
+              oneEightyDaysHarvest = lastSevenDaysData.length / 180
+            }
+
+            if (totalPeriodBasedOnSharePrice >= 365) {
+              const lastSevenDaysData = updatedData.vaultHistories.filter(
+                entry =>
+                  Number(entry.timestamp) >=
+                  Number(updatedData.vaultHistories[0].timestamp) - 365 * 24 * 3600,
+              )
+              threeSixtyFiveDaysHarvest = lastSevenDaysData.length / 365
+            }
           }
 
-          if (totalPeriod >= 30) {
-            const lastThirtyDaysData = updatedData.generalApies.filter(
-              entry =>
-                Number(entry.timestamp) >=
-                Number(updatedData.generalApies[0].timestamp) - 30 * 24 * 3600,
-            )
-            const sumApy = lastThirtyDaysData.reduce(
-              (accumulator, currentValue) => accumulator + parseFloat(currentValue.apy),
-              0,
-            )
-            thirtyDaysApy = `${(sumApy / lastThirtyDaysData.length).toFixed(2)}%`
+          if (updatedData.vaultHistories.length !== 0) {
+            // Calculate Detailed APY Breakdown values
+            const totalPeriodBasedOnSharePrice =
+              (Number(updatedData.vaultHistories[0].timestamp) -
+                Number(
+                  updatedData.vaultHistories[updatedData.vaultHistories.length - 1].timestamp,
+                )) /
+              (24 * 3600)
+
+            const sharePriceVal = latestSharePriceValue === '-' ? 1 : Number(latestSharePriceValue)
+            lifetimeApyValue = `${(
+              ((sharePriceVal - 1) / (totalPeriodBasedOnSharePrice / 365)) *
+              100
+            ).toFixed(2)}%`
+
+            // Calculate APY - Live & Historical Average
+            if (totalPeriodBasedOnSharePrice >= 7) {
+              sevenDaysApy = calculateApy(
+                updatedData.vaultHistories,
+                latestSharePriceValue,
+                token,
+                7,
+              )
+            }
+
+            if (totalPeriodBasedOnSharePrice >= 30) {
+              thirtyDaysApy = calculateApy(
+                updatedData.vaultHistories,
+                latestSharePriceValue,
+                token,
+                30,
+              )
+            }
+
+            if (totalPeriodBasedOnSharePrice >= 180) {
+              oneEightyDaysApy = calculateApy(
+                updatedData.vaultHistories,
+                latestSharePriceValue,
+                token,
+                180,
+              )
+            }
+
+            if (totalPeriodBasedOnSharePrice >= 365) {
+              threeSixtyFiveDaysApy = calculateApy(
+                updatedData.vaultHistories,
+                latestSharePriceValue,
+                token,
+                365,
+              )
+            }
           }
 
-          if (totalPeriod >= 180) {
-            const lastOneEightyDaysData = updatedData.generalApies.filter(
-              entry =>
-                Number(entry.timestamp) >=
-                Number(updatedData.generalApies[0].timestamp) - 180 * 24 * 3600,
+          if (updatedData.vaultHistories.length !== 0) {
+            vaultInitialDate = formatDate(
+              Number(updatedData.vaultHistories[updatedData.vaultHistories.length - 1].timestamp) *
+                1000,
             )
-            const sumApy = lastOneEightyDaysData.reduce(
-              (accumulator, currentValue) => accumulator + parseFloat(currentValue.apy),
-              0,
+            totalPeriod =
+              (Number(updatedData.vaultHistories[0].timestamp) -
+                Number(
+                  updatedData.vaultHistories[updatedData.vaultHistories.length - 1].timestamp,
+                )) /
+              (24 * 3600)
+          } else if (updatedData.vaultHistories.length === 0 && updatedData.tvls.length !== 0) {
+            vaultInitialDate = formatDate(
+              Number(updatedData.tvls[updatedData.tvls.length - 1].timestamp) * 1000,
             )
-            oneEightyDaysApy = `${(sumApy / lastOneEightyDaysData.length).toFixed(2)}%`
-          }
-
-          if (totalPeriod >= 365) {
-            const lastThreeSixtyFiveDaysData = updatedData.generalApies.filter(
-              entry =>
-                Number(entry.timestamp) >=
-                Number(updatedData.generalApies[0].timestamp) - 365 * 24 * 3600,
+            totalPeriod =
+              (Number(updatedData.tvls[0].timestamp) -
+                Number(updatedData.tvls[updatedData.tvls.length - 1].timestamp)) /
+              (24 * 3600)
+          } else if (
+            updatedData.vaultHistories.length === 0 &&
+            updatedData.tvls.length === 0 &&
+            updatedData.generalApies.length !== 0
+          ) {
+            vaultInitialDate = formatDate(
+              Number(updatedData.generalApies[updatedData.generalApies.length - 1].timestamp) *
+                1000,
             )
-            const sumApy = lastThreeSixtyFiveDaysData.reduce(
-              (accumulator, currentValue) => accumulator + parseFloat(currentValue.apy),
-              0,
-            )
-            threeSixtyFiveDaysApy = `${(sumApy / lastThreeSixtyFiveDaysData.length).toFixed(2)}%`
+            totalPeriod =
+              (Number(updatedData.generalApies[0].timestamp) -
+                Number(updatedData.generalApies[updatedData.generalApies.length - 1].timestamp)) /
+              (24 * 3600)
           }
 
           set7DApy(sevenDaysApy)
           set30DApy(thirtyDaysApy)
           set180DApy(oneEightyDaysApy)
           set360DApy(threeSixtyFiveDaysApy)
-          setLifetimeApy(lifetimeApyValue)
+          setLifetimeApy(lifetimeApyValue === 0 ? '-' : lifetimeApyValue)
           setVaultBirthday(vaultInitialDate)
-          setVaultTotalPeriod(totalPeriod.toFixed())
+          setVaultTotalPeriod(totalPeriod === '-' ? '' : totalPeriod.toFixed())
           setLatestSharePrice(latestSharePriceValue)
+          set7DHarvest(sevenDaysHarvest)
+          set30DHarvest(thirtyDaysHarvest)
+          set180DHarvest(oneEightyDaysHarvest)
+          set360DHarvest(threeSixtyFiveDaysHarvest)
+          setHarvestFrequency(frequencyOfHarvest)
 
           if (isMounted) {
             setApiData(updatedData)
@@ -265,9 +374,23 @@ const FarmDetailChart = ({
           setRoundNumber={setRoundNumber}
           setFixedLen={setFixedLen}
           fixedLen={fixedLen}
+          setSelectedState={setSelectedState}
+          isExpanded={isExpanded}
         />
       </ChartDiv>
       <ButtonGroup>
+        <ToggleButton
+          type="button"
+          onClick={handleToggle(setIsExpanded)}
+          className="collapse-button"
+          backColor={darkMode ? '#3b3c3e' : '#e9f0f7'}
+          color={darkMode ? 'white' : 'black'}
+        >
+          <ChevronIcon className="chevron">
+            {isExpanded ? <FaChevronUp /> : <FaChevronDown />}
+          </ChevronIcon>
+          Custom
+        </ToggleButton>
         {recommendLinks.map((item, i) => (
           <ChartRangeSelect
             key={i}

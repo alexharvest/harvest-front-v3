@@ -22,7 +22,7 @@ const IconCard = styled.div`
   height: 48px;
   border-radius: 50%;
   padding: 9px;
-  background: #15b088;
+  background: #5dcf46;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   justify-content: center;
 `
@@ -209,6 +209,7 @@ const TokenAmount = styled.input`
 
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button {
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: textfield;
     margin: 0;

@@ -3,29 +3,20 @@ import { useWindowWidth } from '@react-hook/window-size'
 import Chart from 'react-apexcharts'
 import { useThemeContext } from '../../providers/useThemeContext'
 import { ceil10, floor10 } from '../../utilities/formats'
-import { getTimeSlots } from '../../utilities/parsers'
-
-function findMax(data) {
-  const ary = data.map(el => el[1])
-  const max = Math.max(...ary)
-  return max
-}
-
-function findMin(data) {
-  const ary = data.map(el => el[1])
-  const min = Math.min(...ary)
-  return min
-}
+import { findMax, findMin, getTimeSlots } from '../../utilities/parsers'
 
 function generateChartDataWithSlots(slots, apiData, kind) {
-  const seriesData = []
-  for (let i = 0; i < slots.length; i += 1) {
-    for (let j = 0; j < apiData.length; j += 1) {
+  const seriesData = [],
+    sl = slots.length,
+    al = slots.length
+
+  for (let i = 0; i < sl; i += 1) {
+    for (let j = 0; j < al; j += 1) {
       if (slots[i] > parseInt(apiData[j].timestamp, 10)) {
         const value = parseFloat(apiData[j][kind])
         seriesData.push([slots[i] * 1000, value])
         break
-      } else if (j === apiData.length - 1) {
+      } else if (j === al - 1) {
         seriesData.push([slots[i] * 1000, 0])
       }
     }
@@ -47,10 +38,11 @@ function generateChartDataForApy(apyData1, apyData2, field) {
     return b[0] - a[0]
   })
 
-  for (let i = 0; i < apyData.length; i += 1) {
+  const al = apyData.length
+  for (let i = 0; i < al; i += 1) {
     if (i === 0) {
       if (apyData[i][2] !== apyData[i + 1][2]) apyData[i][1] += apyData[i + 1][1]
-    } else if (i === apyData.length - 1) {
+    } else if (i === al - 1) {
       if (apyData[i][2] !== apyData[i - 1][2]) {
         apyData[i][1] += apyData[i - 1][1]
       }

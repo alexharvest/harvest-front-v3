@@ -18,6 +18,24 @@ const NewLabel = styled.div`
   `
       : ''}
   ${props =>
+    props.bgColor
+      ? `
+        background: ${props.bgColor};
+      `
+      : ''}
+  ${props =>
+    props.border
+      ? `
+        border: ${props.border};
+        `
+      : ''}
+  ${props =>
+    props.borderRadius
+      ? `
+        border-radius: ${props.borderRadius};
+        `
+      : ''}
+  ${props =>
     props.size
       ? `
     font-size: ${props.size};
@@ -160,7 +178,7 @@ const NewLabel = styled.div`
 `
 
 const Buttons = styled.button`
-  background: #15b088;
+  background: #5dcf46;
   border: none;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   color: white;
@@ -170,11 +188,11 @@ const Buttons = styled.button`
   width: 100%;
 
   &:hover {
-    background: #2ccda4;
+    background: ${props => props.hoverColor};
   }
 
   &:active {
-    background: #4fdfbb;
+    background: #46eb25;
   }
 `
 
@@ -221,7 +239,7 @@ const IconCard = styled.div`
   height: 48px;
   border-radius: 50%;
   padding: 8px;
-  background: #15b088;
+  background: #5dcf46;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   justify-content: center;
 `
@@ -256,6 +274,7 @@ const SlippageBox = styled.div`
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   margin-right: 12px;
   cursor: pointer;
+  display: ${props => (props.display ? props.display : '')};
 `
 
 const MiddleLine = styled.hr`
@@ -300,9 +319,11 @@ const SlippageInput = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    font-size: ${props => (props.size ? props.size : '')};
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
+      appearance: none;
       -webkit-appearance: none;
       -moz-appearance: textfield;
       margin: 0;
@@ -337,6 +358,12 @@ const ProgressText = styled.div`
   text-align: center;
 `
 
+const StakeIconBox = styled.img`
+  width: ${props => (props.width ? props.width : '')};
+  height: ${props => (props.height ? props.height : '')};
+  cursor: ${props => (props.cursor ? props.cursor : '')};
+`
+
 export {
   SelectTokenWido,
   ImgBtn,
@@ -356,4 +383,5 @@ export {
   SlippageInput,
   ProgressLabel,
   ProgressText,
+  StakeIconBox,
 }

@@ -1,21 +1,22 @@
 import { useHistory, useLocation } from 'react-router-dom'
 import { useWindowWidth } from '@react-hook/window-size'
 import { debounce } from 'lodash'
+import { MdCheck } from 'react-icons/md'
 import React, { useEffect, useState } from 'react'
+import { FaRegSquare, FaRegSquareCheck } from 'react-icons/fa6'
+import { useMediaQuery } from 'react-responsive'
+import { IoIosArrowDown } from 'react-icons/io'
 import { Dropdown } from 'react-bootstrap'
-import ARBITRUM from '../../assets/images/chains/arbitrum.svg'
-import BASE from '../../assets/images/chains/base.svg'
-import ETHEREUM from '../../assets/images/chains/ethereum.svg'
-import POLYGON from '../../assets/images/chains/polygon.svg'
+import FilterIcon from '../../assets/images/logos/filters-icon.svg'
 import SpecNarrowDown from '../../assets/images/logos/filter/spec-narrowdown.svg'
 import DesciBack from '../../assets/images/logos/filter/desciback.jpg'
 import LSDBack from '../../assets/images/logos/filter/lsdback.jpg'
-import Rocket from '../../assets/images/logos/filter/rocket-01.svg'
 import Zap from '../../assets/images/logos/filter/zap.svg'
 import { CHAIN_IDS } from '../../data/constants'
 import { useThemeContext } from '../../providers/useThemeContext'
 import { useWallet } from '../../providers/Wallet'
 import { isSpecialApp } from '../../utilities/formats'
+import { ChainsList } from '../../constants'
 import ButtonGroup from '../ButtonGroup'
 import SearchBar from '../SearchBar'
 import {
@@ -40,14 +41,11 @@ import {
   ChainGroup,
   // SwitchBalanceButton,
   ApplyFilterBtn,
+  CheckBoxDiv,
+  MobileListFilter,
+  MobileFilterBtn,
+  DropdownRow,
 } from './style'
-
-const ChainsList = [
-  { id: 0, name: 'Ethereum', img: ETHEREUM, chainId: CHAIN_IDS.ETH_MAINNET },
-  { id: 1, name: 'Polygon', img: POLYGON, chainId: CHAIN_IDS.POLYGON_MAINNET },
-  { id: 2, name: 'Arbitrum', img: ARBITRUM, chainId: CHAIN_IDS.ARBITRUM_ONE },
-  { id: 3, name: 'Base', img: BASE, chainId: CHAIN_IDS.BASE },
-]
 
 const TrendsList = [
   { id: 0, name: 'LSD', backImg: LSDBack, status: 'LSD' },
@@ -60,15 +58,26 @@ const FarmsList = [
   { id: 3, name: 'Inactive', filter: 'inactive' },
 ]
 
+const MobileFarmsList = [
+  { id: 1, name: 'All', filter: 'allfarm' },
+  { id: 2, name: 'Wallet', filter: 'myfarm', border: 'none' },
+]
+
 const RiskList = [
   { id: 1, name: 'New', img: Zap, filter: 'new' },
-  { id: 2, name: 'Popular Now', img: Rocket, filter: 'popular' },
+  { id: 2, name: 'Popular', filter: 'popular' },
+]
+
+const RiskListMobile = [
+  { id: 1, name: 'New', filter: 'new' },
+  { id: 2, name: 'Popular', filter: 'popular' },
 ]
 
 const AssetsList = [
   { id: 1, name: 'LP', filter: 'lptokens' },
   { id: 2, name: 'Single', filter: 'singlestakes' },
   { id: 3, name: 'Stable', filter: 'stablecoins' },
+  { id: 4, name: 'Autopilot', filter: 'autopilot' },
 ]
 
 const QuickFilter = ({
@@ -78,11 +87,21 @@ const QuickFilter = ({
   onAssetClick = () => {},
   onSelectStableCoin = () => {},
   onSelectFarmType = () => {},
+  SortsList,
+  sortId,
+  setSortId,
+  updateSortQuery,
+  riskId,
+  setRiskId,
+  setSortOrder,
 }) => {
   // Search string is null, it will be false, otherwise true.
   const [stringSearch, setStringSearch] = useState(false)
 
   const [flag, setFlag] = useState(false)
+  const [showInactiveFarms, setShowInactiveFarms] = useState(false)
+  const [focusId, setFocusId] = useState(-1)
+  const [inactiveId, setInactiveId] = useState(-1)
 
   useEffect(() => {
     onSelectActiveType(['Active'])
@@ -181,6 +200,9 @@ const QuickFilter = ({
         text = ''
         stable = 'Stable'
         break
+      case 3:
+        text = 'Autopilot'
+        break
       default:
         break
     }
@@ -205,7 +227,7 @@ const QuickFilter = ({
       default:
         break
     }
-    const updateValue = { risk: RiskList[id].filter }
+    const updateValue = { filter: RiskList[id].filter }
     setParamObj(newParamObj => ({
       ...newParamObj,
       ...updateValue,
@@ -216,11 +238,12 @@ const QuickFilter = ({
   const [filterCount, setFilterCount] = useState(0)
   const [mobileFilterCount, setMobileFilterCount] = useState(0)
 
-  const [riskId, setRiskId] = useState(-1) // for risk id
   const [assetsId, setAssetsId] = useState(-1) // for asset id
   const [farmId, setFarmId] = useState(-1) // for chain
 
   const { selChain, setSelChain, chainId } = useWallet()
+  const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
+
   // for Chain
   const curChain = []
   if (selChain.includes(CHAIN_IDS.ETH_MAINNET)) {
@@ -234,6 +257,9 @@ const QuickFilter = ({
   }
   if (selChain.includes(CHAIN_IDS.BASE)) {
     curChain.push(3)
+  }
+  if (selChain.includes(CHAIN_IDS.ZKSYNC)) {
+    curChain.push(4)
   }
 
   const [selectedClass, setSelectedClass] = useState(curChain)
@@ -252,6 +278,18 @@ const QuickFilter = ({
     setTrendStatus('')
     setCollabBswapStatus('')
   }
+
+  useEffect(() => {
+    if (farmId === 2) {
+      setShowInactiveFarms(true)
+      setInactiveId(2)
+      printFarm(2)
+    } else if (farmId !== -1 && farmId !== 2) {
+      setShowInactiveFarms(false)
+      setInactiveId(-1)
+      printFarm(farmId)
+    }
+  }, [farmId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     const setUrlData = () => {
@@ -376,14 +414,22 @@ const QuickFilter = ({
   }, [onlyWidth])
 
   const {
-    backColor,
-    borderColor,
+    bgColorNew,
+    borderColorBox,
     fontColor,
     fontColor2,
     filterColor,
     filterChainHoverColor,
     mobileFilterDisableColor,
     mobileFilterHoverColor,
+    darkMode,
+    mobileFilterBackColor,
+    bgColor,
+    fontColor1,
+    fontColor4,
+    hoverColor,
+    inputFontColor,
+    btnHoverColor,
   } = useThemeContext()
 
   return (
@@ -391,14 +437,14 @@ const QuickFilter = ({
       {windowMode ? (
         <WebView>
           <QuickFilterContainer>
-            <DivWidth className="chain" width="100%" marginBottom="15px" backColor={backColor}>
+            <DivWidth className="chain" width="100%" marginBottom="15px" backColor={bgColorNew}>
               <DivWidth
                 className="chain"
                 background="none"
                 width="100%"
                 display="flex"
                 justifyContent="start"
-                backColor={backColor}
+                backColor={bgColorNew}
               >
                 {isSpecialApp ? (
                   <></>
@@ -406,9 +452,9 @@ const QuickFilter = ({
                   <ChainGroup>
                     {ChainsList.map((item, i) => (
                       <ChainButton
-                        backColor={backColor}
+                        backColor={bgColorNew}
                         hoverColor={filterChainHoverColor}
-                        borderColor={borderColor}
+                        borderColor={borderColorBox}
                         className={`${selectedClass.includes(i) ? 'active' : ''}`}
                         data-tip
                         data-for={`chain-${item.name}`}
@@ -430,7 +476,7 @@ const QuickFilter = ({
                           }
 
                           if (tempIds.length === 0 || tempIds.length === ChainsList.length) {
-                            tempIds = [0, 1, 2, 3]
+                            tempIds = [0, 1, 2, 3, 4]
                             setSelectedClass(tempIds)
                           } else {
                             setSelectedClass(tempIds)
@@ -455,11 +501,11 @@ const QuickFilter = ({
                 )}
               </DivWidth>
             </DivWidth>
-            <DivWidth right="0" borderRadius="10" backColor={backColor}>
+            <DivWidth right="0" borderRadius="10" backColor={bgColorNew}>
               <ClearFilter
                 fontColor={fontColor2}
-                backColor={backColor}
-                borderColor={borderColor}
+                backColor={bgColorNew}
+                borderColor={borderColorBox}
                 onClick={() => {
                   document.getElementById('search-input').value = ''
                   setSearchQuery('')
@@ -471,7 +517,8 @@ const QuickFilter = ({
                   setRiskId(-1)
                   setAssetsId(-1)
                   setFarmId(-1)
-                  setSelectedClass([0, 1, 2, 3])
+                  onDepositedOnlyClick(false)
+                  setSelectedClass([0, 1, 2, 3, 4])
                   onSelectStableCoin(false)
                   onAssetClick('')
                   onSelectFarmType('')
@@ -480,6 +527,7 @@ const QuickFilter = ({
                     CHAIN_IDS.POLYGON_MAINNET,
                     CHAIN_IDS.ARBITRUM_ONE,
                     CHAIN_IDS.BASE,
+                    CHAIN_IDS.ZKSYNC,
                   ])
                   clearFilter()
                 }}
@@ -490,7 +538,7 @@ const QuickFilter = ({
             </DivWidth>
           </QuickFilterContainer>
           <QuickFilterContainer position="relative" justifyContent="space-between">
-            <DivWidth className="first" borderRadius="10" display="flex">
+            <DivWidth className="first" borderRadius="10" display="flex" alignItems="center">
               <SearchBar
                 placeholder="Assets, platforms..."
                 onKeyDown={updateSearchQuery}
@@ -498,20 +546,21 @@ const QuickFilter = ({
                 inputText={inputText}
                 setInputText={setInputText}
               />
-              <DivWidth borderRadius="10" marginRight="15px" backColor={backColor}>
+              <DivWidth borderRadius="10" marginRight="15px" backColor={bgColorNew}>
                 <ButtonGroup
                   buttons={RiskList}
                   doSomethingAfterClick={printRisk}
                   clickedId={riskId}
                   setClickedId={setRiskId}
                   fontColor={fontColor2}
+                  setSortOrder={setSortOrder}
                 />
               </DivWidth>
-              <DivWidth marginRight="15px" height="fit-content">
+              <DivWidth display="none" marginRight="15px" height="fit-content">
                 <Dropdown>
                   <TrendDropDown
                     num={trendsBackNum}
-                    bordercolor={borderColor}
+                    bordercolor={borderColorBox}
                     fontcolor={fontColor}
                   >
                     <div className="name">{trendName}</div>
@@ -541,7 +590,7 @@ const QuickFilter = ({
                   )}
                 </Dropdown>
               </DivWidth>
-              <DivWidth borderRadius="10" marginRight="15px" backColor={backColor}>
+              <DivWidth borderRadius="10" marginRight="15px" backColor={bgColorNew}>
                 <ButtonGroup
                   buttons={AssetsList}
                   doSomethingAfterClick={printAsset}
@@ -566,12 +615,12 @@ const QuickFilter = ({
       ) : (
         <MobileView>
           <FarmButtonPart justifyContent="start">
-            <ChainGroup borderColor={borderColor}>
+            <ChainGroup borderColor={borderColorBox}>
               {ChainsList.map((item, i) => (
                 <ChainButton
-                  backColor={backColor}
+                  backColor={bgColorNew}
                   hoverColor={filterChainHoverColor}
-                  borderColor={borderColor}
+                  borderColor={borderColorBox}
                   className={`${selectedClass.includes(i) ? 'active' : ''}`}
                   data-tip
                   data-for={`chain-${item.name}`}
@@ -585,7 +634,8 @@ const QuickFilter = ({
                     if (!tempIds.includes(i)) {
                       tempIds.push(i)
                     } else {
-                      for (let el = 0; el < tempIds.length; el += 1) {
+                      const tl = tempIds.length
+                      for (let el = 0; el < tl; el += 1) {
                         if (tempIds[el] === i) {
                           tempIds.splice(el, 1)
                         }
@@ -593,7 +643,7 @@ const QuickFilter = ({
                     }
 
                     if (tempIds.length === 0 || tempIds.length === ChainsList.length) {
-                      tempIds = [0, 1, 2, 3]
+                      tempIds = [0, 1, 2, 3, 4]
                       setSelectedClass(tempIds)
                     } else {
                       setSelectedClass(tempIds)
@@ -601,8 +651,9 @@ const QuickFilter = ({
                     tempIds.map(tempId => {
                       return selectedClasses.push(ChainsList[tempId].name)
                     })
-                    const tempChains = []
-                    for (let j = 0; j < tempIds.length; j += 1) {
+                    const tempChains = [],
+                      tl = tempIds.length
+                    for (let j = 0; j < tl; j += 1) {
                       tempChains.push(ChainsList[tempIds[j]].chainId)
                     }
                     setSelChain(tempChains)
@@ -619,12 +670,176 @@ const QuickFilter = ({
 
           <FarmButtonPart>
             <ButtonGroup
-              buttons={FarmsList}
+              buttons={MobileFarmsList}
               doSomethingAfterClick={printFarm}
               clickedId={farmId}
               setClickedId={setFarmId}
               fontColor={fontColor2}
+              prevFocusId={focusId}
+              isMobile={isMobile}
+              oneClass="time-filter"
             />
+            <FarmFiltersPart
+              backColor={bgColorNew}
+              fontColor={fontColor}
+              mobileColor={darkMode ? '#fff' : '#000'}
+              borderColor={borderColorBox}
+              filterColor={filterColor}
+            >
+              <div className="filter-part">
+                <button
+                  type="button"
+                  placeholder="Filters"
+                  className="filters-btn"
+                  color={fontColor2}
+                  onClick={() => {
+                    handleFilterShow()
+                  }}
+                >
+                  <img src={FilterIcon} alt="filter icon" />
+                  Filters
+                </button>
+              </div>
+
+              <FilterOffCanvas
+                show={filterShow}
+                onHide={handleFilterClose}
+                placement="left"
+                backcolor={bgColorNew}
+                borderColor={borderColorBox}
+                filtercolor={filterColor}
+                className="farm-mobile-filter offcanvas-bottom"
+              >
+                <FilterOffCanvasHeader closeButton>
+                  <FarmFilter
+                    color={darkMode ? '#fff' : '#000'}
+                    imgFilter={
+                      darkMode
+                        ? 'invert(100%) sepia(6%) saturate(2%) hue-rotate(223deg) brightness(115%) contrast(100%)'
+                        : ''
+                    }
+                  >
+                    <img src={FilterIcon} alt="filter icon" style={{ marginRight: '10px' }} />
+                    Filters
+                  </FarmFilter>
+                </FilterOffCanvasHeader>
+                <FilterOffCanvasBody
+                  className="filter-show"
+                  filtercolor={filterColor}
+                  backcolor={bgColorNew}
+                  fontcolor={fontColor}
+                  bordercolor={borderColorBox}
+                  hovercolor={mobileFilterHoverColor}
+                  mobilefilterdisablecolor={mobileFilterDisableColor}
+                >
+                  <DivWidth mobileMarginBottom="25px">
+                    <ButtonGroup
+                      buttons={RiskListMobile}
+                      doSomethingAfterClick={() => {}}
+                      clickedId={riskId}
+                      setClickedId={setRiskId}
+                      fontColor={fontColor2}
+                      unsetWidth={false}
+                    />
+                  </DivWidth>
+                  <DivWidth mobileMarginBottom="25px">
+                    <ButtonGroup
+                      buttons={AssetsList}
+                      doSomethingAfterClick={() => {}}
+                      clickedId={assetsId}
+                      setClickedId={setAssetsId}
+                      fontColor={fontColor2}
+                    />
+                  </DivWidth>
+                  <DivWidth display="none" mobileMarginBottom="10px" height="fit-content">
+                    <Dropdown>
+                      <TrendDropDown
+                        num={trendsBackNum}
+                        bordercolor={borderColorBox}
+                        fontcolor={fontColor}
+                      >
+                        <div className="name">{trendName}</div>
+                        <img className="narrow" src={SpecNarrowDown} alt="" />
+                      </TrendDropDown>
+
+                      {isSpecialApp ? (
+                        <></>
+                      ) : (
+                        <TrendDropDownMenu>
+                          {TrendsList.map((item, i) => (
+                            <TrendDropDownItem
+                              key={i}
+                              className={
+                                i === 0 ? 'first' : i === TrendsList.length - 1 ? 'last' : ''
+                              }
+                              num={i}
+                              onClick={() => {
+                                setTrendName(item.name)
+                                setTrendsBackNum(i)
+                                setTrendStatus(item.status)
+                              }}
+                            >
+                              <div>{item.name}</div>
+                            </TrendDropDownItem>
+                          ))}
+                        </TrendDropDownMenu>
+                      )}
+                    </Dropdown>
+                  </DivWidth>
+                  <CheckBoxDiv
+                    bgColor={darkMode ? '' : '#f9f5ff'}
+                    fontColor={darkMode ? '#ffffff' : '#344054'}
+                    onClick={() => {
+                      if (showInactiveFarms) {
+                        setInactiveId(-1)
+                        setShowInactiveFarms(prev => !prev)
+                      } else {
+                        setInactiveId(2)
+                        setShowInactiveFarms(prev => !prev)
+                      }
+                    }}
+                  >
+                    {showInactiveFarms ? (
+                      <FaRegSquareCheck color="#5dcf46" />
+                    ) : (
+                      <FaRegSquare color="#5dcf46" />
+                    )}
+                    <div>Show inactive</div>
+                  </CheckBoxDiv>
+                  <ApplyFilterBtn
+                    hoverColor={btnHoverColor}
+                    type="button"
+                    onClick={() => {
+                      if (riskId !== -1) {
+                        printRisk(riskId)
+                      }
+                      if (assetsId !== -1) {
+                        printAsset(assetsId)
+                      }
+                      if (inactiveId !== -1) {
+                        setFarmId(inactiveId)
+                        printFarm(inactiveId)
+                        setFocusId(inactiveId)
+                      } else if (inactiveId === -1) {
+                        setFarmId(inactiveId)
+                        setFocusId(inactiveId)
+                      }
+                      if (collabBswapStatus === 'BaseSwap') {
+                        setInputText('BaseSwap')
+                        onClickSearch('BaseSwap')
+                      }
+                      if (trendStatus !== '') {
+                        setInputText(trendStatus)
+                        onClickSearch(trendStatus)
+                      }
+                      handleFilterClose()
+                    }}
+                  >
+                    Save
+                  </ApplyFilterBtn>
+                </FilterOffCanvasBody>
+              </FilterOffCanvas>
+            </FarmFiltersPart>
           </FarmButtonPart>
 
           <MobileListHeaderSearch>
@@ -635,126 +850,61 @@ const QuickFilter = ({
               inputText={inputText}
               setInputText={setInputText}
             />
-          </MobileListHeaderSearch>
-
-          <FarmFiltersPart
-            backColor={backColor}
-            fontColor={fontColor}
-            borderColor={borderColor}
-            filterColor={filterColor}
-          >
-            <div className="filter-part">
-              <button
-                type="button"
-                placeholder="Filters"
-                color={fontColor2}
-                onClick={() => {
-                  handleFilterShow()
-                }}
-              >
-                Filters
-              </button>
-            </div>
-
-            <FilterOffCanvas
-              show={filterShow}
-              onHide={handleFilterClose}
-              placement="left"
-              backcolor={backColor}
-              filtercolor={filterColor}
-              className="farm-mobile-filter"
-            >
-              <FilterOffCanvasHeader closeButton>
-                <FarmFilter>Filters</FarmFilter>
-              </FilterOffCanvasHeader>
-              <FilterOffCanvasBody
-                className="filter-show"
-                filtercolor={filterColor}
-                backcolor={backColor}
-                fontcolor={fontColor}
-                bordercolor={borderColor}
-                hovercolor={mobileFilterHoverColor}
-                mobilefilterdisablecolor={mobileFilterDisableColor}
-              >
-                <DivWidth mobileMarginBottom="10px">
-                  <ButtonGroup
-                    buttons={RiskList}
-                    doSomethingAfterClick={() => {}}
-                    clickedId={riskId}
-                    setClickedId={setRiskId}
-                    fontColor={fontColor2}
-                    unsetWidth
-                  />
-                </DivWidth>
-                <DivWidth mobileMarginBottom="10px">
-                  <ButtonGroup
-                    buttons={AssetsList}
-                    doSomethingAfterClick={() => {}}
-                    clickedId={assetsId}
-                    setClickedId={setAssetsId}
-                    fontColor={fontColor2}
-                  />
-                </DivWidth>
-                <DivWidth mobileMarginBottom="10px" height="fit-content">
-                  <Dropdown>
-                    <TrendDropDown
-                      num={trendsBackNum}
-                      bordercolor={borderColor}
-                      fontcolor={fontColor}
-                    >
-                      <div className="name">{trendName}</div>
-                      <img className="narrow" src={SpecNarrowDown} alt="" />
-                    </TrendDropDown>
-
-                    {isSpecialApp ? (
-                      <></>
-                    ) : (
-                      <TrendDropDownMenu>
-                        {TrendsList.map((item, i) => (
-                          <TrendDropDownItem
-                            key={i}
-                            className={
-                              i === 0 ? 'first' : i === TrendsList.length - 1 ? 'last' : ''
-                            }
-                            num={i}
-                            onClick={() => {
-                              setTrendName(item.name)
-                              setTrendsBackNum(i)
-                              setTrendStatus(item.status)
-                            }}
-                          >
-                            <div>{item.name}</div>
-                          </TrendDropDownItem>
-                        ))}
-                      </TrendDropDownMenu>
-                    )}
-                  </Dropdown>
-                </DivWidth>
-                <ApplyFilterBtn
-                  type="button"
-                  onClick={() => {
-                    if (riskId !== -1) {
-                      printRisk(riskId)
-                    }
-                    if (assetsId !== -1) {
-                      printAsset(assetsId)
-                    }
-                    if (collabBswapStatus === 'BaseSwap') {
-                      setInputText('BaseSwap')
-                      onClickSearch('BaseSwap')
-                    }
-                    if (trendStatus !== '') {
-                      setInputText(trendStatus)
-                      onClickSearch(trendStatus)
-                    }
-                  }}
-                >
-                  Apply Filters
-                </ApplyFilterBtn>
-              </FilterOffCanvasBody>
-            </FilterOffCanvas>
-
             <div className="clear-filter">
+              <MobileListFilter
+                mobileBackColor={mobileFilterBackColor}
+                backColor={bgColorNew}
+                bgColor={bgColor}
+                borderColor={borderColorBox}
+                fontColor={fontColor}
+                fontColor1={fontColor1}
+                fontColor4={fontColor4}
+                // filterColor={filterColor}
+                hoverColor={hoverColor}
+              >
+                <Dropdown className="filter-sort">
+                  <Dropdown.Toggle className="toggle">
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                      Sort By:
+                      <span>{sortId === -1 ? '' : SortsList[sortId].name}</span>
+                      <img src={SortsList[sortId].img} className="sort-icon" alt="sort" />
+                    </div>
+                    <MobileFilterBtn
+                      inputBorderColor={borderColorBox}
+                      type="button"
+                      darkmode={darkMode ? 'true' : 'false'}
+                    >
+                      <IoIosArrowDown color={inputFontColor} fontSize={20} />
+                    </MobileFilterBtn>
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className="menu">
+                    {SortsList.map((item, i) => (
+                      <Dropdown.Item
+                        className={`item ${
+                          sortId !== -1 && item.type === SortsList[sortId].type ? 'active-item' : ''
+                        }`}
+                        key={i}
+                        onClick={() => {
+                          setSortId(item.id)
+                          updateSortQuery(item.type)
+                        }}
+                      >
+                        <DropdownRow>
+                          <div>{item.name}</div>
+                          <img
+                            src={item.img}
+                            className="sort-icon"
+                            alt="sort"
+                            style={{ marginLeft: '10px' }}
+                          />
+                        </DropdownRow>
+                        <MdCheck color="#5dcf46" className="checked" />
+                      </Dropdown.Item>
+                    ))}
+                  </Dropdown.Menu>
+                </Dropdown>
+              </MobileListFilter>
               <MobileClearFilter
                 onClick={() => {
                   document.getElementById('search-input').value = ''
@@ -772,26 +922,29 @@ const QuickFilter = ({
                   setRiskId(-1)
                   setFarmId(-1)
                   setMobileFilterCount(0)
-                  setSelectedClass([0, 1, 2, 3])
+                  setSelectedClass([0, 1, 2, 3, 4])
+                  setShowInactiveFarms(false)
                   setSelChain([
                     CHAIN_IDS.ETH_MAINNET,
                     CHAIN_IDS.POLYGON_MAINNET,
                     CHAIN_IDS.ARBITRUM_ONE,
                     CHAIN_IDS.BASE,
+                    CHAIN_IDS.ZKSYNC,
                   ])
                   clearFilter()
                 }}
-                borderColor={borderColor}
+                borderColor={borderColorBox}
                 fontColor={fontColor2}
-                backColor={backColor}
+                mobileColor={darkMode ? '#fff' : '#000'}
+                backColor={bgColorNew}
               >
                 <Counter count={mobileFilterCount}>
                   {mobileFilterCount > 0 ? mobileFilterCount : ''}
                 </Counter>
-                &nbsp;Clear Filters
+                &nbsp;Clear
               </MobileClearFilter>
             </div>
-          </FarmFiltersPart>
+          </MobileListHeaderSearch>
         </MobileView>
       )}
     </div>

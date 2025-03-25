@@ -23,6 +23,12 @@ import ReaderArbitrumMethods from './reader-arbitrum/methods'
 import ReaderBaseContract from './reader-base/contract.json'
 import ReaderBaseMethods from './reader-base/methods'
 
+import ReaderZksyncContract from './reader-zksync/contract.json'
+import ReaderZksyncMethods from './reader-zksync/methods'
+
+import IporVaultContract from './ipor-vault/contract.json'
+import IporVaultMethods from './ipor-vault/methods'
+
 import { CHAIN_IDS } from '../../../data/constants'
 
 const { tokens } = require('../../../data')
@@ -43,6 +49,26 @@ const getTokensContracts = () => {
   })
 
   return tokenContracts
+}
+
+const getIPORVaultContracts = () => {
+  const iporVaultContracts = {}
+  Object.keys(tokens).forEach(token => {
+    if (tokens[token].isIPORVault) {
+      iporVaultContracts[token] = {
+        contract: {
+          address: tokens[token].vaultAddress,
+          abi: IporVaultContract.abi,
+        },
+        methods: IporVaultMethods,
+        chain: tokens[token].chain,
+      }
+    }
+  })
+
+  return {
+    iporVaults: iporVaultContracts,
+  }
 }
 
 export default {
@@ -84,5 +110,13 @@ export default {
     methods: ReaderBaseMethods,
     chain: CHAIN_IDS.BASE,
   },
+
+  readerZksync: {
+    contract: ReaderZksyncContract,
+    methods: ReaderZksyncMethods,
+    chain: CHAIN_IDS.ZKSYNC,
+  },
+
   ...getTokensContracts(),
+  ...getIPORVaultContracts(),
 }

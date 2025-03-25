@@ -50,25 +50,32 @@ const ButtonGroup = styled.div`
   padding-top: 25px;
 `
 
-const ChartDiv = styled.div`
-  height: 346px;
-
-  @media screen and (max-width: 1291px) {
-    height: 365px;
+const ToggleButton = styled.div`
+  color: ${props => (props.color ? props.color : '')};
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 3px 15px;
+  border-radius: 3px;
+  &:hover {
+    background: ${props => (props.backColor ? props.backColor : '')};
+    .chevron {
+      opacity: 1;
+    }
   }
-
-  @media screen and (max-width: 1262px) {
-    height: 365px;
+  .chevron {
+    opacity: 0;
   }
-
-  @media screen and (max-width: 1035px) {
-    height: 365px;
-  }
-
   @media screen and (max-width: 992px) {
-    height: 365px;
+    padding: 3px 10px;
   }
 `
+
+const ChevronIcon = styled.span`
+  margin-right: 5px;
+`
+
+const ChartDiv = styled.div``
 
 const FilterGroup = styled.div`
   display: flex;
@@ -149,6 +156,8 @@ export {
   Total,
   MoreBtn,
   ButtonGroup,
+  ToggleButton,
+  ChevronIcon,
   ChartDiv,
   FilterGroup,
   PriceShow,

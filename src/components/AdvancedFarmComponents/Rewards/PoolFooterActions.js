@@ -117,7 +117,7 @@ const PoolFooterActions = ({
               </SelectedVault>
               <BottomPart>
                 <SelectedVaultLabel fontWeight="400" lineHeight="20px" color="#475467">
-                  You can only claim your rewards all at once.
+                  Claim all rewards into your wallet.
                 </SelectedVaultLabel>
                 <Button
                   // width="100%"

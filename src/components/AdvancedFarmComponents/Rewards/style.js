@@ -94,6 +94,11 @@ const SelectedVaultLabel = styled.span`
   @media screen and (max-width: 1320px) {
     margin-bottom: 15px;
   }
+
+  @media screen and (max-width: 992px) {
+    display: flex;
+    justify-content: center;
+  }
 `
 
 const SelectedVaultNumber = styled.span`

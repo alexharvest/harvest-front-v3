@@ -21,6 +21,11 @@ const Content = styled.div`
   line-height: ${props => props.height}px;
   color: ${props => props.color};
   align-self: center;
+
+  img.boost-img {
+    width: 16px;
+    margin: -2px 0px auto 5px;
+  }
 `
 
 const Percent = styled.div`

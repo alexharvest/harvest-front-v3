@@ -4,6 +4,7 @@ import ARBITRUM from '../../../assets/images/chains/arbitrum.svg'
 import BASE from '../../../assets/images/chains/base.svg'
 import ETHEREUM from '../../../assets/images/logos/badge/ethereum.svg'
 import POLYGON from '../../../assets/images/logos/badge/polygon.svg'
+import ZKSYNC from '../../../assets/images/logos/badge/zksync.svg'
 import LSD from '../../../assets/images/logos/lsd.svg'
 import DESCI from '../../../assets/images/logos/DeSci.svg'
 import { chainList, directDetailUrl } from '../../../constants'
@@ -28,7 +29,7 @@ const DesktopPanelHeader = ({
   desciToken,
 }) => {
   const location = useLocation()
-  const BadgeAry = [ETHEREUM, POLYGON, ARBITRUM, BASE]
+  const BadgeAry = [ETHEREUM, POLYGON, ARBITRUM, BASE, ZKSYNC]
 
   const chainId = token.chain || token.data.chain
   const [badgeId, setBadgeId] = useState(-1)
@@ -37,7 +38,7 @@ const DesktopPanelHeader = ({
 
   const { push } = useHistory()
 
-  const { fontColor, fontColor1, borderColor, setPrevPage } = useThemeContext()
+  const { fontColor, fontColor1, borderColorBox, setPrevPage } = useThemeContext()
 
   const mouseDownHandler = event => {
     if (event.button === 1) {
@@ -66,7 +67,7 @@ const DesktopPanelHeader = ({
     <>
       <PanelContainer
         fontColor={fontColor}
-        borderColor={borderColor}
+        borderColor={borderColorBox}
         onClick={e => {
           const network = chainList[badgeId].name.toLowerCase()
           const address = isSpecialVault
@@ -83,7 +84,7 @@ const DesktopPanelHeader = ({
         onMouseDown={mouseDownHandler}
       >
         <ValueContainer width="5%" />
-        <ValueContainer width="20%" textAlign="left" paddingLeft="25px">
+        <ValueContainer width="20%" textAlign="left">
           {logoUrl.map((el, i) => (
             <LogoImg key={i} className="logo-img" zIndex={10 - i} src={el} alt={tokenSymbol} />
           ))}

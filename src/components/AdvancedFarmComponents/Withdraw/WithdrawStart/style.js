@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import PopularBg from '../../../../assets/images/logos/advancedfarm/popular_bg.png'
 
 const SelectTokenWido = styled.div`
   transition: 0.25s;
@@ -21,7 +20,7 @@ const IconCard = styled.div`
   height: 48px;
   border-radius: 50%;
   padding: 8px;
-  background: #15b088;
+  background: #5dcf46;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   justify-content: center;
 `
@@ -186,7 +185,7 @@ const NewLabel = styled.div`
 `
 
 const Buttons = styled.button`
-  background: #15b088;
+  background: #5dcf46;
   border: none;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   color: white;
@@ -196,11 +195,11 @@ const Buttons = styled.button`
   width: 100%;
 
   &:hover {
-    background: #2ccda4;
+    background: ${props => props.hoverColor};
   }
 
   &:active {
-    background: #4fdfbb;
+    background: #46eb25;
   }
 `
 
@@ -242,48 +241,6 @@ const FTokenWrong = styled.div`
   justify-content: space-between;
 `
 
-const AVRWrapper = styled.div`
-  display: flex;
-  margin: 15px 24px 15px;
-  justify-content: space-between;
-  cursor: pointer;
-
-  background: linear-gradient(${props => props.bgColor}, ${props => props.bgColor}) padding-box,
-    linear-gradient(45deg, #cf1894, #b0229b, #e0439b, #670e78) border-box;
-  border-radius: 12px;
-  border: 2px solid transparent;
-`
-
-const AVRContainer = styled.div`
-  padding: 16px;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  gap: 12px 0;
-  border-radius: 12px;
-
-  &:hover {
-    background: ${props => props.hoverColorAVR};
-    transition: 0.25s;
-  }
-`
-
-const AVRBadge = styled.div`
-  display: flex;
-  padding: 2.429px 7.286px;
-  justify-content: center;
-  align-items: center;
-  gap: 3.643px;
-  border-radius: 9.714px;
-  border: 1px solid #fff;
-  background: url(${PopularBg}) lightgray -36.605px -17.873px / 164.706% 364.888% no-repeat;
-  color: #fff;
-  font-size: 8.5px;
-  font-weight: 500;
-  line-height: 12.143px;
-  height: fit-content;
-`
-
 const ApyValue = styled.div`
   color: ${props => props.color};
   text-align: center;
@@ -296,14 +253,6 @@ const ApyValue = styled.div`
     linear-gradient(45deg, #cf1894, #b0229b, #e0439b, #670e78) border-box;
   border-radius: 4.148px;
   border: 1.078px solid transparent;
-`
-
-const TopLogo = styled.div`
-  display: flex;
-  align-items: flex-start;
-  @media screen and (max-width: 992px) {
-    margin: auto;
-  }
 `
 
 const LogoImg = styled.img`
@@ -373,6 +322,7 @@ const SlippageInput = styled.div`
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
+      appearance: none;
       -webkit-appearance: none;
       -moz-appearance: textfield;
       margin: 0;
@@ -407,6 +357,86 @@ const ProgressText = styled.div`
   text-align: center;
 `
 
+const BigLogoImg = styled.img`
+  z-index: 10;
+  width: 37px;
+  height: 37px;
+  &:not(:first-child) {
+    margin-left: -7px;
+    ${props =>
+      props.zIndex
+        ? `
+      z-index: ${props.zIndex};
+    `
+        : ``};
+  }
+
+  @media screen and (max-width: 1480px) {
+    width: 25px;
+    height: 25px;
+  }
+`
+const VaultContainer = styled.div`
+  padding: 15px 24px;
+
+  .highest-vault::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 12px;
+    padding: 2px;
+    background: linear-gradient(90deg, #ffd6a6 0%, #a1b5ff 48.9%, #73df88 100%);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+`
+
+const HighestVault = styled.div`
+  padding: 16px;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8fffc;
+  cursor: pointer;
+  border-radius: 12px;
+
+  &:hover {
+    background: #ffffff;
+  }
+
+  .top-apy {
+    position: relative;
+    padding: 1.66px 8.3px 1.66px 6.64px;
+  }
+
+  .top-apy::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4.15px;
+    padding: 2px;
+    background: linear-gradient(90deg, #ffd6a6 0%, #a1b5ff 48.9%, #73df88 100%);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+`
+
+const ImagePart = styled.div``
+
+const NamePart = styled.div``
+
+const ImageName = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`
+
 export {
   SelectTokenWido,
   FTokenInfo,
@@ -426,10 +456,12 @@ export {
   SlippageInput,
   ProgressLabel,
   ProgressText,
-  AVRWrapper,
-  AVRContainer,
-  AVRBadge,
   ApyValue,
-  TopLogo,
   LogoImg,
+  BigLogoImg,
+  VaultContainer,
+  HighestVault,
+  ImagePart,
+  NamePart,
+  ImageName,
 }

@@ -28,6 +28,7 @@ const SelectTokenList = ({
   filterWord,
   supportedVault,
   hasPortalsError,
+  setFromTokenList,
 }) => {
   const { fontColor, fontColor2, hoverColor, activeColorModal } = useThemeContext()
   const [showList, setShowList] = useState(false)
@@ -213,6 +214,7 @@ const SelectTokenList = ({
                 <Container
                   onClick={() => {
                     handleDefaultToken()
+                    setFromTokenList(true)
                   }}
                   hoverColor={hoverColor}
                   activeColor={activeColorModal}
@@ -243,33 +245,36 @@ const SelectTokenList = ({
               <Label fontColor={fontColor} padding="15px 24px 0px">
                 {curSupportedVault ? 'Supported tokens in your wallet' : 'Soon to be supported'}
               </Label>
-              {balanceTokenList.map((data, i) => (
-                <Container
-                  key={i}
-                  className={i === clickBalanceListId ? 'active' : ''}
-                  onClick={() => {
-                    if (curSupportedVault) handleBalanceListClick(i)
-                  }}
-                  cursor={curSupportedVault ? 'pointer' : 'not-allowed'}
-                  hoverColor={hoverColor}
-                  activeColor={activeColorModal}
-                >
-                  <img src={data.logoURI} width={26} height={26} alt="" />
-                  <Vault>
-                    <Text weight={600} color={fontColor2}>
-                      {data.symbol}
-                    </Text>
-                    <RightText weight={600} color={fontColor2}>
-                      <>{data.balance ? showTokenBalance(data.balance) : '0'}</>
-                      <TextSpan fontColor2={fontColor2}>
-                        {data.usdValue
-                          ? `${currencySym}${(data.usdValue * Number(currencyRate)).toFixed(2)}`
-                          : `${currencySym}0`}
-                      </TextSpan>
-                    </RightText>
-                  </Vault>
-                </Container>
-              ))}
+              {balanceTokenList.map((data, i) => {
+                return (
+                  <Container
+                    key={i}
+                    className={i === clickBalanceListId ? 'active' : ''}
+                    onClick={() => {
+                      if (curSupportedVault) handleBalanceListClick(i)
+                      setFromTokenList(true)
+                    }}
+                    cursor={curSupportedVault ? 'pointer' : 'not-allowed'}
+                    hoverColor={hoverColor}
+                    activeColor={activeColorModal}
+                  >
+                    <img src={data.logoURI} width={26} height={26} alt="" />
+                    <Vault>
+                      <Text weight={600} color={fontColor2}>
+                        {data.symbol}
+                      </Text>
+                      <RightText weight={600} color={fontColor2}>
+                        <>{data.balance ? showTokenBalance(data.balance) : '0'}</>
+                        <TextSpan fontColor2={fontColor2}>
+                          {data.usdValue
+                            ? `${currencySym}${(data.usdValue * Number(currencyRate)).toFixed(2)}`
+                            : `${currencySym}0`}
+                        </TextSpan>
+                      </RightText>
+                    </Vault>
+                  </Container>
+                )
+              })}
             </>
           )}
           {!hasPortalsError && supTokenList.length > 0 && (
@@ -289,6 +294,7 @@ const SelectTokenList = ({
                   className={i === clicksupTokenNoBalanceListId ? 'active' : ''}
                   onClick={() => {
                     if (curSupportedVault) handleSupTokenNoBalanceListClick(i)
+                    setFromTokenList(true)
                   }}
                   cursor={curSupportedVault ? 'pointer' : 'not-allowed'}
                   hoverColor={hoverColor}

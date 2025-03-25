@@ -28,7 +28,7 @@ export const calculateFarmingBalance = async (pools, userStats, vaultSymbol, vau
   const vaultPool = find(pools, pool => pool.collateralAddress === vaultAddress)
   try {
     const userBalanceInVault = new BigNumber(
-      userStats[vaultPool.id] && userStats[vaultPool.id].lpTokenBalance,
+      userStats[vaultPool?.id] && userStats[vaultPool?.id].lpTokenBalance,
     )
 
     if (vaultPool && vaultPool.contractInstance) {
@@ -48,6 +48,7 @@ export const calculateFarmingBalance = async (pools, userStats, vaultSymbol, vau
     }
   } catch (err) {
     console.error(err)
+    console.log('vaultSymbol: ', vaultSymbol)
     farmedBalance = 'error'
   }
 

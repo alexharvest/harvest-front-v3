@@ -1,14 +1,15 @@
 import BigNumber from 'bignumber.js'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import { useMediaQuery } from 'react-responsive'
-import { isEmpty, isNaN } from 'lodash'
+import { isNaN } from 'lodash'
 import { BsArrowUp } from 'react-icons/bs'
 import { CiSettings } from 'react-icons/ci'
 import { PiQuestion } from 'react-icons/pi'
 import { IoIosArrowUp } from 'react-icons/io'
 import ReactTooltip from 'react-tooltip'
 import { Spinner } from 'react-bootstrap'
+import { useHistory } from 'react-router-dom'
 import AlertIcon from '../../../../assets/images/logos/beginners/alert-triangle.svg'
 import AlertCloseIcon from '../../../../assets/images/logos/beginners/alert-close.svg'
 import CloseIcon from '../../../../assets/images/logos/beginners/close.svg'
@@ -17,9 +18,10 @@ import ProgressTwo from '../../../../assets/images/logos/advancedfarm/progress-s
 import ProgressThree from '../../../../assets/images/logos/advancedfarm/progress-step3.png'
 import ProgressFour from '../../../../assets/images/logos/advancedfarm/progress-step4.png'
 import ProgressFive from '../../../../assets/images/logos/advancedfarm/progress-step5.png'
-import { chainList, directDetailUrl, IFARM_TOKEN_SYMBOL } from '../../../../constants'
+import { IFARM_TOKEN_SYMBOL } from '../../../../constants'
 import { useActions } from '../../../../providers/Actions'
 import { useVaults } from '../../../../providers/Vault'
+import { useContracts } from '../../../../providers/Contracts'
 import { useWallet } from '../../../../providers/Wallet'
 import { usePools } from '../../../../providers/Pools'
 import { usePortals } from '../../../../providers/Portals'
@@ -29,6 +31,7 @@ import { getWeb3, fromWei } from '../../../../services/web3'
 import { formatNumberWido, showTokenBalance } from '../../../../utilities/formats'
 import AnimatedDots from '../../../AnimatedDots'
 import { addresses } from '../../../../data'
+import { getMatchedVaultList } from '../../../../utilities/parsers'
 import {
   Buttons,
   FTokenInfo,
@@ -47,15 +50,16 @@ import {
   SlippageBtn,
   ProgressLabel,
   ProgressText,
-  AVRWrapper,
-  AVRContainer,
-  AVRBadge,
-  ApyValue,
-  TopLogo,
-  LogoImg,
+  BigLogoImg,
+  VaultContainer,
+  HighestVault,
+  ImagePart,
+  NamePart,
+  ImageName,
 } from './style'
 
 const WithdrawStart = ({
+  groupOfVaults,
   unstakeInputValue,
   withdrawStart,
   setWithdrawStart,
@@ -74,7 +78,6 @@ const WithdrawStart = ({
   revertMinReceivedUsdAmount,
   setUnstakeInputValue,
   setRevertSuccess,
-  altVaultData,
 }) => {
   const {
     darkMode,
@@ -82,14 +85,14 @@ const WithdrawStart = ({
     fontColor1,
     fontColor2,
     fontColor3,
-    fontColor5,
     bgColorSlippage,
     borderColor,
-    bgColorMessage,
-    hoverColorAVR,
+    btnHoverColor,
   } = useThemeContext()
-  const { account, web3 } = useWallet()
-  const { fetchUserPoolStats, userStats } = usePools()
+  const { account, web3, getWalletBalances } = useWallet()
+  const { fetchUserPoolStats, userStats, pools } = usePools()
+  const { contracts } = useContracts()
+  const { push } = useHistory()
   const [slippagePercentage, setSlippagePercentage] = useState(null)
   const [slippageSetting, setSlippageSetting] = useState(false)
   const [customSlippage, setCustomSlippage] = useState(null)
@@ -101,11 +104,39 @@ const WithdrawStart = ({
   const [startSpinner, setStartSpinner] = useState(false) // State of Spinner for 'Finalize Deposit' button
   const [revertedAmount, setRevertedAmount] = useState('')
   const [revertedAmountUsd, setRevertedAmountUsd] = useState('')
-  const { handleWithdraw } = useActions()
+  const { handleWithdraw, handleIPORWithdraw } = useActions()
   const { vaultsData } = useVaults()
   const { rates } = useRate()
   const [currencySym, setCurrencySym] = useState('$')
   const [currencyRate, setCurrencyRate] = useState(1)
+  const [highestApyLogo, setHighestApyLogo] = useState([])
+  const [tokenNames, setTokenNames] = useState([])
+  const [platformNames, setPlatformNames] = useState([])
+  const [topApyVault, setTopApyVault] = useState()
+  const [fromTokenAddress, setFromTokenAddress] = useState()
+  const [toVaultAddress, setToVaultAddress] = useState()
+  const [matchVaultList, setMatchVaultList] = useState([])
+  // eslint-disable-next-line no-unused-vars
+  const [networkName, setNetworkName] = useState('')
+  const isFetchingRef = useRef(false)
+
+  const curChain = token.poolVault ? token.data.chain : token.chain
+  const tokenName = token.isIPORVault ? tokenSymbol : `f${tokenSymbol}`
+
+  useEffect(() => {
+    const tokenChain = token.poolVault ? token.data.chain : token.chain
+    const network =
+      Number(tokenChain) === 42161
+        ? 'Arbitrum'
+        : Number(tokenChain) === 8453
+        ? 'Base'
+        : Number(tokenChain) === 324
+        ? 'Zksync'
+        : Number(tokenChain) === 137
+        ? 'Polygon'
+        : 'Ethereum'
+    setNetworkName(network)
+  }, [token])
 
   useEffect(() => {
     if (rates.rateData) {
@@ -114,10 +145,9 @@ const WithdrawStart = ({
     }
   }, [rates])
 
-  const { getPortalsApproval, portalsApprove, getPortals } = usePortals()
+  const { getPortalsApproval, portalsApprove, getPortals, getPortalsSupport } = usePortals()
 
-  let pickedDefaultToken,
-    totalApy = 0
+  let pickedDefaultToken
   if (pickedToken.symbol !== 'Select' && defaultToken) {
     pickedDefaultToken = pickedToken.address.toLowerCase() === defaultToken.address.toLowerCase()
   }
@@ -141,14 +171,6 @@ const WithdrawStart = ({
     }
   }
 
-  if (!isEmpty(altVaultData)) {
-    totalApy =
-      Number(altVaultData?.estimatedApy) +
-      Number(altVaultData?.pool?.tradingApy) +
-      Number(altVaultData?.pool?.totalRewardAPY)
-    totalApy = isNaN(totalApy) ? 0 : totalApy.toFixed(2)
-  }
-
   const chainId = token.chain || token.data.chain
   const fromToken = useIFARM ? addresses.iFARM : token.vaultAddress || token.tokenAddress
 
@@ -166,6 +188,7 @@ const WithdrawStart = ({
   }
 
   const startWithdraw = async () => {
+    const tokenSym = token.isIPORVault ? token.id : tokenSymbol
     if (progressStep === 0) {
       setStartSpinner(true)
       setProgressStep(1)
@@ -203,24 +226,37 @@ const WithdrawStart = ({
         setProgressStep(3)
         setButtonName('Pending Confirmation in Wallet')
         setStartSpinner(true)
-        isSuccess = await handleWithdraw(
-          account,
-          useIFARM ? IFARM_TOKEN_SYMBOL : tokenSymbol,
-          unstakeBalance,
-          vaultsData,
-          null,
-          false,
-          null,
-          async () => {
-            await fetchUserPoolStats([fAssetPool], account, userStats)
-          },
-          async () => {
-            setWithdrawFailed(true)
-            setStartSpinner(false)
-            setProgressStep(0)
-            setButtonName('Approve Token')
-          },
-        )
+        let assetBal
+        if (token.isIPORVault) {
+          const vaultContract = contracts.iporVaults[token.id]
+          assetBal = await vaultContract.methods.convertToAssets(
+            vaultContract.instance,
+            unstakeBalance,
+          )
+        }
+        isSuccess = token.isIPORVault
+          ? await handleIPORWithdraw(account, token, assetBal, async () => {
+              await getWalletBalances([token.id], false, true)
+              await fetchUserPoolStats([fAssetPool], account, userStats)
+            })
+          : await handleWithdraw(
+              account,
+              useIFARM ? IFARM_TOKEN_SYMBOL : tokenSym,
+              unstakeBalance,
+              vaultsData,
+              null,
+              false,
+              null,
+              async () => {
+                await fetchUserPoolStats([fAssetPool], account, userStats)
+              },
+              async () => {
+                setWithdrawFailed(true)
+                setStartSpinner(false)
+                setProgressStep(0)
+                setButtonName('Approve Token')
+              },
+            )
       } else {
         try {
           setProgressStep(3)
@@ -272,6 +308,7 @@ const WithdrawStart = ({
         setWithdrawFailed(false)
         setProgressStep(4)
         setButtonName('Success! Close this window.')
+        await getWalletBalances([token.id], false, true)
       }
     } else if (progressStep === 4) {
       setRevertSuccess(true)
@@ -299,6 +336,85 @@ const WithdrawStart = ({
     }
   }
 
+  useEffect(() => {
+    let activedList = []
+    if (chainId) {
+      const matched = getMatchedVaultList(groupOfVaults, chainId, vaultsData, pools)
+      if (matched.length > 0) {
+        activedList = matched.filter(
+          el => el.vaultApy !== 0 && el.vaultTvl > 500 && el.vault?.tokenNames.length === 1,
+        )
+      }
+    }
+
+    const fetchSupportedMatches = async () => {
+      if (isFetchingRef.current) {
+        return
+      }
+      isFetchingRef.current = true
+      const filteredMatchList = []
+
+      if (activedList.length > 0) {
+        activedList.sort((a, b) => b.vaultApy - a.vaultApy)
+        const newArray = activedList.slice(0, 10)
+        // eslint-disable-next-line no-restricted-syntax
+        for (const item of newArray) {
+          if (
+            item.vaultApy !== 0 &&
+            item.vault.vaultAddress.toLowerCase() !== '0x47e3daf382c4603450905fb68766db8308315407'
+          ) {
+            const mToken = item.vault
+            const tokenAddress = useIFARM
+              ? addresses.iFARM
+              : mToken.vaultAddress || mToken.tokenAddress
+            // eslint-disable-next-line no-await-in-loop
+            const portalsToken = await getPortalsSupport(chainId, tokenAddress)
+            if (portalsToken) {
+              if (portalsToken.status === 200) {
+                if (portalsToken.data.totalItems !== 0) {
+                  filteredMatchList.push(item)
+                }
+              }
+            } else {
+              console.log('Error in fetching Portals supported')
+            }
+          }
+        }
+      }
+      if (filteredMatchList.length > 0) {
+        setMatchVaultList(filteredMatchList)
+      }
+
+      isFetchingRef.current = false
+    }
+
+    fetchSupportedMatches()
+  }, [chainId, pools, setMatchVaultList, token]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (
+      matchVaultList.length > 0 &&
+      token.vaultAddress.toLowerCase() !== matchVaultList[0].vault.vaultAddress.toLowerCase()
+    ) {
+      setHighestApyLogo(matchVaultList[0].vault.logoUrl)
+      setTokenNames(matchVaultList[0].vault.tokenNames)
+      setPlatformNames(matchVaultList[0].vault.platform)
+      setTopApyVault(matchVaultList[0].vaultApy)
+      setFromTokenAddress(token.vaultAddress.toLowerCase())
+      setToVaultAddress(matchVaultList[0].vault.vaultAddress.toLowerCase())
+    } else if (
+      matchVaultList.length > 0 &&
+      token.vaultAddress.toLowerCase() === matchVaultList[0].vault.vaultAddress.toLowerCase()
+    ) {
+      setHighestApyLogo(matchVaultList[1].vault.logoUrl)
+      setTokenNames(matchVaultList[1].vault.tokenNames)
+      setPlatformNames(matchVaultList[1].vault.platform)
+      setTopApyVault(matchVaultList[1].vaultApy)
+      setFromTokenAddress(token.vaultAddress.toLowerCase())
+      setToVaultAddress(matchVaultList[1].vault.vaultAddress.toLowerCase())
+    }
+  }, [matchVaultList, token]) // eslint-disable-line react-hooks/exhaustive-deps
+
   return (
     <Modal
       show={withdrawStart}
@@ -317,7 +433,7 @@ const WithdrawStart = ({
             </NewLabel>
             <NewLabel textAlign="left" marginRight="12px">
               <NewLabel
-                color="#15B088"
+                color="#5dcf46"
                 size={isMobile ? '18px' : '18px'}
                 height={isMobile ? '28px' : '28px'}
                 weight="600"
@@ -383,7 +499,7 @@ const WithdrawStart = ({
                   )}
                 </>
                 <NewLabel display="flex" flexFlow="column" weight="600" textAlign="right">
-                  <span>{useIFARM ? `i${tokenSymbol}` : `f${tokenSymbol}`}</span>
+                  <span>{useIFARM ? `i${tokenSymbol}` : tokenName}</span>
                   <span>
                     {revertFromInfoUsdAmount !== '' ? (
                       <>≈{revertFromInfoUsdAmount}</>
@@ -479,8 +595,7 @@ const WithdrawStart = ({
                       </NewLabel>
                     </ReactTooltip>
                   </>
-                  {/* {(revertMinReceivedAmount + pickedToken.symbol).length > 20 ? <br /> : ' '} */}
-                  {pickedToken.symbol}
+                  <span>{pickedToken.symbol}</span>
                 </>
                 <span>
                   {!pickedDefaultToken && progressStep === 4 ? (
@@ -613,76 +728,87 @@ const WithdrawStart = ({
               Successful
             </ProgressText>
           </ProgressLabel>
-          {!isEmpty(altVaultData) && progressStep === 4 && (
-            <>
+          {Number(curChain) !== 324 && (
+            <NewLabel>
               <NewLabel
-                size="14px"
-                height="28px"
-                weight={600}
-                color={fontColor2}
-                margin="25px 24px 0px 24px"
+                color={darkMode ? '#ffffff' : '#344054'}
+                size={isMobile ? '14px' : '14px'}
+                height={isMobile ? '20px' : '28px'}
+                weight="600"
+                padding="20px 24px 0px 24px"
               >
-                Looking for alternatives?
+                Other users also like
               </NewLabel>
-              <AVRWrapper bgColor={bgColorMessage}>
-                <AVRContainer
-                  hoverColorAVR={hoverColorAVR}
-                  onClick={() => {
-                    let badgeId = -1
-                    const chain = token.chain || token.data.chain
-                    chainList.forEach((obj, j) => {
-                      if (obj.chainId === Number(chain)) {
-                        badgeId = j
-                      }
-                    })
-                    const isSpecialVault = altVaultData.liquidityPoolVault || altVaultData.poolVault
-                    const network = chainList[badgeId].name.toLowerCase()
-                    const address = isSpecialVault
-                      ? altVaultData.data.collateralAddress
-                      : altVaultData.vaultAddress || altVaultData.tokenAddress
-                    const url = `${directDetailUrl + network}/${address}`
-                    window.open(url, '_blank')
+              <NewLabel
+                color={darkMode ? '#ffffff' : '#15202b'}
+                size={isMobile ? '14px' : '10px'}
+                height={isMobile ? '20px' : '20px'}
+                weight="400"
+                padding="0px 24px"
+              >
+                Click on the new opportunity below to open a Migrate tool.
+              </NewLabel>
+              <VaultContainer>
+                <HighestVault
+                  className="highest-vault"
+                  onClick={e => {
+                    const url = `/migrate?from=${fromTokenAddress}&to=${toVaultAddress}&chain=${chainId}`
+                    // token.vaultAddress.toLowerCase() !==
+                    // highestApyVault.vault.vaultAddress.toLowerCase()
+                    //   ? `/migrate?from=${token.vaultAddress.toLowerCase()}&to=${highestApyVault.vault.vaultAddress.toLowerCase()}&chain=${chainId}`
+                    //   : `/migrate?from=${token.vaultAddress.toLowerCase()}&to=${secHighApyVault.vault.vaultAddress.toLowerCase()}&chain=${chainId}`
+                    if (e.ctrlKey) {
+                      window.open(url, '_blank')
+                    } else {
+                      push(url)
+                    }
                   }}
                 >
-                  <NewLabel marginRight="12px" display="flex">
-                    <TopLogo>
-                      {altVaultData.logoUrl.map((el, i) => (
-                        <LogoImg className="logo" src={el.slice(1, el.length)} key={i} alt="" />
-                      ))}
-                    </TopLogo>
-                    <NewLabel marginLeft="20px">
+                  <ImageName>
+                    <ImagePart>
+                      {highestApyLogo.length === 0 ? (
+                        <AnimatedDots />
+                      ) : (
+                        highestApyLogo.map((el, i) => {
+                          return (
+                            <BigLogoImg
+                              key={i}
+                              className="logo-img"
+                              zIndex={10 - i}
+                              src={`.${el}`}
+                              alt={tokenNames[i]}
+                            />
+                          )
+                        })
+                      )}
+                    </ImagePart>
+                    <NamePart>
                       <NewLabel
-                        color={fontColor1}
-                        size="14px"
-                        height="20px"
+                        color="#15202b"
+                        size={isMobile ? '14px' : '14px'}
+                        height={isMobile ? '20px' : '20px'}
                         weight="600"
-                        marginBottom="4px"
+                        padding="0px 10px"
                       >
-                        {altVaultData.tokenNames.join(' • ')}
+                        {tokenNames.length === 0 ? <AnimatedDots /> : tokenNames.join(' - ')}
                       </NewLabel>
                       <NewLabel
-                        color={fontColor1}
-                        size="12px"
-                        height="20px"
+                        color="#15202b"
+                        size={isMobile ? '14px' : '10px'}
+                        height={isMobile ? '20px' : '20px'}
                         weight="400"
-                        marginBottom="5px"
+                        padding="0px 10px"
                       >
-                        {altVaultData.platform[0]}
+                        {platformNames.length === 0 ? <AnimatedDots /> : platformNames.join(', ')}
                       </NewLabel>
-                      <ApyValue bgColor={bgColorMessage} color={fontColor5}>
-                        {totalApy}% APY
-                      </ApyValue>
-                    </NewLabel>
-                  </NewLabel>
-                  <AVRBadge>
-                    Popular{' '}
-                    <span role="img" aria-label="thumb" aria-labelledby="thumb">
-                      🔥
-                    </span>
-                  </AVRBadge>
-                </AVRContainer>
-              </AVRWrapper>
-            </>
+                    </NamePart>
+                  </ImageName>
+                  <ImageName className="top-apy">
+                    {topApyVault ? `${topApyVault}% APY` : <AnimatedDots />}
+                  </ImageName>
+                </HighestVault>
+              </VaultContainer>
+            </NewLabel>
           )}
           <NewLabel
             size={isMobile ? '16px' : '16px'}
@@ -700,6 +826,7 @@ const WithdrawStart = ({
               )}
             </SlippageBox>
             <Buttons
+              hoverColor={btnHoverColor}
               onClick={() => {
                 startWithdraw()
               }}
@@ -761,7 +888,7 @@ const WithdrawStart = ({
                 fontColor2={fontColor2}
                 backColor={backColor}
                 borderColor={
-                  customSlippage === null || customSlippage === 0 ? borderColor : '#15b088'
+                  customSlippage === null || customSlippage === 0 ? borderColor : '#5dcf46'
                 }
               >
                 <input
@@ -781,11 +908,11 @@ const WithdrawStart = ({
                     ? '#0C111D'
                     : '#fff'
                 }
-                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#15b088'}
+                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#5dcf46'}
                 cursor={customSlippage === null || customSlippage === 0 ? 'not-allowed' : 'pointer'}
-                hoverColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#2ccda4'}
+                hoverColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#51e932'}
                 activeColor={
-                  customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#4fdfbb'
+                  customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#46eb25'
                 }
               >
                 {slippageBtnLabel}

@@ -5,9 +5,6 @@ const SocialsContainer = styled.div`
   flex-direction: row;
   transition: 0.25s;
   margin-left: 15px;
-  a {
-    background: #344054;
-  }
 
   @media screen and (max-width: 1200px) {
     flex-direction: row;
@@ -27,14 +24,15 @@ const Social = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30px;
-  margin-right: 8px;
-  height: 30px;
+  margin-right: ${props => (props.marginRight ? props.marginRight : '12px')};
   text-decoration: none;
-  border-radius: 5px;
 
   img {
     margin: auto;
+    ${props =>
+      props.darkMode
+        ? 'filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%);'
+        : ''};
   }
 `
 
