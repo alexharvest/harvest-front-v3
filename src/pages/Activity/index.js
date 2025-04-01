@@ -18,7 +18,12 @@ import {
   getUserBalanceVaults,
   initBalanceAndDetailData,
 } from '../../utilities/apiCalls'
-import { mergeArrays, totalHistoryDataKey } from '../../utilities/parsers'
+import {
+  mergeArrays,
+  totalHistoryDataKey,
+  totalNetProfitKey,
+  vaultProfitDataKey,
+} from '../../utilities/parsers'
 import { Container, Inner, HeaderWrap, HeaderTitle, NewLabel, SwitchTabTag } from './style'
 
 const Activity = () => {
@@ -45,6 +50,12 @@ const Activity = () => {
   const [noHarvestsData, setNoHarvestsData] = useState(false)
   const [noRewardsData, setNoRewardsData] = useState(false)
   const [activeHarvests, setActiveHarvests] = useState(true)
+  const [, setTotalNetProfit] = useState(() => {
+    return Number(localStorage.getItem(totalNetProfitKey) || '0')
+  })
+  const [, setVaultNetChangeList] = useState(() => {
+    return JSON.parse(localStorage.getItem(vaultProfitDataKey) || '[]')
+  })
   const [totalHistoryData, setTotalHistoryData] = useState(() => {
     return JSON.parse(localStorage.getItem(totalHistoryDataKey) || '[]')
   })
@@ -93,11 +104,18 @@ const Activity = () => {
   )
 
   useEffect(() => {
-    if (totalHistoryData.length === 0) {
+    const totalNetProfitValue = localStorage.getItem(totalNetProfitKey)
+
+    if (
+      Number(totalNetProfitValue) === 0 ||
+      totalNetProfitValue === null ||
+      Number(totalNetProfitValue) === -1
+    ) {
       if (!isEmpty(userStats) && account && !onceRun) {
         setOnceRun(true)
         const getNetProfitValue = async () => {
-          let combinedEnrichedData = [],
+          let totalNetProfitUSD = 0,
+            combinedEnrichedData = [],
             cumulativeLifetimeYield = 0
 
           const { userBalanceVaults } = await getUserBalanceVaults(account)
@@ -123,6 +141,7 @@ const Activity = () => {
                     groupOfVaults[key]?.chain,
                   )
                 : false
+
               if (iporBalCheck && !stakedVaults.includes(key)) {
                 stakedVaults.push(key)
               }
@@ -196,10 +215,18 @@ const Activity = () => {
                 chain: tokenChain,
               }))
               combinedEnrichedData = combinedEnrichedData.concat(enrichedDataWithSymbol)
+              totalNetProfitUSD += sumNetChangeUsd
             }
           })
 
           await Promise.all(promises)
+
+          totalNetProfitUSD = totalNetProfitUSD === 0 ? -1 : totalNetProfitUSD
+          setTotalNetProfit(totalNetProfitUSD)
+          localStorage.setItem(totalNetProfitKey, totalNetProfitUSD.toString())
+
+          setVaultNetChangeList(vaultNetChanges)
+          localStorage.setItem(vaultProfitDataKey, JSON.stringify(vaultNetChanges))
 
           const { rewardsAPIData } = await getAllRewardEntities(account)
 
@@ -232,6 +259,10 @@ const Activity = () => {
 
         getNetProfitValue()
       } else {
+        setTotalNetProfit(0)
+        localStorage.setItem(totalNetProfitKey, '0')
+        setVaultNetChangeList([])
+        localStorage.setItem(vaultProfitDataKey, JSON.stringify([]))
         setTotalHistoryData([])
         localStorage.setItem(totalHistoryDataKey, JSON.stringify([]))
       }

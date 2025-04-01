@@ -696,11 +696,11 @@ const Portfolio = () => {
                     groupOfVaults[key]?.chain,
                   )
                 : false
+
               if (iporBalCheck && !stakedVaults.includes(key)) {
                 stakedVaults.push(key)
               }
             }
-            /* eslint-disable no-restricted-syntax, no-await-in-loop */
           }
 
           const vaultNetChanges = []
@@ -742,11 +742,10 @@ const Portfolio = () => {
                 fAssetPool = token.data
               }
 
+              const iporVFlag = token.isIPORVault ?? false
               const paramAddress = isSpecialVault
                 ? token.data.collateralAddress
                 : token.vaultAddress || token.tokenAddress
-
-              const iporVFlag = token.isIPORVault ?? false
               const { sumNetChangeUsd, enrichedData } = await initBalanceAndDetailData(
                 paramAddress,
                 useIFARM ? token.data.chain : token.chain,
@@ -1220,16 +1219,24 @@ const Portfolio = () => {
                       ? farmTokenList.map((el, i) => {
                           const info = farmTokenList[i]
                           let lifetimeYield = -1
-                          vaultNetChangeList.some(item => {
-                            if (
-                              (item.id === FARM_TOKEN_SYMBOL && item.id === info.symbol) ||
-                              item.id === info.token?.pool?.id
-                            ) {
-                              lifetimeYield = item.sumNetChangeUsd
-                              return true
+                          if (vaultNetChangeList.length > 0) {
+                            let found = false
+                            vaultNetChangeList.some(item => {
+                              if (
+                                (item.id === FARM_TOKEN_SYMBOL && item.id === info.symbol) ||
+                                item.id === info.token?.pool?.id ||
+                                (info.token?.isIPORVault && item.id === info.token?.id)
+                              ) {
+                                lifetimeYield = item.sumNetChangeUsd
+                                found = true
+                                return true
+                              }
+                              return false
+                            })
+                            if (!found) {
+                              lifetimeYield = 0
                             }
-                            return false
-                          })
+                          }
                           return (
                             <VaultRow
                               key={i}
@@ -1244,17 +1251,24 @@ const Portfolio = () => {
                       : filteredFarmList.map((el, i) => {
                           const info = filteredFarmList[i]
                           let lifetimeYield = -1
-                          vaultNetChangeList.some(item => {
-                            if (
-                              (item.id === FARM_TOKEN_SYMBOL && item.id === info.symbol) ||
-                              item.id === info.token?.pool?.id ||
-                              (info.token?.isIPORVault && item.id === info.token?.id)
-                            ) {
-                              lifetimeYield = item.sumNetChangeUsd
-                              return true
+                          if (vaultNetChangeList.length > 0) {
+                            let found = false
+                            vaultNetChangeList.some(item => {
+                              if (
+                                (item.id === FARM_TOKEN_SYMBOL && item.id === info.symbol) ||
+                                item.id === info.token?.pool?.id ||
+                                (info.token?.isIPORVault && item.id === info.token?.id)
+                              ) {
+                                lifetimeYield = item.sumNetChangeUsd
+                                found = true
+                                return true
+                              }
+                              return false
+                            })
+                            if (!found) {
+                              lifetimeYield = 0
                             }
-                            return false
-                          })
+                          }
                           return (
                             <VaultRow
                               key={i}

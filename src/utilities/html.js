@@ -193,7 +193,7 @@ export const getAdvancedRewardText = (
 
     return tooltipText
   }
-  if (vaultPool.id === 'fweth-farm') {
+  if (vaultPool && vaultPool.id === 'fweth-farm') {
     components.push(`<b>${displayAPY(farmAPY)}:</b> <b>FARM</b> rewards`)
     if (Object.keys(get(vaultPool, 'vestingDescriptionOverride', [])).includes(FARM_TOKEN_SYMBOL)) {
       components.push(vaultPool.vestingDescriptionOverride[FARM_TOKEN_SYMBOL])
@@ -212,9 +212,9 @@ export const getAdvancedRewardText = (
     return tooltipText
   }
 
-  const isIFARM = vaultPool.rewardTokens[0] === addresses.iFARM
+  const isIFARM = vaultPool && vaultPool.rewardTokens[0] === addresses.iFARM
 
-  if (isSpecialVault && vaultPool.id === SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID) {
+  if (isSpecialVault && vaultPool && vaultPool.id === SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID) {
     components.push(
       `<div class="detail-box">
         <div class="detail-box-main">

@@ -526,6 +526,7 @@ const Sidebar = ({ width }) => {
                           directAction(url)
                         }
                       }}
+                      darkMode={darkMode}
                     >
                       <SideLink
                         item={item}

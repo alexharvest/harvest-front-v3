@@ -36,6 +36,13 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
   const [currencySym, setCurrencySym] = useState('$')
   const [currencyRate, setCurrencyRate] = useState(1)
 
+  useEffect(() => {
+    if (rates.rateData) {
+      setCurrencySym(rates.currency.icon)
+      setCurrencyRate(rates.rateData[rates.currency.symbol])
+    }
+  }, [rates])
+
   const token = info.token
   const chain = token.chain || token.data.chain
 
@@ -52,13 +59,6 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
     ? token.data.collateralAddress
     : token.vaultAddress || token.tokenAddress
   const url = `${directDetailUrl}${network}/${address}?from=portfolio`
-
-  useEffect(() => {
-    if (rates.rateData) {
-      setCurrencySym(rates.currency.icon)
-      setCurrencyRate(rates.rateData[rates.currency.symbol])
-    }
-  }, [rates])
 
   return (
     <DetailView

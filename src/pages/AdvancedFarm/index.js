@@ -1487,9 +1487,15 @@ const AdvancedFarm = () => {
     { label: 'Lifetime', value: formatFrequency(harvestFrequency) },
   ]
 
-  const rewardTxt = token.isIPORVault
-    ? ''
-    : getAdvancedRewardText(token, vaultPool, tradingApy, farmAPY, totalApy, true, boostedRewardAPY)
+  const rewardTxt = getAdvancedRewardText(
+    token,
+    vaultPool,
+    tradingApy,
+    farmAPY,
+    totalApy,
+    true,
+    boostedRewardAPY,
+  )
 
   const profitShare =
     chain === CHAIN_IDS.ETH_MAINNET ? '10' : chain === CHAIN_IDS.POLYGON_MAINNET ? '5' : '7'
