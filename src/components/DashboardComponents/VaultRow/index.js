@@ -20,7 +20,7 @@ import {
   NewLabel,
 } from './style'
 
-const VaultRow = ({ info, lifetimeYield, firstElement, lastElement, cKey, darkMode }) => {
+const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
   const { push } = useHistory()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
   const {
@@ -43,35 +43,46 @@ const VaultRow = ({ info, lifetimeYield, firstElement, lastElement, cKey, darkMo
     }
   }, [rates])
 
+  const token = info.token
+  const chain = token.chain || token.data.chain
+
+  let badgeId = -1
+  chainList.forEach((obj, j) => {
+    if (obj.chainId === Number(chain)) {
+      badgeId = j
+    }
+  })
+
+  const isSpecialVault = token.liquidityPoolVault || token.poolVault
+  const network = chainList[badgeId]?.name.toLowerCase()
+  const address = isSpecialVault
+    ? token.data.collateralAddress
+    : token.vaultAddress || token.tokenAddress
+  const url = `${directDetailUrl}${network}/${address}?from=portfolio`
+
   return (
     <DetailView
+      as="a"
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
       className="position-row"
-      firstElement={firstElement}
-      lastElement={lastElement}
-      borderColor={borderColorBox}
-      hoverColor={hoverColorRow}
       key={cKey}
       mode={switchMode}
       background={bgColorNew}
-      onClick={() => {
-        let badgeId = -1
-        const token = info.token
-        const chain = token.chain || token.data.chain
-        chainList.forEach((obj, j) => {
-          if (obj.chainId === Number(chain)) {
-            badgeId = j
-          }
-        })
-        const isSpecialVault = token.liquidityPoolVault || token.poolVault
-        const network = chainList[badgeId].name.toLowerCase()
-        const address = isSpecialVault
-          ? token.data.collateralAddress
-          : token.vaultAddress || token.tokenAddress
-
-        push(`${directDetailUrl + network}/${address}?from=portfolio`)
+      onClick={e => {
+        if (!e.ctrlKey) {
+          e.preventDefault()
+          push(url)
+        }
       }}
     >
-      <FlexDiv padding={isMobile ? '25px' : '0'}>
+      <FlexDiv
+        lastElement={lastElement}
+        padding={isMobile ? '25px' : '16px 24px'}
+        hoverColor={hoverColorRow}
+        borderColor={borderColorBox}
+      >
         {!isMobile && (
           <>
             <Content width={isMobile ? '100%' : '40%'} display={isMobile ? 'block' : 'flex'}>

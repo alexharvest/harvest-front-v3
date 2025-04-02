@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Dropdown, Offcanvas } from 'react-bootstrap'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory, useLocation, Link } from 'react-router-dom'
 import { SlArrowDown } from 'react-icons/sl'
 import { IoCloseCircleOutline } from 'react-icons/io5'
 import ConnectSuccessIcon from '../../assets/images/logos/sidebar/connect-success.svg'
@@ -29,7 +29,7 @@ import {
   totalNetProfitKey,
   vaultProfitDataKey,
 } from '../../utilities/parsers'
-import { formatAddress, isLedgerLive, isSpecialApp } from '../../utilities/formats'
+import { formatAddress, isSpecialApp } from '../../utilities/formats'
 import Social from '../Social'
 import CopyIcon from '../../assets/images/logos/sidebar/copy.svg'
 import WhiteCopyIcon from '../../assets/images/logos/sidebar/white-copy.svg'
@@ -41,7 +41,7 @@ import {
   Container,
   FlexDiv,
   Layout,
-  Link,
+  LinkWrap,
   LinkContainer,
   LinksContainer,
   MobileFollow,
@@ -248,7 +248,7 @@ const SideLink = ({
       : pathname
   return (
     /* eslint-disable-next-line jsx-a11y/anchor-is-valid */
-    <Link
+    <LinkWrap
       fontColor1={fontColor1}
       active={pageName.includes(item.name.toLowerCase().trim())}
       subItem={subItem}
@@ -269,7 +269,7 @@ const SideLink = ({
       </div>
       <div className="item-name">{item.name}</div>
       {item.new ? <NewTag>New</NewTag> : <></>}
-    </Link>
+    </LinkWrap>
   )
 }
 
@@ -496,64 +496,83 @@ const Sidebar = ({ width }) => {
                 )
               })()}
 
-              {sideLinksTop.map(item =>
-                !isLedgerLive() ||
-                (isLedgerLive() && (chainId === CHAIN_IDS.BASE || chainId !== CHAIN_IDS.BASE)) ? (
-                  item.category === true ? (
+              {sideLinksTop.map(item => {
+                if (item.category === true) {
+                  return (
                     <CategoryRow key={item.name} color={fontColor7}>
                       {item.name}
                     </CategoryRow>
-                  ) : (
-                    <Fragment key={item.name}>
-                      <LinkContainer
-                        active={pathname.includes(item.path)}
-                        activeColor={item.activeColor}
-                        hoverImgColor={hoverImgColor}
-                        onClick={() => {
-                          if (item.newTab) {
-                            window.open(item.path, '_blank')
-                          } else if (item.enabled !== false) {
-                            directAction(item.path)
-                          }
-                        }}
-                        darkMode={darkMode}
-                      >
-                        <SideLink
-                          item={item}
-                          isDropdownLink={item.path === '#'}
-                          fontColor1={fontColor1}
-                          activeIconColor={sidebarActiveIconColor}
-                          darkMode={darkMode}
-                          hoverColorSide={hoverColorSide}
-                        />
-                      </LinkContainer>
-                    </Fragment>
                   )
-                ) : (
-                  <></>
-                ),
-              )}
+                }
+                const url = item.path
+                const isActive = pathname.includes(item.path)
+                const shouldOpenNewTab = item.newTab || item.enabled === false
+
+                return (
+                  <Link to={url} key={item.name} style={{ textDecoration: 'none' }}>
+                    <LinkContainer
+                      href={url}
+                      target={shouldOpenNewTab ? '_blank' : '_self'}
+                      rel="noopener noreferrer"
+                      active={isActive}
+                      activeColor={item.activeColor}
+                      hoverImgColor={hoverImgColor}
+                      onClick={e => {
+                        if (e.ctrlKey || e.button === 1) {
+                          e.preventDefault()
+                          const newTab = window.open(url, '_blank', 'noopener noreferrer')
+                          if (newTab) newTab.opener = null
+                        } else {
+                          directAction(url)
+                        }
+                      }}
+                      darkMode={darkMode}
+                    >
+                      <SideLink
+                        item={item}
+                        isDropdownLink={item.path === '#'}
+                        fontColor1={fontColor1}
+                        activeIconColor={sidebarActiveIconColor}
+                        darkMode={darkMode}
+                        hoverColorSide={hoverColorSide}
+                      />
+                    </LinkContainer>
+                  </Link>
+                )
+              })}
             </LinksContainer>
           </MiddleActionsContainer>
         </Layout>
 
         <BottomPart>
           <LinksContainer>
-            {sideLinksBottom.map(item =>
-              item.category === true ? (
-                <CategoryRow key={item.name} color={fontColor7}>
-                  {item.name}
-                </CategoryRow>
-              ) : (
+            {sideLinksBottom.map(item => {
+              if (item.category === true) {
+                return (
+                  <CategoryRow key={item.name} color={fontColor7}>
+                    {item.name}
+                  </CategoryRow>
+                )
+              }
+              const url = item.path
+              const isActive = pathname.includes(item.path)
+              const shouldOpenNewTab = item.newTab || item.enabled === false
+
+              return (
                 <Fragment key={item.name}>
                   <LinkContainer
-                    active={pathname.includes(item.path)}
+                    href={url}
+                    target={shouldOpenNewTab ? '_blank' : '_self'}
+                    rel="noopener noreferrer"
+                    active={isActive}
                     hoverImgColor={hoverImgColor}
-                    onClick={() => {
-                      if (item.newTab) {
-                        window.open(item.path, '_blank')
+                    onClick={e => {
+                      if (e.ctrlKey || e.button === 1) {
+                        e.preventDefault()
+                        const newTab = window.open(url, '_blank', 'noopener noreferrer')
+                        if (newTab) newTab.opener = null
                       } else {
-                        directAction(item.path)
+                        directAction(url)
                       }
                     }}
                   >
@@ -568,8 +587,8 @@ const Sidebar = ({ width }) => {
                     />
                   </LinkContainer>
                 </Fragment>
-              ),
-            )}
+              )
+            })}
           </LinksContainer>
         </BottomPart>
       </Desktop>

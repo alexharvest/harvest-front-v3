@@ -40,17 +40,11 @@ const DesktopPanelHeader = ({
 
   const { fontColor, fontColor1, borderColorBox, setPrevPage } = useThemeContext()
 
-  const mouseDownHandler = event => {
-    if (event.button === 1) {
-      const network = chainList[badgeId].name.toLowerCase()
-      const address = isSpecialVault
-        ? token.data.collateralAddress
-        : token.vaultAddress || token.tokenAddress
-      setPrevPage(window.location.href)
-      const url = `${directDetailUrl}${network}/${address}${location.search}`
-      window.open(url, '_blank')
-    }
-  }
+  const network = chainList[badgeId]?.name.toLowerCase()
+  const address = isSpecialVault
+    ? token.data.collateralAddress
+    : token.vaultAddress || token.tokenAddress
+  const url = `${directDetailUrl}${network}/${address}${location.search}`
 
   useEffect(() => {
     const getBadge = () => {
@@ -66,22 +60,19 @@ const DesktopPanelHeader = ({
   return (
     <>
       <PanelContainer
+        as="a"
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
         fontColor={fontColor}
         borderColor={borderColorBox}
         onClick={e => {
-          const network = chainList[badgeId].name.toLowerCase()
-          const address = isSpecialVault
-            ? token.data.collateralAddress
-            : token.vaultAddress || token.tokenAddress
-          setPrevPage(window.location.href)
-          const url = `${directDetailUrl}${network}/${address}${location.search}`
-          if (e.ctrlKey) {
-            window.open(url, '_blank')
-          } else {
+          if (!e.ctrlKey) {
+            e.preventDefault()
+            setPrevPage(window.location.href)
             push(url)
           }
         }}
-        onMouseDown={mouseDownHandler}
       >
         <ValueContainer width="5%" />
         <ValueContainer width="20%" textAlign="left">

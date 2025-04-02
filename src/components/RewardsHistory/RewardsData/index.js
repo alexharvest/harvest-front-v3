@@ -129,7 +129,7 @@ const RewardsData = ({ historyData, account, token, isDashboard, noData, setNoDa
             <Col>Date</Col>
           </Column>
           <Column width={isMobile ? '45%' : '34%'} color={fontColor}>
-            <Col>Other</Col>
+            <Col>Rewards</Col>
           </Column>
         </Header>
         {connected && rewardsData?.length > 0 ? (

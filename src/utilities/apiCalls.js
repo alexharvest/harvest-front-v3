@@ -9,6 +9,7 @@ import {
   COINGECKO_API_KEY,
   POOLS_API_ENDPOINT,
   LEADERBOARD_API_ENDPOINT,
+  IPOR_API_URL,
 } from '../constants'
 import { fromWei } from '../services/web3'
 
@@ -1445,4 +1446,12 @@ export const fetchRewardToken = async () => {
     console.log('Error fetching reward token data', error)
     return null
   }
+}
+
+export const getPlasmaVaultHistory = async (address, chainId) => {
+  const response = await axios.get(
+    `${IPOR_API_URL}/fusion/vaults-history/${chainId}/${address.toLowerCase()}`,
+  )
+  const data = response.data.history
+  return data
 }

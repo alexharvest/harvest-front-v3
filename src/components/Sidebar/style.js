@@ -103,7 +103,7 @@ const LinkContainer = styled.div`
   }
 `
 
-const Link = styled.button`
+const LinkWrap = styled.button`
   color: ${props => props.fontColor1};
   transition: 0.25s;
   font-size: 15px;
@@ -794,7 +794,7 @@ export {
   Layout,
   LinksContainer,
   LinkContainer,
-  Link,
+  LinkWrap,
   MiddleActionsContainer,
   FlexDiv,
   Address,

@@ -117,8 +117,7 @@ const TooltipContent = styled.div`
 
 const ProtocolEntry = styled.div`
   display: flex;
-  align-items: space-between;
-  width: 100%;
+  align-items: center;
   font-size: 12px;
   color: ${({ color }) => color};
 `

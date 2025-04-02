@@ -11,13 +11,7 @@ import {
 import { useWindowWidth } from '@react-hook/window-size'
 import { ClipLoader } from 'react-spinners'
 import { useThemeContext } from '../../../providers/useThemeContext'
-import {
-  numberWithCommas,
-  formatDate,
-  formatXAxis,
-  ceil10,
-  floor10,
-} from '../../../utilities/formats'
+import { numberWithCommas, formatXAxis, ceil10, floor10 } from '../../../utilities/formats'
 import {
   findMaxData,
   findMinData,
@@ -25,8 +19,17 @@ import {
   getTimeSlots,
   generateColor,
 } from '../../../utilities/parsers'
-import { ChartWrapper, LoadingDiv, NoData, LoaderWrapper } from './style'
-import { useWallet } from '../../../providers/Wallet'
+import {
+  ChartWrapper,
+  LoadingDiv,
+  NoData,
+  LoaderWrapper,
+  TooltipContainer,
+  TooltipContent,
+  TooltipTotal,
+  ProtocolEntry,
+  DottedUnderline,
+} from './style'
 
 function generateChartDataWithSlots(slots, apiData, sharePriceData) {
   const seriesData = [],
@@ -77,38 +80,65 @@ function getYAxisValues(min, max, roundNum) {
   return result
 }
 
-const ApexChart = ({
-  token,
-  loadComplete,
-  setCurDate,
-  setCurContent,
-  handleTooltipContent,
-  setFixedLen,
-  fixedLen,
-  lastFarmingTimeStamp,
-  isInactive,
-  sharePriceData,
-}) => {
+const ApexChart = ({ token, loadComplete, sharePriceData, iporHvaultsLFAPY }) => {
   const { fontColor, fontColor5, bgColorChart } = useThemeContext()
-  const { connected } = useWallet()
   const onlyWidth = useWindowWidth()
 
   const [mainSeries, setMainSeries] = useState([])
   const [isDataReady, setIsDataReady] = useState('false')
-  const [roundedDecimal, setRoundedDecimal] = useState(2)
+  const [roundedDecimal] = useState(5)
   const [hourUnit, setHourUnit] = useState(false)
   const [minVal, setMinVal] = useState(0)
   const [maxVal, setMaxVal] = useState(0)
   const [yAxisTicks, setYAxisTicks] = useState([])
 
-  const CustomTooltip = ({ active, payload, onTooltipContentChange }) => {
-    useEffect(() => {
-      if (active && payload && payload.length) {
-        onTooltipContentChange(payload)
-      }
-    }, [active, payload, onTooltipContentChange])
+  const renderTooltipContent = o => {
+    const { payload, label } = o
 
-    return null
+    const date = new Date(label)
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate()
+    const hour = date.getHours().toString().padStart(2, '0')
+    const mins = date.getMinutes().toString().padStart(2, '0')
+
+    return (
+      <TooltipContainer>
+        <TooltipContent>
+          <TooltipTotal>{`${day}/${month}/${year} ${hour}:${mins}`}</TooltipTotal>
+          {Object.keys(iporHvaultsLFAPY) // Get keys in the order of iporHvaultsLFAPY
+            .filter(key => payload.some(entry => entry.dataKey === key)) // Ensure key exists in payload
+            .map(key => payload.find(entry => entry.dataKey === key)) // Find corresponding payload entry
+            .filter(entry => entry && entry.value !== 0 && entry.value !== null) // Filter valid entries
+            .map((entry, index) => {
+              const value = entry.value || 0
+              if (value <= 0) return null
+
+              const vaultParts = entry.dataKey
+                .split('_')
+                .map((part, i) => (i === 0 ? part.charAt(0).toUpperCase() + part.slice(1) : part))
+              const vaultName = vaultParts.join(' ')
+
+              return (
+                <ProtocolEntry
+                  key={`item-${index}`}
+                  color={
+                    entry.dataKey !== token.id
+                      ? generateColor(iporHvaultsLFAPY, entry.dataKey)
+                      : '#5dcf46'
+                  }
+                >
+                  <DottedUnderline>
+                    {entry.dataKey !== token.id ? vaultName : `Harvest ${token.tokenNames[0]}`}
+                  </DottedUnderline>
+                  &nbsp;&nbsp;
+                  {value.toFixed(5)}
+                </ProtocolEntry>
+              )
+            })}
+        </TooltipContent>
+      </TooltipContainer>
+    )
   }
 
   const renderCustomXAxisTick = ({ x, y, payload }) => {
@@ -160,10 +190,8 @@ const ApexChart = ({
   useEffect(() => {
     const init = async () => {
       let mainData = [],
-        usedData = [],
         firstDate1,
         slotCount = 50,
-        filteredSlot = [],
         length,
         minValue,
         maxValue,
@@ -200,13 +228,7 @@ const ApexChart = ({
       const nowDate = new Date()
       const currentTimeStamp = Math.floor(nowDate.getTime() / 1000)
 
-      const checkPeriod = (currentTimeStamp - Number(firstDate1)) / (24 * 60 * 60)
-
-      if (isInactive || checkPeriod < 100) {
-        usedData = sharePriceData[token.id]
-      }
-
-      const periodDate = (currentTimeStamp - Number(lastFarmingTimeStamp)) / (24 * 60 * 60)
+      const periodDate = (currentTimeStamp - Number(firstDate1)) / (24 * 60 * 60)
 
       const ago = periodDate < 0 ? 1 : Math.ceil(periodDate)
       if (ago === 1) {
@@ -214,28 +236,13 @@ const ApexChart = ({
       } else {
         setHourUnit(false)
       }
-      if (ago > 700) {
-        slotCount = 500
-      } else if (ago > 365) {
-        slotCount = 400
-      } else if (ago > 180) {
-        slotCount = 300
-      } else if (ago > 90) {
-        slotCount = 150
-      } else if (ago > 60) {
-        slotCount = 100
-      } else if (ago > 30) {
-        slotCount = 100
-      }
+
+      slotCount = sharePriceData[token.id].length
 
       const slots = getTimeSlots(ago, slotCount)
 
-      const filteredData = usedData.filter(
-        obj => parseInt(obj.timestamp, 10) >= lastFarmingTimeStamp,
-      )
-      filteredSlot = slots.filter(obj => parseInt(obj, 10) >= lastFarmingTimeStamp)
+      mainData = generateChartDataWithSlots(slots, sharePriceData[token.id], sharePriceData)
 
-      mainData = generateChartDataWithSlots(filteredSlot, filteredData, sharePriceData)
       if (mainData.length === 1) {
         const firstObject = {}
         Object.keys(sharePriceData).forEach(key => {
@@ -282,18 +289,6 @@ const ApexChart = ({
         minValue /= rate
       }
 
-      // Set date and price with latest value by default
-      if (mainData.length > 0) {
-        setCurDate(formatDate(mainData[mainData.length - 1].x))
-        setCurContent(
-          `${numberWithCommas(Number(mainData[mainData.length - 1][token.id]).toFixed(fixedLen))}`,
-        )
-      } else {
-        console.log('The chart data is either undefined or empty.')
-      }
-
-      setRoundedDecimal(5)
-      setFixedLen(5)
       setMinVal(minValue)
       setMaxVal(maxValue)
 
@@ -306,7 +301,7 @@ const ApexChart = ({
 
     init()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, isDataReady, loadComplete, roundedDecimal, setCurContent, setCurDate, fixedLen])
+  }, [isDataReady, loadComplete])
 
   return (
     <>
@@ -335,7 +330,7 @@ const ApexChart = ({
                 vertical={false}
               />
               {Object.keys(sharePriceData).map(key => {
-                const color = key === token.id ? '#5dcf46' : generateColor(key)
+                const color = key === token.id ? '#5dcf46' : generateColor(iporHvaultsLFAPY, key)
                 return (
                   <Line
                     key={key}
@@ -362,14 +357,7 @@ const ApexChart = ({
                 orientation="left"
                 mirror
               />
-              <Tooltip
-                content={<CustomTooltip onTooltipContentChange={handleTooltipContent} />}
-                cursor={{
-                  stroke: '#00D26B',
-                  strokeDasharray: 3,
-                  strokeLinecap: 'butt',
-                }}
-              />
+              <Tooltip content={renderTooltipContent} />
             </ComposedChart>
           </ResponsiveContainer>
           <></>

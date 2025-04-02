@@ -134,6 +134,7 @@ export const parseValue = value => {
 }
 
 export const formatNumber = (number, decimals = DECIMAL_PRECISION) => {
+  if (number == null || isNaN(number)) return '0'
   let result = number
 
   if (countDecimals(result) > decimals) {

@@ -1,64 +1,20 @@
 import React, { useEffect, useState } from 'react'
 import ApexChart from '../ApexChart'
 import { useThemeContext } from '../../../providers/useThemeContext'
-import { formatDate, numberWithCommas } from '../../../utilities/formats'
 import { fromWei } from '../../../services/web3'
 import { getVaultHistories, getIPORVaultHistories } from '../../../utilities/apiCalls'
-import {
-  ChartDiv,
-  Container,
-  Header,
-  Total,
-  TokenSymbol,
-  TooltipInfo,
-  FlexDiv,
-  CurContent,
-} from './style'
+import { ChartDiv, Container, Header, Total, TokenSymbol, TooltipInfo, FlexDiv } from './style'
 
 const { tokens } = require('../../../data')
 
-const SharePricesData = ({ token, setSharePricesData }) => {
-  const { bgColorNew, borderColorBox, fontColor3 } = useThemeContext()
+const SharePricesData = ({ token, setSharePricesData, iporHvaultsLFAPY }) => {
+  const { bgColorNew, borderColorBox } = useThemeContext()
 
   const [loadComplete, setLoadComplete] = useState(false)
   const [sharePriceData, setSharePriceData] = useState({})
-  const [curDate, setCurDate] = useState('')
-  const [curContent, setCurContent] = useState('')
-  const [fixedLen, setFixedLen] = useState(0)
-  const [lastFarmingTimeStamp, setLastFarmingTimeStamp] = useState('-')
 
   const address = token.vaultAddress
   const chainId = token.chain || token.data.chain
-
-  const handleTooltipContent = payload => {
-    if (payload && payload.length) {
-      const currentDate = formatDate(payload[0].payload.x)
-      if (Number(payload[0].payload[token.id] === 0)) {
-        setCurContent(`0`)
-      } else {
-        setCurContent(`${numberWithCommas(Number(payload[0].payload[token.id]))}`)
-      }
-
-      setCurDate(currentDate)
-    }
-  }
-
-  const findLastMatchingTimestamp = data => {
-    const dl = data.length
-    if (data && dl > 0) {
-      const firstSharePrice = data[dl - 1].sharePrice
-
-      for (let i = dl - 1; i >= 0; i -= 1) {
-        if (data[i].sharePrice === firstSharePrice) {
-          return data[i].timestamp
-        }
-      }
-
-      return data[0].timestamp
-    }
-
-    return '-'
-  }
 
   useEffect(() => {
     let isMounted = true
@@ -79,10 +35,7 @@ const SharePricesData = ({ token, setSharePricesData }) => {
     const adjustTimestamps = (sharepriceData, id) => {
       const referenceTimestamps = sharepriceData[id]
         .map(entry => entry.timestamp)
-        .filter(timestamp => timestamp > 1741284000)
-      const referenceStartPrice = parseFloat(
-        sharepriceData[id][referenceTimestamps.length - 1].sharePrice,
-      )
+        .filter(timestamp => timestamp > 1742911200)
 
       Object.keys(sharepriceData).forEach(key => {
         const targetEntries = sharepriceData[key],
@@ -111,16 +64,13 @@ const SharePricesData = ({ token, setSharePricesData }) => {
         sharepriceData[key] = adjustedEntries
       })
       Object.keys(sharepriceData).forEach(key => {
-        if (key === id) return // Skip itself
-
         const targetEntries = sharepriceData[key],
           adjustedEntries = [],
           originalStartPrice = parseFloat(targetEntries[targetEntries.length - 1].sharePrice)
 
         referenceTimestamps.forEach(ts => {
           const curData = targetEntries.find(entry => entry.timestamp === ts) ?? 1,
-            adjustedSharePrice =
-              (parseFloat(curData.sharePrice) / originalStartPrice) * referenceStartPrice
+            adjustedSharePrice = parseFloat(curData.sharePrice) / originalStartPrice
 
           adjustedEntries.push({
             timestamp: ts,
@@ -188,9 +138,6 @@ const SharePricesData = ({ token, setSharePricesData }) => {
 
             setSharePriceData(sharePricesData)
 
-            const lastMatchingTimestamp = findLastMatchingTimestamp(sharePricesData[token.id])
-            setLastFarmingTimeStamp(lastMatchingTimestamp)
-
             if (isMounted && sharePricesData[token.id]?.length > 0) {
               setLoadComplete(true)
             }
@@ -217,18 +164,6 @@ const SharePricesData = ({ token, setSharePricesData }) => {
               <TokenSymbol className="priceshare" color="#15B088">
                 Share Price
               </TokenSymbol>
-              <FlexDiv>
-                <CurContent color={fontColor3}>
-                  {curContent === '0' ? (
-                    ''
-                  ) : (
-                    <div
-                      dangerouslySetInnerHTML={{ __html: `${curDate}&nbsp;<span>|</span>&nbsp;` }}
-                    />
-                  )}
-                </CurContent>
-                <CurContent color="#15B088">{curContent}</CurContent>
-              </FlexDiv>
             </TooltipInfo>
           </FlexDiv>
         </Total>
@@ -237,14 +172,8 @@ const SharePricesData = ({ token, setSharePricesData }) => {
         <ApexChart
           token={token}
           loadComplete={loadComplete}
-          setCurDate={setCurDate}
-          setCurContent={setCurContent}
-          handleTooltipContent={handleTooltipContent}
-          setFixedLen={setFixedLen}
-          fixedLen={fixedLen}
-          lastFarmingTimeStamp={lastFarmingTimeStamp}
-          isInactive={token.inactive}
           sharePriceData={sharePriceData}
+          iporHvaultsLFAPY={iporHvaultsLFAPY}
         />
       </ChartDiv>
     </Container>

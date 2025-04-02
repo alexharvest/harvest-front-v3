@@ -99,6 +99,8 @@ export const ZKSYNCSCAN_URL = 'https://explorer.zksync.io/'
 
 export const PORTALS_FI_API_URL = 'https://api.portals.fi'
 
+export const IPOR_API_URL = 'https://api.ipor.io'
+
 export const DECIMAL_PRECISION = 2
 
 export const FAQ_ITEMS_FIRST = [

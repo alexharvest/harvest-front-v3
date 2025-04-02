@@ -46,7 +46,7 @@ const Autopilot = () => {
   const history = useHistory()
   const location = useLocation()
   const { chainId } = useWallet()
-  const { allVaultsData, loadingVaults } = useVaults()
+  const { allVaultsData } = useVaults()
   const firstWalletBalanceLoad = useRef(true)
 
   const [curChain, setCurChain] = useState({})
@@ -172,10 +172,11 @@ const Autopilot = () => {
           accountVal,
           vault.decimals,
           iporVFlag,
+          vault.vaultDecimals,
         )
 
         if (bFlag && vHFlag) {
-          yieldMap[vault.id] = parseFloat(sumNetChange).toFixed(6)
+          yieldMap[vault.id] = sumNetChange
         }
       }),
     )
@@ -274,7 +275,7 @@ const Autopilot = () => {
           </HeaderButton>
         </HeaderWrap>
         <SubPart>
-          {!loadingVaults && vaultsData.length > 0 ? (
+          {vaultsData.length > 0 ? (
             vaultsData?.map((vault, index) => {
               return (
                 <AutopilotPanel
