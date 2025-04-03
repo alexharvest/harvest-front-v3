@@ -63,6 +63,11 @@ const SharePricesData = ({ token, setSharePricesData, iporHvaultsLFAPY }) => {
 
         sharepriceData[key] = adjustedEntries
       })
+
+      const targetFinalValue =
+        parseFloat(sharepriceData[id][0].sharePrice) /
+        parseFloat(sharepriceData[id][sharepriceData[id].length - 1].sharePrice)
+
       Object.keys(sharepriceData).forEach(key => {
         const targetEntries = sharepriceData[key],
           adjustedEntries = [],
@@ -77,8 +82,12 @@ const SharePricesData = ({ token, setSharePricesData, iporHvaultsLFAPY }) => {
             sharePrice: parseFloat(adjustedSharePrice.toFixed(5)), // Keep precision
           })
         })
-
-        sharepriceData[key] = adjustedEntries
+        // Remove outliers
+        if (adjustedEntries[0].sharePrice / targetFinalValue > 1.001) {
+          delete sharepriceData[key]
+        } else {
+          sharepriceData[key] = adjustedEntries
+        }
       })
       return sharepriceData
     }
@@ -92,9 +101,7 @@ const SharePricesData = ({ token, setSharePricesData, iporHvaultsLFAPY }) => {
           if (token.allocPointData && token.allocPointData.length > 0) {
             await Promise.all(
               token.allocPointData
-                .filter(
-                  data => data.hVaultId !== 'Not invested' && data.hVaultId !== 'morphoGC_ETH',
-                )
+                .filter(data => data.hVaultId !== 'Not invested')
                 .map(async data => {
                   const vaultAddress = tokens[data.hVaultId].vaultAddress
                   const vaultChain = tokens[data.hVaultId].chain
