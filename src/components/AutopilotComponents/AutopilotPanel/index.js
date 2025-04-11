@@ -4,7 +4,13 @@ import { PiInfoBold } from 'react-icons/pi'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { toast } from 'react-toastify'
 import { useThemeContext } from '../../../providers/useThemeContext'
-import { formatNumber, isSpecialApp, showTokenBalance } from '../../../utilities/formats'
+import {
+  formatNumber,
+  getRawTokenBalance,
+  isSpecialApp,
+  showTokenBalance,
+  showUsdValueCurrency,
+} from '../../../utilities/formats'
 import Button from '../../Button'
 import { useWallet } from '../../../providers/Wallet'
 import { usePortals } from '../../../providers/Portals'
@@ -123,14 +129,9 @@ const AutopilotPanel = ({
       if (account && curChain === tokenChain && vaultData) {
         const inputTokenDetail = await getPortalsToken(chainId, vaultData.tokenAddress)
 
-        const inputValue =
-          Number(inputAmount) * Number(inputTokenDetail?.price) * Number(currencyRate)
+        const inputValue = Number(inputAmount) * Number(inputTokenDetail?.price)
         if (isMounted) {
-          if (Number(inputValue) < 0.01) {
-            setInputUSDAmount(`<${currencySym}0.01`)
-          } else {
-            setInputUSDAmount(`≈${currencySym}${inputValue.toFixed(2)}`)
-          }
+          setInputUSDAmount(inputValue)
         }
       }
     }
@@ -294,16 +295,12 @@ const AutopilotPanel = ({
                 />
                 <input type="hidden" value={Number(inputAmount)} />
                 <TokenUSDAmount fontColor3={fontColor3}>
-                  {inputAmount === '0' || inputAmount === '' ? (
-                    `${currencySym}0`
-                  ) : inputUSDAmount === '' ? (
+                  {inputUSDAmount === '' ? (
                     <TokenInfo>
                       <AnimatedDots />
                     </TokenInfo>
-                  ) : inputUSDAmount === '-' ? (
-                    '-'
                   ) : (
-                    `${inputUSDAmount}`
+                    showUsdValueCurrency(inputUSDAmount, currencySym, currencyRate, true)
                   )}
                 </TokenUSDAmount>
               </TokenInput>
@@ -328,9 +325,9 @@ const AutopilotPanel = ({
                 onClick={() => {
                   if (account) {
                     if (subscribe) {
-                      setInputAmount(showTokenBalance(walletBalance, 8))
+                      setInputAmount(getRawTokenBalance(walletBalance, 8))
                     } else {
-                      setInputAmount(showTokenBalance(userAssetBalance, 8))
+                      setInputAmount(getRawTokenBalance(userAssetBalance, 8))
                     }
                   }
                 }}
@@ -338,7 +335,7 @@ const AutopilotPanel = ({
                 {subscribe ? 'Wallet Balance' : 'My Balance'}:{' '}
                 {subscribe
                   ? `${showTokenBalance(walletBalance, 8)} ${vaultData?.tokenNames[0]}`
-                  : `${userAssetBalance} ${vaultData?.tokenNames[0]}`}
+                  : `${showTokenBalance(userAssetBalance, 8)} ${vaultData?.tokenNames[0]}`}
               </NewLabel>
             </FlexDiv>
             <FlexDiv marginTop="18px">

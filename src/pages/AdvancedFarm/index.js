@@ -165,9 +165,9 @@ import {
   SwitchTabTag,
 } from './style'
 import { CHAIN_IDS } from '../../data/constants'
-// import { array } from 'prop-types'
 import { usePortals } from '../../providers/Portals'
 import SourceOfYield from '../../components/AdvancedFarmComponents/SourceOfYield'
+import TopBadge from '../../components/AdvancedFarmComponents/TopBadge'
 
 const AdvancedFarm = () => {
   const {
@@ -331,6 +331,7 @@ const AdvancedFarm = () => {
   const [noNeedStaking, setNoNeedStaking] = useState(false)
   const [sharePricesData, setSharePricesData] = useState({})
   const [iporHvaultsLFAPY, setIPORHvaultsLFAPY] = useState({})
+
   useEffect(() => {
     const getData = async () => {
       try {
@@ -1193,7 +1194,6 @@ const AdvancedFarm = () => {
             console.error('Error:', error)
           }
         }
-        // console.log('USD Vault Price of ', rewardSymbol, ':', usdRewardPrice)
         usdPrices.push(usdRewardPrice)
 
         setRewardTokenPrices(usdPrices)
@@ -1545,7 +1545,9 @@ const AdvancedFarm = () => {
                 <MobileChain>
                   <NetDetailItem>
                     <NetDetailContent fontColor={fontColor}>
-                      {useIFARM ? 'Harvest' : token.platform && token.platform[0]}
+                      {useIFARM || token.platform[0] === 'Autopilot'
+                        ? 'Harvest'
+                        : token.platform && token.platform[0]}
                     </NetDetailContent>
                   </NetDetailItem>
                   <ChainBack>
@@ -1579,6 +1581,7 @@ const AdvancedFarm = () => {
                 {showTVL()}
                 &nbsp;TVL
               </GuidePart>
+              {token.platform && token.platform[0] === 'Autopilot' && <TopBadge />}
             </GuideSection>
             <TabRow>
               <MainTagPanel>
@@ -1611,7 +1614,9 @@ const AdvancedFarm = () => {
                 <NetDetailItem>
                   <NetDetailTitle fontColor={fontColor}>Platform:</NetDetailTitle>
                   <NetDetailContent fontColor={fontColor}>
-                    {useIFARM ? 'Harvest' : token.platform && token.platform[0]}
+                    {useIFARM || token.platform[0] === 'Autopilot'
+                      ? 'Harvest'
+                      : token.platform && token.platform[0]}
                   </NetDetailContent>
                 </NetDetailItem>
                 <NetDetailItem>
@@ -2277,7 +2282,7 @@ const AdvancedFarm = () => {
             ) : activeMainTag === 4 && token.isIPORVault ? (
               <>
                 <FlexDiv marginBottom="20px">
-                  A performance comparison between the Autopilot and it&apos;s underlying vaults.
+                  Performance comparison between Autopilot and its sub-vaults.
                 </FlexDiv>
                 <MainSection height={activeMainTag === 0 ? '100%' : 'fit-content'}>
                   <SharePricesData

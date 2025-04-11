@@ -214,7 +214,7 @@ const PanelSubscribe = styled.div`
 const BasePanelBox = styled.div`
   width: 450px;
   height: 490px;
-  margin-top: 50px;
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
   /* key: ${props => props.key}; */
@@ -452,6 +452,13 @@ const NewLabel = styled.div`
     font-weight: 400;
     font-size: 10px;
     line-height: 12px;
+  }
+
+  a.audit-link {
+    text-decoration: underline;
+    cursor: pointer;
+    color: unset;
+    font-weight: unset;
   }
 `
 

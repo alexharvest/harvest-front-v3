@@ -42,13 +42,22 @@ const VaultName = ({
           </BadgeIcon>
           {lsdToken ? <img className="tag" src={LSD} alt="" /> : null}
           {desciToken ? <img className="tag" src={DESCI} alt="" /> : null}
-          {useIFARM
-            ? tokens[IFARM_TOKEN_SYMBOL].subLabel
-              ? `${tokens[IFARM_TOKEN_SYMBOL].platform[0]} - ${tokens[IFARM_TOKEN_SYMBOL].subLabel}`
-              : tokens[IFARM_TOKEN_SYMBOL].platform[0]
-            : token.subLabel
-            ? token.platform[0] && `${token.platform[0]} - ${token.subLabel}`
-            : token.platform[0] && token.platform[0]}
+          {useIFARM ? (
+            tokens[IFARM_TOKEN_SYMBOL].subLabel ? (
+              `${tokens[IFARM_TOKEN_SYMBOL].platform[0]} - ${tokens[IFARM_TOKEN_SYMBOL].subLabel}`
+            ) : (
+              tokens[IFARM_TOKEN_SYMBOL].platform[0]
+            )
+          ) : token.subLabel ? (
+            token.platform[0] && `${token.platform[0]} - ${token.subLabel}`
+          ) : token.platform[0] && token.platform[0] === 'Autopilot' ? (
+            <Autopilot>
+              <img src={Diamond} width="12" height="12" alt="" />
+              <NewLabel>{token.platform[0]}</NewLabel>
+            </Autopilot>
+          ) : (
+            token.platform[0] && token.platform[0]
+          )}
         </BadgePlatform>
       ) : (
         <>

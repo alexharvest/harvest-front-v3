@@ -129,10 +129,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 )}
               </ContentInner>
             </Content>
-            <Content width={isMobile ? '25%' : '15%'} marginTop={isMobile ? '15px' : 'unset'}>
-              {isMobile && (
-                <ListItem color={fontColor} weight={500} size={12} height={18} value="Balance" />
-              )}
+            <Content width="15%" marginTop="unset">
               <ListItem
                 weight={500}
                 size={12}
@@ -141,21 +138,12 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 value={showUsdValueCurrency(info.balance, currencySym, currencyRate)}
               />
             </Content>
-            <Content width={isMobile ? '30%' : '15%'} marginTop={isMobile ? '15px' : 'unset'}>
-              {isMobile && (
-                <ListItem
-                  color={fontColor}
-                  weight={500}
-                  size={12}
-                  height={18}
-                  value="Lifetime Yield"
-                />
-              )}
+            <Content width="15%" marginTop="unset">
               <ListItem
                 weight={500}
                 size={12}
                 height={18}
-                color={isMobile ? fontColor1 : fontColor}
+                color={fontColor}
                 value={
                   lifetimeYield === -1
                     ? '-1'
@@ -163,24 +151,18 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 }
               />
             </Content>
-            <Content width={isMobile ? '25%' : '15%'} marginTop={isMobile ? '15px' : 'unset'}>
-              {isMobile && (
-                <ListItem color={fontColor} weight={500} size={12} height={18} value="Rewards" />
-              )}
+            <Content width="15%" marginTop="unset">
               <ListItem
                 weight={500}
                 size={12}
                 height={18}
-                color={isMobile ? fontColor1 : fontColor}
+                color={fontColor}
                 value={showUsdValueCurrency(info.totalRewardUsd, currencySym, currencyRate)}
               />
             </Content>
-            <Content width={isMobile ? '20%' : '15%'} marginTop={isMobile ? '15px' : 'unset'}>
-              {isMobile && (
-                <ListItem color={fontColor} weight={500} size={12} height={18} value="Live APY" />
-              )}
+            <Content width="15%" marginTop="unset">
               <ListItem
-                color={isMobile ? fontColor1 : fontColor}
+                color={fontColor}
                 weight={500}
                 size={12}
                 height={18}
@@ -197,7 +179,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
         )}
         {isMobile && (
           <MobileContentContainer>
-            <Content width="33.333%" display="flex" flexDirection="column">
+            <Content width="40%" display="flex" flexDirection="column">
               <ContentInner width={isMobile ? '100%' : '50%'} display={isMobile ? 'block' : 'flex'}>
                 {info.logos.length > 0 &&
                   info.logos.map((elem, index) => (
@@ -236,16 +218,23 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 >
                   <img src={info.chain ? info.chain : ETHEREUM} width="15px" height="15px" alt="" />
                 </BadgeIcon>
-                <ListItem
-                  weight={400}
-                  size={8}
-                  height={18}
-                  value={info.platform}
-                  color={darkMode ? '#D9D9D9' : '#101828'}
-                />
+                {info.platform === 'Autopilot' ? (
+                  <Autopilot>
+                    <img src={Diamond} width="12" height="12" alt="" />
+                    <NewLabel>{info.platform}</NewLabel>
+                  </Autopilot>
+                ) : (
+                  <ListItem
+                    weight={400}
+                    size={8}
+                    height={18}
+                    value={info.platform}
+                    color={fontColor}
+                  />
+                )}
               </ContentInner>
             </Content>
-            <Content width="33.333%">
+            <Content width="30%">
               <ContentInner>
                 <ListItem color="#718BC5" weight={500} size={10} height={18} value="Balance" />
                 <ListItem
@@ -267,7 +256,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 />
               </ContentInner>
             </Content>
-            <Content width="33.333%">
+            <Content width="30%">
               <ContentInner>
                 <ListItem
                   color="#718BC5"

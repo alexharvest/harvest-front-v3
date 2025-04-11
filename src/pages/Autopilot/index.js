@@ -45,13 +45,13 @@ const Autopilot = () => {
   const { contracts } = useContracts()
   const history = useHistory()
   const location = useLocation()
-  const { chainId } = useWallet()
+  // const { chainId } = useWallet()
   const { allVaultsData } = useVaults()
   const firstWalletBalanceLoad = useRef(true)
 
   const [curChain, setCurChain] = useState({})
   const [vaultsData, setVaultsData] = useState([])
-  const [isManualSelection, setIsManualSelection] = useState(false)
+  const [, setIsManualSelection] = useState(false)
   const [walletBalances, setWalletBalances] = useState({})
   const [userVBalance, setUserVBalance] = useState({})
   const [userAssetBalances, setUserAssetBalances] = useState({})
@@ -61,22 +61,26 @@ const Autopilot = () => {
     const pathSegments = location.pathname.split('/')
     const networkName = pathSegments[pathSegments.length - 1]
     const matchedChain = someChainsList.find(item => item.name === networkName)
-    if (matchedChain) {
+
+    if (networkName !== 'base') {
+      history.replace('/autopilot/base')
+    } else if (matchedChain) {
       setCurChain(matchedChain)
     } else {
       setCurChain(someChainsList[0])
-      history.replace('/autopilot/base')
+      // history.replace('/autopilot/base')
     }
   }, [location.pathname, history])
 
-  useEffect(() => {
-    const matchedChain = someChainsList.find(item => item.chainId === chainId)
-    if (matchedChain && matchedChain.chainId !== curChain.chainId && !isManualSelection) {
-      setCurChain(matchedChain)
-      history.replace(`/autopilot/${matchedChain.name}`)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainId, curChain.chainId, history])
+  // useEffect(() => {
+  //   debugger
+  //   const matchedChain = someChainsList.find(item => item.chainId === chainId)
+  //   if (matchedChain && matchedChain.chainId !== curChain.chainId && !isManualSelection) {
+  //     setCurChain(matchedChain)
+  //     history.replace(`/autopilot/${matchedChain.name}`)
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [chainId, curChain.chainId, history])
 
   useEffect(() => {
     const initData = () => {

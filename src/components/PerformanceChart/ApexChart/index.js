@@ -71,6 +71,7 @@ function generateChartDataWithSlots(slots, apiData, balance, priceUnderlying, sh
 }
 
 const ApexChart = ({
+  token,
   data,
   data1,
   loadComplete,
@@ -226,12 +227,14 @@ const ApexChart = ({
       const dl1 = data1.length
       if (!connected) {
         setIsDataReady('false')
-      } else if (lpTokenBalance === 0) {
+      } else if (lpTokenBalance === 0 && !token.isIPORVault) {
         setIsDataReady('loading')
       } else if (lpTokenBalance === '0' && totalValue !== 0 && dl === 0) {
         setIsDataReady('loading')
-      } else if (lpTokenBalance === '0' && totalValue === 0 && dl === 0) {
+      } else if ((lpTokenBalance === '0' || lpTokenBalance === 0) && totalValue === 0 && dl === 0) {
         setIsDataReady('false')
+      } else if (lpTokenBalance === 0 && dl !== 0 && dl1 !== 0 && token.isIPORVault) {
+        setIsDataReady('true')
       } else if (totalValue !== '0' && dl === 0) {
         setIsDataReady('loading')
       } else if (dl !== 0 && dl1 !== 0) {
@@ -441,6 +444,7 @@ const ApexChart = ({
     connected,
     range,
     data,
+    data1,
     isDataReady,
     lpTokenBalance,
     totalValue,
@@ -452,7 +456,6 @@ const ApexChart = ({
     fixedLen,
     startPoint,
     endPoint,
-    data1,
   ])
 
   return (

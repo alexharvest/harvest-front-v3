@@ -322,8 +322,23 @@ const AutopilotInfo = ({ allVaultsData, vaultData, setPilotInfoShow }) => {
               <NewLabel color={fontColor3} size="12px" height="20px" weight="700">
                 Technology
               </NewLabel>
-              <NewLabel color={fontColor5} size="12px" height="20px" weight="400">
-                Autopilot is powered by audited IPOR Fusion Vault technology.
+              <NewLabel
+                display="inline-block"
+                color={fontColor5}
+                size="12px"
+                height="20px"
+                weight="400"
+              >
+                Autopilot is powered by&nbsp;
+                <a
+                  className="audit-link"
+                  href="https://docs.ipor.io/audits"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  audited IPOR
+                </a>
+                &nbsp;Fusion Vault technology.
               </NewLabel>
             </ColumnDiv>
           </GeneralDiv>

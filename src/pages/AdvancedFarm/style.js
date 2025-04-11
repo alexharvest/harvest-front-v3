@@ -1033,6 +1033,8 @@ const TotalRewardBox = styled.div`
 
 const GuideSection = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
   margin-bottom: 49px;
   margin-top: 6px;
 
@@ -1045,6 +1047,7 @@ const GuideSection = styled.div`
 `
 
 const GuidePart = styled.div`
+  background: ${props => props.backcolor};
   border-radius: 5px;
   border: 1.3px solid ${props => props.fontColor4};
   display: flex;
@@ -1057,24 +1060,13 @@ const GuidePart = styled.div`
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
-  margin-right: 10px;
 
-  &:last-child {
-    margin-right: 0;
+  svg.question {
+    cursor: pointer;
   }
 
-  img {
-    margin-right: 7px;
-  }
-
-  @media screen and (max-width: 992px) {
-    img {
-      margin-right: 3px;
-    }
-
-    img.icon {
-      width: 11px;
-    }
+  #tooltip-autopilot-badge {
+    width: 300px;
   }
 `
 

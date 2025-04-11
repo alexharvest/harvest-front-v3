@@ -169,7 +169,9 @@ export const showUsdValue = (value, currencySym) => {
   return `${currencySym}${formattedValue}`
 }
 
-export const showUsdValueCurrency = (value, currencySym, currencyRate) => {
+export const showUsdValueCurrency = (value, currencySym, currencyRate, appro = false) => {
+  if (value == null || isNaN(value)) return `${currencySym}0`
+  if (value === '-') return '-'
   let numValue = Number(value)
   if (numValue === 0) {
     return `${currencySym}0`
@@ -186,7 +188,7 @@ export const showUsdValueCurrency = (value, currencySym, currencyRate) => {
     maximumFractionDigits: currencySym === '¥' ? 0 : 2,
   }).format(Math.abs(numValue))
 
-  return `${numValue < 0 ? '-' : ''}${currencySym}${formattedValue}`
+  return `${appro ? '≈' : ''}${numValue < 0 ? '-' : ''}${currencySym}${formattedValue}`
 }
 
 export const formatFrequency = value => {
@@ -227,6 +229,16 @@ export const showTokenBalance = (balance, decimals = 6) => {
     minimumFractionDigits: 0,
     maximumFractionDigits: decimals,
   }).format(value)
+}
+
+export const getRawTokenBalance = (balance, decimals = 6) => {
+  const value = parseFloat(balance.toString().replace(/,/g, ''))
+  if (isNaN(value)) return '0'
+  if (value === 0) return '0'
+  if (value > 0 && value < 1 / 10 ** decimals) {
+    return (1 / 10 ** decimals).toFixed(decimals)
+  }
+  return value.toFixed(decimals).replace(/\.?0+$/, '')
 }
 
 export const getCurrencyRate = (sym, item, rateData) => {

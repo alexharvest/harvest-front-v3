@@ -14,8 +14,8 @@ const TotalValue = ({
   toolTipTitle,
   toolTip,
   connected,
-  farmTokenListLength,
   isLoading,
+  farmTokenListLength,
 }) => {
   const { darkMode, borderColor, fontColor1, fontColor3 } = useThemeContext()
   const { rates } = useRate()
@@ -60,7 +60,7 @@ const TotalValue = ({
         ) : farmTokenListLength === 0 && price === 0 ? (
           `${currencySym}0.00`
         ) : parseFloat(price) === 0 ? (
-          content === 'Claimable Rewards' ? (
+          content.includes('Rewards') ? (
             `${currencySym}0.00`
           ) : (
             <AnimatedDots />

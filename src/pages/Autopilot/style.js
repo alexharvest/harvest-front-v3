@@ -20,7 +20,7 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
     margin: 0;
-    padding-bottom: 100px;
+    padding-bottom: 70px;
   }
 `
 
@@ -97,7 +97,7 @@ const HeaderTitle = styled.div`
 `
 
 const HeaderButton = styled.div`
-  display: flex;
+  display: none;
   margin: auto 0px;
   gap: 15px;
 
