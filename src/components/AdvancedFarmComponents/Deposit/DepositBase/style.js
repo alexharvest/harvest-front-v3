@@ -248,6 +248,7 @@ const TokenSelect = styled.button`
 
   img.logo {
     margin-right: 7.5px;
+    border-radius: 50%;
   }
 
   span {

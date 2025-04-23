@@ -376,6 +376,7 @@ const BigLogoImg = styled.img`
     height: 25px;
   }
 `
+
 const VaultContainer = styled.div`
   padding: 15px 24px;
 

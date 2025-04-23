@@ -542,13 +542,13 @@ const ApexChart = ({
       setCurDate(formatDate(mainData[mainData.length - 1]?.x))
       const content = numberWithCommas(
         (
-          Number(mainData[mainData.length - 1].y) * (filter === 1 ? Number(currencyRate) : 1)
+          Number(mainData[mainData.length - 1]?.y) * (filter === 1 ? Number(currencyRate) : 1)
         ).toFixed(filter === 1 ? 2 : filter === 0 ? fixedLen : roundNum),
       )
       setCurContent(content)
 
-      const startSliderPoint = mainData[0].x
-      const endSliderPoint = mainData[mainData.length - 1].x
+      const startSliderPoint = mainData[0]?.x
+      const endSliderPoint = mainData[mainData.length - 1]?.x
 
       if (range !== 'CUSTOM') {
         setStartPoint(normalizeSliderValue(startSliderPoint, minTimestamp, maxTimestamp))

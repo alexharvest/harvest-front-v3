@@ -1,6 +1,7 @@
+import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { isNaN } from 'lodash'
-import React, { useState, useEffect } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import { useMediaQuery } from 'react-responsive'
 import ReactTooltip from 'react-tooltip'
@@ -17,6 +18,7 @@ import ProgressTwo from '../../../../assets/images/logos/advancedfarm/progress-s
 import ProgressThree from '../../../../assets/images/logos/advancedfarm/progress-step3.png'
 import ProgressFour from '../../../../assets/images/logos/advancedfarm/progress-step4.png'
 import ProgressFive from '../../../../assets/images/logos/advancedfarm/progress-step5.png'
+import AutopilotVaults from '../../../../assets/images/logos/advancedfarm/btc-eth-usdc.svg'
 import { useActions } from '../../../../providers/Actions'
 import { useContracts } from '../../../../providers/Contracts'
 import { useVaults } from '../../../../providers/Vault'
@@ -44,6 +46,9 @@ import {
   SlippageBtn,
   ProgressLabel,
   ProgressText,
+  VaultContainer,
+  HighestVault,
+  ImageName,
 } from './style'
 import { usePortals } from '../../../../providers/Portals'
 import { showTokenBalance } from '../../../../utilities/formats'
@@ -77,7 +82,7 @@ const DepositStart = ({
     btnHoverColor,
   } = useThemeContext()
   const { account, web3, approvedBalances, getWalletBalances } = useWallet()
-
+  const { push } = useHistory()
   const { fetchUserPoolStats, userStats } = usePools()
   const { getPortalsApproval, portalsApprove, getPortals } = usePortals()
 
@@ -126,6 +131,7 @@ const DepositStart = ({
 
   const SlippageValues = [null, 0.1, 0.5, 1, 5]
   const tokenName = token.isIPORVault ? tokenSymbol : `f${tokenSymbol}`
+  const curChain = token.poolVault ? token.data.chain : token.chain
 
   const onInputSlippage = e => {
     let inputValue = e.target.value
@@ -643,6 +649,57 @@ const DepositStart = ({
               Successful
             </ProgressText>
           </ProgressLabel>
+          {curChain === '8453' && token.platform?.[0] !== 'Autopilot' && (
+            <NewLabel>
+              <NewLabel
+                color={darkMode ? '#ffffff' : '#344054'}
+                size={isMobile ? '14px' : '14px'}
+                height={isMobile ? '20px' : '28px'}
+                weight="600"
+                padding="20px 24px 0px 24px"
+              >
+                Tired of jumping between strategies? Try our Autopilots.
+              </NewLabel>
+              <VaultContainer>
+                <HighestVault
+                  className="highest-vault"
+                  onClick={e => {
+                    const url = `/autopilot`
+                    if (e.ctrlKey) {
+                      window.open(url, '_blank')
+                    } else {
+                      push(url)
+                    }
+                  }}
+                >
+                  <ImageName>
+                    <img className="logo-img" src={AutopilotVaults} alt="logo" />
+                    <div>
+                      <NewLabel
+                        color="#15202b"
+                        size={isMobile ? '14px' : '14px'}
+                        height={isMobile ? '20px' : '20px'}
+                        weight="600"
+                        padding="0px 10px"
+                      >
+                        Autopilot
+                      </NewLabel>
+                      <NewLabel
+                        color="#15202b"
+                        size={isMobile ? '14px' : '10px'}
+                        height={isMobile ? '20px' : '20px'}
+                        weight="400"
+                        padding="0px 10px"
+                      >
+                        Harvest
+                      </NewLabel>
+                    </div>
+                  </ImageName>
+                  <ImageName className="top-apy">Auto-Allocation</ImageName>
+                </HighestVault>
+              </VaultContainer>
+            </NewLabel>
+          )}
           <NewLabel
             size={isMobile ? '16px' : '16px'}
             height={isMobile ? '24px' : '24px'}

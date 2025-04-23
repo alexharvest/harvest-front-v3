@@ -24,6 +24,9 @@ import Benchmark from '../../assets/images/logos/beginners/benchmark.svg'
 import TickIcon from '../../assets/images/logos/tick-icon.svg'
 import TickCross from '../../assets/images/logos/tick-cross.svg'
 import ARBball from '../../assets/images/chains/ARBball-lg.png'
+import BaseAutopilotUSDC from '../../assets/images/logos/advancedfarm/BaseAutopilotUSDC.svg'
+import BaseAutopilotcbBTC from '../../assets/images/logos/advancedfarm/BaseAutopilotcbBTC.svg'
+import BaseAutopilotwETH from '../../assets/images/logos/advancedfarm/BaseAutopilotwETH.svg'
 import AnimatedDots from '../../components/AnimatedDots'
 import DepositBase from '../../components/AdvancedFarmComponents/Deposit/DepositBase'
 import DepositSelectToken from '../../components/AdvancedFarmComponents/Deposit/DepositSelectToken'
@@ -54,7 +57,6 @@ import {
   BEGINNERS_BALANCES_DECIMALS,
   POOL_BALANCES_DECIMALS,
   MAX_DECIMALS,
-  WIDO_BALANCES_DECIMALS,
   SOCIAL_LINKS,
   feeList,
   chainList,
@@ -233,7 +235,7 @@ const AdvancedFarm = () => {
   const [selectTokenDepo, setSelectTokenDepo] = useState(false)
   const [balanceDepo, setBalanceDepo] = useState('0')
   const [pickedTokenDepo, setPickedTokenDepo] = useState({ symbol: 'Select Token' })
-  const [inputAmountDepo, setInputAmountDepo] = useState('0')
+  const [inputAmountDepo, setInputAmountDepo] = useState('')
   const [fromInfoAmount, setFromInfoAmount] = useState('')
   const [fromInfoUsdAmount, setFromInfoUsdAmount] = useState('')
   const [minReceiveAmountString, setMinReceiveAmountString] = useState('')
@@ -248,7 +250,7 @@ const AdvancedFarm = () => {
   const [selectTokenWith, setSelectTokenWith] = useState(false)
   const [unstakeBalance, setUnstakeBalance] = useState('0')
   const [pickedTokenWith, setPickedTokenWith] = useState({ symbol: 'Select' })
-  const [unstakeInputValue, setUnstakeInputValue] = useState('0')
+  const [unstakeInputValue, setUnstakeInputValue] = useState('')
   const [revertFromInfoAmount, setRevertFromInfoAmount] = useState('')
   const [revertFromInfoUsdAmount, setRevertFromInfoUsdAmount] = useState('')
   const [revertMinReceivedAmount, setRevertMinReceivedAmount] = useState('')
@@ -258,12 +260,12 @@ const AdvancedFarm = () => {
 
   // Stake
   const [stakeStart, setStakeStart] = useState(false)
-  const [inputAmountStake, setInputAmountStake] = useState('0')
+  const [inputAmountStake, setInputAmountStake] = useState('')
   const [stakeFinalStep, setStakeFinalStep] = useState(false)
 
   // Unstake
   const [unstakeStart, setUnstakeStart] = useState(false)
-  const [inputAmountUnstake, setInputAmountUnstake] = useState('0')
+  const [inputAmountUnstake, setInputAmountUnstake] = useState('')
   const [unstakeFinalStep, setUnstakeFinalStep] = useState(false)
   const [amountsToExecuteUnstake, setAmountsToExecuteUnstake] = useState('')
 
@@ -766,11 +768,18 @@ const AdvancedFarm = () => {
                   default: false,
                   usdValue: balance.balanceUSD,
                   usdPrice: balance.price,
-                  logoURI: balance.image
-                    ? balance.image
-                    : balance.images
-                    ? balance.images[0]
-                    : 'https://etherscan.io/images/main/empty-token.png',
+                  logoURI:
+                    balance.symbol === 'bAutopilot_wETH'
+                      ? BaseAutopilotwETH
+                      : balance.symbol === 'bAutopilot_USDC'
+                      ? BaseAutopilotUSDC
+                      : balance.symbol === 'bAutopilot_cbBTC'
+                      ? BaseAutopilotcbBTC
+                      : balance.image
+                      ? balance.image
+                      : balance.images
+                      ? balance.images[0]
+                      : 'https://etherscan.io/images/main/empty-token.png',
                   decimals: balance.decimals,
                   chainId: chain,
                 }
@@ -1037,6 +1046,8 @@ const AdvancedFarm = () => {
     const timer = setTimeout(() => {
       if (defaultToken !== null) {
         let tokenToSet = null
+
+        setPickedTokenWith(defaultToken)
 
         // Check if defaultToken is present in the balanceList
         if (defaultToken.balance !== '0' || !supportedVault || hasPortalsError) {
@@ -2074,7 +2085,7 @@ const AdvancedFarm = () => {
                         color={fontColor3}
                         self="center"
                       >
-                        {token.isIPORVault ? 'ffToken' : 'fToken'}
+                        fToken
                       </NewLabel>
                       <NewLabel
                         size={isMobile ? '12px' : '12px'}
@@ -2281,16 +2292,21 @@ const AdvancedFarm = () => {
               </>
             ) : activeMainTag === 4 && token.isIPORVault ? (
               <>
-                <FlexDiv marginBottom="20px">
+                <FlexDiv marginBottom="20px" width="100%">
                   Performance comparison between Autopilot and its sub-vaults.
                 </FlexDiv>
                 <MainSection height={activeMainTag === 0 ? '100%' : 'fit-content'}>
                   <SharePricesData
+                    chainName={chainName}
                     token={token}
                     setSharePricesData={setSharePricesData}
                     iporHvaultsLFAPY={iporHvaultsLFAPY}
                   />
-                  <AOTData token={token} iporHvaultsLFAPY={iporHvaultsLFAPY} />
+                  <AOTData
+                    chainName={chainName}
+                    token={token}
+                    iporHvaultsLFAPY={iporHvaultsLFAPY}
+                  />
                 </MainSection>
                 <RestInternalBenchmark>
                   <LastHarvestInfo backColor={backColor} borderColor={borderColor}>
@@ -2317,7 +2333,7 @@ const AdvancedFarm = () => {
                         color="#5dcf46"
                         onClick={() => {}}
                       >
-                        Harvest {token.tokenNames[0]}
+                        Autopilot {token.tokenNames[0]}
                       </NewLabel>
                       <NewLabel size="13.4px" height="20px" weight="500" color="#5dcf46">
                         {iporHvaultsLFAPY && iporHvaultsLFAPY[token.id]
@@ -2329,13 +2345,17 @@ const AdvancedFarm = () => {
                       Object.keys(iporHvaultsLFAPY)
                         .filter(key => key !== token.id)
                         .map(apyKey => {
-                          let lifetimeApyValue = '-'
                           const vaultParts = apyKey
                             .split('_')
                             .map((part, index) =>
                               index === 0 ? part.charAt(0).toUpperCase() + part.slice(1) : part,
                             )
-                          const vaultName = vaultParts.join(' ')
+                          let lifetimeApyValue = '-',
+                            vaultName = vaultParts
+                              .filter(part => !part.toLowerCase().includes(chainName.toLowerCase()))
+                              .join(' ')
+                          if (vaultName === 'USDC') vaultName = 'Compound V3 USDC'
+                          if (vaultName === 'WETH') vaultName = 'Compound V3 WETH'
 
                           lifetimeApyValue = `${iporHvaultsLFAPY[apyKey]}%`
                           return (
@@ -2713,7 +2733,7 @@ const AdvancedFarm = () => {
                   <MyBalance
                     backColor={bgColorNew}
                     borderColor={borderColorBox}
-                    height={isMobile ? 'unset' : useIFARM ? 'unset' : '120px'}
+                    height={isMobile ? 'unset' : '120px'}
                     marginBottom={isMobile ? '20px' : '25px'}
                   >
                     <NewLabel
@@ -2724,7 +2744,7 @@ const AdvancedFarm = () => {
                       padding={isMobile ? '10px 15px' : '10px 15px'}
                       borderBottom={`1px solid ${borderColorBox}`}
                     >
-                      {useIFARM ? 'Farm (Legacy)' : fTokenName}
+                      {fTokenName}
                     </NewLabel>
                     <FlexDiv
                       justifyContent="space-between"
@@ -2753,9 +2773,8 @@ const AdvancedFarm = () => {
                             height={isMobile ? '18px' : '18px'}
                             weight="500"
                           >
-                            {useIFARM
-                              ? `The number of i${id} you hold, but entitled to extra token rewards.`
-                              : `The number of fTokens you hold, which are not entitled to extra token rewards.`}
+                            The number of fTokens you hold, which are not entitled to extra token
+                            rewards.
                           </NewLabel>
                         </ReactTooltip>
                       </NewLabel>
@@ -2802,9 +2821,8 @@ const AdvancedFarm = () => {
                             height={isMobile ? '18px' : '18px'}
                             weight="500"
                           >
-                            {useIFARM
-                              ? `The number of i${id} you hold, but entitled to extra token rewards.`
-                              : `The number of fTokens you hold, which are entitled to extra token rewards.`}
+                            The number of fTokens you hold, which are entitled to extra token
+                            rewards.
                           </NewLabel>
                         </ReactTooltip>
                       </NewLabel>
@@ -2827,92 +2845,6 @@ const AdvancedFarm = () => {
                         )}
                       </NewLabel>
                     </FlexDiv>
-                    {useIFARM && (
-                      <>
-                        <FlexDiv
-                          justifyContent="space-between"
-                          padding={isMobile ? '7px 11px' : '10px 15px'}
-                        >
-                          <NewLabel
-                            size={isMobile ? '10px' : '14px'}
-                            height={isMobile ? '18px' : '24px'}
-                            weight="500"
-                            color="#344054"
-                            self="center"
-                          >
-                            FARM Price
-                          </NewLabel>
-                          <NewLabel
-                            weight="500"
-                            size={isMobile ? '10px' : '14px'}
-                            height={isMobile ? '18px' : '24px'}
-                            color="black"
-                            self="center"
-                          >
-                            {!account ? (
-                              ''
-                            ) : token.data.lpTokenData ? (
-                              `${currencySym}${
-                                Number(token.data.lpTokenData.price) * Number(currencyRate)
-                              }`
-                            ) : (
-                              <AnimatedDots />
-                            )}
-                          </NewLabel>
-                        </FlexDiv>
-                        <FlexDiv
-                          justifyContent="space-between"
-                          padding={isMobile ? '7px 11px' : '10px 15px'}
-                        >
-                          <NewLabel
-                            size={isMobile ? '10px' : '14px'}
-                            height={isMobile ? '18px' : '24px'}
-                            weight="500"
-                            color="#344054"
-                            self="center"
-                          >
-                            Total Value
-                            <PiQuestion
-                              className="question"
-                              data-tip
-                              data-for="tooltip-totalValue"
-                            />
-                            <ReactTooltip
-                              id="tooltip-totalValue"
-                              backgroundColor={darkMode ? 'white' : '#101828'}
-                              borderColor={darkMode ? 'white' : 'black'}
-                              textColor={darkMode ? 'black' : 'white'}
-                            >
-                              <NewLabel
-                                size={isMobile ? '10px' : '12px'}
-                                height={isMobile ? '15px' : '18px'}
-                                weight="500"
-                              >
-                                Total Value of your Staked and Unstaked FARM
-                              </NewLabel>
-                            </ReactTooltip>
-                          </NewLabel>
-                          <NewLabel
-                            weight="500"
-                            size={isMobile ? '10px' : '14px'}
-                            height={isMobile ? '18px' : '24px'}
-                            color="black"
-                            self="center"
-                          >
-                            {!account ? (
-                              ''
-                            ) : totalValue ? (
-                              `${currencySym}${formatNumberWido(
-                                totalValue * token.data.lpTokenData.price * Number(currencyRate),
-                                WIDO_BALANCES_DECIMALS,
-                              )}`
-                            ) : (
-                              <AnimatedDots />
-                            )}
-                          </NewLabel>
-                        </FlexDiv>
-                      </>
-                    )}
                   </MyBalance>
                   {isMobile && (
                     <MyBalance
@@ -3316,10 +3248,21 @@ const AdvancedFarm = () => {
                       </NewLabel>
                       {token.allocPointData && token.allocPointData.length > 0 ? (
                         token.allocPointData.map((data, index) => {
-                          let vaultName = data.hVaultId.split('_')[0]
-                          vaultName = `${vaultName.charAt(0).toUpperCase() + vaultName.slice(1)} ${
-                            token.tokenNames[0]
-                          }`
+                          let vaultName
+                          if (data.hVaultId === 'Not invested') {
+                            vaultName = `Deployment Buffer ${token.tokenNames[0]}`
+                          } else {
+                            const vaultParts = data.hVaultId
+                              .split('_')
+                              .map((part, i) =>
+                                i === 0 ? part.charAt(0).toUpperCase() + part.slice(1) : part,
+                              )
+                            vaultName = vaultParts
+                              .filter(part => !part.toLowerCase().includes(chainName.toLowerCase()))
+                              .join(' ')
+                            if (vaultName === 'USDC') vaultName = 'Compound V3 USDC'
+                            if (vaultName === 'WETH') vaultName = 'Compound V3 WETH'
+                          }
                           return (
                             <FlexDiv
                               key={index}

@@ -4,7 +4,7 @@ import { useMediaQuery } from 'react-responsive'
 import CloseIcon from '../../../assets/images/logos/beginners/close.svg'
 import InfoMsg from '../../../assets/images/logos/autopilot/info-msg.svg'
 import Button from '../../Button'
-import { FTokenInfo, FTokenDiv, BaseSection, NewLabel, ImgBtn } from './style'
+import { FTokenInfo, FTokenDiv, BaseSection, NewLabel, ImgBtn, LearnLink } from './style'
 import { useThemeContext } from '../../../providers/useThemeContext'
 
 const DisclaimersModal = ({ modalShow, setModalShow }) => {
@@ -95,7 +95,17 @@ const DisclaimersModal = ({ modalShow, setModalShow }) => {
               </NewLabel>
               <NewLabel color={fontColor}>
                 All allocation processes are executed automatically via audited and pre-defined
-                algorithms of IPOR Labs.
+                algorithms of&nbsp;
+                <LearnLink
+                  href="https://docs.harvest.finance/how-it-works/autopilots#technology-and-audits"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  linkColor={fontColor}
+                  hoverColor={fontColor}
+                >
+                  IPOR Labs
+                </LearnLink>
+                .
               </NewLabel>
             </NewLabel>
           </NewLabel>

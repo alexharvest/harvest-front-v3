@@ -578,6 +578,13 @@ const FlexDiv = styled.div`
   display: flex;
 
   ${props =>
+    props.width
+      ? `
+      width: ${props.width};
+    `
+      : ''}
+
+  ${props =>
     props.gap
       ? `
       gap: ${props.gap};

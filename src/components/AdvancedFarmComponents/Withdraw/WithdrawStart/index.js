@@ -10,6 +10,7 @@ import { IoIosArrowUp } from 'react-icons/io'
 import ReactTooltip from 'react-tooltip'
 import { Spinner } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
+import AutopilotVaults from '../../../../assets/images/logos/advancedfarm/btc-eth-usdc.svg'
 import AlertIcon from '../../../../assets/images/logos/beginners/alert-triangle.svg'
 import AlertCloseIcon from '../../../../assets/images/logos/beginners/alert-close.svg'
 import CloseIcon from '../../../../assets/images/logos/beginners/close.svg'
@@ -728,7 +729,58 @@ const WithdrawStart = ({
               Successful
             </ProgressText>
           </ProgressLabel>
-          {Number(curChain) !== 324 && (
+          {curChain === '8453' && token.platform?.[0] !== 'Autopilot' && (
+            <NewLabel>
+              <NewLabel
+                color={darkMode ? '#ffffff' : '#344054'}
+                size={isMobile ? '14px' : '14px'}
+                height={isMobile ? '20px' : '28px'}
+                weight="600"
+                padding="20px 24px 0px 24px"
+              >
+                Tired of jumping between strategies? Try our Autopilots.
+              </NewLabel>
+              <VaultContainer>
+                <HighestVault
+                  className="highest-vault"
+                  onClick={e => {
+                    const url = `/autopilot`
+                    if (e.ctrlKey) {
+                      window.open(url, '_blank')
+                    } else {
+                      push(url)
+                    }
+                  }}
+                >
+                  <ImageName>
+                    <img className="logo-img" src={AutopilotVaults} alt="logo" />
+                    <div>
+                      <NewLabel
+                        color="#15202b"
+                        size={isMobile ? '14px' : '14px'}
+                        height={isMobile ? '20px' : '20px'}
+                        weight="600"
+                        padding="0px 10px"
+                      >
+                        Autopilot
+                      </NewLabel>
+                      <NewLabel
+                        color="#15202b"
+                        size={isMobile ? '14px' : '10px'}
+                        height={isMobile ? '20px' : '20px'}
+                        weight="400"
+                        padding="0px 10px"
+                      >
+                        Harvest
+                      </NewLabel>
+                    </div>
+                  </ImageName>
+                  <ImageName className="top-apy">Auto-Allocation</ImageName>
+                </HighestVault>
+              </VaultContainer>
+            </NewLabel>
+          )}
+          {curChain !== '8453' && curChain !== '324' && (
             <NewLabel>
               <NewLabel
                 color={darkMode ? '#ffffff' : '#344054'}

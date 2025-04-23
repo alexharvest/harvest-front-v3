@@ -7,7 +7,7 @@ import { ChartDiv, Container, Header, Total, TokenSymbol, TooltipInfo, FlexDiv }
 
 const { tokens } = require('../../../data')
 
-const SharePricesData = ({ token, setSharePricesData, iporHvaultsLFAPY }) => {
+const SharePricesData = ({ chainName, token, setSharePricesData, iporHvaultsLFAPY }) => {
   const { bgColorNew, borderColorBox } = useThemeContext()
 
   const [loadComplete, setLoadComplete] = useState(false)
@@ -177,6 +177,7 @@ const SharePricesData = ({ token, setSharePricesData, iporHvaultsLFAPY }) => {
       </Header>
       <ChartDiv className="advanced-price">
         <ApexChart
+          chainName={chainName}
           token={token}
           loadComplete={loadComplete}
           sharePriceData={sharePriceData}

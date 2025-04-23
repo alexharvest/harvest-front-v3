@@ -15,6 +15,20 @@ const BaseSection = styled.div`
   transition: 0.25s;
 `
 
+const LearnLink = styled.a`
+  font-weight: 400;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: ${props => props.linkColor};
+  padding: 0;
+  text-decoration: underline;
+
+  &:hover {
+    color: ${props => props.hoverColor};
+  }
+`
+
 const NewLabel = styled.div`
   ${props =>
     props.size
@@ -183,4 +197,4 @@ const ImgBtn = styled.img`
   margin-right: 8px;
 `
 
-export { FTokenInfo, FTokenDiv, BaseSection, NewLabel, ImgBtn }
+export { FTokenInfo, FTokenDiv, BaseSection, NewLabel, ImgBtn, LearnLink }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import Modal from 'react-bootstrap/Modal'
 import { useSetChain } from '@web3-onboard/react'
@@ -66,6 +66,15 @@ const SubscribeModal = ({ inputAmount, setInputAmount, token, modalShow, setModa
 
   const { handleApproval, handleIPORDeposit } = useActions()
   const { contracts } = useContracts()
+
+  useEffect(() => {
+    async function fetchBalances() {
+      await getWalletBalances([token.id], account, true)
+    }
+
+    fetchBalances()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const onSubscribe = async () => {
     if (progressStep === 0) {

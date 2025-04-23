@@ -386,7 +386,6 @@ export const getDataQuery = async (
       chartData[key] = data[key]
     }
   })
-  console.log(chartData)
   const dataTimestamp = Number(
     chartData.vaultHistories[chartData.vaultHistories.length - 1].timestamp,
   )

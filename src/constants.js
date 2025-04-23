@@ -545,7 +545,6 @@ export const LEADERBOARD_API_ENDPOINT = `${HARVEST_API_URL}/leaderboard?key=${pr
 export const COINGECKO_API_KEY = `${process.env.REACT_APP_COINGECKO_API_KEY}`
 
 export const BEGINNERS_BALANCES_DECIMALS = 2
-export const WIDO_BALANCES_DECIMALS = 5
 export const POOL_BALANCES_DECIMALS = 8
 export const WIDO_EXTEND_DECIMALS = 9
 export const MAX_BALANCES_DECIMALS = 12

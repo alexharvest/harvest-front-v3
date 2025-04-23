@@ -70,7 +70,7 @@ const AutopilotPanel = ({
   const [currencyRate, setCurrencyRate] = useState(1)
   const [subscribeName, setSubscribeName] = useState('Subscribe')
   const [subscribeLabel, setSubscribeLabel] = useState('Subscribe')
-  const [inputAmount, setInputAmount] = useState(0)
+  const [inputAmount, setInputAmount] = useState()
   const [inputUSDAmount, setInputUSDAmount] = useState('-')
 
   const { connected, account, connectAction, chainId, setChainId } = useWallet()
@@ -292,6 +292,7 @@ const AutopilotPanel = ({
                   fontColor2={fontColor2}
                   inputMode="numeric"
                   pattern="[0-9]*"
+                  placeholder="0"
                 />
                 <input type="hidden" value={Number(inputAmount)} />
                 <TokenUSDAmount fontColor3={fontColor3}>

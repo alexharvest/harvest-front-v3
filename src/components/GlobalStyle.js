@@ -814,6 +814,16 @@ html {
 
   .disclaimers-notification {
     width: 400px;
+
+    @media screen and (max-width: 576px) {
+      width: 100%;
+
+      .disclaimers-modal-body {
+        border-bottom-right-radius: 0px !important;
+        border-bottom-left-radius: 0px !important;
+      }
+    }
+
   }
 
   .apexcharts-tooltip {

@@ -4,7 +4,7 @@ import { useThemeContext } from '../../../providers/useThemeContext'
 import { getPlasmaVaultHistory } from '../../../utilities/apiCalls'
 import { ChartDiv, Container, Header, Total, TokenSymbol, TooltipInfo, FlexDiv } from './style'
 
-const AOTData = ({ token, iporHvaultsLFAPY }) => {
+const AOTData = ({ chainName, token, iporHvaultsLFAPY }) => {
   const { bgColorNew, borderColorBox } = useThemeContext()
 
   const [loadComplete, setLoadComplete] = useState(false)
@@ -141,6 +141,7 @@ const AOTData = ({ token, iporHvaultsLFAPY }) => {
       </Header>
       <ChartDiv className="advanced-price">
         <ApexChart
+          chainName={chainName}
           token={token}
           loadComplete={loadComplete}
           aotData={aotData}

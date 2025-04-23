@@ -160,6 +160,7 @@ const TokenSelect = styled.div`
 
   img.logo {
     margin-right: 8px;
+    border-radius: 50%;
   }
 
   span {

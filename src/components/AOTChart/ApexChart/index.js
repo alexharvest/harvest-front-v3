@@ -25,7 +25,7 @@ import {
 } from './style'
 import { useVaults } from '../../../providers/Vault'
 
-const ApexChart = ({ token, loadComplete, aotData, dataKeys, iporHvaultsLFAPY }) => {
+const ApexChart = ({ chainName, token, loadComplete, aotData, dataKeys, iporHvaultsLFAPY }) => {
   const { vaultsData } = useVaults()
   const { fontColor, bgColorChart } = useThemeContext()
   const onlyWidth = useWindowWidth()
@@ -61,9 +61,13 @@ const ApexChart = ({ token, loadComplete, aotData, dataKeys, iporHvaultsLFAPY })
                 ([, vault]) => vault.vaultAddress.toLowerCase() === address.toLowerCase(),
               )?.[0]
               const vaultParts = vaultKey
-                  .split('_')
-                  .map(part => part.charAt(0).toUpperCase() + part.slice(1)),
-                vaultName = vaultParts.join(' ')
+                .split('_')
+                .map(part => part.charAt(0).toUpperCase() + part.slice(1))
+              let vaultName = vaultParts
+                .filter(part => !part.toLowerCase().includes(chainName.toLowerCase()))
+                .join(' ')
+              if (vaultName === 'USDC') vaultName = 'Compound V3 USDC'
+              if (vaultName === 'WETH') vaultName = 'Compound V3 WETH'
 
               return (
                 <ProtocolEntry

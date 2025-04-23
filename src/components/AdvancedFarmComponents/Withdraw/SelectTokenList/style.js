@@ -20,6 +20,10 @@ const Container = styled.div`
   &.active {
     background: ${props => props.activeColor};
   }
+
+  img {
+    border-radius: 50%;
+  }
 `
 
 const Text = styled.div`

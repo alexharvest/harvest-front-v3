@@ -426,6 +426,7 @@ const WithdrawBase = ({
                 borderColor={borderColorBox}
                 inputMode="numeric"
                 pattern="[0-9]*"
+                placeholder="0"
               />
               <input type="hidden" value={Number(unstakeInputValue)} />
               <TokenUSDAmount fontColor3={fontColor3}>

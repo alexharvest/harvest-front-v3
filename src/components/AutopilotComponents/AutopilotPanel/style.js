@@ -179,6 +179,7 @@ const BasePanelBox = styled.div`
 
   @media screen and (max-width: 1060px) {
     width: 450px;
+    margin: 25px auto 0px auto;
   }
 `
 
