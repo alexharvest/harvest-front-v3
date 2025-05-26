@@ -1,6 +1,6 @@
 import { get } from 'lodash'
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { DISABLED_WITHDRAWS, FARM_TOKEN_SYMBOL, IFARM_TOKEN_SYMBOL } from '../constants'
 import { usePools } from '../providers/Pools'
 import { useVaults } from '../providers/Vault'
@@ -39,7 +39,7 @@ const VaultPanelModeSwitch = ({
 
   return (
     <>
-      <ReactTooltip
+      <Tooltip
         id={`${tokenSymbol}-withdraw-button`}
         backgroundColor="#fffce6"
         borderColor="black"
@@ -51,7 +51,7 @@ const VaultPanelModeSwitch = ({
         clickable
       >
         {token.disabledWithdrawTooltip}
-      </ReactTooltip>
+      </Tooltip>
       <div style={{ display: 'flex' }} data-tip data-for={`${tokenSymbol}-withdraw-button`}>
         <ButtonSwitch
           checked={withdrawMode}

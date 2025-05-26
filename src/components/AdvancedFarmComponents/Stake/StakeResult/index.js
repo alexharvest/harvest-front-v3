@@ -13,53 +13,53 @@ const StakeResult = ({ finalStep, setFinalStep, inputAmount, tokenSymbol }) => {
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
 
   return (
-    <Section show={finalStep}>
+    <Section $show={finalStep}>
       <NewLabel
-        color="#101828"
-        size={isMobile ? '16px' : '16px'}
-        weight="600"
-        height={isMobile ? '28px' : '28px'}
+        $fontcolor="#101828"
+        $size={isMobile ? '16px' : '16px'}
+        $weight="600"
+        $height={isMobile ? '28px' : '28px'}
       >
         Summary
       </NewLabel>
       <NewLabel
-        size={isMobile ? '14px' : '14px'}
-        height={isMobile ? '24px' : '24px'}
-        color="#344054"
+        $size={isMobile ? '14px' : '14px'}
+        $height={isMobile ? '24px' : '24px'}
+        $fontcolor="#344054"
       >
         <NewLabel
-          display="flex"
-          justifyContent="space-between"
-          padding={isMobile ? '10px 0' : '10px 0'}
+          $display="flex"
+          $justifycontent="space-between"
+          $padding={isMobile ? '10px 0' : '10px 0'}
         >
-          <NewLabel weight="500">Staked</NewLabel>
-          <NewLabel weight="600">
+          <NewLabel $weight="500">Staked</NewLabel>
+          <NewLabel $weight="600">
             {inputAmount}&nbsp;f{tokenSymbol}
           </NewLabel>
         </NewLabel>
       </NewLabel>
 
-      <FTokenInfo isShow={showDesc ? 'true' : 'false'}>
-        <NewLabel marginRight={isMobile ? '12px' : '12px'} display="flex">
+      <FTokenInfo $isshow={showDesc ? 'true' : 'false'}>
+        <NewLabel $marginright={isMobile ? '12px' : '12px'} $display="flex">
           <div>
             <img width={isMobile ? 15 : 20} src={CheckIcon} alt="" />
           </div>
-          <NewLabel marginLeft={isMobile ? '12px' : '12px'}>
+          <NewLabel $marginleft={isMobile ? '12px' : '12px'}>
             <NewLabel
-              color="#027A48"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px' : '20px'}
-              weight="600"
-              marginBottom="4px"
+              $fontcolor="#027A48"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px' : '20px'}
+              $weight="600"
+              $marginbottom="4px"
             >
               Stake Complete!
             </NewLabel>
             <NewLabel
-              color="#027A48"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px' : '20px'}
-              weight="400"
-              marginBottom="5px"
+              $fontcolor="#027A48"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px' : '20px'}
+              $weight="400"
+              $marginbottom="5px"
             >
               You are now earning extra rewards on your skaked f{tokenSymbol}.
             </NewLabel>
@@ -77,11 +77,11 @@ const StakeResult = ({ finalStep, setFinalStep, inputAmount, tokenSymbol }) => {
       </FTokenInfo>
 
       <NewLabel
-        size={isMobile ? '16px' : '16px'}
-        height={isMobile ? '21px' : '21px'}
-        weight={600}
-        color="#1F2937"
-        marginTop={isMobile ? '25px' : '25px'}
+        $size={isMobile ? '16px' : '16px'}
+        $height={isMobile ? '21px' : '21px'}
+        $weight={600}
+        $fontcolor="#1F2937"
+        $margintop={isMobile ? '25px' : '25px'}
       >
         <Buttons
           onClick={() => {

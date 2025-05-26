@@ -23,18 +23,18 @@ const SourceOfYield = params => {
   const vaultPool = params.vaultPool
 
   return (
-    <HalfInfo marginBottom="20px" backColor={bgColorNew} borderColor={borderColorBox}>
+    <HalfInfo $marginbottom="20px" $backcolor={bgColorNew} $bordercolor={borderColorBox}>
       <NewLabel
-        size={isMobile ? '12px' : '14px'}
-        weight={isMobile ? '600' : '600'}
-        height={isMobile ? '20px' : '24px'}
-        color={fontColor4}
-        padding={isMobile ? '10px 15px' : '10px 15px'}
-        borderBottom={`1px solid ${borderColorBox}`}
+        $size={isMobile ? '12px' : '14px'}
+        $weight={isMobile ? '600' : '600'}
+        $height={isMobile ? '20px' : '24px'}
+        $fontcolor={fontColor4}
+        $padding={isMobile ? '10px 15px' : '10px 15px'}
+        $borderbottom={`1px solid ${borderColorBox}`}
       >
         Source of Yield
       </NewLabel>
-      <DescInfo fontColor6={fontColor6} fontColor3={fontColor3}>
+      <DescInfo $fontcolor6={fontColor6} $fontcolor3={fontColor3}>
         {useIFARM ? (
           <div>
             <p>
@@ -70,24 +70,24 @@ const SourceOfYield = params => {
           ReactHtmlParser(vaultPool?.stakeAndDepositHelpMessage)
         )}
       </DescInfo>
-      <FlexDiv className="address" padding="0 15px 20px">
+      <FlexDiv className="address" $padding="0 15px 20px">
         {token.vaultAddress && (
           <InfoLabel
-            display="flex"
+            $display="flex"
             href={`${getExplorerLink(token?.chain)}/address/${token?.vaultAddress}`}
             target="_blank"
             onClick={e => e.stopPropagation()}
             rel="noopener noreferrer"
-            bgColor={bgColorNew}
-            hoverColor={hoverColor}
-            borderColor={borderColorBox}
+            $bgcolor={bgColorNew}
+            $hovercolor={hoverColor}
+            $bordercolor={borderColorBox}
           >
             <NewLabel
-              size="12px"
-              weight={isMobile ? 600 : 600}
-              height="16px"
-              self="center"
-              color={fontColor1}
+              $size="12px"
+              $weight={isMobile ? 600 : 600}
+              $height="16px"
+              $self="center"
+              $fontcolor={fontColor1}
             >
               Vault Address
             </NewLabel>
@@ -95,21 +95,21 @@ const SourceOfYield = params => {
         )}
         {token.strategyAddress && (
           <InfoLabel
-            display="flex"
+            $display="flex"
             href={`${getExplorerLink(token?.chain)}/address/${token?.strategyAddress}`}
             target="_blank"
             onClick={e => e.stopPropagation()}
             rel="noopener noreferrer"
-            bgColor={bgColorNew}
-            hoverColor={hoverColor}
-            borderColor={borderColorBox}
+            $bgcolor={bgColorNew}
+            $hovercolor={hoverColor}
+            $bordercolor={borderColorBox}
           >
             <NewLabel
-              size="12px"
-              weight={isMobile ? 600 : 600}
-              height="16px"
-              self="center"
-              color={fontColor1}
+              $size="12px"
+              $weight={isMobile ? 600 : 600}
+              $height="16px"
+              $self="center"
+              $fontcolor={fontColor1}
             >
               Strategy Address
             </NewLabel>
@@ -120,44 +120,44 @@ const SourceOfYield = params => {
         ) : (
           <>
             <InfoLabel
-              display="flex"
+              $display="flex"
               href={`${getExplorerLink(token.chain)}/address/${
                 vaultPool?.autoStakePoolAddress || vaultPool?.contractAddress
               }`}
               onClick={e => e.stopPropagation()}
               rel="noopener noreferrer"
               target="_blank"
-              bgColor={bgColorNew}
-              hoverColor={hoverColor}
-              borderColor={borderColorBox}
+              $bgcolor={bgColorNew}
+              $hovercolor={hoverColor}
+              $bordercolor={borderColorBox}
             >
               <NewLabel
-                size="12px"
-                weight={isMobile ? 400 : 600}
-                height="16px"
-                self="center"
-                color={fontColor1}
+                $size="12px"
+                $weight={isMobile ? 400 : 600}
+                $height="16px"
+                $self="center"
+                $fontcolor={fontColor1}
               >
                 Pool Address
               </NewLabel>
             </InfoLabel>
             {vaultPool?.liquidityUrl && (
               <InfoLabel
-                display="flex"
+                $display="flex"
                 href={`${vaultPool?.liquidityUrl}`}
                 target="_blank"
                 onClick={e => e.stopPropagation()}
                 rel="noopener noreferrer"
-                bgColor={bgColor}
-                hoverColor={hoverColor}
-                borderColor={borderColorBox}
+                $bgcolor={bgColor}
+                $hovercolor={hoverColor}
+                $bordercolor={borderColorBox}
               >
                 <NewLabel
-                  size="12px"
-                  weight={isMobile ? 600 : 600}
-                  height="16px"
-                  self="center"
-                  color={fontColor1}
+                  $size="12px"
+                  $weight={isMobile ? 600 : 600}
+                  $height="16px"
+                  $self="center"
+                  $fontcolor={fontColor1}
                 >
                   Add Liquidity
                 </NewLabel>

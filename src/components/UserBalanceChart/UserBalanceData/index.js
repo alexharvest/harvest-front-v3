@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { BigNumber } from 'bignumber.js'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { useMediaQuery } from 'react-responsive'
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa'
 import ApexChart from '../ApexChart'
@@ -417,16 +417,16 @@ const UserBalanceData = ({
   ])
 
   return (
-    <Container backColor={bgColorNew} borderColor={borderColorBox}>
+    <Container $backcolor={bgColorNew} $bordercolor={borderColorBox}>
       <Header>
         <Total>
           <FlexDiv>
             <TooltipInfo>
-              <TokenSymbol className="priceshare" color="#15B088">
+              <TokenSymbol className="priceshare" $fontcolor="#15B088">
                 {`${rates?.currency?.symbol ?? 'USD'}`} Balance
               </TokenSymbol>
               <FlexDiv>
-                <CurContent color={fontColor3}>
+                <CurContent $fontcolor={fontColor3}>
                   {curContent === '0' ? (
                     ''
                   ) : (
@@ -435,21 +435,21 @@ const UserBalanceData = ({
                     />
                   )}
                 </CurContent>
-                <CurContent color="#15B088">{curContent}</CurContent>
+                <CurContent $fontcolor="#15B088">{curContent}</CurContent>
               </FlexDiv>
             </TooltipInfo>
           </FlexDiv>
           <FlexDiv>
             <TooltipInfo className="tooltip-underlying">
-              <TokenSymbol className="priceshare" color="#8884d8">
+              <TokenSymbol className="priceshare" $fontcolor="#8884d8">
                 Underlying Balance
               </TokenSymbol>
               <FlexDiv>
-                <CurContent color="#8884d8" className="tt-content-underlying">
+                <CurContent $fontcolor="#8884d8" className="tt-content-underlying">
                   <div className="question" data-tip data-for="chart-underlying-balance">
                     {showTokenBalance(curContentUnderlying)}
                   </div>
-                  <ReactTooltip
+                  <Tooltip
                     id="chart-underlying-balance"
                     backgroundColor={darkMode ? 'white' : '#101828'}
                     borderColor={darkMode ? 'white' : 'black'}
@@ -457,13 +457,13 @@ const UserBalanceData = ({
                     place="top"
                   >
                     <NewLabel
-                      size={isMobile ? '10px' : '10px'}
-                      height={isMobile ? '14px' : '14px'}
+                      $size={isMobile ? '10px' : '10px'}
+                      $height={isMobile ? '14px' : '14px'}
                       weight="500"
                     >
                       {curContentUnderlying}
                     </NewLabel>
-                  </ReactTooltip>
+                  </Tooltip>
                 </CurContent>
               </FlexDiv>
             </TooltipInfo>
@@ -496,8 +496,8 @@ const UserBalanceData = ({
           type="button"
           onClick={handleToggle(setIsExpanded)}
           className="collapse-button"
-          backColor={darkMode ? '#3b3c3e' : '#e9f0f7'}
-          color={darkMode ? 'white' : 'black'}
+          $backcolor={darkMode ? '#3b3c3e' : '#e9f0f7'}
+          $fontcolor={darkMode ? 'white' : 'black'}
         >
           <ChevronIcon className="chevron">
             {isExpanded ? <FaChevronUp /> : <FaChevronDown />}

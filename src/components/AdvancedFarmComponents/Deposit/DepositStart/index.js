@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import BigNumber from 'bignumber.js'
 import { isNaN } from 'lodash'
 import Modal from 'react-bootstrap/Modal'
 import { useMediaQuery } from 'react-responsive'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { Spinner } from 'react-bootstrap'
 import { BsArrowDown } from 'react-icons/bs'
 import { CiSettings } from 'react-icons/ci'
@@ -82,7 +82,7 @@ const DepositStart = ({
     btnHoverColor,
   } = useThemeContext()
   const { account, web3, approvedBalances, getWalletBalances } = useWallet()
-  const { push } = useHistory()
+  const navigate = useNavigate()
   const { fetchUserPoolStats, userStats } = usePools()
   const { getPortalsApproval, portalsApprove, getPortals } = usePortals()
 
@@ -368,27 +368,27 @@ const DepositStart = ({
       <Modal.Header className="deposit-modal-header">
         <FTokenInfo>
           <FTokenDiv>
-            <NewLabel margin="auto 0px">
+            <NewLabel $margin="auto 0px">
               <IconCard>
                 <BsArrowDown />
               </IconCard>
             </NewLabel>
-            <NewLabel textAlign="left" marginRight="12px">
+            <NewLabel $textalign="left" $marginright="12px">
               <NewLabel
-                color="#5dcf46"
-                size={isMobile ? '18px' : '18px'}
-                height={isMobile ? '28px' : '28px'}
-                weight="600"
-                marginBottom="4px"
+                $fontcolor="#5dcf46"
+                $size={isMobile ? '18px' : '18px'}
+                $height={isMobile ? '28px' : '28px'}
+                $weight="600"
+                $marginbottom="4px"
               >
                 Summary
               </NewLabel>
               <NewLabel
-                color={fontColor1}
-                size={isMobile ? '14px' : '14px'}
-                height={isMobile ? '20px' : '20px'}
-                weight="400"
-                marginBottom="5px"
+                $fontcolor={fontColor1}
+                $size={isMobile ? '14px' : '14px'}
+                $height={isMobile ? '20px' : '20px'}
+                $weight="400"
+                $marginbottom="5px"
               >
                 Convert your crypto into interest-bearing fToken
               </NewLabel>
@@ -396,15 +396,15 @@ const DepositStart = ({
           </FTokenDiv>
           <NewLabel>
             <NewLabel
-              display="flex"
-              marginBottom={isMobile ? '16px' : '16px'}
-              width="fit-content"
-              cursorType="pointer"
-              weight="600"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px' : '20px'}
-              color="#667085"
-              align="center"
+              $display="flex"
+              $marginbottom={isMobile ? '16px' : '16px'}
+              $width="fit-content"
+              $cursortype="pointer"
+              $weight="600"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px' : '20px'}
+              $fontcolor="#667085"
+              $align="center"
               onClick={() => {
                 closeDeposit()
               }}
@@ -417,18 +417,18 @@ const DepositStart = ({
       <Modal.Body className="deposit-modal-body">
         <SelectTokenWido>
           <NewLabel
-            size={isMobile ? '14px' : '14px'}
-            height={isMobile ? '24px' : '24px'}
-            padding="24px"
-            color={fontColor2}
+            $size={isMobile ? '14px' : '14px'}
+            $height={isMobile ? '24px' : '24px'}
+            $padding="24px"
+            $fontcolor={fontColor2}
           >
             <NewLabel
-              display="flex"
-              justifyContent="space-between"
-              padding={isMobile ? '10px 0' : '10px 0'}
+              $display="flex"
+              $justifycontent="space-between"
+              $padding={isMobile ? '10px 0' : '10px 0'}
             >
-              <NewLabel weight="500">{progressStep === 4 ? 'Converted' : 'Converting'}</NewLabel>
-              <NewLabel display="flex" flexFlow="column" weight="600" textAlign="right">
+              <NewLabel $weight="500">{progressStep === 4 ? 'Converted' : 'Converting'}</NewLabel>
+              <NewLabel $display="flex" $flexflow="column" $weight="600" $textalign="right">
                 {fromInfoAmount !== '' ? fromInfoAmount : inputAmount}
                 <span>{pickedToken.symbol}</span>
                 <span>
@@ -437,16 +437,16 @@ const DepositStart = ({
               </NewLabel>
             </NewLabel>
             <NewLabel
-              display="flex"
-              justifyContent="space-between"
-              padding={isMobile ? '10px 0' : '10px 0'}
+              $display="flex"
+              $justifycontent="space-between"
+              $padding={isMobile ? '10px 0' : '10px 0'}
             >
-              <NewLabel className="beginners" weight="500">
+              <NewLabel className="beginners" $weight="500">
                 {progressStep === 4 ? 'fTokens Received' : 'Est. fTokens Received'}
                 {progressStep !== 4 && (
                   <>
                     <PiQuestion className="question" data-tip data-for="min-help" />
-                    <ReactTooltip
+                    <Tooltip
                       id="min-help"
                       backgroundColor={darkMode ? 'white' : '#101828'}
                       borderColor={darkMode ? 'white' : 'black'}
@@ -454,19 +454,19 @@ const DepositStart = ({
                       place="right"
                     >
                       <NewLabel
-                        size={isMobile ? '10px' : '10px'}
-                        height={isMobile ? '14px' : '14px'}
-                        weight="600"
+                        $size={isMobile ? '10px' : '10px'}
+                        $height={isMobile ? '14px' : '14px'}
+                        $weight="600"
                       >
                         {useIFARM
                           ? `The estimated number of i${tokenSymbol} you will receive in your wallet. The default slippage is set as 'Auto'.`
                           : `The estimated number of ${tokenName} you will receive in your wallet. The default slippage is set as 'Auto'.`}
                       </NewLabel>
-                    </ReactTooltip>
+                    </Tooltip>
                   </>
                 )}
               </NewLabel>
-              <NewLabel weight="600" textAlign="right" display="flex" flexFlow="column">
+              <NewLabel $weight="600" $textalign="right" $display="flex" $flexflow="column">
                 <>
                   <div data-tip data-for="modal-fToken-receive-convert">
                     {!pickedDefaultToken && progressStep === 4 ? (
@@ -485,7 +485,7 @@ const DepositStart = ({
                       </AnimateDotDiv>
                     )}
                   </div>
-                  <ReactTooltip
+                  <Tooltip
                     id="modal-fToken-receive-convert"
                     backgroundColor={darkMode ? 'white' : '#101828'}
                     borderColor={darkMode ? 'white' : 'black'}
@@ -493,9 +493,9 @@ const DepositStart = ({
                     place="top"
                   >
                     <NewLabel
-                      size={isMobile ? '12px' : '12px'}
-                      height={isMobile ? '18px' : '18px'}
-                      weight="500"
+                      $size={isMobile ? '12px' : '12px'}
+                      $height={isMobile ? '18px' : '18px'}
+                      $weight="500"
                     >
                       {!pickedDefaultToken && progressStep === 4 ? (
                         receiveAmount !== '' ? (
@@ -513,9 +513,9 @@ const DepositStart = ({
                         </AnimateDotDiv>
                       )}
                     </NewLabel>
-                  </ReactTooltip>
+                  </Tooltip>
                 </>
-                <NewLabel display="flex" flexFlow="column" weight="600" textAlign="right">
+                <NewLabel $display="flex" $flexflow="column" $weight="600" $textalign="right">
                   <span>{useIFARM ? `i${tokenSymbol}` : tokenName}</span>
                   <span>
                     {!pickedDefaultToken && progressStep === 4 ? (
@@ -537,27 +537,27 @@ const DepositStart = ({
             </NewLabel>
           </NewLabel>
 
-          <FTokenWrong isShow={depositFailed ? 'true' : 'false'}>
-            <NewLabel marginRight="12px" display="flex">
+          <FTokenWrong $isshow={depositFailed ? 'true' : 'false'}>
+            <NewLabel $marginright="12px" $display="flex">
               <div>
                 <img src={AlertIcon} alt="" />
               </div>
-              <NewLabel marginLeft="12px">
+              <NewLabel $marginleft="12px">
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="600"
-                  marginBottom="4px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="600"
+                  $marginbottom="4px"
                 >
                   Whoops, something went wrong.
                 </NewLabel>
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="400"
-                  marginBottom="5px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="400"
+                  $marginbottom="5px"
                 >
                   Please try to repeat the transaction in your wallet.
                 </NewLabel>
@@ -573,27 +573,27 @@ const DepositStart = ({
               />
             </NewLabel>
           </FTokenWrong>
-          <FTokenWrong isShow={slippageFailed ? 'true' : 'false'}>
-            <NewLabel marginRight="12px" display="flex">
+          <FTokenWrong $isshow={slippageFailed ? 'true' : 'false'}>
+            <NewLabel $marginright="12px" $display="flex">
               <div>
                 <img src={AlertIcon} alt="" />
               </div>
-              <NewLabel marginLeft="12px">
+              <NewLabel $marginleft="12px">
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="600"
-                  marginBottom="4px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="600"
+                  $marginbottom="4px"
                 >
                   Whoops, slippage set too low
                 </NewLabel>
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="400"
-                  marginBottom="5px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="400"
+                  $marginbottom="5px"
                 >
                   Slippage for this conversion is set too low. Expected slippage is &gt;[number%].
                   If you wish to proceed, set it manually via the gear button below.
@@ -627,18 +627,18 @@ const DepositStart = ({
               alt="progress bar"
             />
           </NewLabel>
-          <ProgressLabel fontColor2={fontColor2}>
-            <ProgressText width="50%" padding="0px 0px 0px 30px">
+          <ProgressLabel $fontcolor2={fontColor2}>
+            <ProgressText $width="50%" $padding="0px 0px 0px 30px">
               Approve
               <br />
               Token
             </ProgressText>
-            <ProgressText width="unset" padding="0px 0px 0px 7px">
+            <ProgressText $width="unset" $padding="0px 0px 0px 7px">
               Confirm
               <br />
               Transaction
             </ProgressText>
-            <ProgressText width="50%" padding="0px 10px 0px 0px">
+            <ProgressText $width="50%" $padding="0px 10px 0px 0px">
               Transaction
               <br />
               Successful
@@ -647,11 +647,11 @@ const DepositStart = ({
           {curChain === '8453' && token.platform?.[0] !== 'Autopilot' && (
             <NewLabel>
               <NewLabel
-                color={darkMode ? '#ffffff' : '#344054'}
-                size={isMobile ? '14px' : '14px'}
-                height={isMobile ? '20px' : '28px'}
-                weight="600"
-                padding="20px 24px 0px 24px"
+                $fontcolor={darkMode ? '#ffffff' : '#344054'}
+                $size={isMobile ? '14px' : '14px'}
+                $height={isMobile ? '20px' : '28px'}
+                $weight="600"
+                $padding="20px 24px 0px 24px"
               >
                 Tired of jumping between strategies? Try our Autopilots.
               </NewLabel>
@@ -663,7 +663,7 @@ const DepositStart = ({
                     if (e.ctrlKey) {
                       window.open(url, '_blank')
                     } else {
-                      push(url)
+                      navigate(url)
                     }
                   }}
                 >
@@ -671,20 +671,20 @@ const DepositStart = ({
                     <img className="logo-img" src={AutopilotVaults} alt="logo" />
                     <div>
                       <NewLabel
-                        color="#15202b"
-                        size={isMobile ? '14px' : '14px'}
-                        height={isMobile ? '20px' : '20px'}
-                        weight="600"
-                        padding="0px 10px"
+                        $fontcolor="#15202b"
+                        $size={isMobile ? '14px' : '14px'}
+                        $height={isMobile ? '20px' : '20px'}
+                        $weight="600"
+                        $padding="0px 10px"
                       >
                         Autopilot
                       </NewLabel>
                       <NewLabel
-                        color="#15202b"
-                        size={isMobile ? '14px' : '10px'}
-                        height={isMobile ? '20px' : '20px'}
-                        weight="400"
-                        padding="0px 10px"
+                        $fontcolor="#15202b"
+                        $size={isMobile ? '14px' : '10px'}
+                        $height={isMobile ? '20px' : '20px'}
+                        $weight="400"
+                        $padding="0px 10px"
                       >
                         Harvest
                       </NewLabel>
@@ -696,12 +696,12 @@ const DepositStart = ({
             </NewLabel>
           )}
           <NewLabel
-            size={isMobile ? '16px' : '16px'}
-            height={isMobile ? '24px' : '24px'}
-            weight={600}
-            color="#1F2937"
-            padding={slippageSetting ? '25px 24px 10px' : '25px 24px 24px'}
-            display="flex"
+            $size={isMobile ? '16px' : '16px'}
+            $height={isMobile ? '24px' : '24px'}
+            $weight={600}
+            $fontcolor="#1F2937"
+            $padding={slippageSetting ? '25px 24px 10px' : '25px 24px 24px'}
+            $display="flex"
           >
             <SlippageBox onClick={() => setSlippageSetting(!slippageSetting)}>
               {slippageSetting ? (
@@ -711,7 +711,7 @@ const DepositStart = ({
               )}
             </SlippageBox>
             <Buttons
-              hoverColor={btnHoverColor}
+              $hovercolor={btnHoverColor}
               onClick={() => {
                 startDeposit()
               }}
@@ -720,29 +720,29 @@ const DepositStart = ({
               {!startSpinner ? (
                 <></>
               ) : (
-                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                <Spinner as="span" animation="border" $size="sm" role="status" aria-hidden="true" />
               )}
             </Buttons>
           </NewLabel>
           <NewLabel
-            size={isMobile ? '12px' : '12px'}
-            height={isMobile ? '24px' : '24px'}
-            color={fontColor3}
-            padding="10px 24px"
-            display={slippageSetting ? 'flex' : 'none'}
-            flexFlow="column"
+            $size={isMobile ? '12px' : '12px'}
+            $height={isMobile ? '24px' : '24px'}
+            $fontcolor={fontColor3}
+            $padding="10px 24px"
+            $display={slippageSetting ? 'flex' : 'none'}
+            $flexflow="column"
           >
-            <NewLabel display="flex" justifyContent="space-between">
+            <NewLabel $display="flex" $justifycontent="space-between">
               <NewLabel>Slippage Settings</NewLabel>
-              <MiddleLine width={isMobile ? '65%' : '75%'} />
+              <MiddleLine $width={isMobile ? '65%' : '75%'} />
             </NewLabel>
-            <NewLabel padding="10px 0px">
+            <NewLabel $padding="10px 0px">
               Current slippage:{' '}
               <span className="auto-slippage">
                 {slippagePercentage === null ? 'Auto (0 - 2.5%)' : `${slippagePercentage}%`}
               </span>
             </NewLabel>
-            <SlippageRow borderColor={borderColor}>
+            <SlippageRow $bordercolor={borderColor}>
               {SlippageValues.map((percentage, index) => (
                 <SlipValue
                   key={index}
@@ -750,29 +750,29 @@ const DepositStart = ({
                     setSlippagePercentage(percentage)
                     setCustomSlippage(null)
                   }}
-                  color={slippagePercentage === percentage ? '#fff' : fontColor2}
-                  bgColor={slippagePercentage === percentage ? bgColorSlippage : ''}
-                  borderColor={borderColor}
-                  isLastChild={index === SlippageValues.length - 1}
-                  isFirstChild={index === 0}
+                  $fontcolor={slippagePercentage === percentage ? '#fff' : fontColor2}
+                  $bgcolor={slippagePercentage === percentage ? bgColorSlippage : ''}
+                  $bordercolor={borderColor}
+                  $islastchild={index === SlippageValues.length - 1}
+                  $isfirstchild={index === 0}
                 >
                   {percentage === null ? 'Auto' : `${percentage}%`}
                 </SlipValue>
               ))}
             </SlippageRow>
             <NewLabel
-              display="flex"
-              justifyContent="space-between"
-              padding="15px 0px 5px"
-              gap="10px"
+              $display="flex"
+              $justifycontent="space-between"
+              $padding="15px 0px 5px"
+              $gap="10px"
             >
-              <NewLabel color={fontColor2} weight="600" margin="auto">
+              <NewLabel $fontcolor={fontColor2} $weight="600" $margin="auto">
                 or
               </NewLabel>
               <SlippageInput
-                fontColor2={fontColor2}
-                backColor={backColor}
-                borderColor={
+                $fontcolor2={fontColor2}
+                $backcolor={backColor}
+                $bordercolor={
                   customSlippage === null || customSlippage === 0 ? borderColor : '#5dcf46'
                 }
               >
@@ -786,17 +786,17 @@ const DepositStart = ({
               </SlippageInput>
               <SlippageBtn
                 onClick={onSlippageSave}
-                color={
+                $fontcolor={
                   !darkMode
                     ? '#fff'
                     : customSlippage === null || customSlippage === 0
                     ? '#0C111D'
                     : '#fff'
                 }
-                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#5dcf46'}
+                $bgcolor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#5dcf46'}
                 cursor={customSlippage === null || customSlippage === 0 ? 'not-allowed' : 'pointer'}
-                hoverColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#51e932'}
-                activeColor={
+                $hovercolor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#51e932'}
+                $activecolor={
                   customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#46eb25'
                 }
               >

@@ -2,18 +2,18 @@ import styled from 'styled-components'
 import { Dropdown, Offcanvas } from 'react-bootstrap'
 
 const Container = styled.div`
-  border-right: 1px solid ${props => props.bordercolor};
+  border-right: 1px solid ${props => props.$bordercolor};
 
   a.logo {
-    color: ${props => props.fontColor};
+    color: ${props => props.$fontcolor};
   }
   transition: 0.25s;
-  background: ${props => props.backcolor};
-  color: ${props => props.fontColor};
+  background: ${props => props.$backcolor};
+  color: ${props => props.$fontcolor};
 
   min-height: 652px;
   height: 100%;
-  min-width: ${props => props.width};
+  min-width: ${props => props.$width};
   max-width: 100%;
   position: fixed;
   z-index: 10;
@@ -29,7 +29,7 @@ const Container = styled.div`
     border: none;
     bottom: 0;
     height: fit-content;
-    border-top: 1px solid ${props => props.bordercolor};
+    border-top: 1px solid ${props => props.$bordercolor};
     padding: 0px 25px;
   }
 `
@@ -72,7 +72,7 @@ const LinksContainer = styled.div`
       margin-left: 15px;
       display: block;
       content: 'Harvest';
-      color: ${props => props.fontColor};
+      color: ${props => props.$fontcolor};
     }
   }
 
@@ -86,7 +86,7 @@ const LinksContainer = styled.div`
 `
 
 const CategoryRow = styled.div`
-  color: ${props => props.color};
+  color: ${props => props.$fontcolor};
   font-size: 13.176px;
   font-weight: 300;
   line-height: 26.352px;
@@ -104,7 +104,7 @@ const LinkContainer = styled.div`
 `
 
 const LinkWrap = styled.button`
-  color: ${props => props.fontColor1};
+  color: ${props => props.$fontcolor1};
   transition: 0.25s;
   font-size: 15px;
   font-weight: 600;
@@ -124,17 +124,17 @@ const LinkWrap = styled.button`
   .sideIcon {
     margin-right: 12px;
     filter: ${props =>
-      props.darkMode
+      props.$darkmode
         ? 'invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%)'
         : ''};
   }
 
   &:hover {
-    background: ${props => props.hoverColorSide};
+    background: ${props => props.$hovercolorside};
   }
 
   ${props =>
-    props.enabled === 'false'
+    props.$enabled === 'false'
       ? `
       pointer-events: none;
       color: #a4a4a4;
@@ -146,7 +146,7 @@ const LinkWrap = styled.button`
       : ``}
 
   ${props =>
-    props.active
+    props.$active
       ? `
       color: #5dcf46;
       img.sideIcon {
@@ -179,7 +179,7 @@ const LinkWrap = styled.button`
     font-weight: 600;
     line-height: 24px;
     ${props =>
-      props.enabled === 'false'
+      props.$enabled === 'false'
         ? `
         pointer-events: none;
         color: #a4a4a4;
@@ -190,14 +190,14 @@ const LinkWrap = styled.button`
       `
         : ``}
     ${props =>
-      props.active
+      props.$active
         ? `
         font-weight: bold;
         background: unset;
     `
         : `
     `}
-    display: ${props => (props.isDropdownLink ? 'none' : 'flex')};
+    display: ${props => (props.$isdropdownlink ? 'none' : 'flex')};
 
     img {
       width: 20px;
@@ -252,7 +252,7 @@ const ConnectButtonStyle = styled.button`
   padding: 7.32px 10.98px;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   @media screen and (max-width: 992px) {
@@ -306,7 +306,7 @@ const MobileView = styled.div`
 
   &.connect-modal {
     padding: 10px 25px;
-    border-top: 1px solid ${props => props.bordercolor};
+    border-top: 1px solid ${props => props.$bordercolor};
   }
 
   button {
@@ -320,32 +320,32 @@ const MobileActionsContainer = styled.div`
   position: absolute;
   width: 100%;
   border-radius: 15px 15px 0px 0px;
-  background: ${props => props.bgColor};
-  box-shadow: 0px -4px 4px 0px ${props => props.bordercolor};
+  background: ${props => props.$bgcolor};
+  box-shadow: 0px -4px 4px 0px ${props => props.$bordercolor};
   &.full-menu-container {
     padding: 19px 19px 0px;
   }
 `
 
 const MobileWalletButton = styled.div`
-  color: ${props => props.fontColor5};
+  color: ${props => props.$fontcolor5};
   font-size: 16px;
   line-height: 24px;
   font-weight: 600;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: ${props => (props.marginLeft ? props.marginLeft : '')};
+  margin-left: ${props => (props.$marginleft ? props.$marginleft : '')};
   // padding: 10px 18px;
-  background: ${props => props.backcolor};
+  background: ${props => props.$backcolor};
   // border-radius: 5px;
-  // border: 1px solid ${props => props.bordercolor};
+  // border: 1px solid ${props => props.$bordercolor};
   cursor: pointer;
   width: 10%;
   text-align: center;
 
   img.disconnect {
-    filter: ${props => props.filterColor};
+    filter: ${props => props.$filtercolor};
   }
 
   &.connect-button {
@@ -370,13 +370,13 @@ const MobileLink = styled.button`
   line-height: 19px;
   align-items: end;
   justify-content: start;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   background-color: transparent;
   cursor: pointer;
   margin-left: 1rem;
   border-width: 0;
   ${props =>
-    props.active
+    props.$active
       ? `
     opacity: 1;
     font-weight: 800;
@@ -409,13 +409,13 @@ const MobileFollow = styled.div`
 const ConnectAvatar = styled.div`
   display: flex;
   align-items: center;
-  margin-right: ${props => (props.avatar ? '10px' : '-10px')};
+  margin-right: ${props => (props.$avatar === 'true' ? '10px' : '-10px')};
   font-size: 15px;
   font-weight: 600;
   line-height: 24px;
   transition: 0.25s;
   letter-spacing: -0.15px;
-  color: ${props => props.color};
+  color: ${props => props.$fontcolor};
 
   @media screen and (max-width: 992px) {
     justify-content: center;
@@ -425,7 +425,7 @@ const ConnectAvatar = styled.div`
 
 const Address = styled.span`
   display: flex;
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
   font-weight: 500;
   letter-spacing: -0.12px;
   font-size: 13px;
@@ -465,8 +465,8 @@ const ThemeMode = styled.div`
     }
 
     .switch-track {
-      background: ${props => props.backcolor};
-      border: 1px solid ${props => props.bordercolor};
+      background: ${props => props.$backcolor};
+      border: 1px solid ${props => props.$bordercolor};
       width: 105px;
       height: 40px;
       border-radius: 30px;
@@ -492,9 +492,9 @@ const ThemeMode = styled.div`
     }
 
     .switch-icon {
-      color: ${props => props.color};
+      color: ${props => props.$fontcolor};
       height: 32px;
-      ${props => (props.mode === 'dark' ? 'left: 5px;' : 'right: 5px;')}
+      ${props => (props.$mode === 'dark' ? 'left: 5px;' : 'right: 5px;')}
       position: absolute;
       top: 4px;
       width: 48px;
@@ -512,7 +512,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'light'
+    props.$mode === 'light'
       ? `
       #theme-switch {
         .switch-check {
@@ -533,17 +533,15 @@ const ThemeMode = styled.div`
 
 const SideIcons = styled.img`
   transition: 0.25s;
-  width: ${props => props.width};
-  height: ${props => props.height};
-  filter: ${props => props.filterColor};
-  margin-top: ${props => (props.marginTop ? props.marginTop : '')};
+  filter: ${props => props.$filtercolor};
+  margin-top: ${props => (props.$margintop ? props.$margintop : '')};
 `
 
 const UserDropDown = styled(Dropdown.Toggle)`
   border-radius: 11px;
-  background: ${props => props.backcolor} !important;
+  background: ${props => props.$backcolor} !important;
   border: none !important;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
   align-items: center;
   padding: 8px 18px 8px 5px !important;
   width: 100%;
@@ -561,7 +559,7 @@ const UserDropDown = styled(Dropdown.Toggle)`
   &:hover,
   &:active,
   &:focus {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
   }
 
   .chain-name {
@@ -583,8 +581,8 @@ const UserDropDown = styled(Dropdown.Toggle)`
 `
 
 const UserDropDownMenu = styled(Dropdown.Menu)`
-  background-color: ${props => props.backcolor} !important;
-  border: 1px solid ${props => props.bordercolor} !important;
+  background-color: ${props => props.$backcolor} !important;
+  border: 1px solid ${props => props.$bordercolor} !important;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   border-radius: 12px !important;
   padding: 0;
@@ -604,24 +602,24 @@ const UserDropDownItem = styled(Dropdown.Item)`
   display: flex !important;
   justify-content: start;
   ${props =>
-    props.bordercolor
+    props.$bordercolor
       ? `
-    border-bottom: 0.5px solid ${props.bordercolor} !important;
+    border-bottom: 0.5px solid ${props.$bordercolor} !important;
   `
       : `
   `}
   width: auto !important;
-  color: ${props => props.fontcolor} !important;
+  color: ${props => props.$fontcolor} !important;
 
   img {
-    filter: ${props => props.filtercolor};
+    filter: ${props => props.$filtercolor};
   }
 
   &:hover {
     background: none !important;
 
     img {
-      filter: ${props => props.filtercolornew};
+      filter: ${props => props.$filtercolornew};
     }
     div {
       color: #5dcf46;
@@ -655,17 +653,17 @@ const OffcanvasDiv = styled(Offcanvas)`
   box-shadow: 0px -4px 4px 0px rgba(0, 0, 0, 0.1);
   border-radius: 15px 15px 0px 0px;
   border-left: unset !important;
-  color: ${props => props.fontcolor};
+  color: ${props => props.$fontcolor};
   transition: 0.25s;
   a.logo {
-    color: ${props => props.fontcolor};
+    color: ${props => props.$fontcolor};
   }
 
   .offcanvas-header {
     justify-content: end;
 
     .btn-close {
-      filter: ${props => props.filtercolor};
+      filter: ${props => props.$filtercolor};
     }
   }
 `
@@ -685,7 +683,7 @@ const Logo = styled.div`
 
   svg.close {
     font-size: 24px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
   }
 
@@ -722,8 +720,8 @@ const LinkName = styled.div`
   font-weight: 400;
   font-size: 13px;
   line-height: 25px;
-  color: ${props => (props.color ? props.color : '')};
-  margin-top: ${props => (props.marginTop ? props.marginTop : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
+  margin-top: ${props => (props.$margintop ? props.$margintop : '')};
 `
 
 const LinkMobile = styled.button`
@@ -739,18 +737,18 @@ const LinkMobile = styled.button`
   padding-left: 0;
   padding-right: 0;
   flex-direction: column;
-  display: ${props => (props.isDropdownLink ? 'none' : 'flex')};
+  display: ${props => (props.$isdropdownlink ? 'none' : 'flex')};
 
   &.more {
     margin-top: -1px;
   }
 
   img {
-    filter: ${props => (props.farmsFilter ? props.farmsFilter : '')};
+    filter: ${props => (props.$farmsfilter ? props.$farmsfilter : '')};
   }
 
   ${props =>
-    props.enabled === 'false'
+    props.$enabled === 'false'
       ? `
       pointer-events: none;
       color: #a4a4a4;
@@ -758,7 +756,7 @@ const LinkMobile = styled.button`
       : ``}
 
   ${props =>
-    props.active
+    props.$active
       ? `
           font-weight: 500;
           color: #15B088;
@@ -786,7 +784,7 @@ const MobileMoreHeader = styled.div`
   padding: 7px 11px;
   width: 70%;
   border-radius: 10.98px;
-  background: ${props => props.backcolor};
+  background: ${props => props.$backcolor};
 `
 
 export {

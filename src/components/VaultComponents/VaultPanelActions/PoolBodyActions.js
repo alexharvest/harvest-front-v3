@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { get, size } from 'lodash'
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import {
   ACTIONS,
   FARM_TOKEN_SYMBOL,
@@ -79,8 +79,8 @@ const PoolBodyActions = ({
   const { fontColor, borderColor } = useThemeContext()
 
   return (
-    <SelectedVaultContainer maxWidth="100%" borderWidth="1px 0 0 0" borderColor={borderColor}>
-      <ReactTooltip
+    <SelectedVaultContainer $maxwidth="100%" $borderwidth="1px 0 0 0" $bordercolor={borderColor}>
+      <Tooltip
         id={`${fAssetPool.id}-unstaked-details`}
         backgroundColor="#fffce6"
         borderColor="black"
@@ -100,7 +100,7 @@ const PoolBodyActions = ({
           buy more
         </a>
         )
-      </ReactTooltip>
+      </Tooltip>
       {size(rewardTokenSymbols) >= 2 ? (
         rewardTokenSymbols.slice(1, size(rewardTokenSymbols)).map((symbol, symbolIdx) =>
           !hodlVaultId &&
@@ -153,7 +153,7 @@ const PoolBodyActions = ({
         )
       ) : !hodlVaultId ? (
         <SelectedVault data-tip="" data-for={`${fAssetPool.id}-unstaked-details`}>
-          <SelectedVaultLabel fontColor={fontColor} justifyContent="start">
+          <SelectedVaultLabel $fontcolor={fontColor} $justifycontent="start">
             Your Unstaked <b>{fAssetSymbol}</b>
           </SelectedVaultLabel>
           <SelectedVaultNumber>
@@ -175,7 +175,7 @@ const PoolBodyActions = ({
         </SelectedVault>
       ) : null}
 
-      <ReactTooltip
+      <Tooltip
         id={`${fAssetPool.id}-staked-details`}
         backgroundColor="#fffce6"
         borderColor="black"
@@ -184,13 +184,13 @@ const PoolBodyActions = ({
         disable={fAssetPool.id !== SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID}
       >
         <b>{FARM_TOKEN_SYMBOL}</b> staked directly into <b>Profit Sharing</b>
-      </ReactTooltip>
+      </Tooltip>
       <SelectedVault
         data-tip=""
         data-for={`${fAssetPool.id}-staked-details`}
         order={hodlVaultId ? 2 : 0}
       >
-        <SelectedVaultLabel fontColor={fontColor}>Total Staked</SelectedVaultLabel>
+        <SelectedVaultLabel $fontcolor={fontColor}>Total Staked</SelectedVaultLabel>
         <SelectedVaultNumber>
           <Monospace>
             {!connected ? (
@@ -220,12 +220,12 @@ const PoolBodyActions = ({
         </SelectedVaultNumber>
       </SelectedVault>
       {!isSpecialVault && (
-        <SelectedVault flexDirection="unset" justifyContent="center" alignItems="center">
+        <SelectedVault $flexdirection="unset" $justifycontent="center" $alignitems="center">
           <Button
-            width="50%"
-            height="38px"
-            color="earn"
-            size="md"
+            $width="50%"
+            $height="38px"
+            $fontcolor="earn"
+            $size="md"
             onClick={() =>
               handleOldStake(
                 token,
@@ -261,7 +261,7 @@ const PoolBodyActions = ({
       )}
       {fAssetPool.id === SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID ? (
         <>
-          <ReactTooltip
+          <Tooltip
             id="ifarm-details"
             backgroundColor="#fffce6"
             borderColor="black"
@@ -278,7 +278,7 @@ const PoolBodyActions = ({
               <b>{tokens[IFARM_TOKEN_SYMBOL].tokenNames.join(', ')}</b> = {iFARMinFARMInEther}{' '}
               <b>{FARM_TOKEN_SYMBOL}</b>
             </>
-          </ReactTooltip>
+          </Tooltip>
           <SelectedVault data-tip="" data-for="ifarm-details">
             <SelectedVaultLabel>
               Your <b>{tokens[IFARM_TOKEN_SYMBOL].tokenNames.join(', ')}</b>&nbsp;

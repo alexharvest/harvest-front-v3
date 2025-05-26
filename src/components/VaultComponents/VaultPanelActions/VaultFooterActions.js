@@ -2,7 +2,7 @@ import { get } from 'lodash'
 import React, { useMemo, useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
 import { useSetChain } from '@web3-onboard/react'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import Info from '../../../assets/images/logos/earn/info.svg'
 import { ACTIONS, FARM_TOKEN_SYMBOL, IFARM_TOKEN_SYMBOL, SPECIAL_VAULTS } from '../../../constants'
 import { useActions } from '../../../providers/Actions'
@@ -105,23 +105,23 @@ const VaultFooterActions = ({
 
   return (
     <SelectedVaultContainer
-      maxWidth="100%"
-      margin="0px"
-      padding="0px"
-      borderWidth="0px"
-      borderColor={borderColor}
+      $maxwidth="100%"
+      $margin="0px"
+      $padding="0px"
+      $borderwidth="0px"
+      $bordercolor={borderColor}
     >
-      <SelectedVault alignItems="center" justifyContent="start">
-        <SelectedVaultLabel fontSize="16px" lineHeight="21px" fontColor={fontColor}>
+      <SelectedVault $alignitems="center" $justifycontent="start">
+        <SelectedVaultLabel $fontsize="16px" $lineheight="21px" $fontcolor={fontColor}>
           Rewards
           <InfoIcon
             className="info"
-            width={isMobile ? 10 : 16}
+            $width={isMobile ? 10 : 16}
             src={Info}
             alt=""
             data-tip
             data-for={`claim-tooltip-${tokenSymbol}`}
-            filterColor={filterColor}
+            $filtercolor={filterColor}
           />
         </SelectedVaultLabel>
       </SelectedVault>
@@ -138,7 +138,7 @@ const VaultFooterActions = ({
           }
           return (
             <SelectedVault key={`${symbol}-rewards-earned`}>
-              <SelectedVaultNumber display="flex">
+              <SelectedVaultNumber $display="flex">
                 <img
                   src={`/icons/${
                     symbol.toLowerCase() === 'mifarm' ? 'ifarm' : symbol.toLowerCase()
@@ -229,7 +229,7 @@ const VaultFooterActions = ({
             </SelectedVault>
           )
         })}
-      <ReactTooltip
+      <Tooltip
         id={`claim-tooltip-${tokenSymbol}`}
         backgroundColor="black"
         borderColor="black"
@@ -250,9 +250,9 @@ const VaultFooterActions = ({
         }
       />
       <Button
-        color="reward"
-        width="100%"
-        size="md"
+        $fontcolor="reward"
+        $width="100%"
+        $size="md"
         onClick={async () => {
           if (curChain !== tokenChain) {
             const chainHex = `0x${Number(tokenChain).toString(16)}`

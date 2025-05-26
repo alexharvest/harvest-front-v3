@@ -338,8 +338,8 @@ const FarmDetailChart = ({
         <Total>
           <FlexDiv>
             <TooltipInfo>
-              <LabelInfo fontColor4={fontColor4}>{tooltipLabel}</LabelInfo>
-              <CurDate fontColor3={fontColor3}>
+              <LabelInfo $fontcolor4={fontColor4}>{tooltipLabel}</LabelInfo>
+              <CurDate $fontcolor3={fontColor3}>
                 {curDate}&nbsp;<span>|</span>&nbsp;
                 <p>
                   {clickedId === 1 ? currencySym : ''}
@@ -383,8 +383,8 @@ const FarmDetailChart = ({
           type="button"
           onClick={handleToggle(setIsExpanded)}
           className="collapse-button"
-          backColor={darkMode ? '#3b3c3e' : '#e9f0f7'}
-          color={darkMode ? 'white' : 'black'}
+          $backcolor={darkMode ? '#3b3c3e' : '#e9f0f7'}
+          $fontcolor={darkMode ? 'white' : 'black'}
         >
           <ChevronIcon className="chevron">
             {isExpanded ? <FaChevronUp /> : <FaChevronDown />}

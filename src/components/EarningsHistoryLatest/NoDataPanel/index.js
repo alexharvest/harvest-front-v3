@@ -12,8 +12,8 @@ const NoDataPanel = () => {
   const { connected } = useWallet()
 
   return (
-    <EmptyPanel height="300px">
-      <EmptyInfo height="100%" weight={500} size={14} lineHeight={20} color={fontColor}>
+    <EmptyPanel $height="300px">
+      <EmptyInfo $height="100%" $weight={500} $size={14} $lineheight={20} $fontcolor={fontColor}>
         {connected
           ? 'No activity found for this wallet.'
           : 'Connect wallet to see your latest yield'}

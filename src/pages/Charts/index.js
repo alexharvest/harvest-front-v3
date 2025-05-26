@@ -115,7 +115,7 @@ const Charts = () => {
   const [, setLoadData] = useState(true)
 
   return (
-    <Container pageBackColor={pageBackColor} fontColor={fontColor}>
+    <Container $backcolor={pageBackColor} $fontcolor={fontColor}>
       <Inner>
         <Title>Ethereum: </Title>
         {ethVaultsSymbol.map((symbol, i) => {

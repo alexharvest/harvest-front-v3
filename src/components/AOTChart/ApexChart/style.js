@@ -58,7 +58,7 @@ const LoadingDiv = styled.div`
 const NoData = styled.div`
   position: absolute;
   font-size: 14px;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   width: 400px;
 
   @media screen and (max-width: 1262px) {
@@ -86,7 +86,7 @@ const FakeChartWrapper = styled.div`
 `
 
 const LoaderWrapper = styled.div`
-  height: ${props => props.height};
+  height: ${props => props.$height};
   display: flex;
   justify-content: center;
   align-items: center;

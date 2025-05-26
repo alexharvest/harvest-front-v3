@@ -4,7 +4,7 @@ import BigNumber from 'bignumber.js'
 import { get } from 'lodash'
 import React, { useCallback } from 'react'
 import ReactHtmlParser from 'react-html-parser'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import {
   ACTIONS,
   DISABLED_DEPOSITS,
@@ -95,7 +95,7 @@ const PoolHeadActions = ({
 
   return (
     <>
-      <ReactTooltip
+      <Tooltip
         id={`disabled-deposit-tooltip-${tokenSymbol}`}
         backgroundColor="white"
         borderColor="black"
@@ -109,11 +109,11 @@ const PoolHeadActions = ({
         data-tip=""
         gridItems="1"
         gridRowGap="8px"
-        alignItems={!isFARMVault || withdrawMode ? 'end' : 'center'}
+        $alignitems={!isFARMVault || withdrawMode ? 'end' : 'center'}
       >
         {isFARMVault && (
           <>
-            <ReactTooltip
+            <Tooltip
               id={IFARM_TOKEN_SYMBOL}
               backgroundColor="#fffce6"
               borderColor="black"
@@ -121,7 +121,7 @@ const PoolHeadActions = ({
               textColor="black"
             >
               {withdrawMode ? IFARM_WITHDRAW_TOOLTIP : IFARM_DEPOSIT_TOOLTIP}
-            </ReactTooltip>
+            </Tooltip>
             <div data-tip="" data-for={IFARM_TOKEN_SYMBOL}>
               <Checkbox
                 icon={<FontAwesomeIcon size="lg" icon={faCheck} />}
@@ -145,9 +145,9 @@ const PoolHeadActions = ({
         {!withdrawMode ? (
           <>
             <Button
-              color="earn"
-              size="md"
-              width="100%"
+              $fontcolor="earn"
+              $size="md"
+              $width="100%"
               onClick={async () => {
                 if (useIFARM && isFARMVault) {
                   await handleDeposit(
@@ -209,9 +209,9 @@ const PoolHeadActions = ({
           </>
         ) : (
           <Button
-            color="earn"
-            size="md"
-            width="100%"
+            $fontcolor="earn"
+            $size="md"
+            $width="100%"
             onClick={async () => {
               if (useIFARM && isFARMVault) {
                 await handleWithdraw(

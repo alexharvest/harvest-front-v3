@@ -7,11 +7,11 @@ const SkeletonLoader = props => {
   const { borderColorBox, highlightColor } = useThemeContext()
 
   return (
-    <EmptyPanel borderColor={borderColorBox}>
+    <EmptyPanel $bordercolor={borderColorBox}>
       <SkeletonTheme baseColor="#ECECEC" highlightColor={highlightColor}>
         {[...Array(6)].map((_, index) => (
           <SkeletonItem key={index}>
-            <SkeletonDiv display="flex" width="34%">
+            <SkeletonDiv $display="flex" $width="34%">
               <div>
                 <Skeleton circle containerClassName="skeleton" width="28px" height="28px" />
               </div>
@@ -25,7 +25,7 @@ const SkeletonLoader = props => {
               </div>
             </SkeletonDiv>
             {[...Array(props.isPosition === 'true' ? 2 : 3)].map((empty, idx) => (
-              <SkeletonDiv key={idx} display="grid" direction="column">
+              <SkeletonDiv key={idx} $display="grid" $direction="column">
                 <div className="skeleton-container">
                   <Skeleton containerClassName="skeleton" width="50%" height={10} />
                 </div>

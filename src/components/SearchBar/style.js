@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const Container = styled.div`
   display: flex;
   justify-content: ${props => props.justify};
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   align-items: center;
   position: relative;
   border-radius: 10px;
@@ -15,8 +15,8 @@ const Container = styled.div`
     width: 100%;
     box-sizing: border-box;
     border-radius: 10px 0 0 10px;
-    color: ${props => props.fontColor};
-    border: 1px solid ${props => props.borderColor};
+    color: ${props => props.$fontcolor};
+    border: 1px solid ${props => props.$bordercolor};
     padding: 9px 10px;
     background: none;
     transition: 0.25s;
@@ -70,7 +70,7 @@ const SearchBtn = styled.button`
   border: none;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   img {

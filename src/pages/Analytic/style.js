@@ -6,7 +6,7 @@ const Container = styled.div`
   width: 100%;
   min-height: 100vh;
 
-  background: ${props => props.pageBackColor};
+  background: ${props => props.$backcolor};
   transition: 0.25s;
 
   @media screen and (max-width: 992px) {
@@ -40,7 +40,7 @@ const FarmStatsContainer = styled.div`
 
   @media screen and (max-width: 1310px) {
     ${props =>
-      props.firstLine
+      props.$firstline === 'true'
         ? `
       display: inline-flex;
       flex-wrap: wrap;
@@ -62,10 +62,10 @@ const FarmStatsLastContainer = styled(FarmStatsContainer)`
 const FarmSubTitle = styled.h2`
   position: relative;
 
-  font-size: ${props => (props.size ? props.size : '16px')};
-  font-weight: ${props => (props.bold ? 'bold' : '700')};
-  line-height: ${props => (props.lineHeight ? props.lineHeight : 'auto')};
-  height: ${props => (props.height ? props.height : 'auto')};
+  font-size: ${props => (props.$size ? props.$size : '16px')};
+  font-weight: ${props => (props.$bold ? 'bold' : '700')};
+  line-height: ${props => (props.$lineheight ? props.$lineheight : 'auto')};
+  height: ${props => (props.$height ? props.$height : 'auto')};
 
   a {
     color: black;
@@ -79,28 +79,28 @@ const EmissionsCountdownText = styled.span`
   margin-bottom: 23px;
   width: 100%;
   text-align: center;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   transition: 0.25s;
 `
 
 const StatsBox = styled.div`
   display: flex;
-  flex-direction: ${props => props.direction || 'column'};
+  flex-direction: ${props => props.$direction || 'column'};
   justify-content: start;
   position: relative;
-  align-items: ${props => props.align || 'center'};
+  align-items: ${props => props.$align || 'center'};
 
   transition: 0.25s;
-  border: 2px solid ${props => props.borderColor};
-  color: ${props => props.fontColor};
-  background: ${props => props.backColor};
+  border: 2px solid ${props => props.$bordercolor};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$backcolor};
 
   border-radius: 12px 12px 10px 10px;
   margin-bottom: 10px;
-  width: ${props => props.width || '-webkit-fill-available'};
-  height: ${props => props.height};
+  width: ${props => props.$width || '-webkit-fill-available'};
+  height: ${props => props.$height};
   min-height: ${props => props.minHeight || '152px'};
-  margin: ${props => props.margin || 'unset'};
+  margin: ${props => props.$margin || 'unset'};
 
   .emission-header {
     background: url(${Pattern});
@@ -137,7 +137,7 @@ const StatsContainerRow = styled.div`
   justify-content: flex-start;
   align-items: center;
   text-align: left;
-  margin: ${props => props.margin || '20px 30px 10px'};
+  margin: ${props => props.$margin || '20px 30px 10px'};
 
   @media screen and (max-width: 992px) {
     flex-direction: column;
@@ -223,8 +223,8 @@ const ImgList = styled.div`
 `
 
 const DataSource = styled.div`
-  background: ${props => props.background || 'none'};
-  color: ${props => props.color || 'black'};
+  background: ${props => props.$background || 'none'};
+  color: ${props => props.$fontcolor || 'black'};
 
   padding: 15px 20px;
   display: flex;
@@ -237,7 +237,7 @@ const DataSource = styled.div`
   position: relative;
 
   &:hover {
-    box-shadow: 0px 4px 4px ${props => props.boxShadowColor};
+    box-shadow: 0px 4px 4px ${props => props.$boxshadowcolor};
   }
 
   .avatar {
@@ -289,23 +289,23 @@ const BigStatsExchange = styled(BigStatsSubheader)`
   line-height: 20px;
   align-items: center;
   margin-bottom: 17px !important;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
   img {
     ${props =>
-      props.darkMode
+      props.$darkmode
         ? 'filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(283deg) brightness(106%) contrast(106%);'
         : ''}
   }
 `
 
 const ValueComponent = styled.div`
-  border: 2px solid ${props => props.borderColor};
-  background: ${props => props.backColor};
-  color: ${props => props.fontColor};
+  border: 2px solid ${props => props.$bordercolor};
+  background: ${props => props.$backcolor};
+  color: ${props => props.$fontcolor};
   padding: 28px 24px;
   border-radius: 12px;
-  width: ${props => props.width};
+  width: ${props => props.$width};
 
   display: flex;
   flex-direction: column;
@@ -323,12 +323,12 @@ const CompHeader = styled.div`
   font-size: 14px;
   line-height: 20px;
   font-weight: 500;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
   img {
     margin-right: 10px;
     ${props =>
-      props.darkMode
+      props.$darkmode
         ? 'filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(283deg) brightness(106%) contrast(106%);'
         : ''}
   }

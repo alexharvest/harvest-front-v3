@@ -7,7 +7,7 @@ const Container = styled.div`
   align-items: center;
 
   input {
-    width: ${props => (props.width ? props.width : 'auto')};
+    width: ${props => (props.$width ? props.$width : 'auto')};
     border-radius: 3px;
     border: 2px solid #f2b435;
     height: 30px;
@@ -30,14 +30,14 @@ const Radio = styled.div`
   position: relative;
   padding-left: 35px;
   margin-bottom: 12px;
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
-  opacity: ${props => (props.disabled ? '0.3' : '1')};
-  pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
+  cursor: ${props => (props.$disabled ? 'not-allowed' : 'pointer')};
+  opacity: ${props => (props.$disabled ? '0.3' : '1')};
+  pointer-events: ${props => (props.$disabled ? 'none' : 'auto')};
 
   input {
     position: absolute;
     opacity: 0;
-    cursor: ${props => (props.disabled ? 'not-allowed' : 'pointer')};
+    cursor: ${props => (props.$disabled ? 'not-allowed' : 'pointer')};
 
     &:disabled {
       opacity: 0;

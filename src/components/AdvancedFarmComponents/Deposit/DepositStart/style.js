@@ -12,142 +12,142 @@ const ImgBtn = styled.img`
 
 const NewLabel = styled.div`
   ${props =>
-    props.height
+    props.$height
       ? `
-    line-height: ${props.height};
+    line-height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.bgColor
+    props.$bgcolor
       ? `
-        background: ${props.bgColor};
+        background: ${props.$bgcolor};
       `
       : ''}
   ${props =>
-    props.border
+    props.$border
       ? `
-        border: ${props.border};
+        border: ${props.$border};
         `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-        border-radius: ${props.borderRadius};
+        border-radius: ${props.$borderradius};
         `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size};
+    font-size: ${props.$size};
   `
       : ''}
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   
   ${props =>
-    props.align
+    props.$align
       ? `
-    align-items: ${props.align};
+    align-items: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.margin
+    props.$margin
       ? `
-    margin: ${props.margin};
+    margin: ${props.$margin};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.flexFlow
+    props.$flexflow
       ? `
-    flex-flow: ${props.flexFlow};
+    flex-flow: ${props.$flexflow};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.cursorType
+    props.$cursortype
       ? `
-    cursor: ${props.cursorType};
+    cursor: ${props.$cursortype};
   `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.textAlign
+    props.$textalign
       ? `
-    text-align: ${props.textAlign};
+    text-align: ${props.$textalign};
   `
       : ''}
   ${props =>
-    props.gap
+    props.$gap
       ? `
-    gap: ${props.gap};
+    gap: ${props.$gap};
   `
       : ''}
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
@@ -188,7 +188,7 @@ const Buttons = styled.button`
   width: 100%;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   &:active {
@@ -198,23 +198,23 @@ const Buttons = styled.button`
 
 const SlippageBtn = styled.button`
   &&& {
-    background: ${props => props.bgColor};
+    background: ${props => props.$bgcolor};
     border: none;
     border-radius: 8px;
     padding: 11px;
     align-items: center;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     font-size: 14px;
     line-height: 20px;
     width: 60%;
-    cursor: ${props => props.cursor};
+    cursor: ${props => props.$cursor};
 
     &:hover {
-      background: ${props => props.hoverColor};
+      background: ${props => props.$hovercolor};
     }
 
     &:active {
-      background: ${props => props.activeColor};
+      background: ${props => props.$activecolor};
     }
   }
 `
@@ -260,7 +260,7 @@ const FTokenWrong = styled.div`
   border: 1px solid #fec84b;
   background: #fffcf5;
   padding: 24px;
-  display: ${props => (props.isShow === 'true' ? `flex` : 'none')};
+  display: ${props => (props.$isshow === 'true' ? `flex` : 'none')};
   gap: 12px 0;
   margin: 0px 24px 24px 24px;
   justify-content: space-between;
@@ -274,11 +274,11 @@ const SlippageBox = styled.div`
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   margin-right: 12px;
   cursor: pointer;
-  display: ${props => (props.display ? props.display : '')};
+  display: ${props => (props.$display ? props.$display : '')};
 `
 
 const MiddleLine = styled.hr`
-  width: ${props => props.width};
+  width: ${props => props.$width};
   height: 0.5px;
   margin: auto 0px;
 `
@@ -289,18 +289,18 @@ const SlipValue = styled.div`
   width: 20%;
   font-weight: 600;
   text-align: center;
-  color: ${props => props.color};
-  background: ${props => props.bgColor};
-  border-right: ${props => (props.isLastChild ? 'none' : `1px solid ${props.borderColor}`)};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$bgcolor};
+  border-right: ${props => (props.$islastchild ? 'none' : `1px solid ${props.$bordercolor}`)};
   border-radius: ${props =>
-    props.isFirstChild ? '8px 0 0 8px' : props.isLastChild ? '0 8px 8px 0' : '0'};
+    props.$isfirstchild ? '8px 0 0 8px' : props.$islastchild ? '0 8px 8px 0' : '0'};
 `
 
 const SlippageRow = styled.div`
   display: flex;
   justify-content: space-between;
   border-radius: 8px;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 `
 
@@ -309,17 +309,17 @@ const SlippageInput = styled.div`
 
   input {
     border-radius: 8px;
-    border: 1px solid ${props => props.borderColor};
-    background: ${props => props.backColor};
+    border: 1px solid ${props => props.$bordercolor};
+    background: ${props => props.$backcolor};
     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
     outline: 0;
     padding: 8px 30px 8px 12px;
-    color: ${props => props.fontColor2};
+    color: ${props => props.$fontcolor2};
     font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
-    font-size: ${props => (props.size ? props.size : '')};
+    font-size: ${props => (props.$size ? props.$size : '')};
 
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
@@ -349,19 +349,19 @@ const SlippageInput = styled.div`
 
 const ProgressLabel = styled.div`
   display: flex;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
 `
 
 const ProgressText = styled.div`
-  width: ${props => props.width};
-  padding: ${props => props.padding};
+  width: ${props => props.$width};
+  padding: ${props => props.$padding};
   text-align: center;
 `
 
 const StakeIconBox = styled.img`
-  width: ${props => (props.width ? props.width : '')};
-  height: ${props => (props.height ? props.height : '')};
-  cursor: ${props => (props.cursor ? props.cursor : '')};
+  width: ${props => (props.$width ? props.$width : '')};
+  height: ${props => (props.$height ? props.$height : '')};
+  cursor: ${props => (props.$cursor ? props.$cursor : '')};
 `
 
 const VaultContainer = styled.div`

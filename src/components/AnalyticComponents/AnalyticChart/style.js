@@ -12,7 +12,7 @@ const Container = styled.div`
 
   position: relative;
   transition: 0.25s;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
   @media screen and (max-width: 992px) {
     width: 100%;
@@ -162,19 +162,6 @@ const FlexDiv = styled.div`
   }
 `
 
-const ConnectAvatar = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: ${props => (props.avatar ? '13px' : '-5px')};
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-
-  img {
-    margin-right: 5px;
-  }
-`
-
 const Address = styled.span`
   font-size: 14px;
   font-weight: bold;
@@ -296,7 +283,6 @@ export {
   BlurBack,
   ConnectButton,
   FlexDiv,
-  ConnectAvatar,
   Address,
   ConnectWalletModal,
   ModalHeader,

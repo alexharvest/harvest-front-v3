@@ -47,7 +47,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'subscribe'
+    props.$mode === 'subscribe'
       ? `
       #theme-switch {
         .switch-check {
@@ -86,7 +86,7 @@ const ThemeMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'subscribe'
+      props.$mode === 'subscribe'
         ? `
         #theme-switch {
           .switch-thumb {
@@ -149,16 +149,16 @@ const GeneralDiv = styled.div`
   }
 
   &::-webkit-scrollbar-track {
-    background: ${props => (props.darkMode === 'true' ? '#202325' : '#f2f5ff')};
+    background: ${props => (props.$darkmode === 'true' ? '#202325' : '#f2f5ff')};
   }
 
   &::-webkit-scrollbar-thumb {
-    background: ${props => (props.darkMode === 'true' ? '#586269' : '#c4cbe1')};
+    background: ${props => (props.$darkmode === 'true' ? '#586269' : '#c4cbe1')};
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: ${props => (props.darkMode === 'true' ? '#6e7e89' : '#99a2bd')};
+    background: ${props => (props.$darkmode === 'true' ? '#6e7e89' : '#99a2bd')};
   }
 `
 
@@ -184,10 +184,10 @@ const MainTag = styled.div`
   gap: 6.29px;
   cursor: pointer;
   ${props =>
-    props.active === 'true'
+    props.$active === 'true'
       ? `
       color: #fff;
-      background: ${props.backColor};
+      background: ${props.$backcolor};
       font-weight: 700;
     `
       : `
@@ -201,7 +201,7 @@ const PanelBalance = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-bottom: 0.7px solid ${props => props.borderColor};
+  border-bottom: 0.7px solid ${props => props.$bordercolor};
 `
 
 const PanelSubscribe = styled.div`
@@ -218,24 +218,24 @@ const BasePanelBox = styled.div`
   display: flex;
   flex-direction: column;
   /* key: ${props => props.key}; */
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 
@@ -312,129 +312,129 @@ const PilotInfoClose = styled.div`
 
 const NewLabel = styled.div`
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size};
+    font-size: ${props.$size};
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    line-height: ${props.height};
+    line-height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.flexFlow
+    props.$flexflow
       ? `
-    flex-flow: ${props.flexFlow};
+    flex-flow: ${props.$flexflow};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   
   ${props =>
-    props.border
+    props.$border
       ? `
-    border: ${props.border};
+    border: ${props.$border};
   `
       : ''}
 
    ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-      border-bottom: ${props.borderBottom};
+      border-bottom: ${props.$borderbottom};
     `
       : ''}
 
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
   `
       : ''}
 
   ${props =>
-    props.cursor
+    props.$cursor
       ? `
-    cursor: ${props.cursor};
+    cursor: ${props.$cursor};
   `
       : ''}
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
@@ -467,58 +467,58 @@ const FlexDiv = styled.div`
   display: flex;
 
   ${props =>
-    props.width
+    props.$width
       ? `
-      width: ${props.width};
+      width: ${props.$width};
     `
       : ''}
 
   ${props =>
-    props.gap
+    props.$gap
       ? `
-      gap: ${props.gap};
+      gap: ${props.$gap};
     `
       : ''}
 
   ${props =>
-    props.padding
+    props.$padding
       ? `
-      padding: ${props.padding};
+      padding: ${props.$padding};
     `
       : ''}
 
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
 
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
 
   ${props =>
-    props.flexDirection
+    props.$flexdirection
       ? `
-    flex-direction: ${props.flexDirection};
+    flex-direction: ${props.$flexdirection};
   `
       : ''}
 `
@@ -547,12 +547,12 @@ const TokenAmount = styled.input`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  background: ${props => props.bgColor};
+  background: ${props => props.$bgcolor};
   border: 1px solid #d7dffa8c;
   outline: 0;
   padding: 7px 14px 7px 14px;
   border-radius: 8px;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
   transition: 0.25s;
 
   &::-webkit-outer-spin-button,
@@ -569,7 +569,7 @@ const TokenUSDAmount = styled.div`
   right: 12px;
   bottom: 10px;
   font-size: 12px;
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   font-weight: 400;
 `
 
@@ -590,7 +590,7 @@ const TokenName = styled.div`
   left: 50px;
   bottom: 10px;
   font-size: 12px;
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   font-weight: 400;
 `
 
@@ -641,7 +641,7 @@ const SwitchMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'apy'
+    props.$mode === 'apy'
       ? `
       #theme-switch {
         .switch-check {
@@ -680,7 +680,7 @@ const SwitchMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'apy'
+      props.$mode === 'apy'
         ? `
         #theme-switch {
           .switch-thumb {

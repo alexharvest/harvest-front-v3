@@ -10,7 +10,7 @@ const Container = styled.div`
   padding: 0px 25px 0px 0px;
   position: relative;
   transition: 0.25s;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
   @media screen and (max-width: 992px) {
     padding: 0px;
@@ -150,19 +150,6 @@ const FlexDiv = styled.div`
   }
 `
 
-const ConnectAvatar = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: ${props => (props.avatar ? '13px' : '-5px')};
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16px;
-
-  img {
-    margin-right: 5px;
-  }
-`
-
 const Address = styled.span`
   font-size: 14px;
   font-weight: bold;
@@ -281,98 +268,98 @@ const TooltipContent = styled.div`
 `
 
 const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
+  font-weight: ${props => props.$weight || '400'};
+  font-size: ${props => props.$size || '20px'};
+  line-height: ${props => props.$height || '0px'};
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
 
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
     `
       : ``}
   img.icon {
@@ -426,7 +413,6 @@ export {
   BlurBack,
   ConnectButton,
   FlexDiv,
-  ConnectAvatar,
   Address,
   ConnectWalletModal,
   ModalHeader,

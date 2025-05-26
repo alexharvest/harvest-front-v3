@@ -6,7 +6,7 @@ import AnimatedDots from '../../AnimatedDots'
 const ListItem = ({ weight, size, height, color, label, icon, value, marginBottom, marginTop }) => {
   const { fontColor } = useThemeContext()
   return (
-    <Container fontColor={fontColor} marginBottom={marginBottom} marginTop={marginTop}>
+    <Container $fontcolor={fontColor} $marginbottom={marginBottom} $margintop={marginTop}>
       {label ? (
         <Label>
           {icon && icon !== '' ? (
@@ -14,7 +14,7 @@ const ListItem = ({ weight, size, height, color, label, icon, value, marginBotto
           ) : (
             <></>
           )}
-          <Content weight={weight} size={size} height={height} color={color}>
+          <Content $weight={weight} $size={size} $height={height} $fontcolor={color}>
             {label}
           </Content>
         </Label>
@@ -23,11 +23,11 @@ const ListItem = ({ weight, size, height, color, label, icon, value, marginBotto
       )}
       {value ? (
         value === '-1' ? (
-          <Content height={height}>
+          <Content $height={height}>
             <AnimatedDots />
           </Content>
         ) : (
-          <Content weight={weight} size={size} height={height} color={color}>
+          <Content $weight={weight} $size={size} $height={height} $fontcolor={color}>
             {value}
           </Content>
         )

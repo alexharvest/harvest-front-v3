@@ -4,8 +4,8 @@ import BgImage from '../../assets/images/logos/advancedfarm/texture.webp'
 const DetailView = styled.div`
   width: 100%;
   margin-left: 260px;
-  background: ${props => props.backColor};
-  color: ${props => props.fontColor};
+  background: ${props => props.$backcolor};
+  color: ${props => props.$fontcolor};
   transition: 0.25s;
 
   @media screen and (max-width: 992px) {
@@ -15,7 +15,7 @@ const DetailView = styled.div`
 `
 
 const Inner = styled.div`
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   padding: 25px 72px 200px 76px;
   display: flex;
   justify-content: center;
@@ -35,7 +35,7 @@ const Inner = styled.div`
 `
 
 const TopInner = styled.div`
-  background: ${props => (props.darkMode ? `url(${BgImage})` : '#f2f5ff')};
+  background: ${props => (props.$darkmode ? `url(${BgImage})` : '#f2f5ff')};
   padding: 50px 72px 0px 76px;
   display: flex;
   justify-content: center;
@@ -137,9 +137,9 @@ const RewardValue = styled.div`
 const SwitchTabTag = styled.div`
   width: 50%;
   transition: 0.25s;
-  color: ${props => props.color};
-  background: ${props => props.backColor};
-  box-shadow: ${props => props.boxShadow};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$backcolor};
+  box-shadow: ${props => props.$boxshadow};
   padding: 8px 12px;
   border-radius: 6px;
   display: flex;
@@ -160,135 +160,135 @@ const SwitchTabTag = styled.div`
 `
 
 const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
+  font-weight: ${props => props.$weight || '400'};
+  font-size: ${props => props.$size || '20px'};
+  line-height: ${props => props.$height || '0px'};
 
   ${props =>
-    props.backColor
+    props.$backcolor
       ? `
-    background: ${props.backColor};
+    background: ${props.$backcolor};
   `
       : ''}
   ${props =>
-    props.cursor
+    props.$cursor
       ? `
-    cursor: ${props.cursor};
+    cursor: ${props.$cursor};
   `
       : ''}
   ${props =>
-    props.border
+    props.$border
       ? `
-    border: ${props.border};
+    border: ${props.$border};
   `
       : ''}
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
     `
       : ``}
   ${props =>
-    props.transition
+    props.$transition
       ? `
-    transition: ${props.transition};
+    transition: ${props.$transition};
     `
       : ``}
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
 
   span.symbol {
     position: absolute;
-    color: ${props => props.fontColor2};
+    color: ${props => props.$fontcolor2};
     font-size: 8px;
     right: 0;
     top: 13px;
@@ -395,7 +395,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'latest'
+    props.$mode === 'latest'
       ? `
       #theme-switch {
         .switch-check {
@@ -434,7 +434,7 @@ const ThemeMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'latest'
+      props.$mode === 'latest'
         ? `
         #theme-switch {
           .switch-thumb {
@@ -497,7 +497,7 @@ const SwitchMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'apy'
+    props.$mode === 'apy'
       ? `
       #theme-switch {
         .switch-check {
@@ -536,7 +536,7 @@ const SwitchMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'apy'
+      props.$mode === 'apy'
         ? `
         #theme-switch {
           .switch-thumb {
@@ -553,7 +553,7 @@ const SwitchMode = styled.div`
 `
 
 const TopDesc = styled(NewLabel)`
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
   margin: auto 0px auto 35px;
   @media screen and (max-width: 992px) {
     margin: 5px auto;
@@ -578,51 +578,51 @@ const FlexDiv = styled.div`
   display: flex;
 
   ${props =>
-    props.width
+    props.$width
       ? `
-      width: ${props.width};
+      width: ${props.$width};
     `
       : ''}
 
   ${props =>
-    props.gap
+    props.$gap
       ? `
-      gap: ${props.gap};
+      gap: ${props.$gap};
     `
       : ''}
 
   ${props =>
-    props.padding
+    props.$padding
       ? `
-      padding: ${props.padding};
+      padding: ${props.$padding};
     `
       : ''}
 
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
 
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
 
@@ -637,7 +637,7 @@ const InternalSection = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  height: ${props => props.height};
+  height: ${props => props.$height};
 
   @media screen and (max-width: 992px) {
     display: block;
@@ -646,13 +646,13 @@ const InternalSection = styled.div`
 
 const WelcomeBox = styled.div`
   width: 100%;
-  color: ${props => props.fontColorTooltip};
+  color: ${props => props.$fontcolortooltip};
   display: flex;
   justify-content: space-between;
   gap: 12px;
   border-radius: 12px;
-  border: 1px solid ${props => props.borderColor};
-  background: ${props => props.bgColorTooltip};
+  border: 1px solid ${props => props.$bordercolor};
+  background: ${props => props.$bgcolortooltip};
   box-shadow: 0px 4px 6px -2px rgba(16, 24, 40, 0.03), 0px 12px 16px -4px rgba(16, 24, 40, 0.08);
   padding: 16px;
   margin-bottom: 25px;
@@ -708,11 +708,11 @@ const WelcomeKnow = styled.div`
 
 const WelcomeTicket = styled.a`
   font-weight: 400;
-  color: ${props => props.linkColor};
+  color: ${props => props.$linkcolor};
   text-decoration: underline;
 
   &:hover {
-    color: ${props => props.linkColorOnHover};
+    color: ${props => props.$linkcoloronhover};
   }
 
   &.useIFARM {
@@ -759,32 +759,32 @@ const HalfContent = styled.div`
   display: flex;
   flex-direction: column;
   height: fit-content;
-  background: ${props => props.backColor};
-  border: 2px solid ${props => props.borderColor};
+  background: ${props => props.$backcolor};
+  border: 2px solid ${props => props.$bordercolor};
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 `
 
 const TotalValueFarm = styled.div`
   font-weight: 600;
-  font-size: ${props => props.size} px;
+  font-size: ${props => props.$size} px;
   line-height: 35px;
   color: #000000;
   margin-right: 15px;
@@ -795,7 +795,7 @@ const BackBtnRect = styled.a`
   display: inline-flex;
   height: 35px;
   text-decoration: none;
-  border: 0.5px solid ${props => props.fontColor};
+  border: 0.5px solid ${props => props.$fontcolor};
   border-radius: 5px;
   padding: 5px 15px;
   cursor: pointer;
@@ -806,12 +806,12 @@ const BackBtnRect = styled.a`
 
   svg {
     margin: auto;
-    color: ${props => props.fontColor};
+    color: ${props => props.$fontcolor};
   }
 `
 
 const BackText = styled.p`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   margin: auto;
   padding-left: 15px;
   font-size: 14px;
@@ -820,7 +820,7 @@ const BackText = styled.p`
 
 const RestContent = styled.div`
   width: 39%;
-  height: ${props => props.height};
+  height: ${props => props.$height};
 
   @media screen and (min-width: 1921px) {
     width: 500px;
@@ -858,42 +858,42 @@ const LogoImg = styled.img`
   }
 
   ${props =>
-    props.zIndex
+    props.$zindex
       ? `
-    z-index: ${props.zIndex};
+    z-index: ${props.$zindex};
   `
       : ``}
 `
 
 const Monospace = styled.span`
   font-family: 'Inter', sans-serif;
-  border-bottom: ${props => props.borderBottom || 'unset'};
+  border-bottom: ${props => props.$borderbottom || 'unset'};
 `
 
 const MyBalance = styled.div`
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   border-radius: 12px;
-  border: 2px solid ${props => props.borderColor};
+  border: 2px solid ${props => props.$bordercolor};
   width: 100%;
 
   ${props =>
-    props.height
+    props.$height
       ? `
-      height: ${props.height};
+      height: ${props.$height};
     `
       : ``}
 
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-      margin-top: ${props.marginTop};
+      margin-top: ${props.$margintop};
     `
       : ``}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-      margin-bottom: ${props.marginBottom};
+      margin-bottom: ${props.$marginbottom};
     `
       : ``}
 `
@@ -919,16 +919,16 @@ const MyTotalReward = styled.div`
   padding: 24px;
 
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-      margin-top: ${props.marginTop};
+      margin-top: ${props.$margintop};
     `
       : ``}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-      margin-bottom: ${props.marginBottom};
+      margin-bottom: ${props.$marginbottom};
     `
       : ``}
 
@@ -1009,9 +1009,9 @@ const MyTotalReward = styled.div`
 `
 
 const TotalRewardBox = styled.div`
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   border-radius: 12px;
-  border: 2px solid ${props => props.borderColor};
+  border: 2px solid ${props => props.$bordercolor};
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -1019,16 +1019,16 @@ const TotalRewardBox = styled.div`
   padding: 24px;
 
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-      margin-top: ${props.marginTop};
+      margin-top: ${props.$margintop};
     `
       : ``}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-      margin-bottom: ${props.marginBottom};
+      margin-bottom: ${props.$marginbottom};
     `
       : ``}
   
@@ -1054,15 +1054,15 @@ const GuideSection = styled.div`
 `
 
 const GuidePart = styled.div`
-  background: ${props => props.backcolor};
+  background: ${props => props.$backcolor};
   border-radius: 5px;
-  border: 1.3px solid ${props => props.fontColor4};
+  border: 1.3px solid ${props => props.$fontcolor4};
   display: flex;
   padding: 2px 8px;
   align-items: center;
   gap: 6px;
   width: fit-content;
-  color: ${props => props.fontColor4};
+  color: ${props => props.$fontcolor4};
   text-align: center;
   font-size: 14px;
   font-weight: 500;
@@ -1079,7 +1079,7 @@ const GuidePart = styled.div`
 
 const DepositSection = styled.div`
   ${props =>
-    props.isShow
+    props.$isshow
       ? `
     display: block;
     height: 100%;
@@ -1091,7 +1091,7 @@ const DepositSection = styled.div`
 
 const WithdrawSection = styled.div`
   ${props =>
-    props.isShow
+    props.$isshow
       ? `
     display: block;
     height: 100%;
@@ -1107,7 +1107,7 @@ const MainSection = styled.div`
   flex-direction: column;
   height: fit-content;
   border-radius: 12px;
-  height: ${props => props.height};
+  height: ${props => props.$height};
 
   @media screen and (max-width: 992px) {
     width: 100%;
@@ -1123,7 +1123,7 @@ const BoxCover = styled.div`
 
   @media screen and (max-width: 992px) {
     border-radius: 12px;
-    border: 2px solid ${props => props.borderColor};
+    border: 2px solid ${props => props.$bordercolor};
     margin-bottom: 20px;
   }
 `
@@ -1145,11 +1145,11 @@ const ValueBox = styled.div`
   flex-flow: column;
   justify-content: center;
   border-radius: 12px;
-  border: 2px solid ${props => props.borderColor};
-  background: ${props => props.backColor};
+  border: 2px solid ${props => props.$bordercolor};
+  background: ${props => props.$backcolor};
   padding: 24px;
   height: 120px;
-  ${props => (props.width ? `width: ${props.width};` : '')}
+  ${props => (props.$width ? `width: ${props.$width};` : '')}
   @media screen and (max-width: 1320px) {
     padding: 10px;
   }
@@ -1161,11 +1161,11 @@ const ValueBox = styled.div`
     border: unset;
 
     &.balance-box {
-      border-right: 2px solid ${props => props.borderColor};
+      border-right: 2px solid ${props => props.$bordercolor};
       border-radius: 14px 0px 0px 14px;
     }
     &.daily-yield-box {
-      border-left: 2px solid ${props => props.borderColor};
+      border-left: 2px solid ${props => props.$bordercolor};
       border-radius: 0px 14px 14px 0px;
     }
     &.daily-apy-box {
@@ -1175,14 +1175,14 @@ const ValueBox = styled.div`
 `
 
 const BoxTitle = styled.div`
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.fontColor3};
+    color: ${props => props.$fontcolor3};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
@@ -1204,7 +1204,7 @@ const BoxTitle = styled.div`
 `
 
 const BoxValue = styled.div`
-  color: ${props => props.fontColor1};
+  color: ${props => props.$fontcolor1};
   font-weight: 600;
   letter-spacing: -0.6px;
   font-size: 22px;
@@ -1240,19 +1240,19 @@ const ChainBack = styled.div`
 const MainTag = styled.div`
   display: flex;
   justify-content: center;
-  width: ${props => (props.useIFARM ? '33%' : '25%')};
+  width: ${props => (props.$useifarm ? '33%' : '25%')};
   padding: 12px 0px;
   align-items: center;
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
   cursor: pointer;
-  color: ${props => props.fontColor4};
+  color: ${props => props.$fontcolor4};
   transition: 0.25s;
 
   &:hover {
-    background: ${props => props.backColor};
-    ${props => (props.active === 'true' ? 'opacity: 1;' : 'opacity: 0.8;')}
+    background: ${props => props.$backcolor};
+    ${props => (props.$active === 'true' ? 'opacity: 1;' : 'opacity: 0.8;')}
 
     &:first-child {
       border-radius: 8px 0px 0px 0px;
@@ -1264,37 +1264,37 @@ const MainTag = styled.div`
   }
 
   ${props =>
-    props.active === 'true'
+    props.$active === 'true'
       ? `
-      background: ${props.backColor};
+      background: ${props.$backcolor};
     `
       : `
-      color: ${props.fontColor3};
+      color: ${props.$fontcolor3};
     `}
 
   &:first-child {
-    ${props => props.active === 'true' && `border-radius: 8px 0px 0px 0px;`}
+    ${props => props.$active === 'true' && `border-radius: 8px 0px 0px 0px;`}
   }
 
   &:nth-child(4) {
-    ${props => props.active === 'true' && `border-radius: 0px 8px 0px 0px;`}
+    ${props => props.$active === 'true' && `border-radius: 0px 8px 0px 0px;`}
   }
 
   &:nth-child(2) {
-    display: ${props => (props.useIFARM ? 'none' : 'flex')};
+    display: ${props => (props.$useifarm ? 'none' : 'flex')};
   }
 
   &:nth-child(3) {
-    width: ${props => (props.useIFARM ? '34%' : '25%')};
+    width: ${props => (props.$useifarm ? '34%' : '25%')};
   }
 
   @media screen and (max-width: 992px) {
-    width: ${props => (props.useIFARM ? '33%' : props.active === 'true' ? '40%' : '20%')};
+    width: ${props => (props.$useifarm ? '33%' : props.$active === 'true' ? '40%' : '20%')};
     &:nth-child(2) {
-      width: ${props => (props.useIFARM ? '34%' : props.active === 'true' ? '40%' : '20%')};
+      width: ${props => (props.$useifarm ? '34%' : props.$active === 'true' ? '40%' : '20%')};
     }
     &:nth-child(3) {
-      width: ${props => (props.useIFARM ? '33%' : props.active === 'true' ? '40%' : '20%')};
+      width: ${props => (props.$useifarm ? '33%' : props.$active === 'true' ? '40%' : '20%')};
     }
   }
 
@@ -1304,9 +1304,9 @@ const MainTag = styled.div`
 
     @media screen and (max-width: 992px) {
       display: ${props =>
-        props.useIFARM
+        props.$useifarm
           ? 'block'
-          : props.active === 'true'
+          : props.$active === 'true'
           ? 'block'
           : props.campMobileRewards
           ? 'block'
@@ -1316,9 +1316,9 @@ const MainTag = styled.div`
 
   img {
     ${props =>
-      props.mode === 'dark'
+      props.$mode === 'dark'
         ? 'filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%);'
-        : props.active === 'true'
+        : props.$active === 'true'
         ? `
         `
         : `
@@ -1335,37 +1335,37 @@ const MainDescText = styled.div`
 
 const HalfInfo = styled.div`
   border-radius: 12px;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   transition: 0.25s;
-  margin-bottom: ${props => props.marginBottom};
+  margin-bottom: ${props => props.$marginbottom};
   font-family: 'Inter', sans-serif;
-  border: 2px solid ${props => props.borderColor};
+  border: 2px solid ${props => props.$bordercolor};
 
   ${props =>
-    props.padding
+    props.$padding
       ? `
-  padding: ${props.padding};
+  padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-  display: ${props.display};
+  display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-  justify-content: ${props.justifyContent};
+  justify-content: ${props.$justifycontent};
   `
       : ''}
 `
 
 const LastHarvestInfo = styled.div`
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   border-radius: 12px;
   margin-bottom: 25px;
-  border: 2px solid ${props => props.borderColor};
+  border: 2px solid ${props => props.$bordercolor};
 
   @media screen and (max-width: 992px) {
     margin-bottom: 20px;
@@ -1392,7 +1392,7 @@ const RestInternalBenchmark = styled.div`
 
 const StakeSection = styled.div`
   ${props =>
-    props.isShow
+    props.$isshow
       ? `
     display: block;
     height: 100%;
@@ -1404,7 +1404,7 @@ const StakeSection = styled.div`
 
 const UnstakeSection = styled.div`
   ${props =>
-    props.isShow
+    props.$isshow
       ? `
     display: block;
     height: 100%;
@@ -1461,14 +1461,14 @@ const NetDetailItem = styled.div`
 `
 
 const NetDetailTitle = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   font-size: 14px;
   font-weight: 400;
   line-height: 30px;
 `
 
 const NetDetailContent = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   font-size: 14px;
   font-weight: 500;
   line-height: 30px;
@@ -1514,7 +1514,7 @@ const Tip = styled.div`
   border-radius: 12px;
   padding: 16px;
   margin: 0px 15px 15px 15px;
-  display: ${props => props.display};
+  display: ${props => props.$display};
 `
 
 const IconPart = styled.div`
@@ -1537,11 +1537,11 @@ const CrossDiv = styled.div`
 
 const StakingInfo = styled.div`
   padding: 16px;
-  background: ${props => props.bgColorTooltip};
-  border: 1px solid ${props => props.borderColor};
-  color: ${props => props.fontColorTooltip};
+  background: ${props => props.$bgcolortooltip};
+  border: 1px solid ${props => props.$bordercolor};
+  color: ${props => props.$fontcolortooltip};
   border-radius: 12px;
-  display: ${props => props.display};
+  display: ${props => props.$display};
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 25px;

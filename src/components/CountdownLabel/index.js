@@ -5,7 +5,7 @@ import { CountdownContainer, DaysLabel } from './style'
 const CountdownLabel = ({ days, hours, minutes, /* seconds, milliseconds, */ ...props }) => {
   const { fontColor } = useThemeContext()
   return (
-    <CountdownContainer fontColor={fontColor} {...props}>
+    <CountdownContainer $fontcolor={fontColor} {...props}>
       {days}
       <DaysLabel>Days</DaysLabel>
       {hours}:{minutes}

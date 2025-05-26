@@ -3,9 +3,9 @@ import styled from 'styled-components'
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
-  background: ${props => props.pageBackColor};
+  background: ${props => props.$backcolor};
   transition: 0.25s;
   position: relative;
   margin-left: 260px;

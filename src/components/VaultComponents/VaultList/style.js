@@ -28,11 +28,11 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   padding: 27px 24px 27px 24px;
-  color: ${props => props.fontColor};
-  border-bottom: 1px solid ${props => props.borderColor};
+  color: ${props => props.$fontcolor};
+  border-bottom: 1px solid ${props => props.$bordercolor};
 
   img.sort-icon {
-    filter: ${props => props.filterColor};
+    filter: ${props => props.$filtercolor};
   }
 
   transition: 0.25s;
@@ -52,11 +52,11 @@ const Header = styled.div`
 
 const HeaderCol = styled.div`
   display: flex;
-  justify-content: ${props => props.justifyContent || 'end'};
+  justify-content: ${props => props.$justifycontent || 'end'};
   align-items: center;
-  width: ${props => props.width || 'auto'};
-  text-align: ${props => props.textAlign || 'center'};
-  margin: ${props => props.margin || 'unset'};
+  width: ${props => props.$width || 'auto'};
+  text-align: ${props => props.$textalign || 'center'};
+  margin: ${props => props.$margin || 'unset'};
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
@@ -88,7 +88,7 @@ const FlexDiv = styled.div`
 `
 
 const EmptyPanel = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   padding-top: 10%;
   padding-bottom: 30%;
   @media screen and (max-width: 992px) {
@@ -102,28 +102,28 @@ const EmptyImg = styled.img`
 
 const EmptyInfo = styled.div`
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size}px;
+    font-size: ${props.$size}px;
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    line-height: ${props.height}px;
+    line-height: ${props.$height}px;
   `
       : ''}
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
 
@@ -133,9 +133,9 @@ const EmptyInfo = styled.div`
 const VaultsListBody = styled.div`
   border-top-right-radius: 15px;
   border-top-left-radius: 15px;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   transition: 0.25s;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   border-radius: 5px;
 `
 
@@ -149,22 +149,22 @@ const MobileListFilter = styled.div`
     justify-content: space-between;
     flex-direction: column;
     padding: 20px 10px;
-    border-bottom: 1px solid ${props => props.borderColor};
+    border-bottom: 1px solid ${props => props.$bordercolor};
     .filter-sort {
       position: relative;
       width: 100%;
       display: block;
-      background: ${props => props.mobileBackColor} !important;
-      border: 1px solid ${props => props.borderColor};
+      background: ${props => props.$mobilebackcolor} !important;
+      border: 1px solid ${props => props.$bordercolor};
       border-radius: 8px;
 
       .toggle {
-        background: ${props => props.mobileBackColor};
+        background: ${props => props.$mobilebackcolor};
         display: flex;
         justify-content: space-between;
         border: none;
         width: 100%;
-        color: ${props => props.fontColor4};
+        color: ${props => props.$fontcolor4};
         font-size: 14px;
         line-height: 24px;
         font-weight: 400;
@@ -190,7 +190,7 @@ const MobileListFilter = styled.div`
           width: 15px;
           height: 15px;
           margin-left: 6px;
-          filter: ${props => props.filterColor};
+          filter: ${props => props.$filtercolor};
         }
 
         img.narrow {
@@ -203,17 +203,17 @@ const MobileListFilter = styled.div`
       .menu {
         width: 100%;
         padding: 4px 6px;
-        background: ${props => props.bgColor};
+        background: ${props => props.$bgcolor};
 
         .item {
           padding: 10px 8px;
           border-radius: 6px;
           &:hover,
           &:active {
-            background: ${props => props.hoverColor};
+            background: ${props => props.$hovercolor};
           }
           div {
-            color: ${props => props.fontColor1};
+            color: ${props => props.$fontcolor1};
             font-size: 14px;
             font-style: normal;
             font-weight: 500;
@@ -223,7 +223,7 @@ const MobileListFilter = styled.div`
               height: 14px;
               margin-right: 4px;
               margin-top: -2px;
-              filter: ${props => props.filterColor};
+              filter: ${props => props.$filtercolor};
             }
           }
 
@@ -283,15 +283,15 @@ const ThemeMode = styled.div`
     }
 
     .switch-track {
-      background: ${props => props.backColor};
-      border: 1px solid ${props => props.borderColor};
+      background: ${props => props.$backcolor};
+      border: 1px solid ${props => props.$bordercolor};
       height: 24px;
       width: 50px;
       border-radius: 30px;
       transition: all 0.2s ease 0s;
     }
     .switch-thumb {
-      background: url(${props => (props.mode === 'usd' ? UsdIcon : TokensIcon)});
+      background: url(${props => (props.$mode === 'usd' ? UsdIcon : TokensIcon)});
       background-size: cover;
       height: 22px;
       left: 1px;
@@ -308,7 +308,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'token'
+    props.$mode === 'token'
       ? `
       #theme-switch {
         .switch-check {
@@ -336,9 +336,9 @@ const MobileFilterBtn = styled.div`
   color: white;
   border: none;
   ${props =>
-    props.darkmode === 'true'
+    props.$darkmode === 'true'
       ? `
-    border-left: 1px solid ${props.inputBorderColor};
+    border-left: 1px solid ${props.$inputbordercolor};
   `
       : `
   `}
@@ -352,7 +352,7 @@ const DisplayCount = styled.div`
   font-size: 12px;
   line-height: 20px;
   font-weight: 300;
-  color: ${props => props.color};
+  color: ${props => props.$fontcolor};
   margin-bottom: 15px;
 
   span {
@@ -360,7 +360,7 @@ const DisplayCount = styled.div`
   }
 
   @media screen and (max-width: 992px) {
-    color: ${props => (props.mobileColor ? props.mobileColor : '')};
+    color: ${props => (props.$mobilecolor ? props.$mobilecolor : '')};
     padding-left: 15px;
   }
 `

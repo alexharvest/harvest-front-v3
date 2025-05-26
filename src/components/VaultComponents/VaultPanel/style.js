@@ -9,7 +9,7 @@ const VaultContainer = styled.div`
   transition: 0.25s;
 
   ${props =>
-    props.lastElement
+    props.$lastelement
       ? `
     border-radius: 0 0 10px 10px;
   `
@@ -20,7 +20,7 @@ const VaultContainer = styled.div`
   }
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
 
     ${ArrowContainer} {
       background: #f2b435;

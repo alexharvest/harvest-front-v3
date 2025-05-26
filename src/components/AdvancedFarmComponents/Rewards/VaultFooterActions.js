@@ -1,7 +1,7 @@
 import { get } from 'lodash'
 import React from 'react'
 import { useSetChain } from '@web3-onboard/react'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { ACTIONS } from '../../../constants'
 import { useActions } from '../../../providers/Actions'
 import { usePools } from '../../../providers/Pools'
@@ -68,17 +68,17 @@ const VaultFooterActions = ({
 
   return (
     <SelectedVaultContainer
-      maxWidth="100%"
-      margin="0px"
-      padding="0px"
-      borderWidth="0px"
-      borderColor={borderColor}
+      $maxwidth="100%"
+      $margin="0px"
+      $padding="0px"
+      $borderwidth="0px"
+      $bordercolor={borderColor}
     >
       {rewardTokenSymbols &&
         rewardTokenSymbols.map((symbol, symbolIdx) => {
           return (
             <SelectedVault key={`${symbol}-rewards-earned`}>
-              <Div fontColor2={fontColor2}>
+              <Div $fontcolor2={fontColor2}>
                 <img
                   src={`/icons/${
                     symbol.toLowerCase() === 'mifarm' ? 'ifarm' : symbol.toLowerCase()
@@ -87,7 +87,7 @@ const VaultFooterActions = ({
                 />
                 {symbol.toLowerCase() === 'mifarm' ? 'iFARM' : symbol}
               </Div>
-              <Monospace fontColor5={fontColor5}>
+              <Monospace $fontcolor5={fontColor5}>
                 {!connected ? (
                   '0.00'
                 ) : !isLoadingData && get(userStats, `[${get(fAssetPool, 'id')}].rewardsEarned`) ? (
@@ -151,7 +151,7 @@ const VaultFooterActions = ({
             </SelectedVault>
           )
         })}
-      <ReactTooltip
+      <Tooltip
         id={`claim-tooltip-${tokenSymbol}`}
         backgroundColor="black"
         borderColor="black"
@@ -172,13 +172,13 @@ const VaultFooterActions = ({
         }
       />
       <BottomPart>
-        <SelectedVaultLabel fontWeight="400" lineHeight="20px" color={fontColor}>
+        <SelectedVaultLabel $fontweight="400" $lineheight="20px" $fontcolor={fontColor}>
           Claim all rewards into your wallet.
         </SelectedVaultLabel>
         <Button
-          color="advanced-reward"
-          // width="100%"
-          size="md"
+          $fontcolor="advanced-reward"
+          // $width="100%"
+          $size="md"
           onClick={async () => {
             if (curChain !== tokenChain) {
               const chainHex = `0x${Number(tokenChain).toString(16)}`

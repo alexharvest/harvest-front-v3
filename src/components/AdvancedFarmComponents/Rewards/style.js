@@ -15,7 +15,7 @@ const UniV3VaultContainer = styled.div`
 
 const PrimaryActionsContainer = styled.div`
   display: grid;
-  align-items: ${props => props.alignItems || 'center'};
+  align-items: ${props => props.$alignitems || 'center'};
   grid-template-columns: repeat(${props => props.gridItems || '2'}, 1fr);
   grid-column-gap: ${props => props.gridColGap || '15px'};
   grid-row-gap: ${props => props.gridRowGap || '15px'};
@@ -41,12 +41,12 @@ const MigrateOptionsContainer = styled.div`
 
 const SelectedVaultContainer = styled.div`
   width: 100%;
-  padding: ${props => props.padding || '20px 0px'};
-  max-width: ${props => props.maxWidth || '500px'};
-  border-color: ${props => props.borderColor};
+  padding: ${props => props.$padding || '20px 0px'};
+  max-width: ${props => props.$maxwidth || '500px'};
+  border-color: ${props => props.$bordercolor};
   border-style: solid;
-  border-width: ${props => props.borderWidth || '1px 0px'};
-  margin: ${props => props.margin || '15px 0px'};
+  border-width: ${props => props.$borderwidth || '1px 0px'};
+  margin: ${props => props.$margin || '15px 0px'};
   gap: 20px;
 
   @media screen and (max-width: 670px) {
@@ -58,9 +58,9 @@ const SelectedVaultContainer = styled.div`
 const SelectedVault = styled.div`
   display: flex;
   flex-basis: 50%;
-  flex-direction: ${props => props.flexDirection || 'row'};
-  justify-content: ${props => props.justifyContent || 'space-between'};
-  align-items: ${props => props.alignItems || 'unset'};
+  flex-direction: ${props => props.$flexdirection || 'row'};
+  justify-content: ${props => props.$justifycontent || 'space-between'};
+  align-items: ${props => props.$alignitems || 'unset'};
   order: ${props => props.order};
   border-right: 1px solid #dadfe6;
   border-right: 0;
@@ -84,10 +84,10 @@ const SelectedVaultLabel = styled.span`
   align-items: center;
   white-space: pre;
   flex-wrap: wrap;
-  font-weight: ${props => props.fontWeight || '700'};
+  font-weight: ${props => props.$fontweight || '700'};
   font-size: 14px;
-  line-height: ${props => props.lineHeight || '24px'};
-  color: ${props => props.color};
+  line-height: ${props => props.$lineheight || '24px'};
+  color: ${props => props.$fontcolor};
   text-decoration: ${props => (props.link ? 'underline' : 'unset')};
   cursor: ${props => (props.link ? 'pointer' : 'unset')};
 
@@ -103,9 +103,9 @@ const SelectedVaultLabel = styled.span`
 
 const SelectedVaultNumber = styled.span`
   ${props =>
-    props.display
+    props.$display
       ? `
-      display: ${props.display};
+      display: ${props.$display};
     `
       : ''}
   justify-content: space-between;
@@ -141,7 +141,7 @@ const VaultRangeContainer = styled.div`
 const VaultRange = styled.span`
   font-weight: 500;
   font-size: 14px !important;
-  color: ${props => props.color || 'black'};
+  color: ${props => props.$fontcolor || 'black'};
   text-align: left;
 `
 
@@ -156,7 +156,7 @@ const Div = styled.div`
   font-size: 14px;
   line-height: 24px;
   font-weight: 500;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
   img {
     margin-right: 5px;
     width: 24px;
@@ -165,7 +165,7 @@ const Div = styled.div`
 `
 
 const InfoIcon = styled.img`
-  filter: ${props => props.filterColor};
+  filter: ${props => props.$filtercolor};
   transition: 0.25s;
   cursor: pointer;
   margin-left: 5px;
@@ -182,7 +182,7 @@ const Monospace = styled.div`
   font-size: 14px;
   font-weight: 400;
   line-height: 24px;
-  color: ${props => props.fontColor5};
+  color: ${props => props.$fontcolor5};
 
   .count-up-text {
     font-weight: 500;

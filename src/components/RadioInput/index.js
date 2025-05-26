@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { Container, Radio, Label, Check } from './style'
 
 const RadioInput = ({
@@ -12,7 +12,7 @@ const RadioInput = ({
   <Container {...props}>
     {options.map(option => (
       <>
-        <ReactTooltip
+        <Tooltip
           id={`${option.value}-tooltip`}
           backgroundColor="white"
           borderColor="black"

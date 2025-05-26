@@ -12,18 +12,18 @@ const Socials = () => {
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
 
   return (
-    <SocialsContainer iconColor={socialIconColor} backColor={socialBackColor}>
-      <Social darkMode={darkMode} href={SOCIAL_LINKS.MEDIUM} target="_blank">
+    <SocialsContainer iconColor={socialIconColor} $backcolor={socialBackColor}>
+      <Social $darkmode={darkMode} href={SOCIAL_LINKS.MEDIUM} target="_blank">
         <img src={medium} alt="" />
       </Social>
-      <Social darkMode={darkMode} href={SOCIAL_LINKS.TWITTER} target="_blank">
+      <Social $darkmode={darkMode} href={SOCIAL_LINKS.TWITTER} target="_blank">
         <img src={twitter} alt="" />
       </Social>
       <Social
-        darkMode={darkMode}
+        $darkmode={darkMode}
         href={SOCIAL_LINKS.DISCORD}
         target="_blank"
-        marginRight={isMobile ? '0px' : '12px'}
+        $marginright={isMobile ? '0px' : '12px'}
       >
         <img src={discord} alt="" />
       </Social>

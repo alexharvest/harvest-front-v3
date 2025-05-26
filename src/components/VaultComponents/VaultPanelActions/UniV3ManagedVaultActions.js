@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { faInfoCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { fromWei } from '../../../services/web3'
@@ -24,7 +24,7 @@ const UniV3ManagedVaultActions = token => {
 
   return (
     <UniV3VaultContainer>
-      <ReactTooltip
+      <Tooltip
         id="univ3-vault-available"
         backgroundColor="#fffce6"
         borderColor="black"
@@ -38,7 +38,7 @@ const UniV3ManagedVaultActions = token => {
         )}
       />
       <SelectedVault>
-        <SelectedVaultLabel fontSize="14px">
+        <SelectedVaultLabel $fontsize="14px">
           Deposit Cap{' '}
           <FontAwesomeIcon
             icon={faInfoCircle}
@@ -60,7 +60,7 @@ const UniV3ManagedVaultActions = token => {
           </Monospace>
         </SelectedVaultNumber>
       </SelectedVault>
-      <ReactTooltip
+      <Tooltip
         id="univ3-locked-time"
         backgroundColor="#fffce6"
         borderColor="black"
@@ -69,7 +69,7 @@ const UniV3ManagedVaultActions = token => {
         getContent={() => <>You can&apos;t withdraw before the withdrawal time.</>}
       />
       <SelectedVault>
-        <SelectedVaultLabel fontSize="14px">
+        <SelectedVaultLabel $fontsize="14px">
           Withdrawals allowed after:{' '}
           <FontAwesomeIcon
             icon={faInfoCircle}
@@ -84,7 +84,7 @@ const UniV3ManagedVaultActions = token => {
             : 'Withdrawals are now allowed'}
         </SelectedVaultNumber>
       </SelectedVault>
-      <ReactTooltip
+      <Tooltip
         id="univ3-vault-ranges"
         backgroundColor="#fffce6"
         borderColor="black"
@@ -98,7 +98,7 @@ const UniV3ManagedVaultActions = token => {
         )}
       />
       <RangeGroup>
-        <SelectedVaultLabel fontSize="14px">
+        <SelectedVaultLabel $fontsize="14px">
           Ranges:{' '}
           <FontAwesomeIcon
             icon={faInfoCircle}
@@ -112,7 +112,7 @@ const UniV3ManagedVaultActions = token => {
             if (range.posId === token.uniswapV3ManagedData.currentRange.posId) {
               return (
                 <>
-                  <ReactTooltip
+                  <Tooltip
                     id="univ3-vault-currentRange"
                     backgroundColor="#fffce6"
                     borderColor="black"
@@ -125,10 +125,10 @@ const UniV3ManagedVaultActions = token => {
                       </>
                     )}
                   />
-                  <VaultRange color="#249669" data-tip="" data-for="univ3-vault-currentRange">
+                  <VaultRange $fontcolor="#249669" data-tip="" data-for="univ3-vault-currentRange">
                     <b>{range.token1Symbol}</b>: {range.lowerBound} ~ {range.upperBound}{' '}
                     <b>{range.token0Symbol}</b>
-                    <FontAwesomeIcon icon={faCheckCircle} color="#249669" />
+                    <FontAwesomeIcon icon={faCheckCircle} $fontcolor="#249669" />
                   </VaultRange>
                 </>
               )

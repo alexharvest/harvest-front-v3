@@ -21,9 +21,9 @@ const CloseBtn = styled.img`
 
 const FilterInput = styled.input`
   border-radius: 8px;
-  border: 1px solid ${props => props.inputBorderColor};
+  border: 1px solid ${props => props.$inputbordercolor};
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
-  background: ${props => props.modalInputColor};
+  background: ${props => props.$modalinputcolor};
   height: 44px;
   width: 100%;
   padding: 15px 40px;
@@ -31,7 +31,6 @@ const FilterInput = styled.input`
   font-weight: 300;
   font-size: 12px;
   line-height: 23px;
-  color: ${props => props.inputFontColor};
 `
 
 const FTokenInfo = styled.div`
@@ -50,112 +49,112 @@ const IconCard = styled.div`
 `
 
 const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
+  font-weight: ${props => props.$weight || '400'};
+  font-size: ${props => props.$size || '20px'};
+  line-height: ${props => props.$height || '0px'};
   ${props =>
-    props.width
+    props.$width
       ? `
-      width: ${props.width};
+      width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.margin
+    props.$margin
       ? `
-    margin: ${props.margin};
+    margin: ${props.$margin};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.heightDiv
+    props.$heightdiv
       ? `
-    height: ${props.heightDiv};
+    height: ${props.$heightdiv};
   `
       : ''}
   
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
 
   ${props =>
-    props.cursorType
+    props.$cursortype
       ? `
-    cursor: ${props.cursorType};
+    cursor: ${props.$cursortype};
   `
       : ''}
 
   ${props =>
-    props.divScroll
+    props.$divscroll
       ? `
-    // overflow: ${props.divScroll};
+    // overflow: ${props.$divscroll};
     &::-webkit-scrollbar {
       width: 5px;
     }
@@ -181,7 +180,7 @@ const NewLabel = styled.div`
 
   img {
     ${props =>
-      props.darkMode
+      props.$darkmode
         ? 'filter: invert(100%) sepia(75%) saturate(45%) hue-rotate(145deg) brightness(119%) contrast(100%);'
         : ''}
   }
@@ -205,11 +204,11 @@ const Search = styled.img`
 
 const NotConnectedWallet = styled.div`
   border-radius: 12px;
-  border: 1px solid ${props => props.borderColor};
-  background: ${props => props.bgColor};
+  border: 1px solid ${props => props.$bordercolor};
+  background: ${props => props.$bgcolor};
   padding: 16px;
   ${props =>
-    props.isShow === 'true'
+    props.$isshow === 'true'
       ? `
     display: flex;
     justify-content: space-between;

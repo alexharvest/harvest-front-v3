@@ -7,105 +7,105 @@ const BaseSection = styled.div`
 `
 
 const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
+  font-weight: ${props => props.$weight || '400'};
+  font-size: ${props => props.$size || '20px'};
+  line-height: ${props => props.$height || '0px'};
   ${props =>
-    props.bg
+    props.$bgcolor
       ? `
-    background: ${props.bg};
+    background: ${props.$bgcolor};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.widthDiv
+    props.$widthdiv
       ? `
-    width: ${props.widthDiv};
-  `
-      : ''}
-
-  ${props =>
-    props.border
-      ? `
-      border: ${props.border};
+    width: ${props.$widthdiv};
   `
       : ''}
 
   ${props =>
-    props.borderRadius
+    props.$border
       ? `
-      border-radius: ${props.borderRadius};
+      border: ${props.$border};
+  `
+      : ''}
+
+  ${props =>
+    props.$borderradius
+      ? `
+      border-radius: ${props.$borderradius};
   `
       : ''}
   img.icon {
@@ -144,12 +144,12 @@ const TokenAmount = styled.input`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  background: ${props => props.bgColor};
-  border: 1px solid ${props => props.borderColor};
+  background: ${props => props.$bgcolor};
+  border: 1px solid ${props => props.$bordercolor};
   outline: 0;
   padding: 10px 55px 10px 14px;
   border-radius: 8px;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
   transition: 0.25s;
 
   &::-webkit-outer-spin-button,
@@ -216,7 +216,7 @@ const BalanceInfo = styled.div`
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   margin-top: 5px;
   cursor: pointer;
   width: fit-content;
@@ -236,7 +236,7 @@ const DepoTitle = styled.div`
   font-size: 14px;
   line-height: 20px;
   margin: 0px 0px 20px;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
   @media screen and (max-width: 992px) {
     font-size: 12px;
@@ -270,7 +270,7 @@ const ThemeMode = styled.div`
 
     .switch-track {
       background: #000;
-      border: 1px solid ${props => props.borderColor};
+      border: 1px solid ${props => props.$bordercolor};
       height: 16px;
       width: 32px;
       border-radius: 30px;
@@ -295,7 +295,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'deposit'
+    props.$mode === 'deposit'
       ? `
       #theme-switch {
         .switch-check {
@@ -333,7 +333,7 @@ const ThemeMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'deposit'
+      props.$mode === 'deposit'
         ? `
         #theme-switch {
           .switch-thumb {
@@ -351,11 +351,11 @@ const ThemeMode = styled.div`
 
 const InsufficientSection = styled.div`
   border-radius: 12px;
-  border: 1px solid ${props => props.activeColor};
-  background: ${props => props.bgColorMessage};
+  border: 1px solid ${props => props.$activecolor};
+  background: ${props => props.$bgcolormessage};
   padding: 16px;
   ${props =>
-    props.isShow === 'true'
+    props.$isshow === 'true'
       ? `
     display: flex;
     justify-content: space-between;
@@ -375,7 +375,7 @@ const FTokenWrong = styled.div`
   border: 1px solid #fec84b;
   background: #fffcf5;
   padding: 16px;
-  display: ${props => (props.isShow === 'true' ? `flex` : 'none')};
+  display: ${props => (props.$isshow === 'true' ? `flex` : 'none')};
   gap: 12px 0;
   margin-top: 15px;
   justify-content: space-between;
@@ -405,16 +405,16 @@ const AmountInputSection = styled.div`
     font-size: 14px;
     font-weight: 300;
     line-height: 20px;
-    color: ${props => props.fontColor5};
+    color: ${props => props.$fontcolor5};
   }
 `
 
 const SwitchTabTag = styled.div`
   width: 49%;
   transition: 0.25s;
-  color: ${props => props.color};
-  background: ${props => props.backColor};
-  box-shadow: ${props => props.boxShadow};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$backcolor};
+  box-shadow: ${props => props.$boxshadow};
   padding: 8px 12px;
   border-radius: 6px;
   display: flex;

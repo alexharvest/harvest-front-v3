@@ -9,21 +9,21 @@ const Accordian = ({ text, EXPANDED, COLLAPSED, darkMode }) => {
 
   return (
     <NewLabel
-      display="flex"
-      paddingBottom="32px"
-      marginBottom="24px"
-      flexDirection="column"
-      borderBottom={`1px solid ${borderColorBox}`}
-      cursorType="pointer"
+      $display="flex"
+      $paddingbottom="32px"
+      $marginbottom="24px"
+      $flexdirection="column"
+      $borderbottom={`1px solid ${borderColorBox}`}
+      $cursortype="pointer"
       onClick={handleToggle(setIsExpanded)}
     >
-      <NewLabel display="flex" justifyContent="space-between" alignItems="center">
+      <NewLabel $display="flex" $justifycontent="space-between" $alignitems="center">
         <NewLabel
-          size="15.37px"
-          height="23.91px"
-          weight="500"
-          color={darkMode ? '#ffffff' : '#101828'}
-          marginRight="10px"
+          $size="15.37px"
+          $height="23.91px"
+          $weight="500"
+          $fontcolor={darkMode ? '#ffffff' : '#101828'}
+          $marginright="10px"
         >
           {text.question}
         </NewLabel>
@@ -31,11 +31,11 @@ const Accordian = ({ text, EXPANDED, COLLAPSED, darkMode }) => {
       </NewLabel>
       {isExpanded && (
         <NewLabel
-          size="13.66px"
-          weight="400"
-          height="20.49px"
-          color={darkMode ? '#ffffff' : '#475467'}
-          marginTop="10px"
+          $size="13.66px"
+          $weight="400"
+          $height="20.49px"
+          $fontcolor={darkMode ? '#ffffff' : '#475467'}
+          $margintop="10px"
         >
           {text.answer}
         </NewLabel>

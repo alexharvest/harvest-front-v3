@@ -4,9 +4,9 @@ const Container = styled.div`
   display: flex;
   border: none;
   ${props =>
-    props.cursor
+    props.$cursor
       ? `
-      cursor: ${props.cursor};
+      cursor: ${props.$cursor};
       `
       : `cursor: pointer;`}
   width: auto;
@@ -14,11 +14,11 @@ const Container = styled.div`
   align-items: center;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   &.active {
-    background: ${props => props.activeColor};
+    background: ${props => props.$activecolor};
   }
 
   img {
@@ -28,11 +28,11 @@ const Container = styled.div`
 
 const Text = styled.div`
   margin: auto 0px;
-  font-weight: ${props => props.weight || '400'};
+  font-weight: ${props => props.$weight || '400'};
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-        color: ${props.color}
+        color: ${props.$fontcolor}
       `
       : ``}
 `
@@ -41,17 +41,17 @@ const RightText = styled.div`
   display: flex;
   flex-flow: column;
   text-align: right;
-  font-weight: ${props => props.weight || '400'};
+  font-weight: ${props => props.$weight || '400'};
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-        color: ${props.color}
+        color: ${props.$fontcolor}
       `
       : ``}
 `
 
 const TextSpan = styled.div`
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
   font-size: 10px;
   font-weight: 400;
   line-height: 20px;
@@ -90,17 +90,17 @@ const EmptyContainer = styled.div`
   text-align: center;
   font-size: 14px;
   line-height: 18px;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   ${props =>
-    props.cursor
+    props.$cursor
       ? `
-      cursor: ${props.cursor};
+      cursor: ${props.$cursor};
       `
       : `cursor: pointer;`}
 `
 
 const Label = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   font-size: 14px;
   font-weight: 400;
   line-height: 18.972px;
@@ -111,9 +111,9 @@ const Label = styled.div`
       `
       : ``}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-        padding: ${props.padding};
+        padding: ${props.$padding};
       `
       : ``}
 `

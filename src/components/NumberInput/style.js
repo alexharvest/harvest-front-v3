@@ -6,7 +6,7 @@ const Container = styled.div`
   justify-content: ${props => props.justify};
   align-items: baseline;
   position: relative;
-  width: ${props => props.width || 'auto'};
+  width: ${props => props.$width || 'auto'};
   flex-direction: column;
   align-items: baseline;
 
@@ -77,8 +77,8 @@ const CoinInfo = styled.div`
   position: absolute;
   top: 0px;
   right: 0px;
-  background: ${props => props.backColor};
-  border: 1px solid ${props => props.borderColor};
+  background: ${props => props.$backcolor};
+  border: 1px solid ${props => props.$bordercolor};
   border-radius: 12px;
   display: flex;
   padding: 8px;

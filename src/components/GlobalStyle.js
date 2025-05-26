@@ -379,7 +379,7 @@ html {
     font-size: 14px; 
     line-height: 24px;
     font-weight: 600;
-    color: ${props => props.fontColor1};
+    color: ${props => props.$fontcolor1};
 
     @media screen and (max-width: 992px) {
       font-size: 12px;
@@ -390,7 +390,7 @@ html {
     font-size: 14px; 
     line-height: 24px;
     font-weight: 500;
-    color: ${props => props.fontColor3};
+    color: ${props => props.$fontcolor3};
 
     @media screen and (max-width: 992px) {
       font-size: 12px;
@@ -401,7 +401,7 @@ html {
     font-size: 14px; 
     line-height: 24px;
     font-weight: 500;
-    color: ${props => props.fontColor3};
+    color: ${props => props.$fontcolor3};
 
     @media screen and (max-width: 992px) {
       font-size: 12px;
@@ -412,7 +412,7 @@ html {
     font-size: 14px; 
     line-height: 24px;
     font-weight: 500;
-    color: ${props => props.fontColor3};
+    color: ${props => props.$fontcolor3};
 
     @media screen and (max-width: 992px) {
       font-size: 12px;
@@ -427,7 +427,7 @@ html {
     font-size: 14px; 
     line-height: 24px;
     font-weight: 500;
-    color: ${props => props.fontColor3};
+    color: ${props => props.$fontcolor3};
 
     @media screen and (max-width: 992px) {
       font-size: 12px;
@@ -514,7 +514,7 @@ html {
       }
 
       .modal-header {
-        background: ${props => props.bgColorModal};
+        background: ${props => props.$bgcolormodal};
         font-weight: 600;
         font-size: 18px;
         line-height: 28px;
@@ -533,35 +533,35 @@ html {
         color: #475467;
       }
       .deposit-modal-header {
-        background: ${props => props.bgColorModal};
-        border-bottom: 1px solid ${props => props.inputBorderColor};
+        background: ${props => props.$bgcolormodal};
+        border-bottom: 1px solid ${props => props.$inputbordercolor};
         padding: 24px 24px 20px;
       }
       .token-select-modal-header {
-        background: ${props => props.bgColorModal};
-        border-bottom: 1px solid ${props => props.inputBorderColor};
+        background: ${props => props.$bgcolormodal};
+        border-bottom: 1px solid ${props => props.$inputbordercolor};
         padding: 24px;
         display: flex;
         flex-flow: column;
       }
       .migrate-position-modal-header {
-        background: ${props => props.bgColorModal};
-        border-bottom: 1px solid ${props => props.inputBorderColor};
+        background: ${props => props.$bgcolormodal};
+        border-bottom: 1px solid ${props => props.$inputbordercolor};
         padding: 24px;
         display: flex;
         flex-flow: column;
       }
       .deposit-modal-body {
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
         padding: unset;
       }
       .token-select-modal-body {
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
         padding: unset;
         height: 328px;
       }
       .migrate-position-modal-body {
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
         padding: unset;
         height: 328px;
         border-radius: 0px 0px 12px 12px;
@@ -571,7 +571,7 @@ html {
         }
       }
       .migrate-start-modal-body {
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
         padding: unset;
         border-radius: 0px 0px 12px 12px;
         overflow-y: auto;
@@ -698,30 +698,30 @@ html {
         color: #475467;
       }
       .deposit-modal-header {
-        background: ${props => props.bgColorModal};
-        border-bottom: 1px solid ${props => props.inputBorderColor};
+        background: ${props => props.$bgcolormodal};
+        border-bottom: 1px solid ${props => props.$inputbordercolor};
         padding: 24px 24px 20px;
       }
       .disclaimers-modal {
         border-bottom: unset;
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
       }
       .token-select-modal-header {
-        background: ${props => props.bgColorModal};
-        border-bottom: 1px solid ${props => props.inputBorderColor};
+        background: ${props => props.$bgcolormodal};
+        border-bottom: 1px solid ${props => props.$inputbordercolor};
         padding: 24px;
         display: flex;
         flex-flow: column;
       }
       .migrate-position-modal-header {
         background: #f2f5ff;
-        border-bottom: 1px solid ${props => props.inputBorderColor};
+        border-bottom: 1px solid ${props => props.$inputbordercolor};
         padding: 24px;
         display: flex;
         flex-flow: column;
       }
       .deposit-modal-body {
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
         padding: unset;
         border-bottom-left-radius: 12px;
         border-bottom-right-radius: 12px;
@@ -731,12 +731,12 @@ html {
         border-bottom-left-radius: 12px;
       }
       .token-select-modal-body {
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
         padding: unset;
         height: 328px;
       }
       .migrate-position-modal-body {
-        background: ${props => props.backColor};
+        background: ${props => props.$backcolor};
         padding: unset;
         height: 328px;
         border-radius: 0px 0px 12px 12px;
@@ -862,16 +862,16 @@ html {
 `
 
 const Divider = styled.div`
-  height: ${props => (props.height ? props.height : '20px')};
-  background: ${props => (props.backColor ? props.backColor : 'unset')};
-  margin-top: ${props => (props.marginTop ? props.marginTop : 'unset')};
+  height: ${props => (props.$height ? props.$height : '20px')};
+  background: ${props => (props.$backcolor ? props.$backcolor : 'unset')};
+  margin-top: ${props => (props.$margintop ? props.$margintop : 'unset')};
 `
 
 const ClickGate = styled.div`
-  cursor: ${props => (props.disabled ? 'not-allowed' : 'auto')};
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
+  cursor: ${props => (props.$disabled ? 'not-allowed' : 'auto')};
+  opacity: ${props => (props.$disabled ? 0.5 : 1)};
   a {
-    pointer-events: ${props => (props.disabled ? 'none' : 'all')};
+    pointer-events: ${props => (props.$disabled ? 'none' : 'all')};
   }
 `
 
@@ -882,7 +882,7 @@ const TableContainer = styled.div`
 `
 
 const TableHead = styled.div`
-  margin-bottom: ${props => (props.invisible ? '-20px' : 'unset')};
+  margin-bottom: ${props => (props.$invisible ? '-20px' : 'unset')};
   display: table-header-group;
 `
 
@@ -896,11 +896,11 @@ const TableRow = styled.div`
 
 const TableCell = styled.div`
   position: relative;
-  width: ${props => (props.width ? props.width : 'auto')};
+  width: ${props => (props.$width ? props.$width : 'auto')};
   display: table-cell;
   vertical-align: middle;
-  text-align: ${props => (props.textAlign ? props.textAlign : 'center')};
-  font-weight: ${props => (props.fontWeight ? props.fontWeight : 'normal')};
+  text-align: ${props => (props.$textalign ? props.$textalign : 'center')};
+  font-weight: ${props => (props.$fontweight ? props.$fontweight : 'normal')};
   padding: 10px 0px;
   margin-right: 20px;
 `
@@ -908,10 +908,10 @@ const TableCell = styled.div`
 const Monospace = styled.span`
   // font-family: Work Sans;
   font-family: 'Inter', sans-serif;
-  border-bottom: ${props => props.borderBottom || 'unset'};
-  color: ${props => props.fontColor1};
+  border-bottom: ${props => props.$borderbottom || 'unset'};
+  color: ${props => props.$fontcolor1};
   font-size: 14px !important;
-  font-weight: ${props => props.fontWeight || '500'};
+  font-weight: ${props => props.$fontweight || '500'};
   line-height: 20px;
   @media screen and (max-width: 992px) {
     font-weight: 700;
@@ -919,7 +919,7 @@ const Monospace = styled.span`
 `
 
 const Box = styled.div`
-  width: ${props => (props.width ? props.width : 'auto')};
+  width: ${props => (props.$width ? props.$width : 'auto')};
   font-size: 14px;
   display: flex;
   justify-content: center;
@@ -942,14 +942,8 @@ const Box = styled.div`
 `
 
 const TextContainer = styled.div`
-  text-align: ${props => props.textAlign || 'center'};
-  margin: ${props => props.margin || '20px 0px'};
-`
-
-const SmallLogo = styled.img`
-  width: ${props => props.width || '20px'};
-  height: ${props => props.height || '20px'};
-  margin: ${props => props.margin || '0px'};
+  text-align: ${props => props.$textalign || 'center'};
+  margin: ${props => props.$margin || '20px 0px'};
 `
 
 const Body = styled.div`
@@ -969,7 +963,7 @@ const ScrollArrow = styled.div`
   position: absolute;
   right: -8.5px;
   top: 40%;
-  display: ${props => (props.hide ? 'none' : 'block')};
+  display: ${props => (props.$hide ? 'none' : 'block')};
 
   @media screen and (min-width: 730px) {
     display: none !important;
@@ -1024,7 +1018,6 @@ export {
   TableCell,
   Monospace,
   GlobalStyle,
-  SmallLogo,
   TextContainer,
   Box,
   Body,

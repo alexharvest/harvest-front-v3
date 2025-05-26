@@ -10,7 +10,7 @@ const ProfitSharing = styled.div`
   position: relative;
   padding: 15px 18px;
   border-radius: 13px;
-  height: ${props => (props.height ? props.height : 'unset')};
+  height: ${props => (props.$height ? props.$height : 'unset')};
   display: flex;
   flex-direction: column;
   justify-content: center;

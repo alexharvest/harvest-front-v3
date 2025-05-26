@@ -38,8 +38,8 @@ const LiveSupport = () => {
   }
 
   return (
-    <Container bgColor={bgColor} fontColor={fontColor}>
-      <TopSection bgColor={bgColorSup}>
+    <Container $bgcolor={bgColor} $fontcolor={fontColor}>
+      <TopSection $bgcolor={bgColorSup}>
         <TopContainer>
           <HeaderTitle>
             Need help?{' '}
@@ -62,14 +62,14 @@ const LiveSupport = () => {
           </LiveChat>
           <ContactWrap>
             <DiscordBox>
-              <NewLabel textAlign="center">
+              <NewLabel $textalign="center">
                 <img src={Avatars} alt="avatar" />
               </NewLabel>
-              <NewLabel color="#fff" textAlign="center">
-                <NewLabel size="20px" weight="600" height="30px" marginBottom="8px">
+              <NewLabel $fontcolor="#fff" $textalign="center">
+                <NewLabel $size="20px" $weight="600" $height="30px" $marginbottom="8px">
                   Still have questions?
                 </NewLabel>
-                <NewLabel size="16px">
+                <NewLabel $size="16px">
                   Reach out to Harvest via our Discord channel and open a ticket. Our mods will be
                   there to assist you!
                 </NewLabel>
@@ -83,45 +83,45 @@ const LiveSupport = () => {
             </DiscordBox>
             {showMessage && (
               <FTokenWrong>
-                <NewLabel marginRight="12px" display="flex">
+                <NewLabel $marginright="12px" $display="flex">
                   <NewLabel>
                     <img src={AlertIcon} alt="" />
                   </NewLabel>
-                  <NewLabel marginLeft="12px">
+                  <NewLabel $marginleft="12px">
                     <NewLabel
-                      color="#B54708"
-                      size="14px"
-                      height="20px"
-                      weight="600"
-                      marginBottom="4px"
+                      $fontcolor="#B54708"
+                      $size="14px"
+                      $height="20px"
+                      $weight="600"
+                      $marginbottom="4px"
                     >
                       Beware of Scams
                     </NewLabel>
                     <NewLabel
-                      color="#B54708"
-                      size="14px"
-                      height="20px"
-                      weight="400"
-                      marginBottom="5px"
+                      $fontcolor="#B54708"
+                      $size="14px"
+                      $height="20px"
+                      $weight="400"
+                      $marginbottom="5px"
                     >
                       Harvest moderators will never request your seed phrase or private wallet
                       details. Always be vigilant of direct messages from scammers. For genuine
                       support, please open a ticket in our Discord&apos;s #support channel only.
                     </NewLabel>
                     <NewLabel
-                      color="#B54708"
-                      size="14px"
-                      height="20px"
-                      weight="600"
-                      marginBottom="4px"
+                      $fontcolor="#B54708"
+                      $size="14px"
+                      $height="20px"
+                      $weight="600"
+                      $marginbottom="4px"
                       onClick={closeScamMessage}
-                      cursorType="pointer"
+                      $cursortype="pointer"
                     >
                       Got it
                     </NewLabel>
                   </NewLabel>
                 </NewLabel>
-                <NewLabel color="#F79009">
+                <NewLabel $fontcolor="#F79009">
                   <RxCross2 className="scam-message" onClick={closeScamMessage} />
                 </NewLabel>
               </FTokenWrong>

@@ -9,9 +9,9 @@ const Pagination = ({
   onPageChange,
   isMobile,
   bgColor,
+  fontColor,
   fontColor1,
   fontColor2,
-  fontColor,
   inputBorderColor,
 }) => {
   const CustomPreviousComponent = () => (
@@ -28,11 +28,11 @@ const Pagination = ({
 
   return (
     <LeaderboardPagination
-      bgColor={bgColor}
-      fontColor={fontColor}
-      fontColor1={fontColor1}
-      fontColor2={fontColor2}
-      borderColor={inputBorderColor}
+      $bgcolor={bgColor}
+      $fontcolor={fontColor}
+      $fontcolor1={fontColor1}
+      $fontcolor2={fontColor2}
+      $bordercolor={inputBorderColor}
     >
       <ReactPaginate
         breakLabel="..."

@@ -4,9 +4,9 @@ import { Dropdown } from 'react-bootstrap'
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
-  background: ${props => props.bgColor};
+  background: ${props => props.$bgcolor};
   transition: 0.25s;
   position: relative;
   margin-left: 260px;
@@ -61,7 +61,7 @@ const WrapperDiv = styled.div`
 `
 
 const Title = styled.div`
-  color: ${props => props.fontColor1};
+  color: ${props => props.$fontcolor1};
   font-size: 20px;
   font-weight: 600;
   line-height: 30px;
@@ -72,7 +72,7 @@ const Title = styled.div`
 `
 
 const DescText = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   font-size: 16px;
   font-weight: 400;
   line-height: 22px;
@@ -131,8 +131,8 @@ const ThemeMode = styled.div`
     }
 
     .switch-track {
-      background: ${props => props.backColor};
-      border: 1px solid ${props => props.borderColor};
+      background: ${props => props.$backcolor};
+      border: 1px solid ${props => props.$bordercolor};
       width: 105px;
       height: 40px;
       border-radius: 30px;
@@ -161,9 +161,9 @@ const ThemeMode = styled.div`
     }
 
     .switch-icon {
-      color: ${props => props.color};
+      color: ${props => props.$fontcolor};
       height: 32px;
-      ${props => (props.mode === 'dark' || props.mode === 'show' ? 'left: 5px;' : 'right: 5px;')}
+      ${props => (props.$mode === 'dark' || props.$mode === 'show' ? 'left: 5px;' : 'right: 5px;')}
       position: absolute;
       top: 4px;
       width: 48px;
@@ -184,7 +184,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'light' || props.mode === 'hide'
+    props.$mode === 'light' || props.$mode === 'hide'
       ? `
       #theme-switch {
         .switch-check {
@@ -215,7 +215,7 @@ const CurrencySelect = styled.div`
   font-size: 14px;
   line-height: 24px;
   text-align: right;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
 
   display: flex;
   align-items: center;
@@ -251,10 +251,10 @@ const CurrencySelect = styled.div`
 `
 
 const CurrencyDropDown = styled(Dropdown.Toggle)`
-  background: ${props => props.bgcolor} !important;
+  background: ${props => props.$bgcolor} !important;
   border: none !important;
   border-radius: 8px !important;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
   align-items: center;
   width: 100%;
   display: flex !important;
@@ -268,7 +268,7 @@ const CurrencyDropDown = styled(Dropdown.Toggle)`
   }
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
     color: black;
     font-weight: 500;
   }
@@ -293,7 +293,7 @@ const CurrencyDropDown = styled(Dropdown.Toggle)`
 `
 
 const CurrencyDropDownMenu = styled(Dropdown.Menu)`
-  background-color: ${props => props.backcolor} !important;
+  background-color: ${props => props.$backcolor} !important;
   border: 1px solid #d0d5dd;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   border-radius: 8px !important;
@@ -320,14 +320,14 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   font-size: 14px;
   padding: 10px 5px;
   ${props =>
-    props.bordercolor
+    props.$bordercolor
       ? `
-    border-bottom: 0.5px solid ${props.bordercolor} !important;
+    border-bottom: 0.5px solid ${props.$bordercolor} !important;
   `
       : `
   `}
   width: auto !important;
-  color: ${props => props.fontcolor} !important;
+  color: ${props => props.$fontcolor} !important;
 
   :first-child {
     border-radius: 8px 8px 0px 0px;
@@ -338,7 +338,7 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   }
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
 
     div {
       color: #ff9400;

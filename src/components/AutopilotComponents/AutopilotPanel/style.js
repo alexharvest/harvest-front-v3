@@ -47,7 +47,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'subscribe'
+    props.$mode === 'subscribe'
       ? `
       #theme-switch {
         .switch-check {
@@ -86,7 +86,7 @@ const ThemeMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'subscribe'
+      props.$mode === 'subscribe'
         ? `
         #theme-switch {
           .switch-thumb {
@@ -107,9 +107,9 @@ const PanelHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   height: 145px;
-  background: ${props => (props.darkMode ? 'transparent' : '#f2f5ff')};
+  background: ${props => (props.$darkmode ? 'transparent' : '#f2f5ff')};
   border-radius: 9px 9px 0px 0px;
-  border-bottom: 0.7px solid ${props => props.borderColor};
+  border-bottom: 0.7px solid ${props => props.$bordercolor};
   overflow: hidden;
 `
 
@@ -132,10 +132,10 @@ const BasePanelBox = styled.div`
   margin-top: 25px;
   display: flex;
   flex-direction: column;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   /* key: ${props => props.key}; */
   border-radius: 9px;
-  border: 1.5px solid ${props => props.borderColor};
+  border: 1.5px solid ${props => props.$bordercolor};
 
   @media screen and (max-width: 1820px) {
     width: 420px;
@@ -216,109 +216,109 @@ const PilotInfo = styled.div`
 
 const NewLabel = styled.div`
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size};
+    font-size: ${props.$size};
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    line-height: ${props.height};
+    line-height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
-  `
-      : ''}
-
-  ${props =>
-    props.marginLeft
-      ? `
-    margin-left: ${props.marginLeft};
-  `
-      : ''}
-  
-  ${props =>
-    props.marginRight
-      ? `
-    margin-right: ${props.marginRight};
-  `
-      : ''}
-  ${props =>
-    props.display
-      ? `
-    display: ${props.display};
-  `
-      : ''}
-  ${props =>
-    props.flexFlow
-      ? `
-    flex-flow: ${props.flexFlow};
-  `
-      : ''}
-  ${props =>
-    props.padding
-      ? `
-    padding: ${props.padding};
-  `
-      : ''}
-  ${props =>
-    props.items
-      ? `
-    align-items: ${props.items};
-  `
-      : ''}
-  
-  ${props =>
-    props.border
-      ? `
-    border: ${props.border};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 
   ${props =>
-    props.borderRadius
+    props.$marginleft
       ? `
-    border-radius: ${props.borderRadius};
+    margin-left: ${props.$marginleft};
+  `
+      : ''}
+  
+  ${props =>
+    props.$marginright
+      ? `
+    margin-right: ${props.$marginright};
+  `
+      : ''}
+  ${props =>
+    props.$display
+      ? `
+    display: ${props.$display};
+  `
+      : ''}
+  ${props =>
+    props.$flexflow
+      ? `
+    flex-flow: ${props.$flexflow};
+  `
+      : ''}
+  ${props =>
+    props.$padding
+      ? `
+    padding: ${props.$padding};
+  `
+      : ''}
+  ${props =>
+    props.$items
+      ? `
+    align-items: ${props.$items};
+  `
+      : ''}
+  
+  ${props =>
+    props.$border
+      ? `
+    border: ${props.$border};
+  `
+      : ''}
+
+  ${props =>
+    props.$borderradius
+      ? `
+    border-radius: ${props.$borderradius};
   `
       : ''}
 
@@ -328,7 +328,7 @@ const NewLabel = styled.div`
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
@@ -354,51 +354,51 @@ const FlexDiv = styled.div`
   display: flex;
 
   ${props =>
-    props.gap
+    props.$gap
       ? `
-      gap: ${props.gap};
+      gap: ${props.$gap};
     `
       : ''}
 
   ${props =>
-    props.padding
+    props.$padding
       ? `
-      padding: ${props.padding};
+      padding: ${props.$padding};
     `
       : ''}
 
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
 
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
 
   ${props =>
-    props.flexDirection
+    props.$flexdirection
       ? `
-    flex-direction: ${props.flexDirection};
+    flex-direction: ${props.$flexdirection};
   `
       : ''}
 `
@@ -428,12 +428,12 @@ const TokenAmount = styled.input`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   border: 1px solid #d7dffa8c;
   outline: 0;
   padding: 7px 14px 7px 14px;
   border-radius: 8px;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
   transition: 0.25s;
 
   &::-webkit-outer-spin-button,
@@ -450,7 +450,7 @@ const TokenUSDAmount = styled.div`
   right: 12px;
   bottom: 10px;
   font-size: 12px;
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   font-weight: 400;
 `
 
@@ -471,7 +471,7 @@ const TokenName = styled.div`
   left: 50px;
   bottom: 10px;
   font-size: 12px;
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   font-weight: 400;
 `
 

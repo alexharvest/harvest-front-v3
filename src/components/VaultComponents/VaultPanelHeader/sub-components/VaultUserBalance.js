@@ -106,10 +106,10 @@ const VaultUserBalance = ({
 
   return (
     <Monospace
-      // borderBottom={connected && !isLoadingUserBalance && multipleAssets && '1px dotted black'}
-      fontWeight="500"
+      // $borderbottom={connected && !isLoadingUserBalance && multipleAssets && '1px dotted black'}
+      $fontweight="500"
       className="farm-balance-span"
-      fontColor1={fontColor1}
+      $fontcolor1={fontColor1}
     >
       {!connected ? (
         ''

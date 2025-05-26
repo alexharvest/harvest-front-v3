@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import ARBITRUM from '../../../assets/images/chains/arbitrum.svg'
 import BASE from '../../../assets/images/chains/base.svg'
 import ETHEREUM from '../../../assets/images/chains/ethereum.svg'
@@ -45,7 +45,7 @@ const MobilePanelHeader = ({
   const chainId = token.chain || token.data.chain
   const [badgeId, setBadgeId] = useState(-1)
 
-  const { push } = useHistory()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const getBadge = () => {
@@ -63,8 +63,8 @@ const MobilePanelHeader = ({
   const { badgeIconBackColor, fontColor, borderColorBox, setPrevPage } = useThemeContext()
   return (
     <PanelContainer
-      fontColor={fontColor}
-      borderColor={borderColorBox}
+      $fontcolor={fontColor}
+      $bordercolor={borderColorBox}
       onClick={() => {
         const network = chainList[badgeId].name.toLowerCase()
         const address = isSpecialVault
@@ -72,15 +72,15 @@ const MobilePanelHeader = ({
           : token.vaultAddress || token.tokenAddress
         setPrevPage(window.location.href)
         const url = `${directDetailUrl}${network}/${address}${location.search}`
-        push(url)
+        navigate(url)
       }}
     >
       <FlexDiv
         className="token-symbols"
-        width="60%"
-        alignSelf="center"
-        marginRight="18px"
-        paddingBottom="5px"
+        $width="60%"
+        $alignself="center"
+        $marginright="18px"
+        $paddingbottom="5px"
       >
         <div>
           {logoUrl.map((el, i) => (
@@ -103,7 +103,7 @@ const MobilePanelHeader = ({
           />
         </TokenLogoContainer>
       </FlexDiv>
-      <FlexDiv width="30%">
+      <FlexDiv $width="30%">
         <MobileVaultInfoContainer>
           <MobileVaultValueContainer>
             <VaultApy

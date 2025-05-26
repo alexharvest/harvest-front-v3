@@ -117,7 +117,7 @@ const ApexChart = ({ noFarm, data, range, handleTooltipContent, setCurDate, setC
         textAnchor={index === 0 ? 'start' : index === payload.length - 1 ? 'end' : 'middle'}
         viewBox="0 0 1024 1024"
         fill={inputFontColor}
-        fontSize={isMobile ? '10px' : '12px'}
+        $fontsize={isMobile ? '10px' : '12px'}
       >
         <tspan dy="0.71em">{path}</tspan>
       </text>
@@ -321,7 +321,7 @@ const ApexChart = ({ noFarm, data, range, handleTooltipContent, setCurDate, setC
             )
           ) : (
             <BoxWrapper>
-              <NoData className="message" color={fontColor}>
+              <NoData className="message" $fontcolor={fontColor}>
                 No activity found for this wallet.
               </NoData>
               <MagicChart />
@@ -332,11 +332,11 @@ const ApexChart = ({ noFarm, data, range, handleTooltipContent, setCurDate, setC
         <BoxWrapper>
           <EmptyInfo
             className="message"
-            height="100%"
-            weight={500}
-            size={14}
-            lineHeight={20}
-            color={fontColor}
+            $height="100%"
+            $weight={500}
+            $size={14}
+            $lineheight={20}
+            $fontcolor={fontColor}
           >
             Connect wallet to see your lifetime yield chart
           </EmptyInfo>

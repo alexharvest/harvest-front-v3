@@ -174,8 +174,8 @@ const WalletProvider = _ref => {
           }
         }
       }
-      if (web3 && web3._provider.on && account) {
-        networkEmitter = web3._provider.on('chainChanged', onNetworkChange)
+      if (web3 && web3.currentProvider && web3.currentProvider.on && account) {
+        networkEmitter = web3.currentProvider.on('chainChanged', onNetworkChange);
       }
 
       return () => {

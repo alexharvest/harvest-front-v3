@@ -46,7 +46,7 @@ const AnalyticChart = () => {
 
   return (
     <>
-      <Container fontColor={fontColor}>
+      <Container $fontcolor={fontColor}>
         <Header>
           <TooltipContent>
             <CurDate>{curDate}</CurDate>

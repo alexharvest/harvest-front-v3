@@ -90,19 +90,19 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
 
   return isMobile ? (
     <DetailView
-      borderColor={borderColorBox}
-      hoverColor={hoverColor}
+      $bordercolor={borderColorBox}
+      $hovercolor={hoverColor}
       key={cKey}
       onClick={handleToggle(setIsExpand)}
     >
       <FlexDiv>
-        <Content display="flex" width="100%">
+        <Content $display="flex" $width="100%">
           <ContentInner
-            width="50%"
-            display="flex"
-            justifyContent="space-between"
-            padding="18px 28px 18px 16px"
-            flexDirection="column"
+            $width="50%"
+            $display="flex"
+            $justifycontent="space-between"
+            $padding="18px 28px 18px 16px"
+            $flexdirection="column"
           >
             <ListItem
               weight={400}
@@ -133,10 +133,10 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
             />
           </ContentInner>
           <ContentInner
-            width="50%"
-            display="flex"
-            padding="18px 16px 18px 28px"
-            flexDirection="column"
+            $width="50%"
+            $display="flex"
+            $padding="18px 16px 18px 28px"
+            $flexdirection="column"
           >
             {selectedItem === 'Efficiency' ? (
               <>
@@ -210,17 +210,17 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
       {isExpand && (
         <>
           <FlexDiv>
-            <Content padding="0px 0px 0px 16px">
+            <Content $padding="0px 0px 0px 16px">
               <ContentInner
-                width={isMobile ? '100%' : '100%'}
-                display={isMobile ? 'block' : 'flex'}
+                $width={isMobile ? '100%' : '100%'}
+                $display={isMobile ? 'block' : 'flex'}
               >
                 <TopFiveText>Displaying top 5 positions</TopFiveText>
               </ContentInner>
             </Content>
           </FlexDiv>
-          <Content padding="12px 0px 16px 16px">
-            <ContentInner width={isMobile ? '100%' : '100%'} display={isMobile ? 'block' : 'flex'}>
+          <Content $padding="12px 0px 16px 16px">
+            <ContentInner $width={isMobile ? '100%' : '100%'} $display={isMobile ? 'block' : 'flex'}>
               <div style={{ paddingLeft: '0px', margin: 0 }}>
                 {Object.entries(value.vaults)
                   .slice(0, 5)
@@ -275,7 +275,7 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
                             width="115%"
                           />
                         </MobileGranularBlock>
-                        <MobileGranularBlock paddingRight="16px">
+                        <MobileGranularBlock $paddingright="16px">
                           <ListItem
                             weight={500}
                             size="10px"
@@ -308,15 +308,15 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
     </DetailView>
   ) : (
     <DetailView
-      borderColor={borderColorBox}
-      hoverColor={hoverColor}
       key={cKey}
-      lastItem={lastItem}
+      $bordercolor={borderColorBox}
+      $hovercolor={hoverColor}
+      $lastitem={lastItem}
       onClick={handleToggle(setIsExpand)}
     >
       <FlexDiv>
-        <Content width="100%" display="flex">
-          <ContentInner width="10%" display="flex">
+        <Content $width="100%" $display="flex">
+          <ContentInner $width="10%" $display="flex">
             <ListItem
               weight={500}
               size="14px"
@@ -325,7 +325,7 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
               value={`#${cKey}`}
             />
           </ContentInner>
-          <ContentInner width="15%">
+          <ContentInner $width="15%">
             <ListItem
               weight={400}
               size="14px"
@@ -335,7 +335,7 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
               addressValue={accounts}
             />
           </ContentInner>
-          <ContentInner width="15%">
+          <ContentInner $width="15%">
             <ListItem
               weight={400}
               size="14px"
@@ -344,7 +344,7 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
               value={`${currencySym}${formatNumber(userHarvestBalance * currencyRate, 2)}`}
             />
           </ContentInner>
-          <ContentInner width="15%">
+          <ContentInner $width="15%">
             <ListItem
               value={matchedTokenNames.length}
               weight={400}
@@ -353,7 +353,7 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
               color={darkMode ? '#ffffff' : '#475467'}
             />
           </ContentInner>
-          <ContentInner width="15%">
+          <ContentInner $width="15%">
             {Object.entries(value.vaults)
               .slice(0, 1)
               .map(([vaultKey, vaultValue]) => {
@@ -379,7 +379,7 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
                 )
               })}
           </ContentInner>
-          <ContentInner width="15%">
+          <ContentInner $width="15%">
             <ListItem
               weight={400}
               size="14px"
@@ -409,7 +409,7 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
               allocationValue={allocationValue}
             />
           </ContentInner>
-          <ContentInner width="15%">
+          <ContentInner $width="15%">
             <ListItem
               weight={400}
               size="12px"
@@ -427,10 +427,10 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
             />
           </ContentInner>
           <ContentInner
-            width={isMobile ? '5%' : '2%'}
-            display="flex"
-            justifyContent="center"
-            fontSize="18px"
+            $width={isMobile ? '5%' : '2%'}
+            $display="flex"
+            $justifycontent="center"
+            $fontsize="18px"
           >
             {!isExpand ? (
               <img
@@ -459,19 +459,19 @@ const HolderRow = ({ value, cKey, accounts, groupOfVaults, lastItem, selectedIte
       {isExpand && (
         <>
           <FlexDiv>
-            <Content padding="12px 0px 0px 0px">
+            <Content $padding="12px 0px 0px 0px">
               <ContentInner
-                width={isMobile ? '100%' : '100%'}
-                display={isMobile ? 'block' : 'flex'}
+                $width={isMobile ? '100%' : '100%'}
+                $display={isMobile ? 'block' : 'flex'}
               >
-                <TopFiveText color={darkMode ? '#ffffff' : '#101828'}>
+                <TopFiveText $fontcolor={darkMode ? '#ffffff' : '#101828'}>
                   Displaying top 5 positions
                 </TopFiveText>
               </ContentInner>
             </Content>
           </FlexDiv>
-          <Content padding="12px 0px 16px 0px">
-            <ContentInner width={isMobile ? '100%' : '100%'} display={isMobile ? 'block' : 'flex'}>
+          <Content $padding="12px 0px 16px 0px">
+            <ContentInner $width={isMobile ? '100%' : '100%'} $display={isMobile ? 'block' : 'flex'}>
               <div style={{ paddingLeft: '0px', margin: 0 }}>
                 {Object.entries(value.vaults)
                   .slice(0, 5)

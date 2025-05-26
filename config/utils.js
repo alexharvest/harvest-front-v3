@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const { omit, isArray } = require('lodash')
 
 const formatItems = (items, fieldToExclude) => {
@@ -22,11 +23,19 @@ const formatItems = (items, fieldToExclude) => {
 }
 
 const saveFormattedData = (data, filePath) => {
+  const dir = path.dirname(filePath)
+
+  // Make sure the directory exists
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true })
+  }
+
   fs.writeFile(filePath, JSON.stringify(data), 'utf8', err => {
     if (err) {
       console.error(err)
+    } else {
+      console.log(`Generated list saved into ${filePath}!`)
     }
-    console.log(`Generated list saved into ${filePath}!`)
   })
 }
 

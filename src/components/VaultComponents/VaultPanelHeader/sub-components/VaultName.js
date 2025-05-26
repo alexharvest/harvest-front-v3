@@ -26,7 +26,7 @@ const VaultName = ({
 }) => {
   return (
     <TokenDescriptionContainer>
-      <TokenNameContainer fontColor1={fontColor1}>
+      <TokenNameContainer $fontcolor1={fontColor1}>
         {useIFARM
           ? tokens[IFARM_TOKEN_SYMBOL].tokenNames.join(' - ')
           : token.tokenNames.join(' - ') || tokenSymbol}

@@ -10,10 +10,10 @@ const ButtonSwitch = ({ checked, setChecked, options }) => {
 
   return (
     <Button
-      color="earn"
-      size="md"
-      height="38px"
-      width="100%"
+      $fontcolor="earn"
+      $size="md"
+      $height="38px"
+      $width="100%"
       onClick={() => {
         if (!disabled) {
           setChecked(!checked)

@@ -4,9 +4,9 @@ import { Dropdown } from 'react-bootstrap'
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
-  background: ${props => props.bgColor};
+  background: ${props => props.$bgcolor};
   transition: 0.25s;
   position: relative;
   margin-left: 260px;
@@ -40,7 +40,7 @@ const Inner = styled.div`
 
   @media screen and (max-width: 992px) {
     padding: 0px 0px 25px 0px;
-    background: ${props => (props.bgColor ? props.bgColor : '')};
+    background: ${props => (props.$bgcolor ? props.$bgcolor : '')};
   }
 `
 
@@ -66,8 +66,8 @@ const HeaderWrap = styled.div`
   padding-bottom: 20px;
 
   @media screen and (max-width: 992px) {
-    padding: ${props => (props.padding ? props.padding : '')};
-    border-bottom: 1px solid ${props => props.borderColor};
+    padding: ${props => (props.$padding ? props.$padding : '')};
+    border-bottom: 1px solid ${props => props.$bordercolor};
   }
 `
 
@@ -75,13 +75,13 @@ const HeaderTitle = styled.div`
   margin: auto 0px;
 
   .title {
-    color: ${props => props.fontColor1};
+    color: ${props => props.$fontcolor1};
     font-size: 18px;
     font-weight: 600;
     line-height: 28px;
   }
   .desc {
-    color: ${props => props.fontColor};
+    color: ${props => props.$fontcolor};
     font-size: 12px;
     font-weight: 400;
     line-height: 24px;
@@ -110,7 +110,7 @@ const HeaderButton = styled.div`
 const FarmTitle = styled.span`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid ${props => props.borderColor};
+  border-bottom: 1px solid ${props => props.$bordercolor};
 
   font-weight: 500;
   font-size: 16px;
@@ -136,7 +136,7 @@ const MyFarm = styled.div`
   line-height: 23px;
   display: flex;
 
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   align-self: center;
   align-items: center;
 
@@ -153,8 +153,8 @@ const FarmPic = styled.img`
 `
 
 const EmptyPanel = styled.div`
-  height: ${props => props.height};
-  border: 1px solid ${props => props.borderColor};
+  height: ${props => props.$height};
+  border: 1px solid ${props => props.$bordercolor};
   border-top: none;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -171,51 +171,51 @@ const EmptyImg = styled.img`
 
 const EmptyInfo = styled.div`
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size}px;
+    font-size: ${props.$size}px;
   `
       : ''}
   ${props =>
-    props.lineHeight
+    props.$lineheight
       ? `
-    line-height: ${props.lineHeight}px;
+    line-height: ${props.$lineheight}px;
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    height: ${props.height};
+    height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.flexFlow
+    props.$flexflow
       ? `
-    flex-flow: ${props.flexFlow};
+    flex-flow: ${props.$flexflow};
   `
       : ''}
   ${props =>
-    props.gap
+    props.$gap
       ? `
-    gap: ${props.gap};
+    gap: ${props.$gap};
   `
       : 'gap: 23px;'}
 
@@ -250,7 +250,7 @@ const ConnectButtonStyle = styled.button`
   transition: 0.5s;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   ${props =>
@@ -276,10 +276,10 @@ const ConnectButtonStyle = styled.button`
       props.connected
         ? `
       background: none;
-      color: ${props.fontcolor};
+      color: ${props.$fontcolor};
       font-size: 11px;
       padding: 2px 16px 2px 7px;
-      border: 1px solid ${props.bordercolor};
+      border: 1px solid ${props.$bordercolor};
       `
         : `
       padding: 10px 11px;
@@ -326,7 +326,7 @@ const ExploreButtonStyle = styled.button`
 const Div = styled.div`
   width: 32%;
 
-  display: ${props => (props.mobileView ? 'none' : 'block')};
+  display: ${props => (props.$mobileview ? 'none' : 'block')};
 
   @media screen and (max-width: 992px) {
     width: 100%;
@@ -348,9 +348,9 @@ const Counter = styled.div`
 const Header = styled.div`
   width: 100%;
   padding: 12px 24px;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   display: flex;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 
@@ -360,13 +360,13 @@ const Header = styled.div`
 `
 
 const Column = styled.div`
-  width: ${props => props.width};
+  width: ${props => props.$width};
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
   display: flex;
   justify-content: start;
-  color: ${props => props.color};
+  color: ${props => props.$fontcolor};
   transition: 0.5s;
 
   &:hover {
@@ -439,7 +439,7 @@ const Col = styled.div`
 
 const TableContent = styled.div`
   ${props =>
-    props.count === 0
+    props.$count === 0
       ? `
     margin-bottom: 10px;
   `
@@ -447,7 +447,7 @@ const TableContent = styled.div`
   @media screen and (max-width: 992px) {
     // overflow-x: scroll;
     ${props =>
-      props.count === 0
+      props.$count === 0
         ? `
         border-radius: unset;
         border: none;
@@ -461,7 +461,7 @@ const TableWrap = styled.div`
   gap: 35px;
 
   .table-title {
-    color: ${props => props.fontColor1};
+    color: ${props => props.$fontcolor1};
     font-size: 18px;
     font-weight: 600;
     line-height: 28px;
@@ -497,7 +497,7 @@ const MobileSwitch = styled.div`
   display: flex;
   padding: 4px;
   margin: 0px 10px;
-  background: ${props => (props.darkMode ? '#373d51' : '#6988FF33')};
+  background: ${props => (props.$darkmode ? '#373d51' : '#6988FF33')};
   border-radius: 8px;
 `
 
@@ -506,9 +506,9 @@ const SwitchBtn = styled.div`
   padding: 8px 12px;
   border-radius: 6px;
   text-align: center;
-  background: ${props => props.backColor};
-  box-shadow: ${props => props.boxShadow};
-  color: ${props => props.color};
+  background: ${props => props.$backcolor};
+  box-shadow: ${props => props.$boxshadow};
+  color: ${props => props.$fontcolor};
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -524,7 +524,7 @@ const PositionTable = styled.div`
 
   @media screen and (max-width: 992px) {
     width: 100%;
-    display: ${props => props.display};
+    display: ${props => props.$display};
   }
 `
 
@@ -537,12 +537,12 @@ const YieldTable = styled.div`
 
   @media screen and (max-width: 992px) {
     width: 100%;
-    display: ${props => props.display};
+    display: ${props => props.$display};
   }
 `
 
 const ContentBox = styled.div`
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   border-top: none;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -589,9 +589,9 @@ const LogoDiv = styled.div`
   display: flex;
   align-items: center;
   color: #fff;
-  background: ${props => (props.bgColor ? props.bgColor : '')};
-  border-radius: ${props => (props.borderRadius ? props.borderRadius : '')};
-  padding: ${props => (props.padding ? props.padding : '')};
+  background: ${props => (props.$bgcolor ? props.$bgcolor : '')};
+  border-radius: ${props => (props.$borderradius ? props.$borderradius : '')};
+  padding: ${props => (props.$padding ? props.$padding : '')};
 `
 
 const CurrencySelect = styled.div`
@@ -644,10 +644,10 @@ const CurrencySelect = styled.div`
 `
 
 const CurrencyDropDown = styled(Dropdown.Toggle)`
-  background: ${props => props.bgcolor} !important;
+  background: ${props => props.$bgcolor} !important;
   border: none !important;
   border-radius: 8px !important;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
   align-items: center;
   width: 100%;
   display: flex !important;
@@ -661,7 +661,7 @@ const CurrencyDropDown = styled(Dropdown.Toggle)`
   }
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
     color: black;
     font-weight: 500;
   }
@@ -718,11 +718,11 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   color: #6988ff !important;
   border-radius: 10.98px;
   border: 2px solid #6988ff;
-  background: ${props => props.backcolor};
+  background: ${props => props.$backcolor};
   margin-bottom: 8px;
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
 
     div {
       color: #ff9400;

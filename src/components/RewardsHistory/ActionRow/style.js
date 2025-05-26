@@ -4,19 +4,19 @@ const DetailView = styled.div`
   width: 100%;
   padding: 16px 24px;
   cursor: pointer;
-  background: ${props => props.background};
-  border: 1px solid ${props => props.borderColor};
+  background: ${props => props.$background};
+  border: 1px solid ${props => props.$bordercolor};
   border-top: 0px;
   transition: 0.25s;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   @media screen and (max-width: 992px) {
     padding: 0px;
     border: unset;
-    border-bottom: 1px solid ${props => props.borderColor};
+    border-bottom: 1px solid ${props => props.$bordercolor};
   }
 `
 
@@ -24,55 +24,55 @@ const FlexDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  width: ${props => (props.width ? props.width : 'auto')};
-  padding: ${props => (props.padding ? props.padding : 'unset')};
+  width: ${props => (props.$width ? props.$width : 'auto')};
+  padding: ${props => (props.$padding ? props.$padding : 'unset')};
 
   @media screen and (max-width: 992px) {
     ${props =>
-      props.display
+      props.$display
         ? `
-      display: ${props.display};
+      display: ${props.$display};
     `
         : ``};
   }
 `
 
 const Content = styled.div`
-  width: ${props => props.width};
+  width: ${props => props.$width};
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ``}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ``}
   ${props =>
-    props.cursor
+    props.$cursor
       ? `
-      cursor: ${props.cursor};
+      cursor: ${props.$cursor};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.paddingRight
+    props.$paddingright
       ? `
-    padding-right: ${props.paddingRight};
+    padding-right: ${props.$paddingright};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   font-weight: 400;
@@ -103,7 +103,7 @@ const Content = styled.div`
     font-size: 12px;
     font-weight: 500;
     line-height: 18px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
 
     @media screen and (max-width: 992px) {
       font-size: 12px;
@@ -112,24 +112,24 @@ const Content = styled.div`
 
   img.file-icon {
     padding: 4px;
-    background: ${props => props.backColor};
+    background: ${props => props.$backcolor};
     border-radius: 4.7px;
-    border: 1px solid ${props => props.borderColor};
+    border: 1px solid ${props => props.$bordercolor};
   }
 
   img.active-file-icon {
-    background: ${props => props.bgColorButton};
+    background: ${props => props.$bgcolorbutton};
     padding: 4px;
     border-radius: 4.7px;
-    border: 1px solid ${props => props.borderColor};
+    border: 1px solid ${props => props.$bordercolor};
   }
 
   img.active-file-icon:hover {
-    background: ${props => props.bgColorButton};
+    background: ${props => props.$bgcolorbutton};
   }
 
   img.file-icon:hover {
-    background: ${props => props.bgColorButton};
+    background: ${props => props.$bgcolorbutton};
   }
 `
 
@@ -145,9 +145,9 @@ const Badge = styled.div`
   font-size: 12px;
   font-weight: 500;
   line-height: 18px;
-  color: ${props => props.color};
+  color: ${props => props.$fontcolor};
   border-radius: 16px;
-  background: ${props => props.bgColor};
+  background: ${props => props.$bgcolor};
   display: inline-block;
   padding: 2px 8px 2px 6px;
 `

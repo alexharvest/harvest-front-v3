@@ -51,14 +51,14 @@ const ButtonGroup = styled.div`
 `
 
 const ToggleButton = styled.div`
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
   padding: 3px 15px;
   border-radius: 3px;
   &:hover {
-    background: ${props => (props.backColor ? props.backColor : '')};
+    background: ${props => (props.$backcolor ? props.$backcolor : '')};
     .chevron {
       opacity: 1;
     }
@@ -102,7 +102,7 @@ const FilterName = styled.div`
 `
 
 const CurDate = styled.div`
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   display: flex;
   font-size: 13px;
   font-weight: 500;
@@ -139,7 +139,7 @@ const FlexDiv = styled.div`
 `
 
 const LabelInfo = styled.div`
-  color: ${props => props.fontColor4};
+  color: ${props => props.$fontcolor4};
   font-size: 16px;
   font-weight: 600;
   line-height: 28px;

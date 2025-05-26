@@ -590,27 +590,27 @@ const PositionModal = ({
       <Modal.Header className="migrate-position-modal-header">
         <FTokenInfo>
           <div className="modal-header-part">
-            <NewLabel margin="auto 16px auto 0px">
-              <IconCard bgColor="#5dcf46">
+            <NewLabel $margin="auto 16px auto 0px">
+              <IconCard $bgcolor="#5dcf46">
                 <BsArrowDown />
               </IconCard>
             </NewLabel>
-            <NewLabel align="left" marginRight="12px">
+            <NewLabel $align="left" $marginright="12px">
               <NewLabel
-                color="#5dcf46"
-                size={isMobile ? '18px' : '18px'}
-                height={isMobile ? '28px' : '28px'}
-                weight="600"
-                marginBottom="4px"
+                $fontcolor="#5dcf46"
+                $size={isMobile ? '18px' : '18px'}
+                $height={isMobile ? '28px' : '28px'}
+                $weight="600"
+                $marginbottom="4px"
               >
                 Choose Position
               </NewLabel>
               <NewLabel
-                color={fontColor}
-                size={isMobile ? '14px' : '14px'}
-                height={isMobile ? '20px' : '20px'}
-                weight="400"
-                marginBottom="5px"
+                $fontcolor={fontColor}
+                $size={isMobile ? '14px' : '14px'}
+                $height={isMobile ? '20px' : '20px'}
+                $weight="400"
+                $marginbottom="5px"
               >
                 Displaying positions with any amount of unstaked fTokens.
               </NewLabel>
@@ -618,16 +618,16 @@ const PositionModal = ({
           </div>
           <NewLabel>
             <NewLabel
-              display="flex"
-              marginBottom={isMobile ? '18px' : '18px'}
-              width="fit-content"
-              cursorType="pointer"
-              weight="600"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px ' : '20px'}
-              darkMode={darkMode}
-              color={inputFontColor}
-              align="center"
+              $display="flex"
+              $marginbottom={isMobile ? '18px' : '18px'}
+              $width="fit-content"
+              $cursortype="pointer"
+              $weight="600"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px ' : '20px'}
+              $darkmode={darkMode}
+              $fontcolor={inputFontColor}
+              $align="center"
               onClick={() => {
                 setShowPositionModal(false)
               }}
@@ -640,14 +640,14 @@ const PositionModal = ({
       <Modal.Body className="migrate-position-modal-body">
         {countFarm === 0 ? (
           <NewLabel
-            color={fontColor}
-            size={isMobile ? '12px' : '12px'}
-            height={isMobile ? '20px' : '20px'}
-            weight="400"
-            padding="15px"
-            borderBottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
-            display="flex"
-            justifyContent="center"
+            $fontcolor={fontColor}
+            $size={isMobile ? '12px' : '12px'}
+            $height={isMobile ? '20px' : '20px'}
+            $weight="400"
+            $padding="15px"
+            $borderbottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
+            $display="flex"
+            $justifycontent="center"
           >
             Loading Position List
             <AnimatedDots />
@@ -655,12 +655,12 @@ const PositionModal = ({
         ) : (
           <>
             <NewLabel
-              color={fontColor}
-              size={isMobile ? '12px' : '12px'}
-              height={isMobile ? '20px' : '20px'}
-              weight="400"
-              padding="15px"
-              borderBottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
+              $fontcolor={fontColor}
+              $size={isMobile ? '12px' : '12px'}
+              $height={isMobile ? '20px' : '20px'}
+              $weight="400"
+              $padding="15px"
+              $borderbottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
             >
               {`${countFarm} eligible positions found on ${formatNetworkName(networkName)}`}
             </NewLabel>

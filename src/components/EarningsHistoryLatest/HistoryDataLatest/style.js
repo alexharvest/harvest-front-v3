@@ -7,7 +7,7 @@ const TransactionDetails = styled.div`
   margin-top: 20px;
 
   @media screen and (max-width: 992px) {
-    height: ${props => props.hasData};
+    height: ${props => props.$hasdata};
     margin-top: 24px;
   }
 `
@@ -15,9 +15,9 @@ const TransactionDetails = styled.div`
 const TableContent = styled.div`
   @media screen and (max-width: 992px) {
     // overflow-x: scroll;
-    /* border: 1px solid ${props => props.borderColor}; */
+    /* border: 1px solid ${props => props.$bordercolor}; */
     ${props =>
-      props.count === 0
+      props.$count === 0
         ? `
         border-radius: unset;
         border: none;
@@ -38,7 +38,7 @@ const ContentBox = styled.div`
 `
 
 const EmptyPanel = styled.div`
-  height: ${props => props.height};
+  height: ${props => props.$height};
   position: relative;
 
   @media screen and (max-width: 992px) {

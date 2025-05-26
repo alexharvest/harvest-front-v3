@@ -24,21 +24,21 @@ const ActionRow = ({ info }) => {
   return (
     <DetailView
       className="yield-row"
-      borderColor={borderColorBox}
-      hoverColor={hoverColorRow}
-      mode={switchMode}
-      background={bgColorNew}
+      $bordercolor={borderColorBox}
+      $hovercolor={hoverColorRow}
+      $mode={switchMode}
+      $background={bgColorNew}
     >
-      <FlexDiv padding={isMobile ? '10px 15px' : '0'}>
-        <Content display="flex" width={isMobile ? '25%' : '33%'}>
-          <Badge bgColor="#d7def9" color="#2775CA">
+      <FlexDiv $padding={isMobile ? '10px 15px' : '0'}>
+        <Content $display="flex" $width={isMobile ? '25%' : '33%'}>
+          <Badge $bgcolor="#d7def9" $fontcolor="#2775CA">
             {isMobile ? 'Claim' : 'Rewards Claim'}
           </Badge>
         </Content>
         <Content
-          width={isMobile ? '25%' : '33%'}
-          color={fontColor}
-          paddingRight={isMobile ? '8px' : '0px'}
+          $fontcolor={fontColor}
+          $width={isMobile ? '25%' : '33%'}
+          $paddingright={isMobile ? '8px' : '0px'}
         >
           {isMobile ? (
             <div
@@ -50,9 +50,9 @@ const ActionRow = ({ info }) => {
           )}
         </Content>
         <Content
-          display="flex"
-          justifyContent={isMobile ? 'center' : 'start'}
-          width={isMobile ? '50%' : '34%'}
+          $display="flex"
+          $justifycontent={isMobile ? 'center' : 'start'}
+          $width={isMobile ? '50%' : '34%'}
         >
           <NetImg>
             <img src={GiftIcon} alt="gift" />

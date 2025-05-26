@@ -94,23 +94,23 @@ const PoolFooterActions = ({
 
   return (
     <SelectedVaultContainer
-      maxWidth="100%"
-      margin="0px"
-      padding="0px"
-      borderWidth="0px"
-      borderColor={borderColor}
+      $maxwidth="100%"
+      $margin="0px"
+      $padding="0px"
+      $borderwidth="0px"
+      $bordercolor={borderColor}
     >
-      <SelectedVault alignItems="center" justifyContent="start">
-        <SelectedVaultLabel fontSize="16px" lineHeight="21px" fontColor={fontColor}>
+      <SelectedVault $alignitems="center" $justifycontent="start">
+        <SelectedVaultLabel $fontsize="16px" $lineheight="21px" $fontcolor={fontColor}>
           Rewards
           <InfoIcon
             className="info"
-            width={isMobile ? 10 : 16}
+            $width={isMobile ? 10 : 16}
             src={Info}
             alt=""
             data-tip
             data-for={`claim-tooltip-${tokenSymbol}`}
-            filterColor={filterColor}
+            $filtercolor={filterColor}
           />
         </SelectedVaultLabel>
       </SelectedVault>
@@ -127,7 +127,7 @@ const PoolFooterActions = ({
           return (
             <div key={symbolIdx}>
               <SelectedVault key={`${symbol}-rewards-earned`}>
-                <SelectedVaultNumber display="flex">
+                <SelectedVaultNumber $display="flex">
                   <img src={`/icons/${symbol.toLowerCase()}.svg`} width={40} height={40} alt="" />
                   <Div>
                     <Monospace>
@@ -205,11 +205,11 @@ const PoolFooterActions = ({
                   </Div>
                 </SelectedVaultNumber>
               </SelectedVault>
-              <SelectedVault alignItems="center">
+              <SelectedVault $alignitems="center">
                 <Button
-                  width="100%"
-                  size="md"
-                  color="earn"
+                  $width="100%"
+                  $size="md"
+                  $fontcolor="earn"
                   onClick={async () => {
                     if (curChain !== tokenChain) {
                       const chainHex = `0x${Number(tokenChain).toString(16)}`

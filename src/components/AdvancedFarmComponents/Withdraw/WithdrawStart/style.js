@@ -38,123 +38,123 @@ const AnimateDotDiv = styled.div`
 
 const NewLabel = styled.div`
   ${props =>
-    props.textAlign
+    props.$textalign
       ? `
-    text-align: ${props.textAlign};
+    text-align: ${props.$textalign};
   `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.cursorType
+    props.$cursortype
       ? `
-    cursor: ${props.cursorType};
+    cursor: ${props.$cursortype};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    line-height: ${props.height};
+    line-height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size};
+    font-size: ${props.$size};
   `
       : ''}
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.margin
+    props.$margin
       ? `
-    margin: ${props.margin};
+    margin: ${props.$margin};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.flexFlow
+    props.$flexflow
       ? `
-    flex-flow: ${props.flexFlow};
+    flex-flow: ${props.$flexflow};
   `
       : ''}
   ${props =>
-    props.alignSelf
+    props.$alignself
       ? `
-    align-self: ${props.alignSelf};
+    align-self: ${props.$alignself};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.gap
+    props.$gap
       ? `
-    gap: ${props.gap};
+    gap: ${props.$gap};
   `
       : ''}
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
@@ -195,7 +195,7 @@ const Buttons = styled.button`
   width: 100%;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   &:active {
@@ -205,29 +205,29 @@ const Buttons = styled.button`
 
 const SlippageBtn = styled.button`
   &&& {
-    background: ${props => props.bgColor};
+    background: ${props => props.$bgcolor};
     border: none;
     border-radius: 8px;
     padding: 11px;
     align-items: center;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     font-size: 14px;
     line-height: 20px;
     width: 60%;
-    cursor: ${props => props.cursor};
+    cursor: ${props => props.$cursor};
 
     &:hover {
-      background: ${props => props.hoverColor};
+      background: ${props => props.$hovercolor};
     }
 
     &:active {
-      background: ${props => props.activeColor};
+      background: ${props => props.$activecolor};
     }
   }
 `
 
 const IconArrowDown = styled.img`
-  filter: ${props => props.filterColor};
+  filter: ${props => props.$filtercolor};
 `
 
 const FTokenWrong = styled.div`
@@ -235,21 +235,21 @@ const FTokenWrong = styled.div`
   border: 1px solid #fec84b;
   background: #fffcf5;
   padding: 16px;
-  display: ${props => (props.isShow === 'true' ? `flex` : 'none')};
+  display: ${props => (props.$isshow === 'true' ? `flex` : 'none')};
   gap: 12px 0;
   margin: 0px 24px 15px;
   justify-content: space-between;
 `
 
 const ApyValue = styled.div`
-  color: ${props => props.color};
+  color: ${props => props.$fontcolor};
   text-align: center;
   font-size: 12px;
   font-weight: 600;
   line-height: 16.591px;
   padding: 1.659px 8.295px 1.659px 6.636px;
 
-  background: linear-gradient(${props => props.bgColor}, ${props => props.bgColor}) padding-box,
+  background: linear-gradient(${props => props.$bgcolor}, ${props => props.$bgcolor}) padding-box,
     linear-gradient(45deg, #cf1894, #b0229b, #e0439b, #670e78) border-box;
   border-radius: 4.148px;
   border: 1.078px solid transparent;
@@ -260,9 +260,9 @@ const LogoImg = styled.img`
   width: 35px;
 
   ${props =>
-    props.zIndex
+    props.$zindex
       ? `
-    z-index: ${props.zIndex};
+    z-index: ${props.$zindex};
   `
       : ``}
 `
@@ -278,7 +278,7 @@ const SlippageBox = styled.div`
 `
 
 const MiddleLine = styled.hr`
-  width: ${props => props.width};
+  width: ${props => props.$width};
   height: 0.5px;
   margin: auto 0px;
 `
@@ -289,18 +289,18 @@ const SlipValue = styled.div`
   width: 20%;
   font-weight: 600;
   text-align: center;
-  color: ${props => props.color};
-  background: ${props => props.bgColor};
-  border-right: ${props => (props.isLastChild ? 'none' : `1px solid ${props.borderColor}`)};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$bgcolor};
+  border-right: ${props => (props.$islastchild ? 'none' : `1px solid ${props.$bordercolor}`)};
   border-radius: ${props =>
-    props.isFirstChild ? '8px 0 0 8px' : props.isLastChild ? '0 8px 8px 0' : '0'};
+    props.$isfirstchild ? '8px 0 0 8px' : props.$islastchild ? '0 8px 8px 0' : '0'};
 `
 
 const SlippageRow = styled.div`
   display: flex;
   justify-content: space-between;
   border-radius: 8px;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
 `
 
@@ -309,12 +309,12 @@ const SlippageInput = styled.div`
 
   input {
     border-radius: 8px;
-    border: 1px solid ${props => props.borderColor};
-    background: ${props => props.backColor};
+    border: 1px solid ${props => props.$bordercolor};
+    background: ${props => props.$backcolor};
     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
     outline: 0;
     padding: 8px 30px 8px 12px;
-    color: ${props => props.fontColor2};
+    color: ${props => props.$fontcolor2};
     font-weight: 600;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -348,12 +348,12 @@ const SlippageInput = styled.div`
 
 const ProgressLabel = styled.div`
   display: flex;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
 `
 
 const ProgressText = styled.div`
-  width: ${props => props.width};
-  padding: ${props => props.padding};
+  width: ${props => props.$width};
+  padding: ${props => props.$padding};
   text-align: center;
 `
 
@@ -364,9 +364,9 @@ const BigLogoImg = styled.img`
   &:not(:first-child) {
     margin-left: -7px;
     ${props =>
-      props.zIndex
+      props.$zindex
         ? `
-      z-index: ${props.zIndex};
+      z-index: ${props.$zindex};
     `
         : ``};
   }

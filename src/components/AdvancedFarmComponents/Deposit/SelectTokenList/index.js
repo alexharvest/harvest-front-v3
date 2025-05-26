@@ -208,7 +208,7 @@ const SelectTokenList = ({
               Object.keys(defaultCurToken).length === 0 && defaultCurToken.constructor === Object
             ) && (
               <>
-                <Label fontColor={fontColor} padding="15px 24px 0px">
+                <Label $fontcolor={fontColor} $padding="15px 24px 0px">
                   Default token
                 </Label>
                 <Container
@@ -216,19 +216,19 @@ const SelectTokenList = ({
                     handleDefaultToken()
                     setFromTokenList(true)
                   }}
-                  hoverColor={hoverColor}
-                  activeColor={activeColorModal}
+                  $hovercolor={hoverColor}
+                  $activecolor={activeColorModal}
                 >
                   <img src={defaultCurToken.logoURI} width={26} height={26} alt="" />
                   <Vault>
-                    <Text weight={600} color={fontColor2}>
+                    <Text $weight={600} $fontcolor={fontColor2}>
                       {defaultCurToken.symbol}
                     </Text>
-                    <RightText weight={600} color={fontColor2}>
+                    <RightText $weight={600} $fontcolor={fontColor2}>
                       <>
                         {defaultCurToken.balance ? showTokenBalance(defaultCurToken.balance) : '0'}
                       </>
-                      <TextSpan fontColor2={fontColor2}>
+                      <TextSpan $fontcolor2={fontColor2}>
                         {defaultCurToken.usdValue
                           ? `${currencySym}${(
                               defaultCurToken.usdValue * Number(currencyRate)
@@ -242,7 +242,7 @@ const SelectTokenList = ({
             )}
           {!hasPortalsError && balanceTokenList.length > 0 && (
             <>
-              <Label fontColor={fontColor} padding="15px 24px 0px">
+              <Label $fontcolor={fontColor} $padding="15px 24px 0px">
                 {curSupportedVault ? 'Supported tokens in your wallet' : 'Soon to be supported'}
               </Label>
               {balanceTokenList.map((data, i) => {
@@ -255,17 +255,17 @@ const SelectTokenList = ({
                       setFromTokenList(true)
                     }}
                     cursor={curSupportedVault ? 'pointer' : 'not-allowed'}
-                    hoverColor={hoverColor}
-                    activeColor={activeColorModal}
+                    $hovercolor={hoverColor}
+                    $activecolor={activeColorModal}
                   >
                     <img src={data.logoURI} width={26} height={26} alt="" />
                     <Vault>
-                      <Text weight={600} color={fontColor2}>
+                      <Text $weight={600} $fontcolor={fontColor2}>
                         {data.symbol}
                       </Text>
-                      <RightText weight={600} color={fontColor2}>
+                      <RightText $weight={600} $fontcolor={fontColor2}>
                         <>{data.balance ? showTokenBalance(data.balance) : '0'}</>
-                        <TextSpan fontColor2={fontColor2}>
+                        <TextSpan $fontcolor2={fontColor2}>
                           {data.usdValue
                             ? `${currencySym}${(data.usdValue * Number(currencyRate)).toFixed(2)}`
                             : `${currencySym}0`}
@@ -280,8 +280,8 @@ const SelectTokenList = ({
           {!hasPortalsError && supTokenList.length > 0 && (
             <>
               <Label
-                fontColor={fontColor}
-                padding="15px 24px 0px"
+                $fontcolor={fontColor}
+                $padding="15px 24px 0px"
                 showLabel={curSupportedVault ? 'block' : 'none'}
               >
                 {curSupportedVault
@@ -297,17 +297,17 @@ const SelectTokenList = ({
                     setFromTokenList(true)
                   }}
                   cursor={curSupportedVault ? 'pointer' : 'not-allowed'}
-                  hoverColor={hoverColor}
-                  activeColor={activeColorModal}
+                  $hovercolor={hoverColor}
+                  $activecolor={activeColorModal}
                 >
                   <img src={data.logoURI} width={26} height={26} alt="" />
                   <Vault>
-                    <Text weight={600} color={fontColor2}>
+                    <Text $weight={600} $fontcolor={fontColor2}>
                       {data.symbol}
                     </Text>
-                    <RightText weight={600} color={fontColor2}>
+                    <RightText $weight={600} $fontcolor={fontColor2}>
                       <>{data.balance ? data.balance : '0'}</>
-                      <TextSpan fontColor2={fontColor2}>{`${currencySym}0`}</TextSpan>
+                      <TextSpan $fontcolor2={fontColor2}>{`${currencySym}0`}</TextSpan>
                     </RightText>
                   </Vault>
                 </Container>
@@ -316,19 +316,19 @@ const SelectTokenList = ({
           )}
           {!hasPortalsError && soonToSupList.length > 0 && (
             <>
-              <Label fontColor={fontColor} padding="0px 24px">
+              <Label $fontcolor={fontColor} $padding="0px 24px">
                 Soon to be supported
               </Label>
               {soonToSupList.map((data, i) => (
-                <Container key={i} hoverColor={hoverColor} activeColor={activeColorModal}>
+                <Container key={i} $hovercolor={hoverColor} $activecolor={activeColorModal}>
                   <img src={data.logoURI} width={26} height={26} alt="" />
                   <Vault>
-                    <Text weight={600} color={fontColor2}>
+                    <Text $weight={600} $fontcolor={fontColor2}>
                       {data.symbol}
                     </Text>
-                    <RightText weight={600} color={fontColor2}>
+                    <RightText $weight={600} $fontcolor={fontColor2}>
                       <>{data.balance ? `${1 * fromWei(data.balance, data.decimals)}` : '0.00'}</>
-                      <TextSpan fontColor2={fontColor2}>{`${currencySym}0`}</TextSpan>
+                      <TextSpan $fontcolor2={fontColor2}>{`${currencySym}0`}</TextSpan>
                     </RightText>
                   </Vault>
                 </Container>
@@ -340,13 +340,13 @@ const SelectTokenList = ({
             balanceTokenList.length === 0 &&
             Object.keys(soonToSupList).length === 0 &&
             filterWord !== '' && (
-              <EmptyContainer fontColor={fontColor} cursor="not-allowed">
+              <EmptyContainer $fontcolor={fontColor} cursor="not-allowed">
                 Not Found
               </EmptyContainer>
             )}
         </Content>
       ) : (
-        <EmptyContainer fontColor={fontColor}>
+        <EmptyContainer $fontcolor={fontColor}>
           Loading Token list
           <AnimatedDots />
         </EmptyContainer>
