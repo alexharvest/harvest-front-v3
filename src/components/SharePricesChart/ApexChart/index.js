@@ -106,10 +106,10 @@ const ApexChart = ({ chainName, token, loadComplete, sharePriceData, iporHvaults
       <TooltipContainer>
         <TooltipContent>
           <TooltipTotal>{`${day}/${month}/${year} ${hour}:${mins}`}</TooltipTotal>
-          {Object.keys(iporHvaultsLFAPY) // Get keys in the order of iporHvaultsLFAPY
-            .filter(key => payload.some(entry => entry.dataKey === key)) // Ensure key exists in payload
-            .map(key => payload.find(entry => entry.dataKey === key)) // Find corresponding payload entry
-            .filter(entry => entry && entry.value !== 0 && entry.value !== null) // Filter valid entries
+          {payload
+            .filter(entry => Object.keys(iporHvaultsLFAPY).includes(entry.dataKey))
+            .filter(entry => entry?.value)
+            .sort((a, b) => b.value - a.value)
             .map((entry, index) => {
               const value = entry.value || 0
               if (value <= 0) return null

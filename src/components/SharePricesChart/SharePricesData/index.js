@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import ApexChart from '../ApexChart'
 import { useThemeContext } from '../../../providers/useThemeContext'
 import { fromWei } from '../../../services/web3'
-import { getVaultHistories, getIPORVaultHistories } from '../../../utilities/apiCalls'
+import { getMultipleVaultHistories, getIPORVaultHistories } from '../../../utilities/apiCalls'
 import { ChartDiv, Container, Header, Total, TokenSymbol, TooltipInfo, FlexDiv } from './style'
 
 const { tokens } = require('../../../data')
@@ -17,7 +17,6 @@ const SharePricesData = ({ chainName, token, setSharePricesData, iporHvaultsLFAP
   const chainId = token.chain || token.data.chain
 
   useEffect(() => {
-    let isMounted = true
     const interpolateSharePrice = (prev, next, targetTimestamp) => {
       if (!prev || !next) return prev ? parseFloat(prev.sharePrice) : parseFloat(next.sharePrice) // Handle edge cases
 
@@ -93,37 +92,35 @@ const SharePricesData = ({ chainName, token, setSharePricesData, iporHvaultsLFAP
     }
 
     const initData = async () => {
-      if (address && chainId) {
+      if (address && chainId && Object.keys(sharePriceData).length === 0) {
         try {
           let sharePricesData = {}
 
           setLoadComplete(false)
           if (token.allocPointData && token.allocPointData.length > 0) {
-            await Promise.all(
-              token.allocPointData
-                .filter(data => data.hVaultId !== 'Not invested')
-                .map(async data => {
-                  const vaultAddress = tokens[data.hVaultId].vaultAddress
-                  const vaultChain = tokens[data.hVaultId].chain
-                  const { vaultHData, vaultHFlag } = await getVaultHistories(
-                    vaultAddress,
-                    vaultChain,
-                  )
-                  if (vaultHFlag) {
-                    vaultHData.forEach((obj, index) => {
-                      const sharePriceDecimals = fromWei(
-                        obj.sharePrice,
-                        tokens[data.hVaultId].decimals,
-                        5,
-                      )
-                      vaultHData[index].sharePrice = sharePriceDecimals
-                    })
-                    sharePricesData[data.hVaultId] = vaultHData
-                  } else {
-                    sharePricesData[data.hVaultId] = {}
-                  }
-                }),
+            const vaults = token.allocPointData
+              .filter(data => data.hVaultId !== 'Not invested')
+              .map(data => ({ id: data.hVaultId, address: tokens[data.hVaultId].vaultAddress }))
+            const addresses = vaults.map(vault => vault.address)
+            const { vaultHData, vaultHFlag } = await getMultipleVaultHistories(
+              addresses,
+              '1742911200',
+              chainId,
             )
+
+            if (vaultHFlag) {
+              await vaults.forEach(vault => {
+                const vaultData = vaultHData.filter(
+                  data => data.vault.id === vault.address.toLowerCase(),
+                )
+                if (vaultData) {
+                  vaultData.forEach((obj, index) => {
+                    vaultData[index].sharePrice = obj.sharePriceDec
+                  })
+                  sharePricesData[vault.id] = vaultData
+                }
+              })
+            }
 
             const { vaultHIPORFlag, vaultHIPORData } = await getIPORVaultHistories(
               token.chain,
@@ -142,10 +139,9 @@ const SharePricesData = ({ chainName, token, setSharePricesData, iporHvaultsLFAP
             if (sharePricesData[token.id].length > 0) {
               sharePricesData = adjustTimestamps(sharePricesData, token.id)
             }
-
             setSharePriceData(sharePricesData)
 
-            if (isMounted && sharePricesData[token.id]?.length > 0) {
+            if (sharePricesData[token.id]?.length > 0) {
               setLoadComplete(true)
             }
           }
@@ -156,11 +152,7 @@ const SharePricesData = ({ chainName, token, setSharePricesData, iporHvaultsLFAP
     }
 
     initData()
-
-    return () => {
-      isMounted = false
-    }
-  }, [address, chainId, token, setSharePricesData])
+  }, [chainId, address, token, setSharePricesData, sharePriceData])
 
   return (
     <Container backColor={bgColorNew} borderColor={borderColorBox}>

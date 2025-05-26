@@ -294,6 +294,43 @@ export const getVaultHistories = async (address, chainId) => {
   return { vaultHData, vaultHFlag }
 }
 
+export const getMultipleVaultHistories = async (vaults, startTime, chainId) => {
+  let vaultHData = [],
+    vaultHFlag = true
+
+  vaults = vaults.map(address => address.toLowerCase())
+  const farm = '0xa0246c9032bc3a600820415ae600c6388619a14d'
+  const ifarm = '0x1571ed0bed4d987fe2b498ddbae7dfa19519f651'
+  vaults = vaults.map(address => (address === farm ? ifarm : address))
+
+  const query = `
+    query getVaultHistories($vaults: [String!], $startTime: BigInt!) {
+      vaultHistories(
+        first: 1000,
+        where: {
+          vault_in: $vaults,
+          timestamp_gte: $startTime,
+        },
+        orderBy: timestamp,
+        orderDirection: desc
+      ) {
+        priceUnderlying, sharePriceDec, timestamp, vault{id}
+      }
+    }
+  `
+  const variables = { vaults, startTime }
+  const url = GRAPH_URLS[chainId]
+
+  const data = await executeGraphCall(url, query, variables)
+  vaultHData = data?.vaultHistories
+
+  if (!vaultHData || vaultHData.length === 0) {
+    vaultHFlag = false
+  }
+
+  return { vaultHData, vaultHFlag }
+}
+
 export const getCurrencyRateHistories = async () => {
   const apiResponse = await axios.get(HISTORICAL_RATES_API_ENDPOINT)
   const apiData = get(apiResponse, 'data')
@@ -607,7 +644,7 @@ export const getUserBalanceVaults = async account => {
     account = account.toLowerCase()
   }
 
-  const query = `
+  const query1 = `
     query getUserVaults($account: String!) {
       userBalances(
         where: {
@@ -618,6 +655,26 @@ export const getUserBalanceVaults = async account => {
       }
     }
   `
+
+  const query2 = `
+    query getUserVaults($account: String!) {
+      userBalances(
+        where: {
+          userAddress: $account,
+        }
+      ) {
+        vault{ id }
+      }
+      plasmaUserBalances(
+        where: {
+          userAddress: $account,
+        }
+      ) {
+        plasmaVault{id}
+      }
+    }
+  `
+
   const variables = { account }
   const urls = [
     GRAPH_URLS[CHAIN_IDS.ETH_MAINNET],
@@ -628,12 +685,19 @@ export const getUserBalanceVaults = async account => {
   ]
 
   try {
-    const results = await Promise.all(urls.map(url => executeGraphCall(url, query, variables)))
-
+    const results = await Promise.all(
+      urls.map(url =>
+        url === GRAPH_URLS[CHAIN_IDS.BASE] || url === GRAPH_URLS[CHAIN_IDS.ARBITRUM_ONE]
+          ? executeGraphCall(url, query2, variables)
+          : executeGraphCall(url, query1, variables),
+      ),
+    )
     results.forEach(userBalanceVaultData => {
-      const balances = userBalanceVaultData.userBalances
+      const balances = userBalanceVaultData.userBalances.concat(
+        userBalanceVaultData.plasmaUserBalances ? userBalanceVaultData.plasmaUserBalances : [],
+      )
       balances.forEach(balance => {
-        userBalanceVaults.push(balance.vault.id)
+        userBalanceVaults.push(balance.vault?.id || balance.plasmaVault?.id)
       })
     })
   } catch (err) {

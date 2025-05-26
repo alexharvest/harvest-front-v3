@@ -71,7 +71,7 @@ const ListItem = ({
             fontWeight="500"
           >
             <AddressLink
-              href={`https://etherscan.io/address/${addressValue}`}
+              href={`https://debank.com/profile/${addressValue}`}
               target="blank"
               onClick={stopPropagation}
               color={color}
@@ -216,7 +216,7 @@ const ListItem = ({
       >
         {addressValue ? (
           <AddressLink
-            href={`https://etherscan.io/address/${addressValue}`}
+            href={`https://debank.com/profile/${addressValue}`}
             target="blank"
             onClick={stopPropagation}
             color={color}

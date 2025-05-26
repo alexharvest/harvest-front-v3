@@ -45,7 +45,7 @@ const VaultHeadActions = ({
 }) => {
   const { contracts } = useContracts()
   const { fetchUserPoolStats, userStats } = usePools()
-  const { account, approvedBalances, getWalletBalances, balances } = useWallet()
+  const { account, getWalletBalances, balances } = useWallet()
   const { vaultsData, farmingBalances, getFarmingBalances } = useVaults()
   const { handleDeposit, handleStake, handleWithdraw, handleExit } = useActions()
 
@@ -187,14 +187,8 @@ const VaultHeadActions = ({
                 await handleDeposit(
                   token,
                   account,
-                  tokenSymbol,
                   amountsToExecuteInWei,
-                  approvedBalances[tokenSymbol],
-                  contracts,
                   vaultsData[tokenSymbol],
-                  setPendingAction,
-                  autoStake,
-                  fAssetPool,
                   multipleAssets,
                   zap,
                   async (updatedLpTokenBalance, updatedLpTokenApprovedBalance) => {

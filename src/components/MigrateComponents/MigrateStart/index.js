@@ -513,13 +513,8 @@ const MigrateStart = ({
         isSuccess = await handleDeposit(
           token,
           account,
-          toId,
           [amount],
-          approvedBalances[toId],
-          contracts,
           vaultsData[toId],
-          false,
-          fAssetPool,
           false,
           false,
           async () => {

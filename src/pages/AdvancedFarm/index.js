@@ -897,6 +897,10 @@ const AdvancedFarm = () => {
                 web3Client,
               )
               const lpSymbol = await getSymbol(lpInstance)
+              const logoUri =
+                token.logoUrl && token.logoUrl.length > 1
+                  ? 'https://etherscan.io/images/main/empty-token.png'
+                  : token.logoUrl[0].substring(1)
               const direct = {
                 symbol: lpSymbol,
                 address: tokenAddress,
@@ -904,7 +908,7 @@ const AdvancedFarm = () => {
                 default: true,
                 usdPrice: directUsdPrice || '0',
                 usdValue: directUsdValue || '0',
-                logoURI: 'https://etherscan.io/images/main/empty-token.png',
+                logoURI: logoUri,
                 decimals: tokenDecimals,
                 chainId: parseInt(chain, 0),
               }
@@ -1019,10 +1023,13 @@ const AdvancedFarm = () => {
       Object.keys(sharePricesData).forEach(key => {
         if (sharePricesData[key]) {
           const priceData = sharePricesData[key]
+          const firstItem = priceData.find(item => Number(item.sharePrice) <= 1)
+          const startTime = firstItem
+            ? Number(firstItem.timestamp)
+            : priceData[priceData.length - 1].timestamp
 
           const totalPeriodBasedOnApy =
-            (Number(priceData[0].timestamp) - Number(priceData[priceData.length - 1].timestamp)) /
-            (24 * 3600)
+            (Number(priceData[0].timestamp) - startTime) / (24 * 3600) + 1
 
           const sharePriceVal = priceData[0].sharePrice ?? 1
           const lifetimeApyValue = (
@@ -3222,11 +3229,11 @@ const AdvancedFarm = () => {
                             >
                               <FlexDiv gap="15px" justifyContent="space-between">
                                 <div>Harvest Treasury</div>
-                                <div>{harvestTreasury}%</div>
+                                <div>{token.isIPORVault ? '0' : harvestTreasury}%</div>
                               </FlexDiv>
                               <FlexDiv gap="15px" justifyContent="space-between" marginTop="12px">
                                 <div>Profit Sharing</div>
-                                <div>{profitShare}%</div>
+                                <div>{token.isIPORVault ? '0' : profitShare}%</div>
                               </FlexDiv>
                             </NewLabel>
                           </ReactTooltip>
@@ -3250,7 +3257,7 @@ const AdvancedFarm = () => {
                         token.allocPointData.map((data, index) => {
                           let vaultName
                           if (data.hVaultId === 'Not invested') {
-                            vaultName = `Deployment Buffer ${token.tokenNames[0]}`
+                            vaultName = `Deployment Buffer`
                           } else {
                             const vaultParts = data.hVaultId
                               .split('_')

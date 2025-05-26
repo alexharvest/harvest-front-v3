@@ -50,7 +50,7 @@ const PoolHeadActions = ({
 }) => {
   const { contracts } = useContracts()
   const { fetchUserPoolStats, userStats } = usePools()
-  const { account, getWalletBalances, approvedBalances, balances } = useWallet()
+  const { account, getWalletBalances, balances } = useWallet()
   const { vaultsData } = useVaults()
   const { handleDeposit, handleStake, handleExit, handleWithdraw } = useActions()
 
@@ -153,16 +153,10 @@ const PoolHeadActions = ({
                   await handleDeposit(
                     token,
                     account,
-                    IFARM_TOKEN_SYMBOL,
                     amountsToExecuteInWei,
-                    approvedBalances[IFARM_TOKEN_SYMBOL],
-                    contracts,
                     vaultsData[IFARM_TOKEN_SYMBOL],
-                    setPendingAction,
                     false,
-                    fAssetPool,
                     false,
-                    null,
                     async () => {
                       await reloadStats(true, true)
                     },

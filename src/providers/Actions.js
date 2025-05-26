@@ -317,13 +317,8 @@ const ActionsProvider = ({ children }) => {
     async (
       token,
       account,
-      tokenSymbol,
       amountsToExecute,
-      approvedBalance,
-      contracts,
       vaultData,
-      autoStake,
-      fAssetPool,
       multipleAssets,
       zap,
       onSuccessDeposit = () => {},
@@ -399,6 +394,7 @@ const ActionsProvider = ({ children }) => {
               )
             }
           } else {
+            console.log(vaultData)
             await vaultMethods.deposit(amountsToExecute[0], account, vaultData.instance)
           }
 

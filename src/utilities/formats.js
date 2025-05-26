@@ -173,7 +173,7 @@ export const showUsdValueCurrency = (value, currencySym, currencyRate, appro = f
   if (value == null || isNaN(value)) return `${currencySym}0`
   if (value === '-') return '-'
   let numValue = Number(value)
-  if (numValue === 0) {
+  if (numValue === 0 || numValue === -1) {
     return `${currencySym}0`
   }
   numValue *= currencyRate

@@ -347,10 +347,22 @@ const AutopilotInfo = ({ allVaultsData, vaultData, setPilotInfoShow }) => {
           <GeneralDiv key={activeMainTag} darkMode={darkMode ? 'true' : 'false'}>
             {vaultData.allocPointData && vaultData.allocPointData.length > 0 ? (
               vaultData.allocPointData.map((data, index) => {
-                let vaultName = data.hVaultId.split('_')[0]
-                vaultName = `${vaultName.charAt(0).toUpperCase() + vaultName.slice(1)} ${
-                  vaultData.tokenNames[0]
-                }`
+                const chainName = getChainNamePortals(vaultData.chain)
+                let vaultName
+                if (data.hVaultId === 'Not invested') {
+                  vaultName = 'Deployment buffer'
+                } else {
+                  const vaultParts = data.hVaultId
+                    .split('_')
+                    .map((part, i) =>
+                      i === 0 ? part.charAt(0).toUpperCase() + part.slice(1) : part,
+                    )
+                  vaultName = vaultParts
+                    .filter(part => !part.toLowerCase().includes(chainName.toLowerCase()))
+                    .join(' ')
+                  if (vaultName === 'USDC') vaultName = 'Compound V3 USDC'
+                  if (vaultName === 'WETH') vaultName = 'Compound V3 WETH'
+                }
                 return (
                   <RowDiv key={index}>
                     <NewLabel
@@ -360,7 +372,6 @@ const AutopilotInfo = ({ allVaultsData, vaultData, setPilotInfoShow }) => {
                       cursor="pointer"
                       borderBottom="0.5px dotted white"
                       onClick={() => {
-                        const chainName = getChainNamePortals(vaultData.chain)
                         return allVaultsData[data.hVaultId]?.vaultAddress
                           ? window.open(
                               `https://app.harvest.finance/${chainName}/${

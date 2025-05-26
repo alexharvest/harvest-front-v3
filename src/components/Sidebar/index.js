@@ -518,7 +518,7 @@ const Sidebar = ({ width }) => {
                       activeColor={item.activeColor}
                       hoverImgColor={hoverImgColor}
                       onClick={e => {
-                        if (e.ctrlKey || e.button === 1) {
+                        if (shouldOpenNewTab || e.ctrlKey || e.button === 1) {
                           e.preventDefault()
                           const newTab = window.open(url, '_blank', 'noopener noreferrer')
                           if (newTab) newTab.opener = null
@@ -567,7 +567,7 @@ const Sidebar = ({ width }) => {
                     active={isActive}
                     hoverImgColor={hoverImgColor}
                     onClick={e => {
-                      if (e.ctrlKey || e.button === 1) {
+                      if (shouldOpenNewTab || e.ctrlKey || e.button === 1) {
                         e.preventDefault()
                         const newTab = window.open(url, '_blank', 'noopener noreferrer')
                         if (newTab) newTab.opener = null

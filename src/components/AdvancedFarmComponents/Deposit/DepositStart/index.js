@@ -208,7 +208,7 @@ const DepositStart = ({
   }
 
   const startDeposit = async () => {
-    const tokenSym = token.isIPORVault ? token.id : tokenSymbol
+    let tokenSym = token.isIPORVault ? token.id : tokenSymbol
     if (progressStep === 0) {
       setStartSpinner(true)
       setProgressStep(1)
@@ -276,7 +276,7 @@ const DepositStart = ({
         setButtonName('Pending Confirmation in Wallet')
         setStartSpinner(true)
         if (useIFARM) {
-          tokenSymbol = 'IFARM'
+          tokenSym = 'IFARM'
         }
         isSuccess = token.isIPORVault
           ? await handleIPORDeposit(
@@ -297,13 +297,8 @@ const DepositStart = ({
           : await handleDeposit(
               token,
               account,
-              tokenSym,
               [amount],
-              approvedBalances[tokenSym],
-              contracts,
               vaultsData[tokenSym],
-              false,
-              fAssetPool,
               false,
               false,
               async () => {

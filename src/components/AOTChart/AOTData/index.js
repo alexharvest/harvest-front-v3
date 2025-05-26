@@ -14,10 +14,10 @@ const AOTData = ({ chainName, token, iporHvaultsLFAPY }) => {
   const address = token.vaultAddress
   const chainId = token.chain || token.data.chain
 
-  const getMarketBalances = marketBalances => {
+  const getMarketBalances = (marketBalances, tvl) => {
     return marketBalances.reduce(
       (acc, { balanceUsd, marketId }) => {
-        const balanceLessThanOneCent = Number(balanceUsd) <= 0.01
+        const balanceLessThanOneCent = Number(balanceUsd) / Number(tvl) < 0.0001
         const marketBalance = balanceLessThanOneCent ? null : Number(balanceUsd)
         const key = marketId
 
@@ -41,7 +41,7 @@ const AOTData = ({ chainName, token, iporHvaultsLFAPY }) => {
 
     return data
       .map(({ blockTimestamp, marketBalances, tvl, blockNumber }) => {
-        const erc4626 = getMarketBalances(marketBalances)
+        const erc4626 = getMarketBalances(marketBalances, tvl)
         const marketsSum = erc4626.sum
         const unallocatedMaybe = +tvl - marketsSum
         const unallocated = unallocatedMaybe <= 0.01 ? null : unallocatedMaybe
