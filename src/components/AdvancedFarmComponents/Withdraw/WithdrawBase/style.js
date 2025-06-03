@@ -7,113 +7,113 @@ const BaseWidoDiv = styled.div`
 
   &:nth-child(2) {
     padding: 10px 15px 15px 15px;
-    border-top: 1px solid ${props => props.borderColor};
+    border-top: 1px solid ${props => props.$bordercolor};
   }
 `
 
 const NewLabel = styled.div`
   ${props =>
-    props.bg
+    props.$bgcolor
       ? `
-      background: ${props.bg};
+      background: ${props.$bgcolor};
     `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size};
+    font-size: ${props.$size};
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    line-height: ${props.height};
+    line-height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.flexFlow
+    props.$flexflow
       ? `
-    flex-flow: ${props.flexFlow};
+    flex-flow: ${props.$flexflow};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   
   ${props =>
-    props.border
+    props.$border
       ? `
-    border: ${props.border};
+    border: ${props.$border};
   `
       : ''}
 
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
   `
       : ''}
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
@@ -175,9 +175,9 @@ const TokenSelect = styled.div`
 const SwitchTabTag = styled.div`
   width: 49%;
   transition: 0.25s;
-  color: ${props => props.color};
-  background: ${props => props.backColor};
-  box-shadow: ${props => props.boxShadow};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$backcolor};
+  box-shadow: ${props => props.$boxshadow};
   padding: 8px 12px;
   border-radius: 6px;
   display: flex;
@@ -218,7 +218,7 @@ const TokenUSDAmount = styled.div`
   left: 15px;
   bottom: 3px;
   font-size: 10px;
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   font-weight: 400;
 `
 
@@ -230,12 +230,12 @@ const TokenAmount = styled.input`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  background: ${props => props.bgColor};
-  border: 1px solid ${props => props.borderColor};
+  background: ${props => props.$bgcolor};
+  border: 1px solid ${props => props.$bordercolor};
   outline: 0;
   padding: 7px 14px 13px 14px;
   border-radius: 8px;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
   transition: 0.25s;
 
   &::-webkit-outer-spin-button,
@@ -251,7 +251,7 @@ const Title = styled.div`
   font-weight: 400;
   line-height: 20px;
   margin: 4px 0 20px;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   font-size: 14px;
   @media screen and (max-width: 992px) {
     font-size: 12px;
@@ -265,7 +265,7 @@ const AmountSection = styled.div`
 `
 
 const BalanceInfo = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
@@ -285,11 +285,11 @@ const BalanceInfo = styled.div`
 
 const InsufficientSection = styled.div`
   border-radius: 12px;
-  border: 1px solid ${props => props.activeColor};
-  background: ${props => props.bgColorMessage};
+  border: 1px solid ${props => props.$activecolor};
+  background: ${props => props.$bgcolormessage};
   padding: 16px;
   ${props =>
-    props.isShow === 'true'
+    props.$isshow === 'true'
       ? `
     display: flex;
     justify-content: space-between;
@@ -302,11 +302,11 @@ const InsufficientSection = styled.div`
 
 const HasErrorSection = styled.div`
   border-radius: 12px;
-  border: 1px solid ${props => props.activeColor};
-  background: ${props => props.bgColorMessage};
+  border: 1px solid ${props => props.$activecolor};
+  background: ${props => props.$bgcolormessage};
   padding: 16px;
   ${props =>
-    props.isShow === 'true'
+    props.$isshow === 'true'
       ? `
     display: flex;
     justify-content: space-between;
@@ -357,7 +357,7 @@ const ThemeMode = styled.div`
 
     .switch-track {
       background: #000;
-      border: 1px solid ${props => props.borderColor};
+      border: 1px solid ${props => props.$bordercolor};
       height: 16px;
       width: 32px;
       border-radius: 30px;
@@ -382,7 +382,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'deposit'
+    props.$mode === 'deposit'
       ? `
       #theme-switch {
         .switch-check {
@@ -420,7 +420,7 @@ const ThemeMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'deposit'
+      props.$mode === 'deposit'
         ? `
         #theme-switch {
           .switch-thumb {

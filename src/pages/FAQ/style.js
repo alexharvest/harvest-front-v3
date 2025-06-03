@@ -6,8 +6,8 @@ const FAQContainer = styled.div`
   width: 100%;
   position: relative;
 
-  background: ${props => props.pageBackColor};
-  color: ${props => props.fontColor};
+  background: ${props => props.$backcolor};
+  color: ${props => props.$fontcolor};
 
   font-weight: 400;
   line-height: 150%;
@@ -85,16 +85,16 @@ const Question = styled.div`
   transition: 0.25s;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   ${props =>
-    props.open
+    props.$open === 'true'
       ? `
   border-bottom-left-radius: 0px; 
   border-bottom-right-radius: 0px;
   border-radius: 10px 10px 0px 0px;
-    background: ${props.hoverColor};
+    background: ${props.$hovercolor};
   `
       : ``}
 
@@ -107,7 +107,7 @@ const Question = styled.div`
 
 const Answer = styled.div`
   padding: 16px;
-  background: ${props => props.hoverColor};
+  background: ${props => props.$hovercolor};
   transition: 0.25s;
   border-radius: 0 0 10px 10px;
   border-top: none;

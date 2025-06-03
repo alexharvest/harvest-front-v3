@@ -13,7 +13,7 @@ const Container = styled.button`
 
   &:hover {
     background: ${props =>
-      props.mode === 'dark'
+      props.$mode === 'dark'
         ? `
           #3b3c3e
         `
@@ -21,8 +21,8 @@ const Container = styled.button`
   }
 
   ${props =>
-    props.activeItem
-      ? props.mode === 'dark'
+    props.$activeitem
+      ? props.$mode === 'dark'
         ? `
         background: none;
         border-radius: 3px;
@@ -35,7 +35,7 @@ const Container = styled.button`
         color: #15B088;
         font-weight: 700;
       `
-      : props.mode === 'dark'
+      : props.$mode === 'dark'
       ? `
       background: none;
       border: none;

@@ -70,7 +70,7 @@ const AutopilotPanel = ({
   const [currencyRate, setCurrencyRate] = useState(1)
   const [subscribeName, setSubscribeName] = useState('Subscribe')
   const [subscribeLabel, setSubscribeLabel] = useState('Subscribe')
-  const [inputAmount, setInputAmount] = useState()
+  const [inputAmount, setInputAmount] = useState('')
   const [inputUSDAmount, setInputUSDAmount] = useState('-')
 
   const { connected, account, connectAction, chainId, setChainId } = useWallet()
@@ -190,15 +190,15 @@ const AutopilotPanel = ({
   return (
     <>
       {!pilotInfoShow && (
-        <BasePanelBox key={index} backColor={bgColorBox} borderColor={borderColorBox2}>
-          <PanelHeader borderColor={borderColorBox} darkMode={darkMode}>
+        <BasePanelBox key={index} $backcolor={bgColorBox} $bordercolor={borderColorBox2}>
+          <PanelHeader $bordercolor={borderColorBox} $darkmode={darkMode}>
             <TokenInfo>
               <img className="logo" src={`.${vaultData?.logoUrl}`} width={90} height={90} alt="" />
               <ApyInfo>
-                <NewLabel size="11px" height="20px" weight="600" color={fontColor8}>
+                <NewLabel $size="11px" $height="20px" $weight="600" $fontcolor={fontColor8}>
                   Live APY
                 </NewLabel>
-                <NewLabel size="20px" height="28px" weight="700" color={fontColor3}>
+                <NewLabel $size="20px" $height="28px" $weight="700" $fontcolor={fontColor3}>
                   {formatNumber(vaultData?.estimatedApy, 2)}%
                 </NewLabel>
               </ApyInfo>
@@ -213,61 +213,61 @@ const AutopilotPanel = ({
             </PilotInfo>
           </PanelHeader>
           <PanelBalance>
-            <FlexDiv flexDirection="row" justifyContent="space-between">
+            <FlexDiv $flexdirection="row" $justifycontent="space-between">
               <NewLabel
-                size="14px"
-                height="20px"
-                weight="500"
-                color={fontColor2}
-                marginTop="30px"
-                marginBottom="10px"
-                marginLeft="25px"
+                $size="14px"
+                $height="20px"
+                $weight="500"
+                $fontcolor={fontColor2}
+                $margintop="30px"
+                $marginbottom="10px"
+                $marginleft="25px"
               >
                 My Balance
               </NewLabel>
               <NewLabel
-                size="14px"
-                height="20px"
-                weight="500"
-                color={fontColor2}
-                marginTop="30px"
-                marginBottom="10px"
-                marginRight="25px"
+                $size="14px"
+                $height="20px"
+                $weight="500"
+                $fontcolor={fontColor2}
+                $margintop="30px"
+                $marginbottom="10px"
+                $marginright="25px"
               >
                 {showTokenBalance(userAssetBalance)}&nbsp;{vaultData?.tokenNames[0]}
               </NewLabel>
             </FlexDiv>
-            <FlexDiv flexDirection="row" justifyContent="space-between">
+            <FlexDiv $flexdirection="row" $justifycontent="space-between">
               <NewLabel
-                size="14px"
-                height="20px"
-                weight="500"
-                color={fontColor2}
-                marginTop="10px"
-                marginBottom="30px"
-                marginLeft="25px"
+                $size="14px"
+                $height="20px"
+                $weight="500"
+                $fontcolor={fontColor2}
+                $margintop="10px"
+                $marginbottom="30px"
+                $marginleft="25px"
               >
                 Lifetime Yield
               </NewLabel>
               <NewLabel
-                size="14px"
-                height="20px"
-                weight="500"
-                color="#5DCF46"
-                marginTop="10px"
-                marginBottom="30px"
-                marginRight="25px"
+                $size="14px"
+                $height="20px"
+                $weight="500"
+                $fontcolor="#5DCF46"
+                $margintop="10px"
+                $marginbottom="30px"
+                $marginright="25px"
               >
                 {showTokenBalance(yieldValue)}&nbsp;{vaultData?.tokenNames[0]}
               </NewLabel>
             </FlexDiv>
           </PanelBalance>
           <PanelSubscribe>
-            <FlexDiv flexDirection="row" justifyContent="space-between">
-              <NewLabel size="14px" height="20px" weight="500" color={fontColor2}>
+            <FlexDiv $flexdirection="row" $justifycontent="space-between">
+              <NewLabel $size="14px" $height="20px" $weight="500" $fontcolor={fontColor2}>
                 {subscribeLabel}
               </NewLabel>
-              <ThemeMode mode={subscribe ? 'subscribe' : 'unsubscribe'}>
+              <ThemeMode $mode={subscribe ? 'subscribe' : 'unsubscribe'}>
                 <div id="theme-switch">
                   <div className="switch-track">
                     <div className="switch-thumb" />
@@ -282,20 +282,20 @@ const AutopilotPanel = ({
                 </div>
               </ThemeMode>
             </FlexDiv>
-            <FlexDiv flexDirection="row" justifyContent="space-between" marginTop="10px" gap="10px">
+            <FlexDiv $flexdirection="row" $justifycontent="space-between" $margintop="10px" $gap="10px">
               <TokenInput>
                 <TokenAmount
                   type="number"
                   value={inputAmount}
                   onChange={onInputBalance}
-                  backColor={bgColorBox}
-                  fontColor2={fontColor2}
+                  $backcolor={bgColorBox}
+                  $fontcolor2={fontColor2}
                   inputMode="numeric"
                   pattern="[0-9]*"
                   placeholder="0"
                 />
                 <input type="hidden" value={Number(inputAmount)} />
-                <TokenUSDAmount fontColor3={fontColor3}>
+                <TokenUSDAmount $fontcolor3={fontColor3}>
                   {inputUSDAmount === '' ? (
                     <TokenInfo>
                       <AnimatedDots />
@@ -313,16 +313,16 @@ const AutopilotPanel = ({
                   height={26}
                   alt=""
                 />
-                <TokenName fontColor={fontColor2}>{vaultData?.tokenNames[0]}</TokenName>
+                <TokenName $fontcolor={fontColor2}>{vaultData?.tokenNames[0]}</TokenName>
               </TokenType>
             </FlexDiv>
-            <FlexDiv flexDirection="row" justifyContent="space-between" marginTop="12px">
+            <FlexDiv $flexdirection="row" $justifycontent="space-between" $margintop="12px">
               <NewLabel
                 className="balance-input"
-                size="12px"
-                height="20px"
-                weight="400"
-                color={fontColor2}
+                $size="12px"
+                $height="20px"
+                $weight="400"
+                $fontcolor={fontColor2}
                 onClick={() => {
                   if (account) {
                     if (subscribe) {
@@ -339,9 +339,9 @@ const AutopilotPanel = ({
                   : `${showTokenBalance(userAssetBalance, 8)} ${vaultData?.tokenNames[0]}`}
               </NewLabel>
             </FlexDiv>
-            <FlexDiv marginTop="18px">
+            <FlexDiv $margintop="18px">
               <Button
-                color={
+                $fontcolor={
                   connected
                     ? curChain === tokenChain
                       ? subscribe
@@ -350,10 +350,10 @@ const AutopilotPanel = ({
                       : 'wido-deposit'
                     : 'connectwallet'
                 }
-                width="100%"
-                btnColor={btnColor}
-                btnHoverColor={btnHoverColor}
-                btnActiveColor={btnActiveColor}
+                $width="100%"
+                $btncolor={btnColor}
+                $btnhovercolor={btnHoverColor}
+                $btnactivecolor={btnActiveColor}
                 onClick={() => {
                   onClickSubscribe()
                 }}

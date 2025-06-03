@@ -26,7 +26,7 @@ const PositionList = ({
 
   return (
     <VaultBox
-      borderBottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
+      $borderbottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
       onClick={() => {
         setShowPositionModal(false)
         setHighestPosition(matchVault)
@@ -35,10 +35,10 @@ const PositionList = ({
         setIsFromModal(true)
         setToken(groupOfVaults[id.toString()])
       }}
-      hoverBgColor={darkMode ? '#1F242F' : '#e9f0f7'}
+      $hoverbgcolor={darkMode ? '#1F242F' : '#e9f0f7'}
     >
-      <Content alignItems="start">
-        <InfoText fontSize="10px" fontWeight="500" color="#5fCf76">
+      <Content $alignitems="start">
+        <InfoText $fontsize="10px" $fontweight="500" $fontcolor="#5fCf76">
           {matchVault.balance >= 0.01
             ? `${currencySym}${formatNumber(matchVault.balance * currencyRate)}`
             : `<${currencySym}0.01`}
@@ -48,7 +48,7 @@ const PositionList = ({
             <img src={matchVault.chain ? matchVault.chain : ETHEREUM} alt="" />
           </BadgeIcon>
           <Token
-            color={darkMode ? '#ffffff' : '#414141'}
+            $fontcolor={darkMode ? '#ffffff' : '#414141'}
             href={`${window.location.origin}/${networkName}/${vaultAddress}`}
             onClick={stopPropagation}
           >
@@ -57,11 +57,11 @@ const PositionList = ({
         </BadgeToken>
       </Content>
       <ApyDownIcon>
-        <Content alignItems="end">
-          <InfoText fontSize="10px" fontWeight="700" color="#5fCf76">
+        <Content $alignitems="end">
+          <InfoText $fontsize="10px" $fontweight="700" $fontcolor="#5fCf76">
             {`${matchVault.apy}% Live APY`}
           </InfoText>
-          <InfoText fontSize="10px" fontWeight="500" color="#6988ff">
+          <InfoText $fontsize="10px" $fontweight="500" $fontcolor="#6988ff">
             {`$${formatNumber(matchVault.apy / 100)}/yr per $1 allocated`}
           </InfoText>
         </Content>

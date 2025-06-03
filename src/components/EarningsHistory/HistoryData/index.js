@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useCallback } from 'react'
 import ReactPaginate from 'react-paginate'
 import { useMediaQuery } from 'react-responsive'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { IoArrowBackSharp, IoArrowForwardSharp } from 'react-icons/io5'
 import SkeletonLoader from '../../DashboardComponents/SkeletonLoader'
 import { useThemeContext } from '../../../providers/useThemeContext'
@@ -27,7 +27,7 @@ import {
 import { handleToggle } from '../../../utilities/parsers'
 
 const HistoryData = ({ historyData, isDashboard, noData }) => {
-  const { push } = useHistory()
+  const navigate = useNavigate()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
   const itemsPerPage = isMobile ? 5 : isDashboard ? 25 : 5
   const filteredHistoryData = historyData.filter(el => el.event !== 'Rewards')
@@ -78,27 +78,27 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
 
   return (
     <TransactionDetails
-      hasData={
+      $hasdata={
         (connected && filteredHistoryData?.length > 0) || isDashboard === true ? 'unset' : '80vh'
       }
     >
       <TableContent>
-        <Header borderColor={borderColorBox} backColor={bgColorNew}>
-          <Column width={isMobile ? '25%' : '20%'} color={fontColor}>
+        <Header $bordercolor={borderColorBox} $backcolor={bgColorNew}>
+          <Column $width={isMobile ? '25%' : '20%'} $fontcolor={fontColor}>
             <Col>Event</Col>
           </Column>
-          <Column width={isMobile ? '35%' : '20%'} color={fontColor}>
+          <Column $width={isMobile ? '35%' : '20%'} $fontcolor={fontColor}>
             <Col>Date</Col>
           </Column>
           <Column
-            display="flex"
-            justifyContent="space-between"
-            width={isMobile ? '40%' : '30%'}
-            color={fontColor}
+            $display="flex"
+            $justifycontent="space-between"
+            $width={isMobile ? '40%' : '30%'}
+            $fontcolor={fontColor}
           >
             <Col>{showTotalBalance ? 'Total Balance' : 'Net change'}</Col>
             {isMobile && (
-              <ThemeMode mode={showTotalBalance ? 'balance' : 'netChange'}>
+              <ThemeMode $mode={showTotalBalance ? 'balance' : 'netChange'}>
                 <div id="theme-switch">
                   <div className="switch-track">
                     <div className="switch-thumb" />
@@ -115,9 +115,9 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
             )}
           </Column>
           <Column
-            width={isMobile ? '0%' : '30%'}
-            color={fontColor}
-            display={isMobile ? 'none' : 'flex'}
+            $width={isMobile ? '0%' : '30%'}
+            $fontcolor={fontColor}
+            $display={isMobile ? 'none' : 'flex'}
           >
             <Col>Net change</Col>
           </Column>
@@ -133,11 +133,11 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
                 .slice(0, isMobile ? 5 : isDashboard ? 25 : 5)}
             </ContentBox>
             <HistoryPagination
-              bgColor={bgColorNew}
-              fontColor={fontColor}
-              fontColor1={fontColor1}
-              fontColor2={fontColor2}
-              borderColor={borderColorBox}
+              $bgcolor={bgColorNew}
+              $fontcolor={fontColor}
+              $fontcolor1={fontColor1}
+              $fontcolor2={fontColor2}
+              $bordercolor={borderColorBox}
             >
               <ReactPaginate
                 breakLabel="..."
@@ -159,14 +159,14 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
           !noData ? (
             <SkeletonLoader isPosition="false" />
           ) : (
-            <EmptyPanel borderColor={borderColorBox}>
+            <EmptyPanel $bordercolor={borderColorBox}>
               <EmptyInfo
-                weight={500}
-                size={14}
-                lineHeight={20}
-                color={fontColor}
-                flexFlow="column"
-                gap="0px"
+                $weight={500}
+                $size={14}
+                $lineheight={20}
+                $fontcolor={fontColor}
+                $flexflow="column"
+                $gap="0px"
               >
                 <div>
                   {isDashboard
@@ -175,14 +175,13 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
                 </div>
                 <ExploreButtonStyle
                   onClick={() => {
-                    push(ROUTES.ADVANCED)
+                    navigate(ROUTES.ADVANCED)
                   }}
-                  minWidth="190px"
-                  inputBorderColor={inputBorderColor}
-                  bordercolor={fontColor}
-                  disabled={disableWallet}
-                  backColor={btnColor}
-                  hoverColor={btnHoverColor}
+                  $inputbordercolor={inputBorderColor}
+                  $bordercolor={fontColor}
+                  $disabled={disableWallet}
+                  $backcolor={btnColor}
+                  $hovercolor={btnHoverColor}
                 >
                   <img src={AdvancedImg} className="explore-farms" alt="" />
                   Explore Vaults
@@ -191,20 +190,19 @@ const HistoryData = ({ historyData, isDashboard, noData }) => {
             </EmptyPanel>
           )
         ) : (
-          <EmptyPanel borderColor={borderColorBox}>
-            <EmptyInfo weight={500} size={14} lineHeight={20} color={fontColor}>
+          <EmptyPanel $bordercolor={borderColorBox}>
+            <EmptyInfo $weight={500} $size={14} $lineheight={20} $fontcolor={fontColor}>
               Connect wallet to see full event history.
             </EmptyInfo>
             <ConnectButtonStyle
               onClick={() => {
                 connectAction()
               }}
-              minWidth="190px"
-              inputBorderColor={inputBorderColor}
-              bordercolor={fontColor}
-              disabled={disableWallet}
-              hoverColor={btnHoverColor}
-              backColor={btnColor}
+              $inputbordercolor={inputBorderColor}
+              $bordercolor={fontColor}
+              $disabled={disableWallet}
+              $hovercolor={btnHoverColor}
+              $backcolor={btnColor}
             >
               Connect
             </ConnectButtonStyle>

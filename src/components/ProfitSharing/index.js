@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { getDataQuery } from '../../utilities/apiCalls'
 import { directDetailUrl } from '../../constants'
 import { useStats } from '../../providers/Stats'
@@ -13,7 +13,7 @@ import ProfitSharingTitle from '../../assets/images/logos/sidebar/profit-sharing
 const ProfitSharingContainer = ({ height }) => {
   const { chainId } = useWallet()
   const { profitShareAPY } = useStats()
-  const { push } = useHistory()
+  const navigate = useNavigate()
 
   const [apiData, setApiData] = useState({})
   useEffect(() => {
@@ -27,9 +27,9 @@ const ProfitSharingContainer = ({ height }) => {
   return (
     <ProfitSharing
       onClick={() => {
-        push(`${directDetailUrl}ethereum/${addresses.FARM}`)
+        navigate(`${directDetailUrl}ethereum/${addresses.FARM}`)
       }}
-      height={height}
+      $height={height}
     >
       <TopDiv>
         <img src={ProfitSharingIcon} alt="profit-sharing" />

@@ -5,7 +5,7 @@ import Modal from 'react-bootstrap/Modal'
 import { useSetChain } from '@web3-onboard/react'
 import { IoIosArrowUp } from 'react-icons/io'
 import { CiSettings } from 'react-icons/ci'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { Spinner } from 'react-bootstrap'
 import { useWallet } from '../../../providers/Wallet'
 import { FARM_TOKEN_SYMBOL, IFARM_TOKEN_SYMBOL } from '../../../constants'
@@ -102,7 +102,7 @@ const MigrateStart = ({
   const { userStats, fetchUserPoolStats } = usePools()
   const { handleApproval, handleDeposit } = useActions()
   const { contracts } = useContracts()
-  const { push } = useHistory()
+  const navigate = useNavigate()
 
   const {
     isMobile,
@@ -555,7 +555,7 @@ const MigrateStart = ({
       setShowMigrate(false)
       setProgressStep(0)
       setButtonName('Approve Token')
-      push(`/${networkName}/${highestVaultAddress}`)
+      navigate(`/${networkName}/${highestVaultAddress}`)
     }
   }
 
@@ -585,27 +585,27 @@ const MigrateStart = ({
       <Modal.Header className="migrate-position-modal-header">
         <FTokenInfo>
           <div className="modal-header-part">
-            <NewLabel margin="auto 16px auto 0px" display="flex" items="center">
-              <IconCard bgColor="#5dcf46" display="flex" items="center">
+            <NewLabel $margin="auto 16px auto 0px" $display="flex" $items="center">
+              <IconCard $bgcolor="#5dcf46" $display="flex" $items="center">
                 {progressStep === 4 ? <BsArrowDown /> : <img src={ClockIcon} alt="clock" />}
               </IconCard>
             </NewLabel>
-            <NewLabel textAlign="left" marginRight="12px">
+            <NewLabel $textalign="left" $marginright="12px">
               <NewLabel
-                color="#5dcf46"
-                size={isMobile ? '18px' : '18px'}
-                height={isMobile ? '28px' : '28px'}
-                weight="600"
-                marginBottom="4px"
+                $fontcolor="#5dcf46"
+                $size={isMobile ? '18px' : '18px'}
+                $height={isMobile ? '28px' : '28px'}
+                $weight="600"
+                $marginbottom="4px"
               >
                 Migrate Summary
               </NewLabel>
               <NewLabel
-                color={fontColor}
-                size={isMobile ? '14px' : '14px'}
-                height={isMobile ? '20px' : '20px'}
-                weight="400"
-                marginBottom="5px"
+                $fontcolor={fontColor}
+                $size={isMobile ? '14px' : '14px'}
+                $height={isMobile ? '20px' : '20px'}
+                $weight="400"
+                $marginbottom="5px"
               >
                 Position migration involves an fToken swap.
               </NewLabel>
@@ -613,16 +613,16 @@ const MigrateStart = ({
           </div>
           <NewLabel>
             <NewLabel
-              display="flex"
-              marginBottom={isMobile ? '18px' : '18px'}
-              width="fit-content"
-              cursorType="pointer"
-              weight="600"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px ' : '20px'}
-              darkMode={darkMode}
-              color={inputFontColor}
-              textAlign="center"
+              $display="flex"
+              $marginbottom={isMobile ? '18px' : '18px'}
+              $width="fit-content"
+              $cursortype="pointer"
+              $weight="600"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px ' : '20px'}
+              $darkmode={darkMode}
+              $fontcolor={inputFontColor}
+              $textalign="center"
               onClick={() => {
                 closeDeposit()
               }}
@@ -635,27 +635,27 @@ const MigrateStart = ({
       <Modal.Body className="migrate-start-modal-body">
         {showNote && highestPosition && (
           <NewLabel
-            display="flex"
-            justifyContent="space-between"
-            flexFlow="column"
-            items="center"
-            padding="15px 24px 0px 24px"
+            $display="flex"
+            $justifycontent="space-between"
+            $flexflow="column"
+            $items="center"
+            $padding="15px 24px 0px 24px"
           >
             <NewLabel
-              display="flex"
-              justifyContent="space-between"
-              padding="16px"
-              align="flex-start"
-              bgColor="#FCFAFF"
-              border="1px solid #D6BBFB"
-              borderRadius="12px"
+              $display="flex"
+              $justifycontent="space-between"
+              $padding="16px"
+              $align="flex-start"
+              $bgcolor="#FCFAFF"
+              $border="1px solid #D6BBFB"
+              $borderradius="12px"
             >
-              <StakeIconBox src={StakeIcon} alt="stake Icon" width="17px" height="17px" />
-              <NewLabel marginRight="12px" marginLeft="12px">
-                <NewLabel weight="600" size="12px" height="20px" color="#6941C6">
+              <StakeIconBox src={StakeIcon} alt="stake Icon" $width="17px" $height="17px" />
+              <NewLabel $marginright="12px" $marginleft="12px">
+                <NewLabel $weight="600" $size="12px" $height="20px" $fontcolor="#6941C6">
                   Note: Staked fTokens Detected
                 </NewLabel>
-                <NewLabel weight="400" color="#6941C6" height="20px" size="10px">
+                <NewLabel $weight="400" $fontcolor="#6941C6" $height="20px" $size="10px">
                   To fully migrate your position, unstake fTokens of the{' '}
                   <a
                     href={`${window.location.origin}/${networkName}/${positionAddress}#rewards`}
@@ -671,28 +671,28 @@ const MigrateStart = ({
               <StakeIconBox
                 src={StakeCross}
                 alt="stake Icon"
-                width="10px"
-                height="10px"
+                $width="10px"
+                $height="10px"
                 onClick={crossNote}
                 cursor="pointer"
               />
             </NewLabel>
           </NewLabel>
         )}
-        <NewLabel display="flex" justifyContent="space-between" flexFlow="column" items="center">
+        <NewLabel $display="flex" $justifycontent="space-between" $flexflow="column" $items="center">
           <NewLabel
-            display="flex"
-            justifyContent="space-between"
-            marginTop="15px"
-            padding="10px 24px"
-            color={darkMode ? '#ffffff' : '#344054'}
-            width="100%"
+            $display="flex"
+            $justifycontent="space-between"
+            $margintop="15px"
+            $padding="10px 24px"
+            $fontcolor={darkMode ? '#ffffff' : '#344054'}
+            $width="100%"
           >
-            <NewLabel size="14px" weight="500" height="24px">
+            <NewLabel $size="14px" $weight="500" $height="24px">
               Migrating
             </NewLabel>
-            <NewLabel display="flex" flexFlow="column">
-              <NewLabel weight="600" size="14px" height="20px" textAlign="right">
+            <NewLabel $display="flex" $flexflow="column">
+              <NewLabel $weight="600" $size="14px" $height="20px" $textalign="right">
                 {fromInfoAmount === '-' ? (
                   <AnimatedDots />
                 ) : fromInfoAmount !== '' ? (
@@ -701,11 +701,11 @@ const MigrateStart = ({
                   inputAmount
                 )}
               </NewLabel>
-              <NewLabel display="flex" flexFlow="column" weight="600" textAlign="right">
-                <NewLabel weight="400" height="20px" size="12px">
+              <NewLabel $display="flex" $flexflow="column" $weight="600" $textalign="right">
+                <NewLabel $weight="400" $height="20px" $size="12px">
                   {id ? useIFARM ? `i${id}` : `f${id}` : <AnimatedDots />}
                 </NewLabel>
-                <NewLabel weight="400" size="12px" height="20px">
+                <NewLabel $weight="400" $size="12px" $height="20px">
                   {fromInfoAmount === '-' ? (
                     <AnimatedDots />
                   ) : fromInfoUsdAmount !== '' ? (
@@ -719,24 +719,24 @@ const MigrateStart = ({
           </NewLabel>
         </NewLabel>
         <NewLabel
-          display="flex"
-          justifyContent="space-between"
-          flexFlow="column"
-          items="center"
-          width="100%"
+          $display="flex"
+          $justifycontent="space-between"
+          $flexflow="column"
+          $items="center"
+          $width="100%"
         >
           <NewLabel
-            display="flex"
-            justifyContent="space-between"
-            padding="10px 24px"
-            color={darkMode ? '#ffffff' : '#344054'}
-            width="100%"
+            $display="flex"
+            $justifycontent="space-between"
+            $padding="10px 24px"
+            $fontcolor={darkMode ? '#ffffff' : '#344054'}
+            $width="100%"
           >
-            <NewLabel size="14px" weight="500" height="24px">
+            <NewLabel $size="14px" $weight="500" $height="24px">
               Min.received
             </NewLabel>
-            <NewLabel display="flex" flexFlow="column">
-              <NewLabel weight="600" size="14px" height="20px" textAlign="right">
+            <NewLabel $display="flex" $flexflow="column">
+              <NewLabel $weight="600" $size="14px" $height="20px" $textalign="right">
                 {!pickedDefaultToken && progressStep === 4 ? (
                   receiveAmount !== '' ? (
                     showTokenBalance(receiveAmount)
@@ -755,11 +755,11 @@ const MigrateStart = ({
                   </AnimateDotDiv>
                 )}
               </NewLabel>
-              <NewLabel display="flex" flexFlow="column" weight="600" textAlign="right">
-                <NewLabel weight="400" height="20px" size="12px">
+              <NewLabel $display="flex" $flexflow="column" $weight="600" $textalign="right">
+                <NewLabel $weight="400" $height="20px" $size="12px">
                   {id ? toUseIFARM ? `i${toId}` : `f${toId}` : <AnimatedDots />}
                 </NewLabel>
-                <NewLabel weight="400" size="12px" height="20px">
+                <NewLabel $weight="400" $size="12px" $height="20px">
                   {!pickedDefaultToken && progressStep === 4 ? (
                     receiveUsd !== '' ? (
                       `${receiveUsd}`
@@ -777,27 +777,27 @@ const MigrateStart = ({
               </NewLabel>
             </NewLabel>
           </NewLabel>
-          <FTokenWrong isShow={depositFailed ? 'true' : 'false'}>
-            <NewLabel marginRight="12px" display="flex">
+          <FTokenWrong $isshow={depositFailed ? 'true' : 'false'}>
+            <NewLabel $marginright="12px" $display="flex">
               <div>
                 <img src={AlertIcon} alt="" />
               </div>
-              <NewLabel marginLeft="12px">
+              <NewLabel $marginleft="12px">
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="600"
-                  marginBottom="4px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="600"
+                  $marginbottom="4px"
                 >
                   Whoops, something went wrong.
                 </NewLabel>
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="400"
-                  marginBottom="5px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="400"
+                  $marginbottom="5px"
                 >
                   Please try to repeat the transaction in your wallet.
                 </NewLabel>
@@ -813,27 +813,27 @@ const MigrateStart = ({
               />
             </NewLabel>
           </FTokenWrong>
-          <FTokenWrong isShow={slippageFailed ? 'true' : 'false'}>
-            <NewLabel marginRight="12px" display="flex">
+          <FTokenWrong $isshow={slippageFailed ? 'true' : 'false'}>
+            <NewLabel $marginright="12px" $display="flex">
               <div>
                 <img src={AlertIcon} alt="" />
               </div>
-              <NewLabel marginLeft="12px">
+              <NewLabel $marginleft="12px">
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="600"
-                  marginBottom="4px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="600"
+                  $marginbottom="4px"
                 >
                   Whoops, slippage set too low
                 </NewLabel>
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="400"
-                  marginBottom="5px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="400"
+                  $marginbottom="5px"
                 >
                   Slippage for this conversion is set too low. Expected slippage is &gt;[number%].
                   If you wish to proceed, set it manually via the gear button below.
@@ -868,39 +868,39 @@ const MigrateStart = ({
             />
           </NewLabel>
           <NewLabel
-            color={fontColor2}
-            weight="400"
-            size="14px"
-            height="20px"
-            display="flex"
-            width="100%"
+            $fontcolor={fontColor2}
+            $weight="400"
+            $size="14px"
+            $height="20px"
+            $display="flex"
+            $width="100%"
           >
-            <ProgressText width="50%" padding="0px 0px 0px 30px">
+            <ProgressText $width="50%" $padding="0px 0px 0px 30px">
               Approve
               <br />
               Token
             </ProgressText>
-            <ProgressText width="unset" padding="0px 0px 0px 7px">
+            <ProgressText $width="unset" $padding="0px 0px 0px 7px">
               Confirm
               <br />
               Transaction
             </ProgressText>
-            <ProgressText width="50%" padding="0px 10px 0px 0px">
+            <ProgressText $width="50%" $padding="0px 10px 0px 0px">
               Transaction
               <br />
               Successful
             </ProgressText>
           </NewLabel>
           <NewLabel
-            size={isMobile ? '16px' : '16px'}
-            height={isMobile ? '24px' : '24px'}
-            weight={600}
-            color="#1F2937"
-            padding={slippageSetting ? '25px 24px 10px' : '25px 24px 24px'}
-            display="flex"
-            width="100%"
+            $size={isMobile ? '16px' : '16px'}
+            $height={isMobile ? '24px' : '24px'}
+            $weight={600}
+            $fontcolor="#1F2937"
+            $padding={slippageSetting ? '25px 24px 10px' : '25px 24px 24px'}
+            $display="flex"
+            $width="100%"
           >
-            <SlippageBox onClick={() => setSlippageSetting(!slippageSetting)} display="none">
+            <SlippageBox onClick={() => setSlippageSetting(!slippageSetting)} $display="none">
               {slippageSetting ? (
                 <IoIosArrowUp color="#6F78AA" fontSize={20} />
               ) : (
@@ -916,32 +916,32 @@ const MigrateStart = ({
               {!startSpinner ? (
                 <></>
               ) : (
-                <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" />
+                <Spinner as="span" animation="border" $size="sm" role="status" aria-hidden="true" />
               )}
             </Buttons>
           </NewLabel>
           <NewLabel
-            size={isMobile ? '12px' : '12px'}
-            height={isMobile ? '24px' : '24px'}
-            color={fontColor3}
-            padding="10px 24px"
-            display={slippageSetting ? 'flex' : 'none'}
-            flexFlow="column"
-            width="100%"
+            $size={isMobile ? '12px' : '12px'}
+            $height={isMobile ? '24px' : '24px'}
+            $fontcolor={fontColor3}
+            $padding="10px 24px"
+            $display={slippageSetting ? 'flex' : 'none'}
+            $flexflow="column"
+            $width="100%"
           >
-            <NewLabel display="flex" justifyContent="space-between">
-              <NewLabel height="24px" size="12px" weight="400">
+            <NewLabel $display="flex" $justifycontent="space-between">
+              <NewLabel $height="24px" $size="12px" $weight="400">
                 Slippage Settings
               </NewLabel>
-              <MiddleLine width={isMobile ? '65%' : '75%'} />
+              <MiddleLine $width={isMobile ? '65%' : '75%'} />
             </NewLabel>
-            <NewLabel padding="10px 0px" size="12px" height="24px">
+            <NewLabel $padding="10px 0px" $size="12px" $height="24px">
               Current slippage:{' '}
               <span className="auto-slippage">
                 {slippagePercentage === null ? 'Auto (0 - 2.5%)' : `${slippagePercentage}%`}
               </span>
             </NewLabel>
-            <SlippageRow borderColor={borderColor}>
+            <SlippageRow $bordercolor={borderColor}>
               {SlippageValues.map((percentage, index) => (
                 <SlipValue
                   key={index}
@@ -949,32 +949,32 @@ const MigrateStart = ({
                     setSlippagePercentage(percentage)
                     setCustomSlippage(null)
                   }}
-                  color={slippagePercentage === percentage ? '#fff' : fontColor2}
-                  bgColor={slippagePercentage === percentage ? bgColorSlippage : ''}
-                  borderColor={borderColor}
-                  isLastChild={index === SlippageValues.length - 1}
-                  isFirstChild={index === 0}
+                  $fontcolor={slippagePercentage === percentage ? '#fff' : fontColor2}
+                  $bgcolor={slippagePercentage === percentage ? bgColorSlippage : ''}
+                  $bordercolor={borderColor}
+                  $islastchild={index === SlippageValues.length - 1}
+                  $isfirstchild={index === 0}
                 >
                   {percentage === null ? 'Auto' : `${percentage}%`}
                 </SlipValue>
               ))}
             </SlippageRow>
             <NewLabel
-              display="flex"
-              justifyContent="space-between"
-              padding="15px 0px 5px"
-              gap="10px"
+              $display="flex"
+              $justifycontent="space-between"
+              $padding="15px 0px 5px"
+              $gap="10px"
             >
-              <NewLabel color={fontColor2} weight="600" margin="auto" size="12px" height="24px">
+              <NewLabel $fontcolor={fontColor2} $weight="600" $margin="auto" $size="12px" $height="24px">
                 or
               </NewLabel>
               <SlippageInput
-                fontColor2={fontColor2}
-                backColor={backColor}
-                borderColor={
+                $fontcolor2={fontColor2}
+                $backcolor={backColor}
+                $bordercolor={
                   customSlippage === null || customSlippage === 0 ? borderColor : '#5dcf46'
                 }
-                size="12px"
+                $size="12px"
               >
                 <input
                   type="number"
@@ -986,17 +986,17 @@ const MigrateStart = ({
               </SlippageInput>
               <SlippageBtn
                 onClick={onSlippageSave}
-                color={
+                $fontcolor={
                   !darkMode
                     ? '#fff'
                     : customSlippage === null || customSlippage === 0
                     ? '#0C111D'
                     : '#fff'
                 }
-                bgColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#5dcf46'}
+                $bgcolor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#5dcf46'}
                 cursor={customSlippage === null || customSlippage === 0 ? 'not-allowed' : 'pointer'}
-                hoverColor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#2ccda4'}
-                activeColor={
+                $hovercolor={customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#2ccda4'}
+                $activecolor={
                   customSlippage === null || customSlippage === 0 ? '#ced3e6' : '#4fdfbb'
                 }
               >

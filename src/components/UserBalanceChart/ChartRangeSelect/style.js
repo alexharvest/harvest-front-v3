@@ -5,7 +5,7 @@ const Container = styled.button`
   font-size: 12px;
   line-height: 18px;
   padding: 3px 15px;
-  display: ${props => props.display};
+  display: ${props => props.$display};
   text-align: left;
   border: none;
   color: #282f3d;
@@ -13,7 +13,7 @@ const Container = styled.button`
 
   &:hover {
     background: ${props =>
-      props.mode === 'dark'
+      props.$mode === 'dark'
         ? `
           #3b3c3e
         `
@@ -21,8 +21,8 @@ const Container = styled.button`
   }
 
   ${props =>
-    props.activeItem
-      ? props.mode === 'dark'
+    props.$activeitem
+      ? props.$mode === 'dark'
         ? `
         background: none;
         border-radius: 3px;
@@ -35,7 +35,7 @@ const Container = styled.button`
         color: #15B088;
         font-weight: 700;
       `
-      : props.mode === 'dark'
+      : props.$mode === 'dark'
       ? `
       background: none;
       border: none;
@@ -47,98 +47,98 @@ const Container = styled.button`
 `
 
 const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
+  font-weight: ${props => props.$weight || '400'};
+  font-size: ${props => props.$size || '20px'};
+  line-height: ${props => props.$height || '0px'};
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
 
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
     `
       : ``}
 `

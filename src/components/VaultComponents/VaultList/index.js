@@ -719,7 +719,7 @@ const VaultList = () => {
           setSortOrder={setSortOrder}
         />
       )}
-      <DisplayCount color={fontColor} mobileColor={darkMode ? '#fff' : '#000'}>
+      <DisplayCount $fontcolor={fontColor} $mobilecolor={darkMode ? '#fff' : '#000'}>
         Displaying <span>{vaultsSymbol.length}</span> of <span>{totalVaultsCount}</span>{' '}
         {selectedActiveType.length === 0
           ? 'my'
@@ -728,15 +728,15 @@ const VaultList = () => {
           : 'inactive'}{' '}
         farms {showNetworks}
       </DisplayCount>
-      <VaultsListBody borderColor={borderColorBox} backColor={bgColorNew}>
-        <Header borderColor={borderColorBox} fontColor={fontColor} filterColor={filterColor}>
-          <HeaderCol width="45%" justifyContent="start">
+      <VaultsListBody $bordercolor={borderColorBox} $backcolor={bgColorNew}>
+        <Header $bordercolor={borderColorBox} $fontcolor={fontColor} $filtercolor={filterColor}>
+          <HeaderCol $width="45%" $justifycontent="start">
             Farm
           </HeaderCol>
           <HeaderCol
-            width="15%"
-            justifyContent="start"
-            textAlign="left"
+            $width="15%"
+            $justifycontent="start"
+            $textalign="left"
             onClick={() => {
               setSortingParams('apy')
               onSelectFarmType('')
@@ -753,9 +753,9 @@ const VaultList = () => {
             />
           </HeaderCol>
           <HeaderCol
-            width="15%"
-            justifyContent="start"
-            textAlign="left"
+            $width="15%"
+            $justifycontent="start"
+            $textalign="left"
             onClick={() => {
               setSortingParams('apy')
               onSelectFarmType('')
@@ -772,9 +772,9 @@ const VaultList = () => {
             />
           </HeaderCol>
           <HeaderCol
-            width="15%"
-            justifyContent="start"
-            textAlign="left"
+            $width="15%"
+            $justifycontent="start"
+            $textalign="left"
             onClick={() => {
               setSortingParams('deposits')
               onSelectFarmType('')
@@ -796,9 +796,9 @@ const VaultList = () => {
               onSelectFarmType('')
               setRiskId(-1)
             }}
-            justifyContent="start"
-            width="10%"
-            textAlign="left"
+            $justifycontent="start"
+            $width="10%"
+            $textalign="left"
           >
             <div className="hoverable">My Balance </div>
             <SortingIcon
@@ -826,14 +826,14 @@ const VaultList = () => {
               )
             })
           ) : (
-            <EmptyPanel fontColor={fontColor}>
+            <EmptyPanel $fontcolor={fontColor}>
               <FlexDiv>
                 <EmptyImg src={EmptyIcon} alt="Empty" />
               </FlexDiv>
-              <EmptyInfo weight={700} size={16} height={21} marginBottom="28">
+              <EmptyInfo $weight={700} $size={16} $height={21} $marginbottom="28">
                 There are no such farms.
               </EmptyInfo>
-              <EmptyInfo weight={400} size={12} height={16} marginBottom="10">
+              <EmptyInfo $weight={400} $size={12} $height={16} $marginbottom="10">
                 Hey farmer, you might change or disable filters!
               </EmptyInfo>
             </EmptyPanel>

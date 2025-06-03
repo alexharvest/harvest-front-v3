@@ -9,7 +9,7 @@ const TopBadge = () => {
   const [visible, setVisible] = useState(false)
   return (
     <BadgeWrap>
-      <GuidePart backcolor={activeColorModal} fontColor4="#5dcf46">
+      <GuidePart $backcolor={activeColorModal} $fontcolor4="#5dcf46">
         <img src={DiamondSvg} width="14" height="14" alt="" />
         Autopilot
         <TooltipWrapper
@@ -28,8 +28,8 @@ const TopBadge = () => {
                 href="https://docs.harvest.finance/how-it-works/autopilots"
                 target="_blank"
                 rel="noopener noreferrer"
-                linkColor={darkMode ? 'black' : 'white'}
-                hoverColor={hoverColor}
+                $linkcolor={darkMode ? 'black' : 'white'}
+                $hovercolor={hoverColor}
               >
                 Learn more
               </LearnLink>

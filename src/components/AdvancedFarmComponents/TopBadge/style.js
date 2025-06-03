@@ -9,15 +9,15 @@ const BadgeWrap = styled.div`
 `
 
 const GuidePart = styled.div`
-  background: ${props => props.backcolor};
+  background: ${props => props.$backcolor};
   border-radius: 5px;
-  border: 1.3px solid ${props => props.fontColor4};
+  border: 1.3px solid ${props => props.$fontcolor4};
   display: flex;
   padding: 2px 8px;
   align-items: center;
   gap: 6px;
   width: fit-content;
-  color: ${props => props.fontColor4};
+  color: ${props => props.$fontcolor4};
   text-align: center;
   font-size: 14px;
   font-weight: 500;
@@ -69,7 +69,7 @@ const LearnLink = styled.a`
   text-decoration: none;
 
   &:hover {
-    color: ${props => props.hoverColor};
+    color: ${props => props.$hovercolor};
   }
 `
 

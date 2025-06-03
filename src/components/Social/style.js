@@ -24,13 +24,13 @@ const Social = styled.a`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: ${props => (props.marginRight ? props.marginRight : '12px')};
+  margin-right: ${props => (props.$marginright ? props.$marginright : '12px')};
   text-decoration: none;
 
   img {
     margin: auto;
     ${props =>
-      props.darkMode
+      props.$darkmode
         ? 'filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(352deg) brightness(101%) contrast(104%);'
         : ''};
   }

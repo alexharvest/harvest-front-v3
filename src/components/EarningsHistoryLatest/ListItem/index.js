@@ -17,10 +17,10 @@ const ListItem = ({
   const { fontColor } = useThemeContext()
   return (
     <Container
-      fontColor={fontColor}
-      marginBottom={marginBottom}
-      marginTop={marginTop}
-      justifyContent={justifyContent}
+      $fontcolor={fontColor}
+      $marginbottom={marginBottom}
+      $margintop={marginTop}
+      $justifycontent={justifyContent}
     >
       {label ? (
         <Label>
@@ -29,7 +29,7 @@ const ListItem = ({
           ) : (
             <></>
           )}
-          <Content weight={weight} size={size} height={height} color={color}>
+          <Content $weight={weight} $size={size} height={height} $fontcolor={color}>
             {label}
           </Content>
         </Label>
@@ -37,7 +37,7 @@ const ListItem = ({
         ''
       )}
       {value ? (
-        <Content weight={weight} size={size} height={height} color={color}>
+        <Content $weight={weight} $size={size} height={height} $fontcolor={color}>
           {value}
         </Content>
       ) : (

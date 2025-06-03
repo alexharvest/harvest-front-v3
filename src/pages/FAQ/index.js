@@ -26,7 +26,7 @@ const FAQ = () => {
   const { pageBackColor, backColor, fontColor, borderColor, faqQueHoverColor } = useThemeContext()
 
   return (
-    <FAQContainer pageBackColor={pageBackColor} fontColor={fontColor}>
+    <FAQContainer $backcolor={pageBackColor} $fontcolor={fontColor}>
       <FarmHeader>
         <Title>Support</Title>
         <Desc>
@@ -47,10 +47,10 @@ const FAQ = () => {
                   lazyRender={item.lazyRender ? item.lazyRender : true}
                   triggerWhenOpen={
                     <Question
-                      open
-                      backColor={backColor}
-                      borderColor={borderColor}
-                      hoverColor={faqQueHoverColor}
+                      $open='true'
+                      $backcolor={backColor}
+                      $bordercolor={borderColor}
+                      $hovercolor={faqQueHoverColor}
                     >
                       {item.question}
                       <img open src={DropdownToggleImageOpen} alt="" />
@@ -58,9 +58,9 @@ const FAQ = () => {
                   }
                   trigger={
                     <Question
-                      backColor={backColor}
-                      borderColor={borderColor}
-                      hoverColor={faqQueHoverColor}
+                      $backcolor={backColor}
+                      $bordercolor={borderColor}
+                      $hovercolor={faqQueHoverColor}
                     >
                       {item.question}
                       <img src={DropdownToggleImageClosed} alt="" />
@@ -68,9 +68,9 @@ const FAQ = () => {
                   }
                 >
                   <Answer
-                    backColor={backColor}
-                    borderColor={borderColor}
-                    hoverColor={faqQueHoverColor}
+                    $backcolor={backColor}
+                    $bordercolor={borderColor}
+                    $hovercolor={faqQueHoverColor}
                   >
                     {item.answer}
                   </Answer>
@@ -88,9 +88,9 @@ const FAQ = () => {
                     triggerWhenOpen={
                       <Question
                         open
-                        backColor={backColor}
-                        borderColor={borderColor}
-                        hoverColor={faqQueHoverColor}
+                        $backcolor={backColor}
+                        $bordercolor={borderColor}
+                        $hovercolor={faqQueHoverColor}
                       >
                         {item.question}
                         <img open src={DropdownToggleImageOpen} alt="" />
@@ -98,9 +98,9 @@ const FAQ = () => {
                     }
                     trigger={
                       <Question
-                        backColor={backColor}
-                        borderColor={borderColor}
-                        hoverColor={faqQueHoverColor}
+                        $backcolor={backColor}
+                        $bordercolor={borderColor}
+                        $hovercolor={faqQueHoverColor}
                       >
                         {item.question}
                         <img src={DropdownToggleImageClosed} alt="" />
@@ -108,9 +108,9 @@ const FAQ = () => {
                     }
                   >
                     <Answer
-                      backColor={backColor}
-                      borderColor={borderColor}
-                      hoverColor={faqQueHoverColor}
+                      $backcolor={backColor}
+                      $bordercolor={borderColor}
+                      $hovercolor={faqQueHoverColor}
                     >
                       {item.answer}
                     </Answer>
@@ -126,9 +126,9 @@ const FAQ = () => {
                     triggerWhenOpen={
                       <Question
                         open
-                        backColor={backColor}
-                        borderColor={borderColor}
-                        hoverColor={faqQueHoverColor}
+                        $backcolor={backColor}
+                        $bordercolor={borderColor}
+                        $hovercolor={faqQueHoverColor}
                       >
                         {item.question}
                         <img open src={DropdownToggleImageOpen} alt="" />
@@ -136,9 +136,9 @@ const FAQ = () => {
                     }
                     trigger={
                       <Question
-                        backColor={backColor}
-                        borderColor={borderColor}
-                        hoverColor={faqQueHoverColor}
+                        $backcolor={backColor}
+                        $bordercolor={borderColor}
+                        $hovercolor={faqQueHoverColor}
                       >
                         {item.question}
                         <img src={DropdownToggleImageClosed} alt="" />
@@ -146,9 +146,9 @@ const FAQ = () => {
                     }
                   >
                     <Answer
-                      backColor={backColor}
-                      borderColor={borderColor}
-                      hoverColor={faqQueHoverColor}
+                      $backcolor={backColor}
+                      $bordercolor={borderColor}
+                      $hovercolor={faqQueHoverColor}
                     >
                       {item.answer}
                     </Answer>

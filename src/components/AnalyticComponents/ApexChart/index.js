@@ -310,7 +310,7 @@ const ApexChart = ({ data, range, setCurDate, setCurContent }) => {
           {isDataReady ? (
             <ClipLoader size={30} margin={2} color={fontColor} />
           ) : (
-            <NoData color={fontColor}>You don&apos;t have any active deposits in this farm.</NoData>
+            <NoData $fontcolor={fontColor}>You don&apos;t have any active deposits in this farm.</NoData>
           )}
         </LoadingDiv>
       )}

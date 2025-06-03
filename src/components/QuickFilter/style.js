@@ -5,9 +5,9 @@ import HoverBack from '../../assets/images/logos/farm/hover_filter.svg'
 const QuickFilterContainer = styled.div`
   display: flex;
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
@@ -21,16 +21,16 @@ const QuickFilterContainer = styled.div`
   }
 
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
 
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
 
@@ -56,9 +56,9 @@ const InputsContainer = styled.div`
 `
 
 const UserDropDown = styled(Dropdown.Toggle)`
-  background: ${props => props.backcolor} !important;
-  border: 1px solid ${props => props.bordercolor} !important;
-  color: ${props => props.fontcolor} !important;
+  background: ${props => props.$backcolor} !important;
+  border: 1px solid ${props => props.$bordercolor} !important;
+  color: ${props => props.$fontcolor} !important;
   border-radius: 10px;
   align-items: center;
   padding: 12px 15px !important;
@@ -83,7 +83,7 @@ const UserDropDown = styled(Dropdown.Toggle)`
   }
 
   img {
-    filter: ${props => props.filtercolor};
+    filter: ${props => props.$filtercolor};
   }
 
   .chain-name {
@@ -134,84 +134,84 @@ const UserDropDownItem = styled(Dropdown.Item)`
 
 const DivWidth = styled.div`
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : 'width: auto;'}
   ${props =>
-    props.alignItems
+    props.$alignitems
       ? `
-        align-items: ${props.alignItems};
+        align-items: ${props.$alignitems};
       `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.top
+    props.$top
       ? `
-    top: ${props.top}px;
+    top: ${props.$top}px;
   `
       : ''}
   ${props =>
-    props.left
+    props.$left
       ? `
-    left: ${props.left}px;
+    left: ${props.$left}px;
   `
       : ''}
   ${props =>
-    props.right
+    props.$right
       ? `
-    right: ${props.right}px;
+    right: ${props.$right}px;
   `
       : ''}
   ${props =>
-    props.boxShadow
+    props.$boxshadow
       ? `
-    box-shadow: ${props.boxShadow};
+    box-shadow: ${props.$boxshadow};
   `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius}px;
+    border-radius: ${props.$borderradius}px;
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    height: ${props.height};
+    height: ${props.$height};
   `
       : ''}
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
 
   &.searchbar {
     width: 23%;
@@ -246,9 +246,9 @@ const DivWidth = styled.div`
   @media screen and (max-width: 992px) {
     margin-right: 0px;
     ${props =>
-      props.mobileMarginBottom
+      props.$mobilemarginbottom
         ? `
-      margin-bottom: ${props.mobileMarginBottom};
+      margin-bottom: ${props.$mobilemarginbottom};
     `
         : ''}
   }
@@ -261,8 +261,8 @@ const ChainButton = styled.button`
   display: flex;
   justify-content: center;
   transition: 0.25s;
-  border: 1px solid ${props => props.borderColor};
-  background: ${props => props.backColor};
+  border: 1px solid ${props => props.$bordercolor};
+  background: ${props => props.$backcolor};
 
   &:first-child {
     border-radius: 10px 0 0 10px;
@@ -283,11 +283,11 @@ const ChainButton = styled.button`
   }
 
   &:hover {
-    background: ${props => props.hoverColor} !important;
+    background: ${props => props.$hovercolor} !important;
   }
 
   &.active {
-    background: ${props => props.backColor};
+    background: ${props => props.$backcolor};
 
     img {
       opacity: 1;
@@ -337,20 +337,20 @@ const ChainATag = styled.a`
   justify-content: center;
   transition: 0.25s;
 
-  border: 1px solid ${props => props.borderColor};
-  background: ${props => props.backColor};
+  border: 1px solid ${props => props.$bordercolor};
+  background: ${props => props.$backcolor};
 
   img.link {
-    filter: ${props => props.filterColor};
+    filter: ${props => props.$filtercolor};
   }
 
   &:hover {
-    background: ${props => props.hoverColor} !important;
+    background: ${props => props.$hovercolor} !important;
     border-radius: 12px;
   }
 
   &.active {
-    background: ${props => props.backColor};
+    background: ${props => props.$backcolor};
     border-radius: 12px;
 
     img {
@@ -367,9 +367,9 @@ const ChainATag = styled.a`
 
 const ClearFilter = styled.div`
   width: max-content;
-  background: ${props => props.backColor};
-  color: ${props => props.fontColor};
-  border: 1px solid ${props => props.borderColor};
+  background: ${props => props.$backcolor};
+  color: ${props => props.$fontcolor};
+  border: 1px solid ${props => props.$bordercolor};
   font-size: 14px;
   font-weight: 600;
   line-height: 20px;
@@ -401,7 +401,7 @@ const ClearFilter = styled.div`
 
 const Counter = styled.div`
   ${props =>
-    props.count > 0
+    props.$count > 0
       ? `
   background: #5dcf46;
   color: white;
@@ -457,7 +457,7 @@ const MobileView = styled.div`
 
 const FarmButtonPart = styled.div`
   display: flex;
-  justify-content: ${props => (props.justifyContent ? props.justifyContent : 'center')};
+  justify-content: ${props => (props.$justifycontent ? props.$justifycontent : 'center')};
   margin-bottom: 15px;
   width: 100%;
 
@@ -507,10 +507,10 @@ const FarmFiltersPart = styled.div`
     width: 100%;
 
     button {
-      background: ${props => props.backColor};
-      color: ${props => props.fontColor};
+      background: ${props => props.$backcolor};
+      color: ${props => props.$fontcolor};
       width: 100%;
-      border: 1px solid ${props => props.borderColor};
+      border: 1px solid ${props => props.$bordercolor};
       border-radius: 8px;
       padding: 10px 15px;
       font-size: 14px;
@@ -524,7 +524,7 @@ const FarmFiltersPart = styled.div`
 
     img {
       margin-right: 10px;
-      filter: ${props => props.filterColor};
+      filter: ${props => props.$filtercolor};
     }
   }
 
@@ -537,10 +537,10 @@ const FarmFiltersPart = styled.div`
     margin-left: 5px;
 
     button.filters-btn {
-      border: 1px solid ${props => props.borderColor};
+      border: 1px solid ${props => props.$bordercolor};
       font-size: 12px;
       font-weight: 400;
-      color: ${props => (props.mobileColor ? props.mobileColor : '')};
+      color: ${props => (props.$mobilecolor ? props.$mobilecolor : '')};
     }
   }
 `
@@ -597,28 +597,28 @@ const MobileClearFilter = styled(ClearFilter)`
   line-height: 20px;
   width: 100%;
   border-radius: 8px;
-  color: ${props => props.fontColor};
-  background: ${props => props.backColor};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$backcolor};
   justify-content: center;
 
   @media screen and (max-width: 992px) {
     font-size: 12px;
     font-weight: 400;
-    color: ${props => (props.mobileColor ? props.mobileColor : '')};
-    border: 1px solid ${props => props.borderColor};
+    color: ${props => (props.$mobilecolor ? props.$mobilecolor : '')};
+    border: 1px solid ${props => props.$bordercolor};
     padding: 10px 18px;
     width: 40%;
   }
 `
 
 const FilterOffCanvas = styled(Offcanvas)`
-  background: ${props => props.backcolor} !important;
+  background: ${props => props.$backcolor} !important;
   align-items: center;
-  border-top: 2px solid ${props => props.borderColor} !important;
+  border-top: 2px solid ${props => props.$bordercolor} !important;
   border-radius: 15px;
   .offcanvas-header {
     .btn-close {
-      filter: ${props => props.filtercolor};
+      filter: ${props => props.$filtercolor};
     }
   }
 
@@ -656,9 +656,9 @@ const FilterOffCanvasBody = styled(Offcanvas.Body)`
       font-size: 12px;
       font-weight: 500;
       line-height: 16px;
-      background: ${props => props.backcolor} !important;
-      border: 1px solid ${props => props.bordercolor} !important;
-      color: ${props => props.fontcolor} !important;
+      background: ${props => props.$backcolor} !important;
+      border: 1px solid ${props => props.$bordercolor} !important;
+      color: ${props => props.$fontcolor} !important;
       border-radius: 5px;
       width: 100%;
       position: relative;
@@ -672,7 +672,7 @@ const FilterOffCanvasBody = styled(Offcanvas.Body)`
 
       img {
         margin-right: 5px;
-        filter: ${props => props.filtercolor};
+        filter: ${props => props.$filtercolor};
       }
 
       &:after {
@@ -685,34 +685,34 @@ const FilterOffCanvasBody = styled(Offcanvas.Body)`
       font-weight: 500;
       line-height: 14px;
       width: 100%;
-      background: ${props => props.backcolor};
-      border: 1px solid ${props => props.bordercolor};
+      background: ${props => props.$backcolor};
+      border: 1px solid ${props => props.$bordercolor};
 
       .item {
         display: flex;
         padding: 13px 18px 15px 18px;
-        color: ${props => props.fontcolor};
+        color: ${props => props.$fontcolor};
         background: none;
         img {
           margin-right: 6px;
-          filter: ${props => props.filtercolor};
+          filter: ${props => props.$filtercolor};
         }
       }
 
       .item:hover,
       .item:active {
-        background: ${props => props.hovercolor};
+        background: ${props => props.$hovercolor};
       }
 
       .item.disabled {
-        color: ${props => props.mobilefilterdisablecolor};
+        color: ${props => props.$mobilefilterdisablecolor};
       }
     }
   }
 `
 
 const FarmFilter = styled.div`
-  color: ${props => props.color};
+  color: ${props => props.$fontcolor};
   font-weight: 500;
   font-size: 16px;
   line-height: 21px;
@@ -807,7 +807,7 @@ const ChainGroup = styled.div`
 
 const SwitchBalanceButton = styled.button`
   align-items: center;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   &:first-child {
     border-radius: 10px 0 0 10px;
     border-right: none;
@@ -817,8 +817,8 @@ const SwitchBalanceButton = styled.button`
     border-radius: 0 10px 10px 0;
   }
 
-  border-right: 1px solid ${props => props.borderColor};
-  background: ${props => props.backColor};
+  border-right: 1px solid ${props => props.$bordercolor};
+  background: ${props => props.$backcolor};
 
   padding: 9px 14px;
   display: flex;
@@ -827,20 +827,20 @@ const SwitchBalanceButton = styled.button`
   transition: 0.25s;
 
   img {
-    filter: ${props => props.filterColor};
+    filter: ${props => props.$filtercolor};
   }
 
   &:hover {
     img {
-      filter: ${props => props.hoverColor};
+      filter: ${props => props.$hovercolor};
     }
   }
 
   &.active {
-    background: ${props => props.backColor};
+    background: ${props => props.$backcolor};
 
     img {
-      filter: ${props => props.hoverColor};
+      filter: ${props => props.$hovercolor};
     }
   }
 
@@ -878,9 +878,9 @@ const SwitchBalanceButton = styled.button`
 
 const SpecDropDown = styled(Dropdown.Toggle)`
   ${props =>
-    props.backcolor
+    props.$backcolor
       ? `
-    background: ${props.backcolor} !important;
+    background: ${props.$backcolor} !important;
     `
       : `
       background: #ff9966;  /* fallback for old browsers */
@@ -889,7 +889,7 @@ const SpecDropDown = styled(Dropdown.Toggle)`
   `}
 
   background-size: 100% !important;
-  border: 1px solid ${props => props.bordercolor} !important;
+  border: 1px solid ${props => props.$bordercolor} !important;
   color: white;
   font-weight: 600;
   font-size: 14px;
@@ -897,7 +897,7 @@ const SpecDropDown = styled(Dropdown.Toggle)`
   border-radius: 10px;
   align-items: center;
   padding: 10px 15px;
-  width: ${props => (props.type === 'collab' ? '140px' : '102px')};
+  width: ${props => (props.$type === 'collab' ? '140px' : '102px')};
   display: flex;
   justify-content: space-between;
   text-align: left;
@@ -923,7 +923,7 @@ const SpecDropDown = styled(Dropdown.Toggle)`
 
   @media screen and (max-width: 1480px) {
     padding: 9px 12px;
-    width: ${props => (props.type === 'collab' ? '125px' : '90px')};
+    width: ${props => (props.$type === 'collab' ? '125px' : '90px')};
     .name {
       font-weight: 600;
       font-size: 12px;
@@ -935,7 +935,7 @@ const SpecDropDown = styled(Dropdown.Toggle)`
     padding: 5px 10px;
     font-size: 8px;
     line-height: 14px;
-    width: ${props => (props.type === 'collab' ? '100px' : '72px')};
+    width: ${props => (props.$type === 'collab' ? '100px' : '72px')};
     .name {
       font-size: 8px;
       line-height: 14px;
@@ -974,12 +974,12 @@ const SpecDropDownItem = styled(Dropdown.Item)`
   display: flex;
   justify-content: center;
   ${props =>
-    props.num === 0
+    props.$num === 0
       ? `
       background-color: #0085FF !important;
       padding: 21px 15px;
   `
-      : props.num === 1
+      : props.$num === 1
       ? `
       background-color: #A92A66 !important;
       padding: 8px;
@@ -1009,14 +1009,14 @@ const SpecDropDownItem = styled(Dropdown.Item)`
     font-size: 12px;
     line-height: 16px;
     ${props =>
-      props.num === 0
+      props.$num === 0
         ? `
         padding: 10px 15px;
         img {
           width: 68px;
         }
     `
-        : props.num === 1
+        : props.$num === 1
         ? `
         padding: 5px;
         img {
@@ -1035,14 +1035,14 @@ const SpecDropDownItem = styled(Dropdown.Item)`
     font-size: 8px;
     line-height: 12px;
     ${props =>
-      props.num === 0
+      props.$num === 0
         ? `
         padding: 9px 10px;
         img {
           width: 50px;
         }
     `
-        : props.num === 1
+        : props.$num === 1
         ? `
         padding: 2px 8px;
         img {
@@ -1062,14 +1062,14 @@ const SpecDropDownItem = styled(Dropdown.Item)`
     line-height: 24px;
     padding: 12px;
     ${props =>
-      props.num === 0
+      props.$num === 0
         ? `
         padding: 15px;
         img {
           width: unset;
         }
     `
-        : props.num === 1
+        : props.$num === 1
         ? `
         padding: 8px;
         img {
@@ -1088,7 +1088,7 @@ const SpecDropDownItem = styled(Dropdown.Item)`
 const TrendDropDown = styled(Dropdown.Toggle)`
   background: #5dcf46;
   background-size: 100% !important;
-  border: 1px solid ${props => props.bordercolor} !important;
+  border: 1px solid ${props => props.$bordercolor} !important;
   color: white;
   font-weight: 600;
   font-size: 14px;
@@ -1096,7 +1096,7 @@ const TrendDropDown = styled(Dropdown.Toggle)`
   border-radius: 10px;
   align-items: center;
   padding: 10px 15px;
-  width: ${props => (props.type === 'collab' ? '140px' : '102px')};
+  width: ${props => (props.$type === 'collab' ? '140px' : '102px')};
   display: flex;
   justify-content: space-between;
   text-align: left;
@@ -1130,7 +1130,7 @@ const TrendDropDown = styled(Dropdown.Toggle)`
 
   @media screen and (max-width: 1480px) {
     padding: 9px 12px;
-    width: ${props => (props.type === 'collab' ? '125px' : '90px')};
+    width: ${props => (props.$type === 'collab' ? '125px' : '90px')};
     .name {
       font-weight: 600;
       font-size: 12px;
@@ -1142,7 +1142,7 @@ const TrendDropDown = styled(Dropdown.Toggle)`
     padding: 5px 10px;
     font-size: 8px;
     line-height: 14px;
-    width: ${props => (props.type === 'collab' ? '100px' : '72px')};
+    width: ${props => (props.$type === 'collab' ? '100px' : '72px')};
     .name {
       font-size: 8px;
       line-height: 14px;
@@ -1176,7 +1176,7 @@ const TrendDropDownItem = styled(Dropdown.Item)`
   display: flex;
   justify-content: center;
   ${props =>
-    props.num === 0
+    props.$num === 0
       ? `
     background: #12c2e9;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 */
@@ -1242,7 +1242,7 @@ const ApplyFilterBtn = styled.button`
   opacity: 1;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 `
 
@@ -1250,11 +1250,11 @@ const CheckBoxDiv = styled.div`
   cursor: pointer;
   display: inline-block;
   position: relative;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
   svg {
     position: absolute;
-    background: ${props => props.bgColor};
+    background: ${props => props.$bgcolor};
     top: 4px;
   }
 
@@ -1285,18 +1285,18 @@ const MobileListFilter = styled.div`
       position: relative;
       width: 100%;
       display: block;
-      background: ${props => props.backColor} !important;
-      border: 1px solid ${props => props.borderColor};
+      background: ${props => props.$backcolor} !important;
+      border: 1px solid ${props => props.$bordercolor};
       border-radius: 8px;
       position: relative;
 
       .toggle {
-        background: ${props => props.mobileBackColor};
+        background: ${props => props.$mobilebackcolor};
         display: flex;
         justify-content: space-between;
         border: none;
         width: 100%;
-        color: ${props => props.fontColor4};
+        color: ${props => props.$fontcolor4};
         font-size: 12px;
         line-height: 24px;
         font-weight: 400;
@@ -1322,7 +1322,7 @@ const MobileListFilter = styled.div`
           width: 15px;
           height: 15px;
           margin-left: 6px;
-          filter: ${props => props.filterColor};
+          filter: ${props => props.$filtercolor};
         }
 
         img.narrow {
@@ -1335,17 +1335,17 @@ const MobileListFilter = styled.div`
       .menu {
         width: 100%;
         padding: 4px 6px;
-        background: ${props => props.bgColor};
+        background: ${props => props.$bgcolor};
 
         .item {
           padding: 10px 8px;
           border-radius: 6px;
           &:hover,
           &:active {
-            background: ${props => props.hoverColor};
+            background: ${props => props.$hovercolor};
           }
           div {
-            color: ${props => props.fontColor1};
+            color: ${props => props.$fontcolor1};
             font-size: 12px;
             font-style: normal;
             font-weight: 500;
@@ -1355,7 +1355,7 @@ const MobileListFilter = styled.div`
               height: 14px;
               margin-right: 4px;
               // margin-top: -2px;
-              filter: ${props => props.filterColor};
+              filter: ${props => props.$filtercolor};
             }
           }
 
@@ -1386,9 +1386,9 @@ const MobileFilterBtn = styled.div`
   color: white;
   border: none;
   ${props =>
-    props.darkmode === 'true'
+    props.$darkmode === 'true'
       ? `
-    border-left: 1px solid ${props.inputBorderColor};
+    border-left: 1px solid ${props.$inputbordercolor};
   `
       : `
   `}

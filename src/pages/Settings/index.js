@@ -54,22 +54,22 @@ const Settings = () => {
   }, [rates])
 
   return (
-    <Container bgColor={bgColorNew} fontColor={fontColor}>
+    <Container $bgcolor={bgColorNew} $fontcolor={fontColor}>
       <Inner>
         <CoinSection>
           <WrapperDiv>
-            <Title fontColor1={fontColor1}>Settings</Title>
-            <DescText fontColor={fontColor}>Set displayed currency, app theme and other.</DescText>
+            <Title $fontcolor1={fontColor1}>Settings</Title>
+            <DescText $fontcolor={fontColor}>Set displayed currency, app theme and other.</DescText>
           </WrapperDiv>
           <WrapperDiv>
             <RowWrap>
               <CateName>Theme</CateName>
               <div>
                 <ThemeMode
-                  mode={darkMode ? 'dark' : 'light'}
-                  backColor={toggleBackColor}
-                  borderColor={borderColor}
-                  color={fontColor5}
+                  $mode={darkMode ? 'dark' : 'light'}
+                  $backcolor={toggleBackColor}
+                  $bordercolor={borderColor}
+                  $fontcolor={fontColor5}
                 >
                   <div id="theme-switch">
                     <div className="switch-track">
@@ -97,16 +97,16 @@ const Settings = () => {
                 <Dropdown>
                   <CurrencyDropDown
                     id="dropdown-basic"
-                    bgcolor={bgColorNew}
-                    fontcolor2={fontColor2}
-                    hovercolor={hoverColorNew}
+                    $bgcolor={bgColorNew}
+                    $fontcolor2={fontColor2}
+                    $hovercolor={hoverColorNew}
                     style={{ padding: 0 }}
                   >
                     {curCurrency ? (
                       <CurrencySelect
-                        backColor={backColor}
-                        fontcolor2={fontColor2}
-                        hovercolor={hoverColor}
+                        $backcolor={backColor}
+                        $fontcolor2={fontColor2}
+                        $hovercolor={hoverColor}
                       >
                         <img
                           className={darkMode ? 'logo-dark' : 'logo'}
@@ -123,16 +123,16 @@ const Settings = () => {
                     )}
                   </CurrencyDropDown>
                   {!isSpecialApp ? (
-                    <CurrencyDropDownMenu backcolor={bgColorNew}>
+                    <CurrencyDropDownMenu $backcolor={bgColorNew}>
                       {supportedCurrencies.map(elem => {
                         return (
                           <CurrencyDropDownItem
                             onClick={() => {
                               updateCurrency(elem.id)
                             }}
-                            fontcolor={fontColor}
-                            filtercolor={filterColor}
-                            hovercolor={hoverColorNew}
+                            $fontcolor={fontColor}
+                            $filtercolor={filterColor}
+                            $hovercolor={hoverColorNew}
                             key={elem.id}
                           >
                             <img
@@ -163,10 +163,10 @@ const Settings = () => {
               <div>
                 <ThemeMode
                   className="inactive"
-                  mode={showInactiveFarms ? 'show' : 'hide'}
-                  backColor={toggleBackColor}
-                  borderColor={borderColor}
-                  color={fontColor5}
+                  $mode={showInactiveFarms ? 'show' : 'hide'}
+                  $backcolor={toggleBackColor}
+                  $bordercolor={borderColor}
+                  $fontcolor={fontColor5}
                 >
                   <div id="theme-switch">
                     <div className="switch-track">

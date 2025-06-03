@@ -63,27 +63,27 @@ const WithdrawSelectToken = ({
       <Modal.Header className="token-select-modal-header">
         <FTokenInfo>
           <FTokenDiv>
-            <NewLabel margin="auto 0px">
+            <NewLabel $margin="auto 0px">
               <IconCard>
                 <BsArrowDown />
               </IconCard>
             </NewLabel>
-            <NewLabel align="left" marginRight="12px">
+            <NewLabel $align="left" $marginright="12px">
               <NewLabel
-                color="#5dcf46"
-                size={isMobile ? '18px' : '18px'}
-                height={isMobile ? '28px' : '28px'}
-                weight="600"
-                marginBottom="4px"
+                $fontcolor="#5dcf46"
+                $size={isMobile ? '18px' : '18px'}
+                $height={isMobile ? '28px' : '28px'}
+                $weight="600"
+                $marginbottom="4px"
               >
                 Select Output Token
               </NewLabel>
               <NewLabel
-                color={fontColor1}
-                size={isMobile ? '14px' : '14px'}
-                height={isMobile ? '20px' : '20px'}
-                weight="400"
-                marginBottom="5px"
+                $fontcolor={fontColor1}
+                $size={isMobile ? '14px' : '14px'}
+                $height={isMobile ? '20px' : '20px'}
+                $weight="400"
+                $marginbottom="5px"
               >
                 Revert your fTokens into selected output token.
               </NewLabel>
@@ -91,16 +91,16 @@ const WithdrawSelectToken = ({
           </FTokenDiv>
           <NewLabel>
             <NewLabel
-              display="flex"
-              marginBottom={isMobile ? '16px' : '16px'}
-              width="fit-content"
-              cursorType="pointer"
-              weight="600"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px' : '20px'}
-              darkMode={darkMode}
-              color="#667085"
-              align="center"
+              $display="flex"
+              $marginbottom={isMobile ? '16px' : '16px'}
+              $width="fit-content"
+              $cursortype="pointer"
+              $weight="600"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px' : '20px'}
+              $darkmode={darkMode}
+              $fontcolor="#667085"
+              $align="center"
               onClick={() => {
                 setSelectToken(false)
               }}
@@ -109,21 +109,21 @@ const WithdrawSelectToken = ({
             </NewLabel>
           </NewLabel>
         </FTokenInfo>
-        <NewLabel darkMode={darkMode} width="100%" marginTop="18px" position="relative">
+        <NewLabel $darkmode={darkMode} $width="100%" $margintop="18px" $position="relative">
           <Search src={SearchIcon} />
           <FilterInput
             value={filterWord}
             placeholder="Find tokens by name or address"
             onChange={onFilter}
-            inputBorderColor={inputBorderColor}
-            modalInputColor={modalInputColor}
-            inputFontColor={inputFontColor}
+            $inputbordercolor={inputBorderColor}
+            $modalinputcolor={modalInputColor}
+            $fontcolor={inputFontColor}
           />
         </NewLabel>
       </Modal.Header>
       <Modal.Body className="token-select-modal-body">
         <SelectTokenWido>
-          <NewLabel heightDiv="100%" divScroll="scroll" padding={connected ? '0px' : '25px'}>
+          <NewLabel $heightdiv="100%" $divscroll="scroll" $padding={connected ? '0px' : '25px'}>
             {connected ? (
               <SelectTokenList
                 balanceList={balanceList}
@@ -138,35 +138,35 @@ const WithdrawSelectToken = ({
               />
             ) : (
               <NotConnectedWallet
-                isShow={showDesc ? 'true' : 'false'}
-                bgColor={bgColor}
-                borderColor={borderColor}
+                $isshow={showDesc ? 'true' : 'false'}
+                $bgcolor={bgColor}
+                $bordercolor={borderColor}
               >
-                <NewLabel darkMode={darkMode} marginRight="12px" display="flex">
+                <NewLabel $darkmode={darkMode} $marginright="12px" $display="flex">
                   <div>
                     <img width={isMobile ? '21px' : '21px'} src={InfoIcon} alt="" />
                   </div>
-                  <NewLabel marginLeft={isMobile ? '12px' : '12px'}>
+                  <NewLabel $marginleft={isMobile ? '12px' : '12px'}>
                     <NewLabel
-                      color={fontColor2}
-                      size={isMobile ? '14px' : '14px'}
-                      height={isMobile ? '20px' : '20px'}
-                      weight="600"
-                      marginBottom="4px"
+                      $fontcolor={fontColor2}
+                      $size={isMobile ? '14px' : '14px'}
+                      $height={isMobile ? '20px' : '20px'}
+                      $weight="600"
+                      $marginbottom="4px"
                     >
                       Wallet not connected.
                     </NewLabel>
                     <NewLabel
-                      color={fontColor}
-                      size={isMobile ? '14px' : '14px'}
-                      height={isMobile ? '20px' : '20px'}
-                      weight="400"
+                      $fontcolor={fontColor}
+                      $size={isMobile ? '14px' : '14px'}
+                      $height={isMobile ? '20px' : '20px'}
+                      $weight="400"
                     >
                       Please connect wallet to see the list of available tokens to convert.
                     </NewLabel>
                   </NewLabel>
                 </NewLabel>
-                <NewLabel darkMode={darkMode}>
+                <NewLabel $darkmode={darkMode}>
                   <ImgBtn
                     src={CloseIcon}
                     alt=""

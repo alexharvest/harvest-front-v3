@@ -72,7 +72,7 @@ const VaultPanel = ({ token, loaded, tokenSymbol, tokenNum, vaultsCount, ...prop
 
   return (
     <>
-      <VaultContainer hoverColor={hoverColor} lastElement={vaultsCount === tokenNum}>
+      <VaultContainer $hovercolor={hoverColor} $lastelement={vaultsCount === tokenNum}>
         <VaultPanelHeader
           token={token}
           tokenSymbol={tokenSymbol}

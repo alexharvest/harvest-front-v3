@@ -16,11 +16,11 @@ const ChartButtonsGroup = ({ buttons, clickedId, setClickedId }) => {
   const { bgColorNew, borderColorBox, darkMode, filterChainHoverColor } = useThemeContext()
 
   return (
-    <ButtonsGroup backColor={bgColorNew} borderColor={borderColorBox}>
+    <ButtonsGroup $backcolor={bgColorNew} $bordercolor={borderColorBox}>
       {buttons.map((button, i) => (
         <ButtonStyle
           key={i}
-          btnNum={i}
+          $btnnum={i}
           name={button.name}
           onClick={event => handleClick(event, i)}
           onMouseEnter={() => {
@@ -32,9 +32,9 @@ const ChartButtonsGroup = ({ buttons, clickedId, setClickedId }) => {
             tempId = focusId
           }}
           className={i === clickedId || i === focusId ? 'active' : ''}
-          backcolor={filterChainHoverColor}
-          mode={darkMode.toString()}
-          borderColor={borderColorBox}
+          $backcolor={filterChainHoverColor}
+          $mode={darkMode.toString()}
+          $bordercolor={borderColorBox}
         >
           <img
             src={button.img}

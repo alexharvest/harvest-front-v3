@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from 'react-responsive'
 import ListItem from '../ListItem'
 import { displayAPY, showUsdValueCurrency } from '../../../utilities/formats'
@@ -21,10 +21,9 @@ import {
 } from './style'
 
 const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
-  const { push } = useHistory()
+  const navigate = useNavigate()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
   const {
-    switchMode,
     bgColorNew,
     hoverColorRow,
     fontColor1,
@@ -68,25 +67,24 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
       rel="noopener noreferrer"
       className="position-row"
       key={cKey}
-      mode={switchMode}
-      background={bgColorNew}
+      $background={bgColorNew}
       onClick={e => {
         if (!e.ctrlKey) {
           e.preventDefault()
-          push(url)
+          navigate(url)
         }
       }}
     >
       <FlexDiv
-        lastElement={lastElement}
-        padding={isMobile ? '25px' : '16px 24px'}
-        hoverColor={hoverColorRow}
-        borderColor={borderColorBox}
+        $lastelement={lastElement}
+        $padding={isMobile ? '25px' : '16px 24px'}
+        $hovercolor={hoverColorRow}
+        $bordercolor={borderColorBox}
       >
         {!isMobile && (
           <>
-            <Content width={isMobile ? '100%' : '40%'} display={isMobile ? 'block' : 'flex'}>
-              <ContentInner width={isMobile ? '100%' : '50%'} display={isMobile ? 'block' : 'flex'}>
+            <Content $width={isMobile ? '100%' : '40%'} $display={isMobile ? 'block' : 'flex'}>
+              <ContentInner $width={isMobile ? '100%' : '50%'} $display={isMobile ? 'block' : 'flex'}>
                 <BadgeIcon className="network-badge">
                   <img src={info.chain ? info.chain : ETHEREUM} width="15px" height="15px" alt="" />
                 </BadgeIcon>
@@ -95,15 +93,15 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                     <LogoImg
                       key={index}
                       className="coin"
-                      marginLeft={index === 0 ? '' : '-7px'}
+                      $marginleft={index === 0 ? '' : '-7px'}
                       src={elem}
                       alt=""
                     />
                   ))}
               </ContentInner>
               <ContentInner
-                width={isMobile ? '100%' : '50%'}
-                marginLeft={isMobile ? '0px' : '11px'}
+                $width={isMobile ? '100%' : '50%'}
+                $marginleft={isMobile ? '0px' : '11px'}
               >
                 <ListItem
                   weight={500}
@@ -129,7 +127,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 )}
               </ContentInner>
             </Content>
-            <Content width="15%" marginTop="unset">
+            <Content $width="15%" $margintop="unset">
               <ListItem
                 weight={500}
                 size={12}
@@ -138,7 +136,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 value={showUsdValueCurrency(info.balance, currencySym, currencyRate)}
               />
             </Content>
-            <Content width="15%" marginTop="unset">
+            <Content $width="15%" $margintop="unset">
               <ListItem
                 weight={500}
                 size={12}
@@ -151,7 +149,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 }
               />
             </Content>
-            <Content width="15%" marginTop="unset">
+            <Content $width="15%" $margintop="unset">
               <ListItem
                 weight={500}
                 size={12}
@@ -160,7 +158,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 value={showUsdValueCurrency(info.totalRewardUsd, currencySym, currencyRate)}
               />
             </Content>
-            <Content width="15%" marginTop="unset">
+            <Content $width="15%" $margintop="unset">
               <ListItem
                 color={fontColor}
                 weight={500}
@@ -179,41 +177,41 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
         )}
         {isMobile && (
           <MobileContentContainer>
-            <Content width="40%" display="flex" flexDirection="column">
-              <ContentInner width={isMobile ? '100%' : '50%'} display={isMobile ? 'block' : 'flex'}>
+            <Content $width="40%" $display="flex" $flexdirection="column">
+              <ContentInner $width={isMobile ? '100%' : '50%'} $display={isMobile ? 'block' : 'flex'}>
                 {info.logos.length > 0 &&
                   info.logos.map((elem, index) => (
                     <LogoImg
                       key={index}
                       className="coin"
-                      marginLeft={index === 0 ? '' : '-7px'}
+                      $marginleft={index === 0 ? '' : '-7px'}
                       src={elem}
                       alt=""
                     />
                   ))}
               </ContentInner>
               <ContentInner
-                width={isMobile ? '100%' : '50%'}
-                marginLeft={isMobile ? '0px' : '11px'}
+                $width={isMobile ? '100%' : '50%'}
+                $marginleft={isMobile ? '0px' : '11px'}
               >
                 <ListItem
                   weight={400}
                   size={12}
                   height={18}
                   value={info.symbol}
-                  marginTop={10}
+                  $margintop={10}
                   color={darkMode ? '#D9D9D9' : '#101828'}
                 />
               </ContentInner>
               <ContentInner
-                width={isMobile ? '100%' : '50%'}
-                marginLeft={isMobile ? '0px' : '11px'}
-                marginTop="8px"
-                display="flex"
-                alignItems="center"
+                $width={isMobile ? '100%' : '50%'}
+                $marginleft={isMobile ? '0px' : '11px'}
+                $margintop="8px"
+                $display="flex"
+                $alignitems="center"
               >
                 <BadgeIcon
-                  borderColor={info.status === 'Active' ? '#29ce84' : 'orange'}
+                  $bordercolor={info.status === 'Active' ? '#29ce84' : 'orange'}
                   className="network-badge"
                 >
                   <img src={info.chain ? info.chain : ETHEREUM} width="15px" height="15px" alt="" />
@@ -234,9 +232,9 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 )}
               </ContentInner>
             </Content>
-            <Content width="30%">
+            <Content $width="30%">
               <ContentInner>
-                <ListItem color="#718BC5" weight={500} size={10} height={18} value="Balance" />
+                <ListItem color="#718BC5" $weight={500} $size={10} height={18} value="Balance" />
                 <ListItem
                   weight={400}
                   size={12}
@@ -245,8 +243,8 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                   value={showUsdValueCurrency(info.balance, currencySym, currencyRate)}
                 />
               </ContentInner>
-              <ContentInner marginTop="25px">
-                <ListItem color="#718BC5" weight={500} size={10} height={18} value="Rewards" />
+              <ContentInner $margintop="25px">
+                <ListItem color="#718BC5" $weight={500} size={10} height={18} value="Rewards" />
                 <ListItem
                   weight={400}
                   size={12}
@@ -256,7 +254,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                 />
               </ContentInner>
             </Content>
-            <Content width="30%">
+            <Content $width="30%">
               <ContentInner>
                 <ListItem
                   color="#718BC5"
@@ -277,7 +275,7 @@ const VaultRow = ({ info, lifetimeYield, lastElement, cKey, darkMode }) => {
                   }
                 />
               </ContentInner>
-              <ContentInner marginTop="25px">
+              <ContentInner $margintop="25px">
                 <ListItem color="#718BC5" weight={500} size={10} height={18} value="Live APY" />
                 <ListItem
                   color={isMobile ? fontColor1 : fontColor}

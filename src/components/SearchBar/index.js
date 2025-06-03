@@ -16,7 +16,7 @@ const VaultSearchBar = ({
     setInputText(e.target.value)
   }
   return (
-    <Container fontColor={fontColor} borderColor={borderColorBox} backColor={bgColorNew}>
+    <Container $fontcolor={fontColor} $bordercolor={borderColorBox} $backcolor={bgColorNew}>
       <input
         id="search-input"
         value={inputText}
@@ -24,7 +24,7 @@ const VaultSearchBar = ({
         onKeyDown={onKeyDown}
         placeholder={placeholder}
       />
-      <SearchBtn hoverColor={btnHoverColor} type="button" onClick={() => onSearch(inputText)}>
+      <SearchBtn $hovercolor={btnHoverColor} type="button" onClick={() => onSearch(inputText)}>
         <img src={SearchIcon} height={20} alt="" />
       </SearchBtn>
     </Container>

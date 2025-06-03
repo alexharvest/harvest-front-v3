@@ -58,7 +58,7 @@ const VaultValue = ({ token, fontColor1 }) => {
   }, [token, currencyRate])
 
   return (
-    <Value fontColor1={fontColor1}>
+    <Value $fontcolor1={fontColor1}>
       {token.excludeVaultStats ? (
         'N/A'
       ) : vaultValue ? (

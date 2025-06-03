@@ -28,7 +28,7 @@ const Farm = () => {
     setUrlData()
   }, [window.location.search]) // eslint-disable-line react-hooks/exhaustive-deps
   return (
-    <FarmContainer bgColor={bgColorNew}>
+    <FarmContainer $bgcolor={bgColorNew}>
       {baseswapBG ? <img className="bswap-bg" src={BswapBG} width="100%" alt="" /> : <></>}
       <VaultList />
     </FarmContainer>

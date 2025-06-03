@@ -74,7 +74,7 @@ const VaultList = ({
 
   return (
     <VaultBox
-      borderBottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
+      $borderbottom={darkMode ? '1px solid #1F242F' : '1px solid #ECECEC'}
       onClick={() => {
         setShowVaultModal(false)
         setHighestApyVault(matchVault)
@@ -83,10 +83,10 @@ const VaultList = ({
         setId(id.toString())
         setToken(groupOfVaults[id.toString()])
       }}
-      hoverBgColor={darkMode ? '#1F242F' : '#e9f0f7'}
+      $hoverbgcolor={darkMode ? '#1F242F' : '#e9f0f7'}
     >
-      <Content alignItems="start">
-        <InfoText fontSize="10px" fontWeight="500" color="#5fCf76">
+      <Content $alignitems="start">
+        <InfoText $fontsize="10px" $fontweight="500" $fontcolor="#5fCf76">
           {matchingFarm
             ? `${currencySym}${formatNumber(matchingFarm.balance * currencyRate)}`
             : '-'}
@@ -96,7 +96,7 @@ const VaultList = ({
             <img src={chainUrl} alt="" />
           </BadgeIcon>
           <Token
-            color={darkMode ? '#ffffff' : '#414141'}
+            $fontcolor={darkMode ? '#ffffff' : '#414141'}
             href={`${window.location.origin}/${networkName}/${vaultAddress}`}
             onClick={stopPropagation}
           >
@@ -105,11 +105,11 @@ const VaultList = ({
         </BadgeToken>
       </Content>
       <ApyDownIcon>
-        <Content alignItems="end">
-          <InfoText fontSize="10px" fontWeight="700" color="#5fCf76">
+        <Content $alignitems="end">
+          <InfoText $fontsize="10px" $fontweight="700" $fontcolor="#5fCf76">
             {`${matchVault.vaultApy}% Live APY`}
           </InfoText>
-          <InfoText fontSize="10px" fontWeight="500" color="#6988ff">
+          <InfoText $fontsize="10px" $fontweight="500" $fontcolor="#6988ff">
             {`$${formatNumber(matchVault.vaultApy / 100)}/yr per $1 allocated`}
           </InfoText>
         </Content>

@@ -23,7 +23,7 @@ const VaultDailyApy = ({ token, tokenSymbol, vaultPool, isSpecialVault, fontColo
 
   return isSpecialVault ? (
     token.data && (token.data.dataFetched === false || totalApy !== null) ? (
-      <RewardsContainer fontColor1={fontColor1}>
+      <RewardsContainer $fontcolor1={fontColor1}>
         {token.inactive ? 'Inactive' : <>{totalApy ? `${apyDaily}%` : null}</>}
       </RewardsContainer>
     ) : (
@@ -32,7 +32,7 @@ const VaultDailyApy = ({ token, tokenSymbol, vaultPool, isSpecialVault, fontColo
       </b>
     )
   ) : totalApy !== null && !loadingVaults ? (
-    <RewardsContainer fontColor1={fontColor1}>
+    <RewardsContainer $fontcolor1={fontColor1}>
       {token.inactive || token.testInactive || token.hideTotalApy || !token.dataFetched ? (
         token.inactive || token.testInactive ? (
           'Inactive'

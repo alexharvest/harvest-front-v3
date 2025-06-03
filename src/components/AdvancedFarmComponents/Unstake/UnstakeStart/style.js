@@ -29,123 +29,123 @@ const IconCard = styled.div`
 
 const NewLabel = styled.div`
   ${props =>
-    props.weight
+    props.$weight
       ? `
-      font-weight: ${props.weight};
+      font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-      font-size: ${props.size};
+      font-size: ${props.$size};
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-      line-height: ${props.height};
+      line-height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.margin
+    props.$margin
       ? `
-    margin: ${props.margin};
+    margin: ${props.$margin};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.flexFlow
+    props.$flexflow
       ? `
-    flex-flow: ${props.flexFlow};
+    flex-flow: ${props.$flexflow};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.widthDiv
+    props.$widthdiv
       ? `
-    width: ${props.widthDiv};
+    width: ${props.$widthdiv};
   `
       : ''}
   ${props =>
-    props.border
+    props.$border
       ? `
-      border: ${props.border};
+      border: ${props.$border};
   `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-      border-radius: ${props.borderRadius};
+      border-radius: ${props.$borderradius};
   `
       : ''}
 
@@ -336,7 +336,7 @@ const ThemeMode = styled.div`
 
     .switch-track {
       background: #000;
-      border: 1px solid ${props => props.borderColor};
+      border: 1px solid ${props => props.$bordercolor};
       height: 16px;
       width: 32px;
       border-radius: 30px;
@@ -361,7 +361,7 @@ const ThemeMode = styled.div`
   }
 
   ${props =>
-    props.mode === 'deposit'
+    props.$mode === 'deposit'
       ? `
       #theme-switch {
         .switch-check {
@@ -399,7 +399,7 @@ const ThemeMode = styled.div`
     }
 
     ${props =>
-      props.mode === 'deposit'
+      props.$mode === 'deposit'
         ? `
         #theme-switch {
           .switch-thumb {
@@ -421,7 +421,7 @@ const InsufficientSection = styled.div`
   background: #fcfcfd;
   padding: 16px;
   ${props =>
-    props.isShow === 'true'
+    props.$isshow === 'true'
       ? `
     display: flex;
     justify-content: space-between;
@@ -451,7 +451,7 @@ const FTokenWrong = styled.div`
   border: 1px solid #fec84b;
   background: #fffcf5;
   padding: 16px;
-  display: ${props => (props.isShow === 'true' ? `flex` : 'none')};
+  display: ${props => (props.$isshow === 'true' ? `flex` : 'none')};
   gap: 12px 0;
   margin: 10px 24px;
   justify-content: space-between;
@@ -491,16 +491,16 @@ const AmountInputSection = styled.div`
 const SwitchTabTag = styled.div`
   width: 49%;
   transition: 0.25s;
-  color: ${props => props.color};
-  background: ${props => props.backColor};
-  box-shadow: ${props => props.boxShadow};
+  color: ${props => props.$fontcolor};
+  background: ${props => props.$backcolor};
+  box-shadow: ${props => props.$boxshadow};
   padding: 8px 12px;
   border-radius: 6px;
   display: flex;
   justify-content: center;
   cursor: pointer;
   ${props =>
-    props.num === 0
+    props.$num === 0
       ? `
         filter: invert(52%) sepia(10%) saturate(1357%) hue-rotate(194deg) brightness(90%) contrast(95%);
       `
@@ -515,12 +515,12 @@ const SwitchTabTag = styled.div`
 
 const ProgressLabel = styled.div`
   display: flex;
-  color: ${props => props.fontColor2};
+  color: ${props => props.$fontcolor2};
 `
 
 const ProgressText = styled.div`
-  width: ${props => props.width};
-  padding: ${props => props.padding};
+  width: ${props => props.$width};
+  padding: ${props => props.$padding};
   text-align: center;
 `
 

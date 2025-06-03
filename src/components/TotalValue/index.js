@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { PiQuestion } from 'react-icons/pi'
 import { formatNumber } from '../../utilities/formats'
 import { useThemeContext } from '../../providers/useThemeContext'
@@ -17,7 +17,7 @@ const TotalValue = ({
   isLoading,
   farmTokenListLength,
 }) => {
-  const { darkMode, borderColor, fontColor1, fontColor3 } = useThemeContext()
+  const { darkMode, fontColor1, fontColor3 } = useThemeContext()
   const { rates } = useRate()
   const [currencySym, setCurrencySym] = useState('$')
   const [currencyRate, setCurrencyRate] = useState(1)
@@ -30,15 +30,12 @@ const TotalValue = ({
     }
   }, [rates])
   return (
-    <Container
-      borderColor={borderColor}
-      isNetProfit={content === 'Total Net Profit' ? 'true' : 'false'}
-    >
-      <Div fontColor3={fontColor3}>
+    <Container>
+      <Div $fontcolor3={fontColor3}>
         {content}
         {content === 'Lifetime Yield' && <BetaBadge>Beta</BetaBadge>}
         <PiQuestion className="question" data-tip data-for={toolTipTitle} color="#718BC5" />
-        <ReactTooltip
+        <Tooltip
           id={toolTipTitle}
           backgroundColor={darkMode ? 'white' : '#101828'}
           borderColor={darkMode ? 'white' : 'black'}
@@ -46,15 +43,15 @@ const TotalValue = ({
           place="bottom"
         >
           <NewLabel
-            size={isMobile ? '10px' : '12px'}
-            height={isMobile ? '15px' : '18px'}
-            weight="600"
+            $size={isMobile ? '10px' : '12px'}
+            $height={isMobile ? '15px' : '18px'}
+            $weight="600"
           >
             {toolTip}
           </NewLabel>
-        </ReactTooltip>
+        </Tooltip>
       </Div>
-      <Price fontColor1={fontColor1}>
+      <Price $fontcolor1={fontColor1}>
         {!connected || isLoading ? (
           `${currencySym}0.00`
         ) : farmTokenListLength === 0 && price === 0 ? (

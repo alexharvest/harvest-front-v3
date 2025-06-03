@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 // import Countdown from 'react-countdown'
 import CountUp from 'react-countup'
 import { useMediaQuery } from 'react-responsive'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { useWindowWidth } from '@react-hook/window-size'
 import ExchangeBancor from '../../assets/images/logos/analytics/exchange_bancor.svg'
 import ExchangeBinance from '../../assets/images/logos/analytics/exchange_binance.svg'
@@ -131,19 +131,19 @@ const Analytic = () => {
   }, [])
 
   return (
-    <Container pageBackColor={bgColorNew}>
+    <Container $backcolor={bgColorNew}>
       <Content>
-        <FarmStatsContainer firstLine>
+        <FarmStatsContainer $firstline='true'>
           <ValueComponent
-            borderColor={borderColorBox}
-            backColor={bgColorNew}
-            fontColor={fontColor}
-            width={onlyWidth <= 1310 ? '48%' : '25%'}
+            $bordercolor={borderColorBox}
+            $backcolor={bgColorNew}
+            $fontcolor={fontColor}
+            $width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
+            <CompHeader $darkmode={darkMode} $fontcolor={analyticTitleColor}>
               Total Value Locked
             </CompHeader>
-            <FarmSubTitle bold={600} size="30px" lineHeight="38px">
+            <FarmSubTitle $bold={600} $size="30px" $lineheight="38px">
               {Number(totalValueLocked) === 0 ? (
                 <AnimatedDots />
               ) : (
@@ -167,20 +167,20 @@ const Analytic = () => {
           </ValueComponent>
 
           <ValueComponent
-            borderColor={borderColorBox}
-            backColor={bgColorNew}
-            fontColor={fontColor}
-            width={onlyWidth <= 1310 ? '48%' : '25%'}
+            $bordercolor={borderColorBox}
+            $backcolor={bgColorNew}
+            $fontcolor={fontColor}
+            $width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
+            <CompHeader $darkmode={darkMode} $fontcolor={analyticTitleColor}>
               Monthly Crops to Farmers
             </CompHeader>
             <FarmSubTitle
               data-tip
               data-for="profits-to-farmers"
-              bold={600}
-              size="30px"
-              lineHeight="38px"
+              $bold={600}
+              $size="30px"
+              $lineheight="38px"
             >
               {!monthlyProfit ? (
                 <AnimatedDots />
@@ -193,14 +193,14 @@ const Analytic = () => {
                 </>
               )}
             </FarmSubTitle>
-            <ReactTooltip
+            <Tooltip
               id="profits-to-farmers"
               backgroundColor={darkMode ? 'white' : '#101828'}
               borderColor={darkMode ? 'white' : 'black'}
               textColor={darkMode ? 'black' : 'white'}
               effect="float"
               getContent={() => (
-                <TextContainer textAlign="left" margin="0px">
+                <TextContainer $textalign="left" $margin="0px">
                   <b>70%</b> of profits goes to farmers depositing in <b>asset pools</b>
                   <br /> <b>30%</b> goes to those farmers staking <b>FARM</b>
                 </TextContainer>
@@ -209,31 +209,31 @@ const Analytic = () => {
           </ValueComponent>
 
           <ValueComponent
-            borderColor={borderColorBox}
-            backColor={bgColorNew}
-            fontColor={fontColor}
-            width={onlyWidth <= 1310 ? '48%' : '25%'}
+            $bordercolor={borderColorBox}
+            $backcolor={bgColorNew}
+            $fontcolor={fontColor}
+            $width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader fontColor={analyticTitleColor}>iFARM/FARM staking APY:</CompHeader>
-            <FarmSubTitle data-tip data-for="details-box" bold={600} size="30px" lineHeight="38px">
+            <CompHeader $fontcolor={analyticTitleColor}>iFARM/FARM staking APY:</CompHeader>
+            <FarmSubTitle data-tip data-for="details-box" $bold={600} $size="30px" $lineheight="38px">
               {profitShareAPY ? `${Number(profitShareAPY).toFixed(2)}%` : <AnimatedDots />}
             </FarmSubTitle>
           </ValueComponent>
           <ValueComponent
-            fontColor={fontColor}
-            borderColor={borderColorBox}
-            backColor={bgColorNew}
-            width={onlyWidth <= 1310 ? '48%' : '25%'}
+            $fontcolor={fontColor}
+            $bordercolor={borderColorBox}
+            $backcolor={bgColorNew}
+            $width={onlyWidth <= 1310 ? '48%' : '25%'}
           >
-            <CompHeader fontColor={analyticTitleColor}>Total FARM staked:</CompHeader>
-            <FarmSubTitle data-tip data-for="details-box" bold={600} size="30px" lineHeight="38px">
+            <CompHeader $fontcolor={analyticTitleColor}>Total FARM staked:</CompHeader>
+            <FarmSubTitle data-tip data-for="details-box" $bold={600} $size="30px" $lineheight="38px">
               {percentOfFarmStaked ? (
                 `${Math.round(Number(percentOfFarmStaked))}%`
               ) : (
                 <AnimatedDots />
               )}
             </FarmSubTitle>
-            <ReactTooltip
+            <Tooltip
               id="details-box"
               backgroundColor={darkMode ? 'white' : '#101828'}
               borderColor={darkMode ? 'white' : 'black'}
@@ -257,29 +257,29 @@ const Analytic = () => {
             />
           </ValueComponent>
         </FarmStatsContainer>
-        <Divider height="20px" />
+        <Divider $height="20px" />
         <FarmStatsLastContainer>
           <StatsBox
-            width={isMobile ? '100%' : '100%'}
-            align="flex-start"
-            direction="row"
-            height="450px"
-            fontColor={fontColor}
-            backColor={bgColorNew}
-            borderColor={borderColorBox}
+            $width={isMobile ? '100%' : '100%'}
+            $align="flex-start"
+            $direction="row"
+            $height="450px"
+            $fontcolor={fontColor}
+            $backcolor={bgColorNew}
+            $bordercolor={borderColorBox}
           >
             {loadComplete && <AnalyticChart />}
           </StatsBox>
           {/* <StatsBox
-            width={isMobile ? '100%' : '50%'}
-            align="flex-start"
+            $width={isMobile ? '100%' : '50%'}
+            $align="flex-start"
             compNum={2}
-            boxShadow="unset"
-            height="450px"
+            $boxshadow="unset"
+            $height="450px"
             minHeight="270px"
-            fontColor={fontColor}
-            backColor={backColor}
-            borderColor={borderColor}
+            $fontcolor={fontColor}
+            $backcolor={backColor}
+            $bordercolor={borderColor}
           >
             <div className="emission-header">
               <img className="rect" src={Farm} alt="" />
@@ -298,11 +298,11 @@ const Analytic = () => {
                 }
                 return (
                   <>
-                    <EmissionsCountdownText fontColor={fontColor}>
+                    <EmissionsCountdownText $fontcolor={fontColor}>
                       Next Emissions Decrease In:
                     </EmissionsCountdownText>
                     <CountdownLabel
-                      display="block"
+                      $display="block"
                       days={days}
                       hours={hours}
                       minutes={minutes}
@@ -315,25 +315,25 @@ const Analytic = () => {
             />
           </StatsBox> */}
         </FarmStatsLastContainer>
-        <Divider height="30px" />
+        <Divider $height="30px" />
         <FarmStatsLastContainer>
-          <StatsValue width={isMobile ? '100%' : '50%'}>
-            <StatsValue width="100%" direction="row" fontColor={fontColor}>
+          <StatsValue $width={isMobile ? '100%' : '50%'}>
+            <StatsValue $width="100%" $direction="row" $fontcolor={fontColor}>
               <ValueComponent
-                borderColor={borderColorBox}
-                fontColor={fontColor}
-                backColor={bgColorNew}
-                width="49%"
+                $bordercolor={borderColorBox}
+                $fontcolor={fontColor}
+                $backcolor={bgColorNew}
+                $width="49%"
                 className="child first-comp"
               >
-                <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
+                <CompHeader $darkmode={darkMode} $fontcolor={analyticTitleColor}>
                   <img src={GasSavedImage} alt="" />
                   Gas fees saved
                 </CompHeader>
                 <FarmSubTitle
-                  bold={600}
-                  size={isMobile ? '16px' : '30px'}
-                  lineHeight={isMobile ? '24px' : '38px'}
+                  $lineheightbold={600}
+                  $size={isMobile ? '16px' : '30px'}
+                  $lineheight={isMobile ? '24px' : '38px'}
                 >
                   <Monospace>
                     {!Number(totalGasSaved) ? (
@@ -360,20 +360,20 @@ const Analytic = () => {
               </ValueComponent>
 
               <ValueComponent
-                borderColor={borderColorBox}
-                backColor={bgColorNew}
-                fontColor={fontColor}
-                width="49%"
+                $bordercolor={borderColorBox}
+                $backcolor={bgColorNew}
+                $fontcolor={fontColor}
+                $width="49%"
                 className="child"
               >
-                <CompHeader darkMode={darkMode} fontColor={analyticTitleColor}>
+                <CompHeader $darkmode={darkMode} $fontcolor={analyticTitleColor}>
                   <img src={AutoHarvest} alt="" />
                   Auto Harvesting Yields
                 </CompHeader>
                 <FarmSubTitle
-                  bold={600}
-                  size={isMobile ? '16px' : '30px'}
-                  lineHeight={isMobile ? '24px' : '38px'}
+                  $bold={600}
+                  $size={isMobile ? '16px' : '30px'}
+                  $lineheight={isMobile ? '24px' : '38px'}
                 >
                   <Monospace>
                     {!Number(totalValueLocked) ? (
@@ -400,18 +400,18 @@ const Analytic = () => {
                 </FarmSubTitle>
               </ValueComponent>
             </StatsValue>
-            <Divider height="20px" />
+            <Divider $height="20px" />
             <StatsBox
-              width="100%"
-              align="flex-start"
-              direction="column"
-              fontColor={fontColor}
-              backColor={bgColorNew}
-              borderColor={borderColorBox}
+              $width="100%"
+              $align="flex-start"
+              $direction="column"
+              $fontcolor={fontColor}
+              $backcolor={bgColorNew}
+              $bordercolor={borderColorBox}
             >
-              <StatsContainerRow margin="27px 29px">
+              <StatsContainerRow $margin="27px 29px">
                 <DataSourceInner>
-                  <BigStatsExchange darkMode={darkMode}>
+                  <BigStatsExchange $darkmode={darkMode}>
                     <img src={ExternalLink} alt="" />
                     External Data Sources
                   </BigStatsExchange>
@@ -420,9 +420,9 @@ const Analytic = () => {
                       <DataSourceDirect key={i} href={el.url} target="_blank">
                         <div className="back">
                           <DataSource
-                            background={el.background}
-                            color={el.color}
-                            boxShadowColor={boxShadowColor}
+                            $fontcolor={el.color}
+                            $background={el.background}
+                            $boxshadowcolor={boxShadowColor}
                           >
                             <div className="avatar">
                               <img src={el.img} alt="" />
@@ -438,14 +438,14 @@ const Analytic = () => {
             </StatsBox>
           </StatsValue>
           <StatsExchange
-            width={isMobile ? '100%' : '50%'}
-            direction="row"
-            fontColor={fontColor}
-            backColor={bgColorNew}
-            borderColor={borderColorBox}
+            $width={isMobile ? '100%' : '50%'}
+            $direction="row"
+            $fontcolor={fontColor}
+            $backcolor={bgColorNew}
+            $bordercolor={borderColorBox}
           >
             <StatsContainer>
-              <BigStatsExchange fontColor={fontColor}>
+              <BigStatsExchange $fontcolor={fontColor}>
                 <img src={Farm} width="32px" height="32px" alt="" />
                 FARM Exchanges
               </BigStatsExchange>
@@ -456,8 +456,8 @@ const Analytic = () => {
                   </a>
                 ))}
               </ImgList>
-              <Divider height="16px" />
-              <BigStatsExchange fontColor={fontColor}>
+              <Divider $height="16px" />
+              <BigStatsExchange $fontcolor={fontColor}>
                 <img src={IFarm} width="32px" height="32px" alt="" />
                 iFARM Exchanges
               </BigStatsExchange>

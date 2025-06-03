@@ -7,8 +7,8 @@ const ChartWrapper = styled.div`
     .recharts-wrapper {
       .recharts-reference-area {
         path {
-          stroke: ${props => props.bgColorChart};
-          fill: ${props => props.bgColorChart};
+          stroke: ${props => props.$bgcolorchart};
+          fill: ${props => props.$bgcolorchart};
         }
       }
     }
@@ -72,8 +72,6 @@ const LoadingDiv = styled.div`
 `
 
 const NoData = styled.div`
-  color: ${props => props.fontColor};
-
   @media screen and (max-width: 992px) {
     font-size: 12px;
     line-height: 18px;

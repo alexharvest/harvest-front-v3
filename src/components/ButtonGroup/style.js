@@ -4,8 +4,8 @@ const ButtonsGroup = styled.div`
   display: flex;
   width: fit-content;
   border-radius: 10px;
-  border: 1px solid ${props => props.borderColor};
-  background: ${props => props.backColor};
+  border: 1px solid ${props => props.$bordercolor};
+  background: ${props => props.$backcolor};
   transition: 0.25s;
 
   @media screen and (max-width: 992px) {
@@ -18,15 +18,15 @@ const ButtonsGroup = styled.div`
 `
 
 const ButtonStyle = styled.button`
-  display: ${props => props.display};
+  display: ${props => props.$display};
   justify-content: center;
   background: transparent;
-  ${props => (props.fontColor ? `color: ${props.fontColor}` : '')};
+  ${props => (props.$fontcolor ? `color: ${props.$fontcolor}` : '')};
   font-size: 14px;
   line-height: 20px;
   font-weight: 600;
   border: none;
-  border-right: ${props => (props.borderDisplay ? 'none' : `1px solid ${props.borderColor}`)};
+  border-right: ${props => (props.$borderdisplay ? 'none' : `1px solid ${props.$bordercolor}`)};
   cursor: pointer;
   padding: 10px 16px;
   position: relative;
@@ -43,11 +43,11 @@ const ButtonStyle = styled.button`
 
   &.active,
   &:hover {
-    ${props => `background: ${props.hoverColor};`}
+    ${props => `background: ${props.$hovercolor};`}
   }
 
   img {
-    filter: ${props => props.filterColor};
+    filter: ${props => props.$filtercolor};
     padding-right: 8px;
     width: 24px;
   }
@@ -75,8 +75,8 @@ const ButtonStyle = styled.button`
     line-height: 20px;
     padding: 10px 16px;
     font-weight: 400;
-    color: ${props => (props.mobileFontColor ? props.mobileFontColor : '')};
-    ${props => (props.unsetWidth ? `width: unset` : `width: ${props.percent}%`)};
+    color: ${props => (props.$mobilefontcolor ? props.$mobilefontcolor : '')};
+    ${props => (props.$unsetwidth ? `width: unset` : `width: ${props.$percent}%`)};
   }
 `
 

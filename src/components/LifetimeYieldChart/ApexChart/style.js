@@ -9,7 +9,7 @@ const LoadingDiv = styled.div`
 `
 
 const NoData = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   font-size: 14px;
 `
 
@@ -29,46 +29,46 @@ const BoxWrapper = styled.div`
 
 const EmptyInfo = styled.div`
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size}px;
+    font-size: ${props.$size}px;
   `
       : ''}
   ${props =>
-    props.lineHeight
+    props.$lineheight
       ? `
-    line-height: ${props.lineHeight}px;
+    line-height: ${props.$lineheight}px;
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    height: ${props.height};
+    height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   
   ${props =>
-    props.gap
+    props.$gap
       ? `
-    gap: ${props.gap};
+    gap: ${props.$gap};
   `
       : 'gap: 23px;'}
 

@@ -5,53 +5,51 @@ const ButtonStyle = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${props => props.width || 'auto'};
-  min-width: ${props => props.minWidth || 'unset'};
-  max-width: ${props => props.maxWidth || 'unset'};
-  height: ${props => props.height || 'unset'};
-  margin: ${props => props.margin || 'unset'};
+  width: ${props => props.$width || 'auto'};
+  height: ${props => props.$height || 'unset'};
+  margin: ${props => props.$margin || 'unset'};
   border-radius: 10px;
   font-weight: 500;
   cursor: pointer;
   outline: 0;
   transition: 0.25s;
-  padding: ${props => props.padding || '10px'};
+  padding: ${props => props.$padding || '10px'};
 
   ${props =>
-    props.size === 'lg'
+    props.$size === 'lg'
       ? `
         font-size: 20px;
         line-height: 24px;`
       : ''}
 
   ${props =>
-    props.fontWeight
+    props.$fontweight
       ? `
-        font-weight: ${props.fontWeight};`
+        font-weight: ${props.$fontweight};`
       : ''}
     
   ${props =>
-    props.size === 'md'
+    props.$size === 'md'
       ? `
     font-size: 16px;
     line-height: 20px;`
       : ''}
 
   ${props =>
-    props.size === 'sm'
+    props.$size === 'sm'
       ? `
     font-size: 14px;
     line-height: 17px;`
       : ''}
 
   ${props =>
-    props.color === 'primary'
+    props.$fontcolor === 'primary'
       ? `
       background: radial-gradient(81.9% 81.9% at 50% 18.1%, #2D2D2D 0%, #000000 100%);
       color: #FFF;
 
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #FFC87C;
@@ -66,14 +64,14 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'secondary'
+    props.$fontcolor === 'secondary'
       ? `
       background-color: #FFF1DE;
       border: 2px solid #F2B435;
       color: #4C351B;
     
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         border: 2px solid #FFD69D;
@@ -92,14 +90,14 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'max'
+    props.$fontcolor === 'max'
       ? `
       background: #FF9940;
       color: #FFFFFF;
       border-radius: 6px;
     
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #FF9400D0;
@@ -110,7 +108,7 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'reward'
+    props.$fontcolor === 'reward'
       ? `
       background: none;
       font-weight: 700;
@@ -124,7 +122,7 @@ const ButtonStyle = styled.button`
       border: 1px solid #27AE60;
 
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #27AE60;
@@ -141,7 +139,7 @@ const ButtonStyle = styled.button`
       : ''}
     
   ${props =>
-    props.color === 'advanced-reward'
+    props.$fontcolor === 'advanced-reward'
       ? `
       background: #5dcf46;
       border: 1px solid #5dcf46;
@@ -156,7 +154,7 @@ const ButtonStyle = styled.button`
       border-radius: 8px;
 
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #2ccda4;
@@ -174,7 +172,7 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'earn'
+    props.$fontcolor === 'earn'
       ? `
       background: #FF9400;
       font-weight: 700;
@@ -187,7 +185,7 @@ const ButtonStyle = styled.button`
       padding: 15px 28px;
       border-radius: 12px;
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #FF9400D0;
@@ -202,9 +200,9 @@ const ButtonStyle = styled.button`
       : ''}
         
   ${props =>
-    props.color === 'wido-deposit'
+    props.$fontcolor === 'wido-deposit'
       ? `
-      background: ${props.btnColor};
+      background: ${props.$btncolor};
       font-weight: 600;
       font-size: 16px;
       line-height: 24px;
@@ -220,24 +218,24 @@ const ButtonStyle = styled.button`
         margin-left: 8px;
       }
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
-        background: ${props.btnHoverColor};
+        background: ${props.$btnhovercolor};
       }`
           : ''
       }
 
       &:active {
-        background: ${props.btnActiveColor};
+        background: ${props.btnactivecolor};
       }
       `
       : ''}
 
   ${props =>
-    props.color === 'subscribe'
+    props.$fontcolor === 'subscribe'
       ? `
-      background: ${props.btnColor};
+      background: ${props.$btncolor};
       font-weight: 600;
       font-size: 16px;
       line-height: 24px;
@@ -253,24 +251,24 @@ const ButtonStyle = styled.button`
         margin-left: 8px;
       }
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
-        background: ${props.btnHoverColor};
+        background: ${props.$btnhovercolor};
       }`
           : ''
       }
 
       &:active {
-        background: ${props.btnActiveColor};
+        background: ${props.btnactivecolor};
       }
       `
       : ''}
 
   ${props =>
-    props.color === 'disclaimers-btn'
+    props.$fontcolor === 'disclaimers-btn'
       ? `
-      background: ${props.btnColor};
+      background: ${props.$btncolor};
       font-weight: 600;
       font-size: 16px;
       line-height: 24px;
@@ -286,22 +284,22 @@ const ButtonStyle = styled.button`
         margin-left: 8px;
       }
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
-        background: ${props.btnHoverColor};
+        background: ${props.$btnhovercolor};
       }`
           : ''
       }
 
       &:active {
-        background: ${props.btnActiveColor};
+        background: ${props.btnactivecolor};
       }
       `
       : ''}
 
   ${props =>
-    props.color === 'unsubscribe'
+    props.$fontcolor === 'unsubscribe'
       ? `
       background: #7F9BFF;
       font-weight: 600;
@@ -319,7 +317,7 @@ const ButtonStyle = styled.button`
         margin-left: 8px;
       }
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #2c3d79;
@@ -334,7 +332,7 @@ const ButtonStyle = styled.button`
       : ''}
       
   ${props =>
-    props.color === 'wido-stake'
+    props.$fontcolor === 'wido-stake'
       ? `
       background: #1F2937;
       font-weight: 600;
@@ -350,7 +348,7 @@ const ButtonStyle = styled.button`
       box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
       border-radius: 8px;
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #1F2937D0;
@@ -365,7 +363,7 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'wido-save'
+    props.$fontcolor === 'wido-save'
       ? `
       background: #027948;
       font-weight: 600;
@@ -381,7 +379,7 @@ const ButtonStyle = styled.button`
       box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
       border-radius: 8px;
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #027948D0;
@@ -396,7 +394,7 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'autopilot'
+    props.$fontcolor === 'autopilot'
       ? `
       font-size: 12px;
       background: unset;
@@ -408,7 +406,7 @@ const ButtonStyle = styled.button`
       line-height: 20.785px;
 
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: rgba(105, 136, 255, 0.15);
@@ -423,21 +421,21 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'autopilot-cancel'
+    props.$fontcolor === 'autopilot-cancel'
       ? `
       font-size: 16px;
       background: unset;
       border-radius: 8px;
-      border: 2px solid ${props.borderColor};
+      border: 2px solid ${props.$bordercolor};
       box-shadow: 0px 0.866px 1.732px 0px rgba(16, 24, 40, 0.05);
-      color: ${props.btnColor};
+      color: ${props.$btncolor};
       font-weight: 600;
       line-height: 24px;
       margin-top: 12px;
       padding: 8px 18px;
 
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: rgba(105, 136, 255, 0.15);
@@ -452,13 +450,13 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'connectwallet'
+    props.$fontcolor === 'connectwallet'
       ? `
       background: #5dcf46;
       color: white;
 
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         background: #51e932;
@@ -474,7 +472,7 @@ const ButtonStyle = styled.button`
       : ''}
   
   ${props =>
-    props.color === 'connected'
+    props.$fontcolor === 'connected'
       ? `
       background: #E6F8EB;
 
@@ -483,7 +481,7 @@ const ButtonStyle = styled.button`
       border-radius: 10px;
 
       ${
-        !props.disabled
+        !props.$disabled
           ? `
       &:hover {
         border: 0;
@@ -500,7 +498,7 @@ const ButtonStyle = styled.button`
       : ''}
 
   ${props =>
-    props.color === 'info'
+    props.$fontcolor === 'info'
       ? `
       background-color: white;
       border: 2px solid #DADFE6;

@@ -6,16 +6,16 @@ const ChartRangeSelect = ({ state, type, text, onClick }) => {
   const { switchMode } = useThemeContext()
   return (
     <Container
-      state={state}
       type={type}
-      text={text}
-      mode={switchMode}
-      activeItem={text === state}
+      // state={state}
+      // text={text}
+      $mode={switchMode}
+      $activeitem={text === state}
       onClick={() => {
         onClick()
       }}
     >
-      <Text activeItem={text === state}>{text}</Text>
+      <Text $activeitem={text === state}>{text}</Text>
     </Container>
   )
 }

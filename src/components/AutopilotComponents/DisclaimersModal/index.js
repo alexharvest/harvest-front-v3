@@ -30,15 +30,15 @@ const DisclaimersModal = ({ modalShow, setModalShow }) => {
       <Modal.Header className="deposit-modal-header disclaimers-modal">
         <FTokenInfo>
           <FTokenDiv>
-            <NewLabel margin="auto 0px">
+            <NewLabel $margin="auto 0px">
               <img className="info-msg" src={InfoMsg} alt="info-msg" />
             </NewLabel>
-            <NewLabel align="left" margin="auto">
+            <NewLabel $align="left" $margin="auto">
               <NewLabel
-                color={fontColor1}
-                size={isMobile ? '18px' : '18px'}
-                height={isMobile ? '28px' : '28px'}
-                weight="600"
+                $fontcolor={fontColor1}
+                $size={isMobile ? '18px' : '18px'}
+                $height={isMobile ? '28px' : '28px'}
+                $weight="600"
               >
                 Disclaimers
               </NewLabel>
@@ -46,15 +46,15 @@ const DisclaimersModal = ({ modalShow, setModalShow }) => {
           </FTokenDiv>
           <NewLabel>
             <NewLabel
-              display="flex"
-              marginBottom={isMobile ? '16px' : '16px'}
-              width="fit-content"
-              cursorType="pointer"
-              weight="600"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px' : '20px'}
-              color="#667085"
-              align="center"
+              $display="flex"
+              $marginbottom={isMobile ? '16px' : '16px'}
+              $width="fit-content"
+              $cursortype="pointer"
+              $weight="600"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px' : '20px'}
+              $fontcolor="#667085"
+              $align="center"
               onClick={() => {
                 setModalShow(false)
               }}
@@ -67,16 +67,16 @@ const DisclaimersModal = ({ modalShow, setModalShow }) => {
       <Modal.Body className="deposit-modal-body disclaimers-modal-body">
         <BaseSection>
           <NewLabel
-            size={isMobile ? '14px' : '14px'}
-            height={isMobile ? '24px' : '24px'}
-            padding="0px 24px 15px 24px"
-            color={fontColor2}
+            $size={isMobile ? '14px' : '14px'}
+            $height={isMobile ? '24px' : '24px'}
+            $padding="0px 24px 15px 24px"
+            $fontcolor={fontColor2}
           >
-            <NewLabel height="20px">
-              <NewLabel color={fontColor2} weight="500">
+            <NewLabel $height="20px">
+              <NewLabel $fontcolor={fontColor2} $weight="500">
                 General Disclaimer
               </NewLabel>
-              <NewLabel color={fontColor}>
+              <NewLabel $fontcolor={fontColor}>
                 Autopilot is a non-custodial, smart contract-based tool. Harvest does not manage,
                 control, or have access to user funds.
               </NewLabel>
@@ -84,24 +84,24 @@ const DisclaimersModal = ({ modalShow, setModalShow }) => {
           </NewLabel>
 
           <NewLabel
-            size={isMobile ? '14px' : '14px'}
-            height={isMobile ? '24px' : '24px'}
-            padding="0px 24px 15px 24px"
-            color={fontColor2}
+            $size={isMobile ? '14px' : '14px'}
+            $height={isMobile ? '24px' : '24px'}
+            $padding="0px 24px 15px 24px"
+            $fontcolor={fontColor2}
           >
-            <NewLabel height="20px">
-              <NewLabel color={fontColor2} weight="500">
+            <NewLabel $height="20px">
+              <NewLabel $fontcolor={fontColor2} $weight="500">
                 Allocation mechanics
               </NewLabel>
-              <NewLabel color={fontColor}>
+              <NewLabel $fontcolor={fontColor}>
                 All allocation processes are executed automatically via audited and pre-defined
                 algorithms of&nbsp;
                 <LearnLink
                   href="https://docs.harvest.finance/how-it-works/autopilots#technology-and-audits"
                   target="_blank"
                   rel="noopener noreferrer"
-                  linkColor={fontColor}
-                  hoverColor={fontColor}
+                  $linkcolor={fontColor}
+                  $hovercolor={fontColor}
                 >
                   IPOR Labs
                 </LearnLink>
@@ -111,29 +111,29 @@ const DisclaimersModal = ({ modalShow, setModalShow }) => {
           </NewLabel>
 
           <NewLabel
-            size={isMobile ? '14px' : '14px'}
-            height={isMobile ? '24px' : '24px'}
-            padding="0px 24px 15px 24px"
-            color={fontColor2}
+            $size={isMobile ? '14px' : '14px'}
+            $height={isMobile ? '24px' : '24px'}
+            $padding="0px 24px 15px 24px"
+            $fontcolor={fontColor2}
           >
-            <NewLabel height="20px">
-              <NewLabel color={fontColor2} weight="500">
+            <NewLabel $height="20px">
+              <NewLabel $fontcolor={fontColor2} $weight="500">
                 Vault Updates
               </NewLabel>
-              <NewLabel color={fontColor}>
+              <NewLabel $fontcolor={fontColor}>
                 Harvest may add or remove sub-level vaults within Autopilot to maintain access to
                 top-performing strategies.
               </NewLabel>
             </NewLabel>
           </NewLabel>
 
-          <NewLabel padding={isMobile ? '24px' : '24px'}>
+          <NewLabel $padding={isMobile ? '24px' : '24px'}>
             <Button
-              color="disclaimers-btn"
-              width="100%"
-              btnColor={btnColor}
-              btnHoverColor={btnHoverColor}
-              btnActiveColor={btnActiveColor}
+              $fontcolor="disclaimers-btn"
+              $width="100%"
+              $btncolor={btnColor}
+              $btnhovercolor={btnHoverColor}
+              $btnactivecolor={btnActiveColor}
               onClick={async () => {
                 localStorage.setItem('firstAutopilot', false)
                 setModalShow(false)
@@ -142,10 +142,10 @@ const DisclaimersModal = ({ modalShow, setModalShow }) => {
               Acknowledge and Proceed
             </Button>
             <Button
-              color="autopilot-cancel"
-              width="100%"
-              btnColor={fontColor2}
-              borderColor={inputBorderColor}
+              $fontcolor="autopilot-cancel"
+              $width="100%"
+              $btncolor={fontColor2}
+              $bordercolor={inputBorderColor}
               onClick={async () => {
                 setModalShow(false)
               }}

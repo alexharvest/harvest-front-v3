@@ -716,17 +716,17 @@ const ApexChart = ({
       ) : (
         <LoadingDiv>
           {isDataReady === 'loading' ? (
-            <LoaderWrapper height={onlyWidth > 1291 ? '346px' : '365px'}>
+            <LoaderWrapper $height={onlyWidth > 1291 ? '346px' : '365px'}>
               <ClipLoader size={30} margin={2} color={fontColor} />
             </LoaderWrapper>
           ) : (
             <>
               {connected ? (
-                <NoData color={fontColor}>
+                <NoData $fontcolor={fontColor}>
                   No activity found for this wallet. Convert any token to start farming!
                 </NoData>
               ) : (
-                <NoData color={fontColor}>Connect wallet to see your balance chart</NoData>
+                <NoData $fontcolor={fontColor}>Connect wallet to see your balance chart</NoData>
               )}
               <FakeChartWrapper>
                 <ResponsiveContainer width="100%" height={onlyWidth > 1291 ? 346 : 365}>

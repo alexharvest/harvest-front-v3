@@ -5,12 +5,12 @@ const Container = styled.div`
   padding: 50px 75px 75px 75px;
   width: 100%;
   min-height: 100vh;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   display: flex;
   align-items: center;
   flex-direction: column;
 
-  background: ${props => props.bgColor};
+  background: ${props => props.$bgcolor};
   transition: 0.25s;
   position: relative;
   margin-left: 260px;
@@ -33,12 +33,12 @@ const Container = styled.div`
 
 const Inner = styled.div`
   width: 100%;
-  display: ${props => (props.display ? props.display : '')};
-  justify-content: ${props => (props.justifyContent ? props.justifyContent : '')};
-  align-items: ${props => (props.alignItems ? props.alignItems : '')};
-  height: ${props => (props.height ? props.height : '')};
-  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '')};
-  padding: ${props => (props.padding ? props.padding : '')};
+  display: ${props => (props.$display ? props.$display : '')};
+  justify-content: ${props => (props.$justifycontent ? props.$justifycontent : '')};
+  align-items: ${props => (props.$alignitems ? props.$alignitems : '')};
+  height: ${props => (props.$height ? props.$height : '')};
+  margin-bottom: ${props => (props.$marginbottom ? props.$marginbottom : '')};
+  padding: ${props => (props.$padding ? props.$padding : '')};
 
   @media screen and (min-width: 1921px) {
     width: 1450px;
@@ -91,7 +91,7 @@ const Inner = styled.div`
 
   .migrate-box {
     position: relative;
-    border: 1px solid ${props => props.borderColor};
+    border: 1px solid ${props => props.$bordercolor};
   }
 
   // .migrate-box::before {
@@ -118,26 +118,26 @@ const PageTitle = styled.div`
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
 `
 
 const PageIntro = styled.div`
   font-weight: 400;
   font-size: 12px;
   line-height: 24px;
-  color: ${props => (props.color ? props.color : '')};
-  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '20px')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
+  margin-bottom: ${props => (props.$marginbottom ? props.$marginbottom : '20px')};
 `
 
 const SpaceLine = styled.div`
-  border-bottom: 1px solid ${props => props.borderColor};
+  border-bottom: 1px solid ${props => props.$bordercolor};
 `
 
 const MigrateBox = styled.div`
-  width: ${props => (props.width ? props.width : '')};
+  width: ${props => (props.$width ? props.$width : '')};
   border-radius: 12px;
   padding: 25px;
-  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '')};
+  margin-bottom: ${props => (props.$marginbottom ? props.$marginbottom : '')};
 
   .from-vault {
     position: relative;
@@ -170,7 +170,7 @@ const BoxTitle = styled.div`
   line-height: 20px;
   margin-bottom: 10px;
   margin-top: 20px;
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
 `
 
 const VaultBox = styled.div`
@@ -181,8 +181,8 @@ const VaultBox = styled.div`
   padding: 10px 14px 10px 14px;
   border-radius: 8px;
   margin-bottom: 21px;
-  background: ${props => (props.bgColor ? props.bgColor : '')};
-  border: ${props => (props.border ? props.border : '')};
+  background: ${props => (props.$bgcolor ? props.$bgcolor : '')};
+  border: ${props => (props.$border ? props.$border : '')};
   cursor: pointer;
   position: relative;
   z-index: 1;
@@ -251,15 +251,15 @@ const ButtonDiv = styled.div`
 
 const Content = styled.div`
   display: flex;
-  align-items: ${props => (props.alignItems ? props.alignItems : '')};
+  align-items: ${props => (props.$alignitems ? props.$alignitems : '')};
   flex-direction: column;
 `
 
 const InfoText = styled.div`
-  font-size: ${props => (props.fontSize ? props.fontSize : '')};
-  font-weight: ${props => (props.fontWeight ? props.fontWeight : '')};
+  font-size: ${props => (props.$fontsize ? props.$fontsize : '')};
+  font-weight: ${props => (props.$fontweight ? props.$fontweight : '')};
   line-height: 20px;
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
 `
 
 const BadgeToken = styled.div`
@@ -269,8 +269,8 @@ const BadgeToken = styled.div`
 `
 
 const BadgeIcon = styled.div`
-  margin: ${props => props.margin};
-  width: ${props => props.width};
+  margin: ${props => props.$margin};
+  width: ${props => props.$width};
   height: 13.096px;
   display: flex;
   justify-content: center;
@@ -324,8 +324,8 @@ const ChainButton = styled.button`
   display: flex;
   justify-content: center;
   transition: 0.25s;
-  border: 1px solid ${props => props.borderColor};
-  background: ${props => props.backColor};
+  border: 1px solid ${props => props.$bordercolor};
+  background: ${props => props.$backcolor};
 
   &:first-child {
     border-radius: 10px 0 0 10px;
@@ -342,11 +342,11 @@ const ChainButton = styled.button`
   }
 
   &:hover {
-    background: ${props => props.hoverColor} !important;
+    background: ${props => props.$hovercolor} !important;
   }
 
   &.active {
-    background: ${props => props.backColor};
+    background: ${props => props.$backcolor};
 
     img {
       opacity: 1;
@@ -396,14 +396,14 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   font-size: 14px;
   padding: 10px 5px;
   ${props =>
-    props.bordercolor
+    props.$bordercolor
       ? `
-    border-bottom: 0.5px solid ${props.bordercolor} !important;
+    border-bottom: 0.5px solid ${props.$bordercolor} !important;
   `
       : `
   `}
   width: auto !important;
-  color: ${props => props.fontcolor} !important;
+  color: ${props => props.$fontcolor} !important;
 
   :first-child {
     border-radius: 8px 8px 0px 0px;
@@ -414,7 +414,7 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   }
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
 
     div {
       color: #ff9400;
@@ -449,7 +449,7 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   @media screen and (max-width: 992px) {
     line-height: 20px;
     padding: 10px 16px;
-    background: ${props => (props.bgcolor ? props.bgcolor : '')};
+    background: ${props => (props.$bgcolor ? props.$bgcolor : '')};
     gap: 5px;
     justify-content: center;
 
@@ -471,7 +471,7 @@ const CurrencySelect = styled.div`
   font-size: 14px;
   line-height: 24px;
   text-align: right;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
 
   display: flex;
   align-items: center;
@@ -509,7 +509,7 @@ const CurrencySelect = styled.div`
 `
 
 const CurrencyDropDownMenu = styled(Dropdown.Menu)`
-  background-color: ${props => props.backcolor} !important;
+  background-color: ${props => props.$backcolor} !important;
   border: 1px solid #d0d5dd;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   border-radius: 8px !important;
@@ -529,10 +529,10 @@ const CurrencyDropDownMenu = styled(Dropdown.Menu)`
 `
 
 const CurrencyDropDown = styled(Dropdown.Toggle)`
-  background: ${props => props.bgcolor} !important;
+  background: ${props => props.$bgcolor} !important;
   border: none !important;
   border-radius: 8px !important;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
   align-items: center;
   width: 100%;
   display: flex !important;
@@ -546,7 +546,7 @@ const CurrencyDropDown = styled(Dropdown.Toggle)`
   }
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
     color: black;
     font-weight: 500;
   }

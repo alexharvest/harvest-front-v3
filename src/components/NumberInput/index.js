@@ -36,7 +36,7 @@ const NumberInput = ({
           disabled={disabled || invalidAmount}
           {...props}
         />
-        <CoinInfo backColor={backColor} borderColor={borderColor}>
+        <CoinInfo $backcolor={backColor} $bordercolor={borderColor}>
           {/* <img src={`/icons/${label}.png`} width={20} height={20} alt={label} /> */}
           <img src={logo} height={20} alt={logo} />
           {label}
@@ -49,7 +49,7 @@ const NumberInput = ({
           {secondaryLabel ? <Label>{ReactHtmlParser(secondaryLabel)}</Label> : null}
           {label ? <Label>{ReactHtmlParser(label)}</Label> : null}
           {!hideButton ? (
-            <Button color="secondary" size="sm" onClick={onClick} disabled={disabled}>
+            <Button $fontcolor="secondary" $size="sm" onClick={onClick} disabled={disabled}>
               {buttonLabel || 'MAX'}
             </Button>
           ) : null}

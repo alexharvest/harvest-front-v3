@@ -9,7 +9,7 @@ const LoadingDiv = styled.div`
 `
 
 const NoData = styled.div`
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 `
 
 export { LoadingDiv, NoData }

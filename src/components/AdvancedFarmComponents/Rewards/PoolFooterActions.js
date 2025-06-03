@@ -64,11 +64,11 @@ const PoolFooterActions = ({
 
   return (
     <SelectedVaultContainer
-      maxWidth="100%"
-      margin="0px"
-      padding="0px"
-      borderWidth="0px"
-      borderColor={borderColor}
+      $maxwidth="100%"
+      $margin="0px"
+      $padding="0px"
+      $borderwidth="0px"
+      $bordercolor={borderColor}
     >
       {fAssetPool.id !== SPECIAL_VAULTS.NEW_PROFIT_SHARING_POOL_ID &&
         rewardTokenSymbols.map((symbol, symbolIdx) => {
@@ -116,13 +116,13 @@ const PoolFooterActions = ({
                 </Monospace>
               </SelectedVault>
               <BottomPart>
-                <SelectedVaultLabel fontWeight="400" lineHeight="20px" color="#475467">
+                <SelectedVaultLabel $fontweight="400" $lineheight="20px" $fontcolor="#475467">
                   Claim all rewards into your wallet.
                 </SelectedVaultLabel>
                 <Button
-                  // width="100%"
-                  size="md"
-                  color="advanced-reward"
+                  // $width="100%"
+                  $size="md"
+                  $fontcolor="advanced-reward"
                   onClick={async () => {
                     if (curChain !== tokenChain) {
                       const chainHex = `0x${Number(tokenChain).toString(16)}`

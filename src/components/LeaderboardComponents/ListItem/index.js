@@ -41,41 +41,41 @@ const ListItem = ({
 
   return isMobile ? (
     <Container
-      marginTop={marginTop}
-      fontWeight={weight}
-      fontSize={size}
-      fontColor={color}
-      // marginRight={marginRight}
-      justifyContent={justifyContent}
-      lineHeight={lineHeight}
-      flexDirection={flexDirection}
-      width={width}
+      $margintop={marginTop}
+      $fontweight={weight}
+      $fontsize={size}
+      $fontcolor={color}
+      // $marginright={marginRight}
+      $justifycontent={justifyContent}
+      $lineheight={lineHeight}
+      $flexdirection={flexDirection}
+      $width={width}
     >
       {rankingValue && walletAddress ? (
         <>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
           >
             {rankingValue}
           </Label>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
-            fontWeight="500"
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
+            $fontweight="500"
           >
             <AddressLink
               href={`https://debank.com/profile/${addressValue}`}
               target="blank"
               onClick={stopPropagation}
-              color={color}
-              fontSize="11px"
+              $fontcolor={color}
+              $fontsize="11px"
             >
               {walletAddress}
             </AddressLink>
@@ -84,20 +84,20 @@ const ListItem = ({
       ) : balanceValue ? (
         <>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
           >
             Balance
           </Label>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
           >
             {balanceValue}
           </Label>
@@ -105,20 +105,20 @@ const ListItem = ({
       ) : farmsNumber ? (
         <>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
           >
             # of Farms
           </Label>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
           >
             {farmsNumber}
           </Label>
@@ -126,24 +126,24 @@ const ListItem = ({
       ) : topAllocation && tokenName && platform && chain ? (
         <>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
-            justifyContent="end"
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
+            $justifycontent="end"
           >
             {topAllocation}
           </Label>
           <Label
-            backColor={backColor}
-            borderRadius={borderRadius}
-            padding={padding}
-            textDecoration={textDecoration}
-            marginLeft={marginLeft}
-            fontColor="#6988FF"
-            fontSize="10px"
-            justifyContent="end"
+            $backcolor={backColor}
+            $borderradius={borderRadius}
+            $padding={padding}
+            $textdecoration={textDecoration}
+            $marginleft={marginLeft}
+            $fontcolor="#6988FF"
+            $fontsize="10px"
+            $justifycontent="end"
             whiteSpace="nowrap"
           >
             {`${tokenName} (${platform})`}
@@ -152,13 +152,13 @@ const ListItem = ({
         </>
       ) : (
         <Label
-          backColor={backColor}
-          borderRadius={borderRadius}
-          padding={padding}
-          textDecoration={textDecoration}
-          marginLeft={marginLeft}
-          justifyContent={justifyContent}
-          width={width}
+          $backcolor={backColor}
+          $borderradius={borderRadius}
+          $padding={padding}
+          $textdecoration={textDecoration}
+          $marginleft={marginLeft}
+          $justifycontent={justifyContent}
+          $width={width}
         >
           {value === 'InfinityT%' || value === 'NaN%' || value === 'Here' || value === '0%' ? (
             <AnimatedDots />
@@ -173,7 +173,7 @@ const ListItem = ({
               imgMargin={imgMargin}
               className="chainImage"
               alt=""
-              marginLeft={marginLeft}
+              $marginleft={marginLeft}
             />
           ) : (
             <></>
@@ -187,9 +187,9 @@ const ListItem = ({
               }
               target="blank"
               onClick={stopPropagation}
-              color={color}
-              fontSize="10px"
-              fontWeight="500"
+              $fontcolor={color}
+              $fontsize="10px"
+              $fontweight="500"
             >
               {`${value} (${platform})`}
             </AddressLink>
@@ -201,27 +201,27 @@ const ListItem = ({
     </Container>
   ) : (
     <Container
-      marginTop={marginTop}
-      fontWeight={weight}
-      fontSize={size}
-      fontColor={color}
-      marginRight={marginRight}
+      $margintop={marginTop}
+      $fontweight={weight}
+      $fontsize={size}
+      $fontcolor={color}
+      $marginright={marginRight}
     >
       <Label
-        backColor={backColor}
-        borderRadius={borderRadius}
-        padding={padding}
-        textDecoration={textDecoration}
-        marginLeft={marginLeft}
+        $backcolor={backColor}
+        $borderradius={borderRadius}
+        $padding={padding}
+        $textdecoration={textDecoration}
+        $marginleft={marginLeft}
       >
         {addressValue ? (
           <AddressLink
             href={`https://debank.com/profile/${addressValue}`}
             target="blank"
             onClick={stopPropagation}
-            color={color}
-            fontSize="14px"
-            fontWeight="400"
+            $fontcolor={color}
+            $fontsize="14px"
+            $fontweight="400"
           >
             {showAddress}
           </AddressLink>
@@ -244,9 +244,9 @@ const ListItem = ({
             }
             target="blank"
             onClick={stopPropagation}
-            color={color}
-            fontSize="12px"
-            fontWeight="500"
+            $fontcolor={color}
+            $fontsize="12px"
+            $fontweight="500"
           >
             {`${value} (${platform})`}
           </AddressLink>

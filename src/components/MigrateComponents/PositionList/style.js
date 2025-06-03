@@ -5,28 +5,28 @@ const VaultBox = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 15px;
-  background: ${props => (props.bgColor ? props.bgColor : '')};
-  border: ${props => (props.border ? props.border : '')};
-  border-bottom: ${props => (props.borderBottom ? props.borderBottom : '')};
-  color: ${props => (props.color ? props.color : '')};
+  background: ${props => (props.$bgcolor ? props.$bgcolor : '')};
+  border: ${props => (props.$border ? props.$border : '')};
+  border-bottom: ${props => (props.$borderbottom ? props.$borderbottom : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
   cursor: pointer;
 
   &:hover {
-    background: ${props => (props.hoverBgColor ? props.hoverBgColor : '')};
+    background: ${props => (props.$hoverbgcolor ? props.$hoverbgcolor : '')};
   }
 `
 
 const Content = styled.div`
   display: flex;
-  align-items: ${props => (props.alignItems ? props.alignItems : '')};
+  align-items: ${props => (props.$alignitems ? props.$alignitems : '')};
   flex-direction: column;
 `
 
 const InfoText = styled.div`
-  font-size: ${props => (props.fontSize ? props.fontSize : '')};
-  font-weight: ${props => (props.fontWeight ? props.fontWeight : '')};
+  font-size: ${props => (props.$fontsize ? props.$fontsize : '')};
+  font-weight: ${props => (props.$fontweight ? props.$fontweight : '')};
   line-height: 20px;
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
 `
 
 const BadgeIcon = styled.div`
@@ -47,7 +47,7 @@ const Token = styled.a`
   font-weight: 500;
   font-size: 10px;
   line-height: 20px;
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
   cursor: pointer;
   z-index: 1;
 

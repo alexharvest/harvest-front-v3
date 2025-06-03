@@ -182,27 +182,27 @@ const SubscribeModal = ({ inputAmount, setInputAmount, token, modalShow, setModa
       <Modal.Header className="deposit-modal-header">
         <FTokenInfo>
           <FTokenDiv>
-            <NewLabel margin="auto 0px">
+            <NewLabel $margin="auto 0px">
               <IconCard>
                 <img src={Diamond} alt="diamond" />
               </IconCard>
             </NewLabel>
-            <NewLabel align="left" marginRight="12px">
+            <NewLabel $align="left" $marginright="12px">
               <NewLabel
-                color="#5dcf46"
-                size={isMobile ? '18px' : '18px'}
-                height={isMobile ? '28px' : '28px'}
-                weight="600"
-                marginBottom="4px"
+                $fontcolor="#5dcf46"
+                $size={isMobile ? '18px' : '18px'}
+                $height={isMobile ? '28px' : '28px'}
+                $weight="600"
+                $marginbottom="4px"
               >
                 Subscribe
               </NewLabel>
               <NewLabel
-                color={fontColor1}
-                size={isMobile ? '12px' : '14px'}
-                height={isMobile ? '17px' : '20px'}
-                weight="400"
-                marginBottom="5px"
+                $fontcolor={fontColor1}
+                $size={isMobile ? '12px' : '14px'}
+                $height={isMobile ? '17px' : '20px'}
+                $weight="400"
+                $marginbottom="5px"
               >
                 {`You are now subscribing to the ${token?.tokenNames[0]} Autopilot.`}
               </NewLabel>
@@ -210,15 +210,15 @@ const SubscribeModal = ({ inputAmount, setInputAmount, token, modalShow, setModa
           </FTokenDiv>
           <NewLabel>
             <NewLabel
-              display="flex"
-              marginBottom={isMobile ? '16px' : '16px'}
-              width="fit-content"
-              cursorType="pointer"
-              weight="600"
-              size={isMobile ? '14px' : '14px'}
-              height={isMobile ? '20px' : '20px'}
-              color="#667085"
-              align="center"
+              $display="flex"
+              $marginbottom={isMobile ? '16px' : '16px'}
+              $width="fit-content"
+              $cursortype="pointer"
+              $weight="600"
+              $size={isMobile ? '14px' : '14px'}
+              $height={isMobile ? '20px' : '20px'}
+              $fontcolor="#667085"
+              $align="center"
               onClick={() => {
                 setModalShow(false)
                 setProgressStep(0)
@@ -238,18 +238,18 @@ const SubscribeModal = ({ inputAmount, setInputAmount, token, modalShow, setModa
       <Modal.Body className="deposit-modal-body">
         <BaseSection>
           <NewLabel
-            size={isMobile ? '14px' : '14px'}
-            height={isMobile ? '24px' : '24px'}
-            padding="15px 24px 10px"
-            color={fontColor2}
+            $size={isMobile ? '14px' : '14px'}
+            $height={isMobile ? '24px' : '24px'}
+            $padding="15px 24px 10px"
+            $fontcolor={fontColor2}
           >
             <NewLabel
-              display="flex"
-              justifyContent="space-between"
-              padding={isMobile ? '10px 0' : '10px 0'}
+              $display="flex"
+              $justifycontent="space-between"
+              $padding={isMobile ? '10px 0' : '10px 0'}
             >
-              <NewLabel weight="500">{progressStep === 4 ? 'Subscribed' : 'Subscribing'}</NewLabel>
-              <NewLabel display="flex" flexFlow="column" weight="600" align="right">
+              <NewLabel $weight="500">{progressStep === 4 ? 'Subscribed' : 'Subscribing'}</NewLabel>
+              <NewLabel $display="flex" $flexflow="column" $weight="600" $align="right">
                 <>{inputAmount !== '' ? inputAmount : <AnimatedDots />}</>
                 <span>
                   {token.tokenNames.length > 0 ? `${token?.tokenNames[0]}` : <AnimatedDots />}
@@ -258,27 +258,27 @@ const SubscribeModal = ({ inputAmount, setInputAmount, token, modalShow, setModa
             </NewLabel>
           </NewLabel>
 
-          <FTokenWrong isShow={subscribeFailed ? 'true' : 'false'}>
-            <NewLabel marginRight="12px" display="flex">
+          <FTokenWrong $isshow={subscribeFailed ? 'true' : 'false'}>
+            <NewLabel $marginright="12px" $display="flex">
               <div>
                 <img src={AlertIcon} alt="" />
               </div>
-              <NewLabel marginLeft="12px">
+              <NewLabel $marginleft="12px">
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '14px' : '14px'}
-                  height={isMobile ? '20px' : '20px'}
-                  weight="600"
-                  marginBottom="4px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '14px' : '14px'}
+                  $height={isMobile ? '20px' : '20px'}
+                  $weight="600"
+                  $marginbottom="4px"
                 >
                   Whoops, something went wrong.
                 </NewLabel>
                 <NewLabel
-                  color="#B54708"
-                  size={isMobile ? '12px' : '14px'}
-                  height={isMobile ? '17px' : '20px'}
-                  weight="400"
-                  marginBottom="5px"
+                  $fontcolor="#B54708"
+                  $size={isMobile ? '12px' : '14px'}
+                  $height={isMobile ? '17px' : '20px'}
+                  $weight="400"
+                  $marginbottom="5px"
                 >
                   Please try to repeat the transaction in your wallet.
                 </NewLabel>
@@ -312,30 +312,30 @@ const SubscribeModal = ({ inputAmount, setInputAmount, token, modalShow, setModa
               alt="progress bar"
             />
           </NewLabel>
-          <ProgressLabel fontColor2={fontColor2}>
-            <ProgressText width="50%" padding="0px 0px 0px 30px">
+          <ProgressLabel $fontcolor2={fontColor2}>
+            <ProgressText $width="50%" $padding="0px 0px 0px 30px">
               Approve
               <br />
               Token
             </ProgressText>
-            <ProgressText width="unset" padding="0px 0px 0px 7px">
+            <ProgressText $width="unset" $padding="0px 0px 0px 7px">
               Confirm
               <br />
               Transaction
             </ProgressText>
-            <ProgressText width="50%" padding="0px 10px 0px 0px">
+            <ProgressText $width="50%" $padding="0px 10px 0px 0px">
               Transaction
               <br />
               Successful
             </ProgressText>
           </ProgressLabel>
-          <NewLabel padding={isMobile ? '24px' : '24px'}>
+          <NewLabel $padding={isMobile ? '24px' : '24px'}>
             <Button
-              color="subscribe"
-              width="100%"
-              btnColor={btnColor}
-              btnHoverColor={btnHoverColor}
-              btnActiveColor={btnActiveColor}
+              $fontcolor="subscribe"
+              $width="100%"
+              $btncolor={btnColor}
+              $btnhovercolor={btnHoverColor}
+              $btnactivecolor={btnActiveColor}
               onClick={async () => {
                 if (!connected) {
                   connectAction()
@@ -362,7 +362,7 @@ const SubscribeModal = ({ inputAmount, setInputAmount, token, modalShow, setModa
                   <Spinner
                     as="span"
                     animation="border"
-                    size="sm"
+                    $size="sm"
                     role="status"
                     aria-hidden="true"
                   />

@@ -153,10 +153,10 @@ const Activity = () => {
   }, [account, userStats, connected, safeFlag])
 
   return (
-    <Container bgColor={bgColorNew} fontColor={fontColor}>
+    <Container $bgcolor={bgColorNew} $fontcolor={fontColor}>
       <Inner>
-        <HeaderWrap backImg="" padding="25px 15px 20px" borderColor="unset">
-          <HeaderTitle fontColor={fontColor} fontColor1={fontColor1}>
+        <HeaderWrap $padding="25px 15px 20px" $bordercolor="unset">
+          <HeaderTitle $fontcolor={fontColor} $fontcolor1={fontColor1}>
             <div className="title">Full History</div>
             <div className="desc">
               History of all harvest, claimed rewards, and convert/revert events for connected
@@ -165,36 +165,35 @@ const Activity = () => {
           </HeaderTitle>
         </HeaderWrap>
 
-        <NewLabel width={isMobile ? '90%' : '40%'} margin={isMobile ? 'auto' : 'unset'}>
+        <NewLabel $width={isMobile ? '90%' : '40%'} $margin={isMobile ? 'auto' : 'unset'}>
           <NewLabel
-            backColor={darkMode ? '#373737' : '#ebebeb'}
-            size={isMobile ? '16px' : '16px'}
-            height={isMobile ? '24px' : '24px'}
-            weight="600"
-            color={fontColor1}
-            display="flex"
-            justifyContent="center"
-            marginBottom="13px"
-            borderRadius="8px"
-            transition="0.25s"
+            $backcolor={darkMode ? '#373737' : '#ebebeb'}
+            $size={isMobile ? '16px' : '16px'}
+            $height={isMobile ? '24px' : '24px'}
+            $weight="600"
+            $fontcolor={fontColor1}
+            $display="flex"
+            $justifycontent="center"
+            $marginbottom="13px"
+            $borderradius="8px"
+            $transition="0.25s"
           >
             {historyTags.map((tag, i) => (
               <SwitchTabTag
                 key={i}
-                num={i}
                 onClick={() => {
                   if ((i === 0 && !activeHarvests) || (i === 1 && activeHarvests))
                     setActiveHarvests(prev => !prev)
                 }}
-                color={
+                $fontcolor={
                   (i === 0 && activeHarvests) || (i === 1 && !activeHarvests)
                     ? fontColor4
                     : fontColor3
                 }
-                backColor={
+                $backcolor={
                   (i === 0 && activeHarvests) || (i === 1 && !activeHarvests) ? activeColorNew : ''
                 }
-                boxShadow={
+                $boxshadow={
                   (i === 0 && activeHarvests) || (i === 1 && !activeHarvests) ? boxShadowColor2 : ''
                 }
               >

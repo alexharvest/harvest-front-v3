@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Tutorial from './pages/Tutorial'
 import Settings from './pages/Settings'
@@ -76,26 +76,25 @@ const App = () => (
       <NewLoginModal />
       <Body id="page-content">
         <Sidebar width="260px" />
-        <Switch>
-          <Route exact path={ROUTES.PORTFOLIO} component={Portfolio} />
-          <Route exact path={ROUTES.TUTORIAL} component={Tutorial} />
+        <Routes>
+          <Route path={ROUTES.PORTFOLIO} element={<Portfolio />} />
+          <Route path={ROUTES.TUTORIAL} element={<Tutorial />} />
           <Route
-            exact
             path={ROUTES.AUTOPILOTNOCHAIN}
-            render={() => <Redirect to={ROUTES.AUTOPILOT} />}
+            element={<Navigate to={ROUTES.AUTOPILOT} replace />}
           />
-          <Route exact path={ROUTES.AUTOPILOT} component={Autopilot} />
-          <Route exact path={ROUTES.ADVANCED} component={Farm} />
-          <Route exact path={ROUTES.LiveSupport} component={LiveSupport} />
-          <Route exact path={ROUTES.ANALYTIC} component={Analytic} />
-          <Route path={ROUTES.ADVANCEDFARM} component={AdvancedFarm} />
-          <Route path={ROUTES.FAQ} component={FAQ} />
-          <Route exact path={ROUTES.CHARTS} component={Charts} />
-          <Route exact path={ROUTES.LEADERBOARD} component={LeaderBoard} />
-          <Route exact path={ROUTES.MIGRATE} component={Migrate} />
-          <Route exact path={ROUTES.SETTINGS} component={Settings} />
-          <Route exact path={ROUTES.ACTIVITY} component={Activity} />
-        </Switch>
+          <Route path={ROUTES.AUTOPILOT} element={<Autopilot />} />
+          <Route path={ROUTES.ADVANCED} element={<Farm />} />
+          <Route path={ROUTES.LiveSupport} element={<LiveSupport />} />
+          <Route path={ROUTES.ANALYTIC} element={<Analytic />} />
+          <Route path={ROUTES.ADVANCEDFARM} element={<AdvancedFarm />} />
+          <Route path={ROUTES.FAQ} element={<FAQ />} />
+          <Route path={ROUTES.CHARTS} element={<Charts />} />
+          <Route path={ROUTES.LEADERBOARD} element={<LeaderBoard />} />
+          <Route path={ROUTES.MIGRATE} element={<Migrate />} />
+          <Route path={ROUTES.SETTINGS} element={<Settings />} />
+          <Route path={ROUTES.ACTIVITY} element={<Activity />} />
+        </Routes>
       </Body>
     </Providers>
   </Router>
@@ -106,11 +105,11 @@ const GlobalStyleWrapper = () => {
 
   return (
     <GlobalStyle
-      bgColorModal={bgColorModal}
-      fontColor3={fontColor3}
-      fontColor1={fontColor1}
-      backColor={bgColorNew}
-      inputBorderColor={inputBorderColor}
+      $bgcolormodal={bgColorModal}
+      $fontcolor3={fontColor3}
+      $fontcolor1={fontColor1}
+      $backcolor={bgColorNew}
+      $inputbordercolor={inputBorderColor}
     />
   )
 }

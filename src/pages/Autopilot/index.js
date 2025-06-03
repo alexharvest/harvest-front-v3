@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import useEffectWithPrevious from 'use-effect-with-previous'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Dropdown } from 'react-bootstrap'
 import { isEqual, isEmpty } from 'lodash'
 import BigNumber from 'bignumber.js'
@@ -43,7 +43,7 @@ const Autopilot = () => {
 
   const { connected, account, balances, getWalletBalances } = useWallet()
   const { contracts } = useContracts()
-  const history = useHistory()
+  const navigate = useNavigate()
   const location = useLocation()
   // const { chainId } = useWallet()
   const { allVaultsData } = useVaults()
@@ -63,14 +63,14 @@ const Autopilot = () => {
     const matchedChain = someChainsList.find(item => item.name === networkName)
 
     if (networkName !== 'base') {
-      history.replace('/autopilot/base')
+      navigate('/autopilot/base', { replace: true })
     } else if (matchedChain) {
       setCurChain(matchedChain)
     } else {
       setCurChain(someChainsList[0])
-      // history.replace('/autopilot/base')
+      // navigate('/autopilot/base', { replace: true })
     }
-  }, [location.pathname, history])
+  }, [location.pathname, navigate])
 
   // useEffect(() => {
   //   debugger
@@ -211,14 +211,14 @@ const Autopilot = () => {
   const handleNetworkChange = selectedChain => {
     setCurChain(selectedChain)
     setIsManualSelection(true)
-    history.push(`/autopilot/${selectedChain.name}`)
+    navigate(`/autopilot/${selectedChain.name}`)
   }
 
   return (
-    <Container bgColor={bgColorNew} fontColor={fontColor}>
-      <Inner bgColor={darkMode ? '#171b25' : '#fff'}>
-        <HeaderWrap padding="21px 11px 15px 23px" borderColor={borderColorBox}>
-          <HeaderTitle fontColor={fontColor} fontColor1={fontColor1}>
+    <Container $bgcolor={bgColorNew} $fontcolor={fontColor}>
+      <Inner $bgcolor={darkMode ? '#171b25' : '#fff'}>
+        <HeaderWrap $padding="21px 11px 15px 23px" $bordercolor={borderColorBox}>
+          <HeaderTitle $fontcolor={fontColor} $fontcolor1={fontColor1}>
             <div className="title">Autopilot</div>
             <div className="desc">Maximized yield efficiency with 1-click autopilot vaults.</div>
           </HeaderTitle>
@@ -226,9 +226,9 @@ const Autopilot = () => {
             <Dropdown>
               <CurrencyDropDown
                 id="dropdown-basic"
-                bgcolor={bgColorNew}
-                fontcolor2={fontColor2}
-                hovercolor={hoverColorNew}
+                $bgcolor={bgColorNew}
+                $fontcolor2={fontColor2}
+                $hovercolor={hoverColorNew}
                 style={{ padding: 0 }}
               >
                 {curChain ? (
@@ -255,8 +255,8 @@ const Autopilot = () => {
                         onClick={() => {
                           handleNetworkChange(elem)
                         }}
-                        hovercolor={hoverColorNew}
-                        backcolor={bgColorNew}
+                        $hovercolor={hoverColorNew}
+                        $backcolor={bgColorNew}
                         key={elem.id}
                       >
                         <img

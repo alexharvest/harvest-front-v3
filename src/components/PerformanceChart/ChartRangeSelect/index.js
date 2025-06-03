@@ -9,17 +9,17 @@ const ChartRangeSelect = ({ state, type, text, onClick }) => {
   const isWeek = text === '1W'
   return (
     <Container
-      state={state}
       type={type}
-      text={text}
-      mode={switchMode}
-      activeItem={text === state}
+      // state={state}
+      // text={text}
+      $mode={switchMode}
+      $activeitem={text === state}
       onClick={() => {
         onClick()
       }}
-      display={isMobile && isWeek ? 'none' : 'flex'}
+      $display={isMobile && isWeek ? 'none' : 'flex'}
     >
-      <Text activeItem={text === state}>{text}</Text>
+      <Text $activeitem={text === state}>{text}</Text>
     </Container>
   )
 }

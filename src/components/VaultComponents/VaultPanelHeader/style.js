@@ -6,13 +6,13 @@ const PanelContainer = styled.a`
   justify-content: start;
   align-items: center;
   padding: 16px 24px;
-  border-bottom: 1px solid ${props => props.borderColor};
+  border-bottom: 1px solid ${props => props.$bordercolor};
   cursor: pointer;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
   text-decoration: none;
 
   &:hover {
-    color: ${props => props.fontColor};
+    color: ${props => props.$fontcolor};
   }
 
   @media screen and (max-width: 992px) {
@@ -39,7 +39,7 @@ const TokenNameContainer = styled.div`
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
-  color: ${props => props.fontColor1};
+  color: ${props => props.$fontcolor1};
 
   @media screen and (max-width: 1480px) {
     font-size: 12px;
@@ -75,7 +75,7 @@ const RewardsContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  color: ${props => props.fontColor1};
+  color: ${props => props.$fontcolor1};
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;
@@ -115,14 +115,13 @@ const RewardsContainer = styled.div`
 
 const ValueContainer = styled.div`
   font-weight: 500;
-  width: ${props => props.width || 'auto'};
-  min-width: ${props => props.minWidth || 'auto'};
-  text-align: ${props => props.textAlign || 'center'};
+  width: ${props => props.$width || 'auto'};
+  text-align: ${props => props.$textalign || 'center'};
   display: flex;
   justify-content: start;
-  ${props => (props.textAlign === 'left' ? `justify-content: start;` : '')}
-  padding-right: ${props => props.paddingRight || '0px'};
-  padding-left: ${props => props.paddingLeft || '0px'};
+  ${props => (props.$textalign === 'left' ? `justify-content: start;` : '')}
+  padding-right: ${props => props.$paddingright || '0px'};
+  padding-left: ${props => props.$paddingleft || '0px'};
 
   .tag {
     display: none;
@@ -132,9 +131,9 @@ const ValueContainer = styled.div`
   }
 
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
 `
@@ -146,9 +145,9 @@ const LogoImg = styled.img`
   &:not(:first-child) {
     margin-left: -7px;
     ${props =>
-      props.zIndex
+      props.$zindex
         ? `
-      z-index: ${props.zIndex};
+      z-index: ${props.$zindex};
     `
         : ``};
   }
@@ -189,7 +188,7 @@ const BadgeIcon = styled.div`
 `
 
 const TokenLogoContainer = styled.div`
-  width: ${props => (props.width ? props.width : 'auto')};
+  width: ${props => (props.$width ? props.$width : 'auto')};
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -205,8 +204,8 @@ const TokenLogoContainer = styled.div`
 
 const TooltipText = styled.div`
   font-weight: normal;
-  width: ${props => props.width || 'auto'};
-  text-align: ${props => props.textAlign || 'unset'};
+  width: ${props => props.$width || 'auto'};
+  text-align: ${props => props.$textalign || 'unset'};
 `
 
 const NewBadge = styled.img`
@@ -225,7 +224,7 @@ const AdditionalBadge = styled.img`
 
 const ArrowContainer = styled.div`
   padding: 0px 5.4px;
-  background: ${props => (props.open ? '#f2b435' : '#FFFCE6')};
+  background: ${props => (props.$open ? '#f2b435' : '#FFFCE6')};
   border-radius: 4px;
   margin-right: 5px;
 
@@ -233,10 +232,10 @@ const ArrowContainer = styled.div`
     width: 9px;
     height: 9px;
     transition: 0.25s;
-    transform: ${props => (props.open ? 'rotate(-180deg)' : 'unset')};
+    transform: ${props => (props.$open ? 'rotate(-180deg)' : 'unset')};
 
     path {
-      fill: ${props => (props.open ? '#4C351B' : '#F2B435')};
+      fill: ${props => (props.$open ? '#4C351B' : '#F2B435')};
     }
   }
 `
@@ -275,7 +274,7 @@ const MobileVaultValueContainer = styled.div`
     img {
       margin-left: 7px;
       margin-top: -2px;
-      filter: ${props => props.filterColor};
+      filter: ${props => props.$filtercolor};
     }
   }
 `
@@ -288,27 +287,27 @@ const ApyInfo = styled.img`
 
 const FlexDiv = styled.div`
   ${props =>
-    props.alignSelf
+    props.$alignself
       ? `
-    align-self: ${props.alignSelf};
+    align-self: ${props.$alignself};
   `
       : ''}
   ${props =>
-    props.paddingBottom
+    props.$paddingbottom
       ? `
-        padding-bottom: ${props.paddingBottom};
+        padding-bottom: ${props.$paddingbottom};
       `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : 'width: auto;'}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
 
@@ -357,7 +356,7 @@ const DetailModal = styled(Modal)`
   }
 `
 const Value = styled.div`
-  color: ${props => props.fontColor1};
+  color: ${props => props.$fontcolor1};
   font-size: 14px;
   font-weight: 500;
   line-height: 20px;

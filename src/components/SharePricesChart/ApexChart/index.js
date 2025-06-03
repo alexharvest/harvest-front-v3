@@ -126,7 +126,7 @@ const ApexChart = ({ chainName, token, loadComplete, sharePriceData, iporHvaults
               return (
                 <ProtocolEntry
                   key={`item-${index}`}
-                  color={
+                  $fontcolor={
                     entry.dataKey !== token.id
                       ? generateColor(iporHvaultsLFAPY, entry.dataKey)
                       : '#5dcf46'
@@ -369,11 +369,11 @@ const ApexChart = ({ chainName, token, loadComplete, sharePriceData, iporHvaults
       ) : (
         <LoadingDiv>
           {isDataReady === 'loading' ? (
-            <LoaderWrapper height={onlyWidth > 1291 ? '346px' : '365px'}>
+            <LoaderWrapper $height={onlyWidth > 1291 ? '346px' : '365px'}>
               <ClipLoader size={30} margin={2} color={fontColor} />
             </LoaderWrapper>
           ) : (
-            <NoData color={fontColor}>Shareprice data soon to be available.</NoData>
+            <NoData $fontcolor={fontColor}>Shareprice data soon to be available.</NoData>
           )}
         </LoadingDiv>
       )}

@@ -28,7 +28,7 @@ const ButtonGroup = ({
   const [focusId, setFocusId] = React.useState(prevFocusId)
   let tempId = -1
   return (
-    <ButtonsGroup backColor={bgColorNew} borderColor={borderColorBox} className={oneClass}>
+    <ButtonsGroup $backcolor={bgColorNew} $bordercolor={borderColorBox} className={oneClass}>
       {buttons.map((button, i) => {
         const buttonLength =
           isMobile && buttons[buttons.length - 1].name === 'Inactive'
@@ -37,7 +37,6 @@ const ButtonGroup = ({
         return (
           <ButtonStyle
             key={i}
-            percent={100 / buttonLength}
             name={button.name}
             onClick={event => handleClick(event, i)}
             onMouseEnter={() => {
@@ -48,15 +47,15 @@ const ButtonGroup = ({
               setFocusId(tempId)
               tempId = focusId
             }}
-            num={i}
             className={i === clickedId || i === focusId ? 'active' : ''}
-            fontColor={fontColor}
-            borderColor={borderColorBox}
-            hoverColor={filterChainHoverColor}
-            unsetWidth={unsetWidth}
-            mobileFontColor={darkMode ? '#fff' : '#000'}
-            display={isMobile && button.name === 'Inactive' ? 'none' : 'flex'}
-            borderDisplay={isMobile && button.border}
+            $percent={100 / buttonLength}
+            $fontcolor={fontColor}
+            $bordercolor={borderColorBox}
+            $hovercolor={filterChainHoverColor}
+            $unsetwidth={unsetWidth}
+            $mobilefontcolor={darkMode ? '#fff' : '#000'}
+            $display={isMobile && button.name === 'Inactive' ? 'none' : 'flex'}
+            $borderdisplay={isMobile && button.border}
           >
             {/* {button.img && <img src={button.img} width="18" height="15" alt="" />} */}
             <div>{button.name}</div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import ReactPaginate from 'react-paginate'
 import { useMediaQuery } from 'react-responsive'
-import { useHistory } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { IoArrowBackSharp, IoArrowForwardSharp } from 'react-icons/io5'
 import SkeletonLoader from '../../DashboardComponents/SkeletonLoader'
 import { useThemeContext } from '../../../providers/useThemeContext'
@@ -27,7 +27,7 @@ import {
 } from './style'
 
 const RewardsData = ({ historyData, account, token, isDashboard, noData, setNoData }) => {
-  const { push } = useHistory()
+  const navigate = useNavigate()
   const isMobile = useMediaQuery({ query: '(max-width: 992px)' })
   const itemsPerPage = isMobile ? 5 : isDashboard ? 25 : 5
 
@@ -119,16 +119,16 @@ const RewardsData = ({ historyData, account, token, isDashboard, noData, setNoDa
   }, [account, token, isDashboard, historyData, setNoData])
 
   return (
-    <TransactionDetails hasData={(connected && rewardsData?.length > 0) || '80vh'}>
+    <TransactionDetails $hasdata={(connected && rewardsData?.length > 0) || '80vh'}>
       <TableContent>
-        <Header borderColor={borderColorBox} backColor={bgColorNew}>
-          <Column width={isMobile ? '25%' : '33%'} color={fontColor}>
+        <Header $bordercolor={borderColorBox} $backcolor={bgColorNew}>
+          <Column $width={isMobile ? '25%' : '33%'} $fontcolor={fontColor}>
             <Col>Event</Col>
           </Column>
-          <Column width={isMobile ? '30%' : '33%'} color={fontColor}>
+          <Column $width={isMobile ? '30%' : '33%'} $fontcolor={fontColor}>
             <Col>Date</Col>
           </Column>
-          <Column width={isMobile ? '45%' : '34%'} color={fontColor}>
+          <Column $width={isMobile ? '45%' : '34%'} $fontcolor={fontColor}>
             <Col>Rewards</Col>
           </Column>
         </Header>
@@ -143,11 +143,11 @@ const RewardsData = ({ historyData, account, token, isDashboard, noData, setNoDa
                 .slice(0, isMobile ? 5 : isDashboard ? 25 : 5)}
             </ContentBox>
             <HistoryPagination
-              bgColor={bgColorNew}
-              fontColor={fontColor}
-              fontColor1={fontColor1}
-              fontColor2={fontColor2}
-              borderColor={borderColorBox}
+              $bgcolor={bgColorNew}
+              $fontcolor={fontColor}
+              $fontcolor1={fontColor1}
+              $fontcolor2={fontColor2}
+              $bordercolor={borderColorBox}
             >
               <ReactPaginate
                 breakLabel="..."
@@ -169,14 +169,14 @@ const RewardsData = ({ historyData, account, token, isDashboard, noData, setNoDa
           !noData ? (
             <SkeletonLoader isPosition="false" />
           ) : (
-            <EmptyPanel borderColor={borderColorBox}>
+            <EmptyPanel $bordercolor={borderColorBox}>
               <EmptyInfo
-                weight={500}
-                size={14}
-                lineHeight={20}
-                color={fontColor}
-                flexFlow="column"
-                gap="0px"
+                $weight={500}
+                $size={14}
+                $lineheight={20}
+                $fontcolor={fontColor}
+                $flexflow="column"
+                $gap="0px"
               >
                 <div>
                   {isDashboard
@@ -185,14 +185,13 @@ const RewardsData = ({ historyData, account, token, isDashboard, noData, setNoDa
                 </div>
                 <ExploreButtonStyle
                   onClick={() => {
-                    push(ROUTES.ADVANCED)
+                    navigate(ROUTES.ADVANCED)
                   }}
-                  minWidth="190px"
-                  inputBorderColor={inputBorderColor}
-                  bordercolor={fontColor}
-                  disabled={disableWallet}
-                  backColor={btnColor}
-                  hoverColor={btnHoverColor}
+                  $inputbordercolor={inputBorderColor}
+                  $bordercolor={fontColor}
+                  $disabled={disableWallet}
+                  $backcolor={btnColor}
+                  $hovercolor={btnHoverColor}
                 >
                   <img src={AdvancedImg} className="explore-farms" alt="" />
                   Explore Vaults
@@ -201,20 +200,19 @@ const RewardsData = ({ historyData, account, token, isDashboard, noData, setNoDa
             </EmptyPanel>
           )
         ) : (
-          <EmptyPanel borderColor={borderColorBox}>
-            <EmptyInfo weight={500} size={14} lineHeight={20} color={fontColor}>
+          <EmptyPanel $bordercolor={borderColorBox}>
+            <EmptyInfo $weight={500} $size={14} $lineheight={20} $fontcolor={fontColor}>
               Connect wallet to see full event history.
             </EmptyInfo>
             <ConnectButtonStyle
               onClick={() => {
                 connectAction()
               }}
-              minWidth="190px"
-              inputBorderColor={inputBorderColor}
-              bordercolor={fontColor}
-              disabled={disableWallet}
-              hoverColor={btnHoverColor}
-              backColor={btnColor}
+              $inputbordercolor={inputBorderColor}
+              $bordercolor={fontColor}
+              $disabled={disableWallet}
+              $hovercolor={btnHoverColor}
+              $backcolor={btnColor}
             >
               Connect
             </ConnectButtonStyle>

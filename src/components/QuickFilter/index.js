@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useWindowWidth } from '@react-hook/window-size'
 import { debounce } from 'lodash'
 import { MdCheck } from 'react-icons/md'
@@ -109,7 +109,7 @@ const QuickFilter = ({
   }, [flag, onSelectActiveType])
 
   const { pathname } = useLocation()
-  const { push } = useHistory()
+  const navigate = useNavigate()
 
   const [paramObj, setParamObj] = useState({})
 
@@ -372,12 +372,12 @@ const QuickFilter = ({
         }
       }
     }
-    push(`${pathname}?${params.toString()}`)
+    navigate(`${pathname}?${params.toString()}`)
   }, [selectedClass, paramObj]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const clearFilter = () => {
     setParamObj({})
-    push(pathname)
+    navigate(pathname)
   }
 
   useEffect(() => {
@@ -437,14 +437,14 @@ const QuickFilter = ({
       {windowMode ? (
         <WebView>
           <QuickFilterContainer>
-            <DivWidth className="chain" width="100%" marginBottom="15px" backColor={bgColorNew}>
+            <DivWidth className="chain" $width="100%" $marginbottom="15px" $backcolor={bgColorNew}>
               <DivWidth
                 className="chain"
-                background="none"
-                width="100%"
-                display="flex"
-                justifyContent="start"
-                backColor={bgColorNew}
+                $background="none"
+                $width="100%"
+                $display="flex"
+                $justifycontent="start"
+                $backcolor={bgColorNew}
               >
                 {isSpecialApp ? (
                   <></>
@@ -452,9 +452,9 @@ const QuickFilter = ({
                   <ChainGroup>
                     {ChainsList.map((item, i) => (
                       <ChainButton
-                        backColor={bgColorNew}
-                        hoverColor={filterChainHoverColor}
-                        borderColor={borderColorBox}
+                        $backcolor={bgColorNew}
+                        $hovercolor={filterChainHoverColor}
+                        $bordercolor={borderColorBox}
                         className={`${selectedClass.includes(i) ? 'active' : ''}`}
                         data-tip
                         data-for={`chain-${item.name}`}
@@ -501,11 +501,11 @@ const QuickFilter = ({
                 )}
               </DivWidth>
             </DivWidth>
-            <DivWidth right="0" borderRadius="10" backColor={bgColorNew}>
+            <DivWidth $right="0" $borderradius="10" $backcolor={bgColorNew}>
               <ClearFilter
-                fontColor={fontColor2}
-                backColor={bgColorNew}
-                borderColor={borderColorBox}
+                $fontcolor={fontColor2}
+                $backcolor={bgColorNew}
+                $bordercolor={borderColorBox}
                 onClick={() => {
                   document.getElementById('search-input').value = ''
                   setSearchQuery('')
@@ -532,13 +532,13 @@ const QuickFilter = ({
                   clearFilter()
                 }}
               >
-                <Counter count={filterCount}>{filterCount > 0 ? filterCount : ''}</Counter>
+                <Counter $count={filterCount}>{filterCount > 0 ? filterCount : ''}</Counter>
                 &nbsp;Clear Filters
               </ClearFilter>
             </DivWidth>
           </QuickFilterContainer>
-          <QuickFilterContainer position="relative" justifyContent="space-between">
-            <DivWidth className="first" borderRadius="10" display="flex" alignItems="center">
+          <QuickFilterContainer $position="relative" $justifycontent="space-between">
+            <DivWidth className="first" $borderradius="10" $display="flex" $alignitems="center">
               <SearchBar
                 placeholder="Assets, platforms..."
                 onKeyDown={updateSearchQuery}
@@ -546,7 +546,7 @@ const QuickFilter = ({
                 inputText={inputText}
                 setInputText={setInputText}
               />
-              <DivWidth borderRadius="10" marginRight="15px" backColor={bgColorNew}>
+              <DivWidth $borderradius="10" $marginright="15px" $backcolor={bgColorNew}>
                 <ButtonGroup
                   buttons={RiskList}
                   doSomethingAfterClick={printRisk}
@@ -556,12 +556,12 @@ const QuickFilter = ({
                   setSortOrder={setSortOrder}
                 />
               </DivWidth>
-              <DivWidth display="none" marginRight="15px" height="fit-content">
+              <DivWidth $display="none" $marginright="15px" $height="fit-content">
                 <Dropdown>
                   <TrendDropDown
-                    num={trendsBackNum}
-                    bordercolor={borderColorBox}
-                    fontcolor={fontColor}
+                    // $num={trendsBackNum}
+                    $bordercolor={borderColorBox}
+                    $fontcolor={fontColor}
                   >
                     <div className="name">{trendName}</div>
                     <img className="narrow" src={SpecNarrowDown} alt="" />
@@ -575,7 +575,7 @@ const QuickFilter = ({
                         <TrendDropDownItem
                           key={i}
                           className={i === 0 ? 'first' : i === TrendsList.length - 1 ? 'last' : ''}
-                          num={i}
+                          $num={i}
                           onClick={() => {
                             setInputText(item.status)
                             onClickSearch(item.status)
@@ -590,7 +590,7 @@ const QuickFilter = ({
                   )}
                 </Dropdown>
               </DivWidth>
-              <DivWidth borderRadius="10" marginRight="15px" backColor={bgColorNew}>
+              <DivWidth $borderradius="10" $marginright="15px" $backcolor={bgColorNew}>
                 <ButtonGroup
                   buttons={AssetsList}
                   doSomethingAfterClick={printAsset}
@@ -601,7 +601,7 @@ const QuickFilter = ({
               </DivWidth>
             </DivWidth>
 
-            <DivWidth borderRadius="10">
+            <DivWidth $borderradius="10">
               <ButtonGroup
                 buttons={FarmsList}
                 doSomethingAfterClick={printFarm}
@@ -614,13 +614,13 @@ const QuickFilter = ({
         </WebView>
       ) : (
         <MobileView>
-          <FarmButtonPart justifyContent="start">
-            <ChainGroup borderColor={borderColorBox}>
+          <FarmButtonPart $justifycontent="start">
+            <ChainGroup $bordercolor={borderColorBox}>
               {ChainsList.map((item, i) => (
                 <ChainButton
-                  backColor={bgColorNew}
-                  hoverColor={filterChainHoverColor}
-                  borderColor={borderColorBox}
+                  $backcolor={bgColorNew}
+                  $hovercolor={filterChainHoverColor}
+                  $bordercolor={borderColorBox}
                   className={`${selectedClass.includes(i) ? 'active' : ''}`}
                   data-tip
                   data-for={`chain-${item.name}`}
@@ -680,11 +680,11 @@ const QuickFilter = ({
               oneClass="time-filter"
             />
             <FarmFiltersPart
-              backColor={bgColorNew}
-              fontColor={fontColor}
-              mobileColor={darkMode ? '#fff' : '#000'}
-              borderColor={borderColorBox}
-              filterColor={filterColor}
+              $backcolor={bgColorNew}
+              $fontcolor={fontColor}
+              $mobilecolor={darkMode ? '#fff' : '#000'}
+              $bordercolor={borderColorBox}
+              $filtercolor={filterColor}
             >
               <div className="filter-part">
                 <button
@@ -705,14 +705,14 @@ const QuickFilter = ({
                 show={filterShow}
                 onHide={handleFilterClose}
                 placement="left"
-                backcolor={bgColorNew}
-                borderColor={borderColorBox}
-                filtercolor={filterColor}
+                $backcolor={bgColorNew}
+                $bordercolor={borderColorBox}
+                $filtercolor={filterColor}
                 className="farm-mobile-filter offcanvas-bottom"
               >
                 <FilterOffCanvasHeader closeButton>
                   <FarmFilter
-                    color={darkMode ? '#fff' : '#000'}
+                    $fontcolor={darkMode ? '#fff' : '#000'}
                     imgFilter={
                       darkMode
                         ? 'invert(100%) sepia(6%) saturate(2%) hue-rotate(223deg) brightness(115%) contrast(100%)'
@@ -725,12 +725,12 @@ const QuickFilter = ({
                 </FilterOffCanvasHeader>
                 <FilterOffCanvasBody
                   className="filter-show"
-                  filtercolor={filterColor}
-                  backcolor={bgColorNew}
-                  fontcolor={fontColor}
-                  bordercolor={borderColorBox}
-                  hovercolor={mobileFilterHoverColor}
-                  mobilefilterdisablecolor={mobileFilterDisableColor}
+                  $filtercolor={filterColor}
+                  $backcolor={bgColorNew}
+                  $fontcolor={fontColor}
+                  $bordercolor={borderColorBox}
+                  $hovercolor={mobileFilterHoverColor}
+                  $mobilefilterdisablecolor={mobileFilterDisableColor}
                 >
                   <DivWidth mobileMarginBottom="25px">
                     <ButtonGroup
@@ -739,7 +739,7 @@ const QuickFilter = ({
                       clickedId={riskId}
                       setClickedId={setRiskId}
                       fontColor={fontColor2}
-                      unsetWidth={false}
+                      $unsetwidth={false}
                     />
                   </DivWidth>
                   <DivWidth mobileMarginBottom="25px">
@@ -751,12 +751,12 @@ const QuickFilter = ({
                       fontColor={fontColor2}
                     />
                   </DivWidth>
-                  <DivWidth display="none" mobileMarginBottom="10px" height="fit-content">
+                  <DivWidth $display="none" mobileMarginBottom="10px" $height="fit-content">
                     <Dropdown>
                       <TrendDropDown
-                        num={trendsBackNum}
-                        bordercolor={borderColorBox}
-                        fontcolor={fontColor}
+                        // $num={trendsBackNum}
+                        $bordercolor={borderColorBox}
+                        $fontcolor={fontColor}
                       >
                         <div className="name">{trendName}</div>
                         <img className="narrow" src={SpecNarrowDown} alt="" />
@@ -772,7 +772,7 @@ const QuickFilter = ({
                               className={
                                 i === 0 ? 'first' : i === TrendsList.length - 1 ? 'last' : ''
                               }
-                              num={i}
+                              $num={i}
                               onClick={() => {
                                 setTrendName(item.name)
                                 setTrendsBackNum(i)
@@ -787,8 +787,8 @@ const QuickFilter = ({
                     </Dropdown>
                   </DivWidth>
                   <CheckBoxDiv
-                    bgColor={darkMode ? '' : '#f9f5ff'}
-                    fontColor={darkMode ? '#ffffff' : '#344054'}
+                    $bgcolor={darkMode ? '' : '#f9f5ff'}
+                    $fontcolor={darkMode ? '#ffffff' : '#344054'}
                     onClick={() => {
                       if (showInactiveFarms) {
                         setInactiveId(-1)
@@ -807,7 +807,7 @@ const QuickFilter = ({
                     <div>Show inactive</div>
                   </CheckBoxDiv>
                   <ApplyFilterBtn
-                    hoverColor={btnHoverColor}
+                    $hovercolor={btnHoverColor}
                     type="button"
                     onClick={() => {
                       if (riskId !== -1) {
@@ -852,15 +852,15 @@ const QuickFilter = ({
             />
             <div className="clear-filter">
               <MobileListFilter
-                mobileBackColor={mobileFilterBackColor}
-                backColor={bgColorNew}
-                bgColor={bgColor}
-                borderColor={borderColorBox}
-                fontColor={fontColor}
-                fontColor1={fontColor1}
-                fontColor4={fontColor4}
-                // filterColor={filterColor}
-                hoverColor={hoverColor}
+                $mobilebackcolor={mobileFilterBackColor}
+                $backcolor={bgColorNew}
+                $bgcolor={bgColor}
+                $bordercolor={borderColorBox}
+                $fontcolor={fontColor}
+                $fontcolor1={fontColor1}
+                $fontcolor4={fontColor4}
+                // $filtercolor={filterColor}
+                $hovercolor={hoverColor}
               >
                 <Dropdown className="filter-sort">
                   <Dropdown.Toggle className="toggle">
@@ -870,7 +870,7 @@ const QuickFilter = ({
                       <img src={SortsList[sortId].img} className="sort-icon" alt="sort" />
                     </div>
                     <MobileFilterBtn
-                      inputBorderColor={borderColorBox}
+                      $inputbordercolor={borderColorBox}
                       type="button"
                       darkmode={darkMode ? 'true' : 'false'}
                     >
@@ -933,12 +933,12 @@ const QuickFilter = ({
                   ])
                   clearFilter()
                 }}
-                borderColor={borderColorBox}
-                fontColor={fontColor2}
-                mobileColor={darkMode ? '#fff' : '#000'}
-                backColor={bgColorNew}
+                $bordercolor={borderColorBox}
+                $fontcolor={fontColor2}
+                $mobilecolor={darkMode ? '#fff' : '#000'}
+                $backcolor={bgColorNew}
               >
-                <Counter count={mobileFilterCount}>
+                <Counter $count={mobileFilterCount}>
                   {mobileFilterCount > 0 ? mobileFilterCount : ''}
                 </Counter>
                 &nbsp;Clear

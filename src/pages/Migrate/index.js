@@ -6,7 +6,6 @@ import queryString from 'query-string'
 import { useLocation } from 'react-router-dom'
 import useEffectWithPrevious from 'use-effect-with-previous'
 import { useMediaQuery } from 'react-responsive'
-import { ethers } from 'ethers'
 import { useSetChain } from '@web3-onboard/react'
 import { Dropdown } from 'react-bootstrap'
 import { useVaults } from '../../providers/Vault'
@@ -1057,44 +1056,44 @@ const Migrate = () => {
   }, [highestPosition, highestApyVault, chainId]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Container bgColor={bgColorNew}>
-      <Inner marginBottom={isMobile ? '0px' : '55px'}>
+    <Container $bgcolor={bgColorNew}>
+      <Inner $marginbottom={isMobile ? '0px' : '55px'}>
         <MigrateTop>
-          <PageTitle color={darkMode ? '#ffffff' : '"#101828"'}>Migrate</PageTitle>
+          <PageTitle $fontcolor={darkMode ? '#ffffff' : '"#101828"'}>Migrate</PageTitle>
         </MigrateTop>
-        <PageIntro color={darkMode ? '#ffffff' : '#475467'}>
+        <PageIntro $fontcolor={darkMode ? '#ffffff' : '#475467'}>
           Find alternatives for your existing positions and migrate in one click.
         </PageIntro>
-        <SpaceLine borderColor={borderColorBox} />
+        <SpaceLine $bordercolor={borderColorBox} />
       </Inner>
       <Inner
         className="box-faq"
-        display="flex"
-        justifyContent="center"
-        alignItems="flex-start"
-        padding="0px 100px"
-        borderColor={borderColorBox}
+        $display="flex"
+        $justifycontent="center"
+        $alignitems="flex-start"
+        $padding="0px 100px"
+        $bordercolor={borderColorBox}
       >
         <MigrateBox
           className="migrate-box"
-          width={isMobile ? '100%' : '40%'}
-          marginBottom={isMobile ? '70px' : '0px'}
+          $width={isMobile ? '100%' : '40%'}
+          $marginbottom={isMobile ? '70px' : '0px'}
         >
           <BoxHeading>
             <div>
               <NewLabel
-                weight="600"
-                height="28px"
-                size="16px"
-                color={darkMode ? '#ffffff' : '#101828'}
+                $weight="600"
+                $height="28px"
+                $size="16px"
+                $fontcolor={darkMode ? '#ffffff' : '#101828'}
               >
                 Migrate Position
               </NewLabel>
               <NewLabel
-                weight="400"
-                height="20px"
-                size="14px"
-                color={darkMode ? '#ffffff' : '#475467'}
+                $weight="400"
+                $height="20px"
+                $size="14px"
+                $fontcolor={darkMode ? '#ffffff' : '#475467'}
               >
                 Displaying strategies on{' '}
                 <span
@@ -1107,30 +1106,30 @@ const Migrate = () => {
               <Dropdown>
                 <CurrencyDropDown
                   id="dropdown-basic"
-                  bgcolor={bgColorNew}
-                  fontcolor2={fontColor2}
-                  hovercolor={hoverColorNew}
+                  $bgcolor={bgColorNew}
+                  $fontcolor2={fontColor2}
+                  $hovercolor={hoverColorNew}
                   style={{ padding: 0 }}
                 >
                   <CurrencySelect
-                    backcolor={backColor}
-                    fontcolor2={fontColor2}
-                    hovercolor={hoverColor}
+                    $backcolor={backColor}
+                    $fontcolor2={fontColor2}
+                    $hovercolor={hoverColor}
                   >
                     <img src={chainUrl} alt={networkName} />
                     <img src={dropDown} alt="Chevron Down" />
                   </CurrencySelect>
                 </CurrencyDropDown>
-                <CurrencyDropDownMenu backcolor={backColorButton}>
+                <CurrencyDropDownMenu $backcolor={backColorButton}>
                   {ChainsList.map((item, i) => (
                     <CurrencyDropDownItem
                       key={i}
-                      bgcolor={Number(selectedChain) === Number(item.chainId) ? '#F7F9FF' : ''}
+                      $bgcolor={Number(selectedChain) === Number(item.chainId) ? '#F7F9FF' : ''}
+                      $fontcolor={fontColor2}
                       onClick={() => {
                         setSelectedChain(item.chainId)
                         onNetworkChange(item.chainId)
                       }}
-                      fontcolor={fontColor2}
                     >
                       <img src={item.img} alt={item.name} />
                     </CurrencyDropDownItem>
@@ -1141,9 +1140,9 @@ const Migrate = () => {
               <ChainGroup>
                 {ChainsList.map((item, i) => (
                   <ChainButton
-                    backColor={bgColorNew}
-                    hoverColor={filterChainHoverColor}
-                    borderColor={borderColorBox}
+                    $backcolor={bgColorNew}
+                    $hovercolor={filterChainHoverColor}
+                    $bordercolor={borderColorBox}
                     className={chainId.toString() === item.chainId.toString() ? 'active' : ''}
                     data-tip
                     data-for={`chain-${item.name}`}
@@ -1161,10 +1160,10 @@ const Migrate = () => {
               ''
             )}
           </BoxHeading>
-          <BoxTitle color={darkMode ? '#ffffff' : '#475467'}>My existing position</BoxTitle>
+          <BoxTitle $fontcolor={darkMode ? '#ffffff' : '#475467'}>My existing position</BoxTitle>
           <VaultBox
-            bgColor="#ffffff"
-            border="1px solid #D0D5DD"
+            $bgcolor="#ffffff"
+            $border="1px solid #D0D5DD"
             onClick={() => {
               if (!connected || noPosition) {
                 setShowPositionModal(false)
@@ -1175,16 +1174,16 @@ const Migrate = () => {
             className={!connected || noPosition ? 'inactive' : ''}
           >
             {!connected || (noPosition && highestApyVault) || isSpecialChain ? (
-              <NewLabel size="12px" height="20px" weight="500">
+              <NewLabel $size="12px" $height="20px" $weight="500">
                 No positions found.
               </NewLabel>
             ) : (
               <>
-                <Content alignItems="start">
+                <Content $alignitems="start">
                   <BadgeToken>
                     <BadgeIcon
-                      width={!highestPosition ? 'auto' : '13.096px'}
-                      margin={!highestPosition ? '0px' : '0px 5px 0px 0px'}
+                      $width={!highestPosition ? 'auto' : '13.096px'}
+                      $margin={!highestPosition ? '0px' : '0px 5px 0px 0px'}
                     >
                       {highestPosition ? (
                         <img
@@ -1192,7 +1191,7 @@ const Migrate = () => {
                           alt=""
                         />
                       ) : (
-                        <NewLabel size="12px" height="20px" weight="500">
+                        <NewLabel $size="12px" $height="20px" $weight="500">
                           Scanning your positions
                         </NewLabel>
                       )}
@@ -1211,7 +1210,7 @@ const Migrate = () => {
                     )}
                   </BadgeToken>
                 </Content>
-                <Content alignItems="end">
+                <Content $alignitems="end">
                   <img src={ChevronDown} alt="Chevron Down" />
                 </Content>
               </>
@@ -1242,25 +1241,25 @@ const Migrate = () => {
             connected={connected}
             currencyRate={currencyRate}
           />
-          <BoxTitle color={darkMode ? '#ffffff' : '#475467'}>Migrate to</BoxTitle>
+          <BoxTitle $fontcolor={darkMode ? '#ffffff' : '#475467'}>Migrate to</BoxTitle>
           <VaultBox
             className="from-vault"
-            bgColor="#ffffff"
-            border="1px solid #D0D5DD"
+            $bgcolor="#ffffff"
+            $border="1px solid #D0D5DD"
             onClick={() => {
               setShowVaultModal(true)
             }}
           >
-            <Content alignItems="start">
+            <Content $alignitems="start">
               <BadgeToken>
                 <BadgeIcon
-                  width={!highestApyVault ? 'auto' : '13.096px'}
-                  margin={!highestApyVault ? '0px' : '0px 5px 0px 0px'}
+                  $width={!highestApyVault ? 'auto' : '13.096px'}
+                  $margin={!highestApyVault ? '0px' : '0px 5px 0px 0px'}
                 >
                   {highestApyVault ? (
                     <img src={chainUrl} alt="" />
                   ) : (
-                    <NewLabel size="12px" height="20px" weight="500">
+                    <NewLabel $size="12px" $height="20px" $weight="500">
                       Searching new opportunities
                     </NewLabel>
                   )}
@@ -1279,7 +1278,7 @@ const Migrate = () => {
                 )}
               </BadgeToken>
             </Content>
-            <Content alignItems="end">
+            <Content $alignitems="end">
               <img src={ChevronDown} alt="Chevron Down" />
             </Content>
           </VaultBox>
@@ -1308,7 +1307,6 @@ const Migrate = () => {
             addresses={addresses}
             account={account}
             balances={balances}
-            ethers={ethers}
             positionAddress={positionVaultAddress}
             setPickedToken={setPickedTokenWith}
             setBalance={setBalance}
@@ -1325,40 +1323,40 @@ const Migrate = () => {
             setAllMatchVaultList={setAllMatchVaultList}
           />
           <NewLabel
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            flexDirection="column"
-            marginBottom="20px"
+            $display="flex"
+            $justifycontent="space-between"
+            $alignitems="center"
+            $flexdirection="column"
+            $marginbottom="20px"
           >
             <NewLabel
-              weight="600"
-              size="14px"
-              height="24px"
-              marginBottom="10px"
-              marginTop="16px"
-              color={darkMode ? '#ffffff' : '#344054'}
+              $weight="600"
+              $size="14px"
+              $height="24px"
+              $marginbottom="10px"
+              $margintop="16px"
+              $fontcolor={darkMode ? '#ffffff' : '#344054'}
             >
               Details
             </NewLabel>
-            <NewLabel display="flex" justifyContent="space-between" marginBottom="10px">
+            <NewLabel $display="flex" $justifycontent="space-between" $marginbottom="10px">
               <NewLabel
-                display="flex"
-                justifyContent="start"
-                size="14px"
-                weight="400"
-                height="24px"
-                color={darkMode ? '#ffffff' : '#344054'}
+                $display="flex"
+                $justifycontent="start"
+                $size="14px"
+                $weight="400"
+                $height="24px"
+                $fontcolor={darkMode ? '#ffffff' : '#344054'}
               >
                 APY change
               </NewLabel>
               <NewLabel
-                display="flex"
-                justifyContent="end"
-                size="14px"
-                weight="600"
-                height="24px"
-                color={darkMode ? '#ffffff' : '#344054'}
+                $display="flex"
+                $justifycontent="end"
+                $size="14px"
+                $weight="600"
+                $height="24px"
+                $fontcolor={darkMode ? '#ffffff' : '#344054'}
               >
                 {!connected || (noPosition && highestApyVault) || isSpecialChain ? (
                   '0%'
@@ -1380,24 +1378,24 @@ const Migrate = () => {
                 </span>
               </NewLabel>
             </NewLabel>
-            <NewLabel display="flex" justifyContent="space-between" marginBottom="10px">
+            <NewLabel $display="flex" $justifycontent="space-between" $marginbottom="10px">
               <NewLabel
-                display="flex"
-                justifyContent="start"
-                size="14px"
-                weight="400"
-                height="24px"
-                color={darkMode ? '#ffffff' : '#344054'}
+                $display="flex"
+                $justifycontent="start"
+                $size="14px"
+                $weight="400"
+                $height="24px"
+                $fontcolor={darkMode ? '#ffffff' : '#344054'}
               >
                 Expected Yield Change
               </NewLabel>
               <NewLabel
-                display="flex"
-                justifyContent="end"
-                size="14px"
-                weight="600"
-                height="24px"
-                color={darkMode ? '#ffffff' : '#344054'}
+                $display="flex"
+                $justifycontent="end"
+                $size="14px"
+                $weight="600"
+                $height="24px"
+                $fontcolor={darkMode ? '#ffffff' : '#344054'}
               >
                 {!connected || (noPosition && highestApyVault) || isSpecialChain ? (
                   `${currencySym}0.00/yr`
@@ -1425,24 +1423,24 @@ const Migrate = () => {
                 </span>
               </NewLabel>
             </NewLabel>
-            <NewLabel display="flex" justifyContent="space-between" marginBottom="10px">
+            <NewLabel $display="flex" $justifycontent="space-between" $marginbottom="10px">
               <NewLabel
-                display="flex"
-                justifyContent="start"
-                size="14px"
-                weight="400"
-                height="24px"
-                color={darkMode ? '#ffffff' : '#344054'}
+                $display="flex"
+                $justifycontent="start"
+                $size="14px"
+                $weight="400"
+                $height="24px"
+                $fontcolor={darkMode ? '#ffffff' : '#344054'}
               >
                 Platform Fees
               </NewLabel>
               <NewLabel
-                display="flex"
-                justifyContent="end"
-                size="14px"
-                weight="600"
-                height="24px"
-                color={darkMode ? '#ffffff' : '#344054'}
+                $display="flex"
+                $justifycontent="end"
+                $size="14px"
+                $weight="600"
+                $height="24px"
+                $fontcolor={darkMode ? '#ffffff' : '#344054'}
               >
                 Free
               </NewLabel>
@@ -1492,8 +1490,8 @@ const Migrate = () => {
           />
         </MigrateBox>
         <NewLabel
-          marginLeft={isMobile ? '0px' : '32px'}
-          width={isMobile ? '100%' : '60%'}
+          $marginleft={isMobile ? '0px' : '32px'}
+          $width={isMobile ? '100%' : '60%'}
           className="migrate-faq"
         >
           {accordianText.map((text, i) => {

@@ -2,162 +2,162 @@ import styled from 'styled-components'
 
 const HalfInfo = styled.div`
   border-radius: 12px;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   transition: 0.25s;
-  margin-bottom: ${props => props.marginBottom};
+  margin-bottom: ${props => props.$marginbottom};
   font-family: 'Inter', sans-serif;
-  border: 2px solid ${props => props.borderColor};
+  border: 2px solid ${props => props.$bordercolor};
 
   ${props =>
-    props.padding
+    props.$padding
       ? `
-  padding: ${props.padding};
+  padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-  display: ${props.display};
+  display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-  justify-content: ${props.justifyContent};
+  justify-content: ${props.$justifycontent};
   `
       : ''}
 `
 
 const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
+  font-weight: ${props => props.$weight || '400'};
+  font-size: ${props => props.$size || '20px'};
+  line-height: ${props => props.$height || '0px'};
 
   ${props =>
-    props.backColor
+    props.$backcolor
       ? `
-    background: ${props.backColor};
+    background: ${props.$backcolor};
   `
       : ''}
   ${props =>
-    props.cursor
+    props.$cursor
       ? `
-    cursor: ${props.cursor};
+    cursor: ${props.$cursor};
   `
       : ''}
   ${props =>
-    props.border
+    props.$border
       ? `
-    border: ${props.border};
+    border: ${props.$border};
   `
       : ''}
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
     `
       : ``}
   ${props =>
-    props.transition
+    props.$transition
       ? `
-    transition: ${props.transition};
+    transition: ${props.$transition};
     `
       : ``}
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
 
   span.symbol {
     position: absolute;
-    color: ${props => props.fontColor2};
+    color: ${props => props.$fontcolor2};
     font-size: 8px;
     right: 0;
     top: 13px;
@@ -218,7 +218,7 @@ const NewLabel = styled.div`
 `
 
 const DescInfo = styled.div`
-  color: ${props => props.fontColor3};
+  color: ${props => props.$fontcolor3};
   font-weight: 400;
   font-size: 14px;
   line-height: 24px;
@@ -236,7 +236,7 @@ const DescInfo = styled.div`
   p {
     a {
       cursor: pointer;
-      color: ${props => props.fontColor6};
+      color: ${props => props.$fontcolor6};
     }
   }
 `
@@ -245,44 +245,44 @@ const FlexDiv = styled.div`
   display: flex;
 
   ${props =>
-    props.gap
+    props.$gap
       ? `
-      gap: ${props.gap};
+      gap: ${props.$gap};
     `
       : ''}
 
   ${props =>
-    props.padding
+    props.$padding
       ? `
-      padding: ${props.padding};
+      padding: ${props.$padding};
     `
       : ''}
 
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
 
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
 
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
 
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
 
@@ -295,34 +295,34 @@ const FlexDiv = styled.div`
 
 const InfoLabel = styled.a`
   ${props =>
-    props.weight
+    props.$weight
       ? `
-  font-weight: ${props.weight};
+  font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-  display: ${props.display};
+  display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-  font-size: ${props.size};
+  font-size: ${props.$size};
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-  line-height: ${props.height};
+  line-height: ${props.$height};
   `
       : ''}
   margin-right: 15px;
   justify-content: center;
-  background: ${props => props.bgColor};
+  background: ${props => props.$bgcolor};
   border-radius: 8px;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   text-decoration: none;
   padding: 9px 17px;
   align-self: center;
@@ -341,7 +341,7 @@ const InfoLabel = styled.a`
 
   &:hover {
     color: #1f2937;
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
     .address {
       font-weight: bold;
     }

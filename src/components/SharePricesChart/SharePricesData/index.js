@@ -155,12 +155,12 @@ const SharePricesData = ({ chainName, token, setSharePricesData, iporHvaultsLFAP
   }, [chainId, address, token, setSharePricesData, sharePriceData])
 
   return (
-    <Container backColor={bgColorNew} borderColor={borderColorBox}>
+    <Container $backcolor={bgColorNew} $bordercolor={borderColorBox}>
       <Header>
         <Total>
           <FlexDiv>
             <TooltipInfo>
-              <TokenSymbol className="priceshare" color="#15B088">
+              <TokenSymbol className="priceshare" $fontcolor="#15B088">
                 Share Price
               </TokenSymbol>
             </TooltipInfo>

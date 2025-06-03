@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useMediaQuery } from 'react-responsive'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import ListItem from '../ListItem'
 import { useRate } from '../../../providers/Rate'
 import { useThemeContext } from '../../../providers/useThemeContext'
@@ -55,36 +55,36 @@ const ActionRow = ({ info }) => {
   return (
     <DetailView
       className="latest-yield-row"
-      borderColor={borderColorBox}
-      hoverColor={hoverColorRow}
-      mode={switchMode}
+      $bordercolor={borderColorBox}
+      $hovercolor={hoverColorRow}
+      $mode={switchMode}
       style={{
         background: isMobile ? bgColorNew : 'none',
       }}
     >
-      <FlexDiv padding={isMobile ? '15px 25px' : '0'}>
+      <FlexDiv $padding={isMobile ? '15px 25px' : '0'}>
         <>
           <Content
-            width="30%"
-            color={darkMode ? '#e8e8e8' : '#202020'}
-            paddingRight={isMobile ? '8px' : '0px'}
+            $width="30%"
+            $fontcolor={darkMode ? '#e8e8e8' : '#202020'}
+            $paddingright={isMobile ? '8px' : '0px'}
           >
             <div className="timestamp" data-tip data-for={`tooltip-latest-yield-${info.timestamp}`}>
               {formatAge(info.timestamp)} ago
             </div>
-            <ReactTooltip
+            <Tooltip
               id={`tooltip-latest-yield-${info.timestamp}`}
               backgroundColor={darkMode ? 'white' : '#101828'}
               borderColor={darkMode ? 'white' : 'black'}
               textColor={darkMode ? 'black' : 'white'}
               place="top"
             >
-              <NewLabel size="10px" height="14px" weight="600">
+              <NewLabel $size="10px" $height="14px" $weight="600">
                 <div dangerouslySetInnerHTML={formatDateTime(info.timestamp)} />
               </NewLabel>
-            </ReactTooltip>
+            </Tooltip>
           </Content>
-          <Content display="flex" flexDirection="column" alignItems="end">
+          <Content $display="flex" $flexdirection="column" $alignitems="end">
             <MobileGreenBox>
               <img src={UpperIcon} alt="upper icon" />
               <ListItem
@@ -115,7 +115,7 @@ const ActionRow = ({ info }) => {
               {info.platform === 'Autopilot' && (
                 <Autopilot>
                   <img src={Diamond} width="12" height="12" alt="" />
-                  <NewLabel size="10px" weight="500" margin="auto">
+                  <NewLabel $size="10px" $weight="500" $margin="auto">
                     {info.platform}
                   </NewLabel>
                 </Autopilot>

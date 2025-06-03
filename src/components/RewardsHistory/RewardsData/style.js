@@ -6,7 +6,7 @@ const TransactionDetails = styled.div`
   transition: 0.25s;
 
   @media screen and (max-width: 992px) {
-    height: ${props => props.hasData};
+    height: ${props => props.$hasdata};
   }
 `
 
@@ -14,7 +14,7 @@ const TableContent = styled.div`
   @media screen and (max-width: 992px) {
     // overflow-x: scroll;
     ${props =>
-      props.count === 0
+      props.$count === 0
         ? `
         border-radius: unset;
         border: none;
@@ -39,8 +39,8 @@ const HistoryPagination = styled.div`
   li.previous,
   li.next {
     border-radius: 8px;
-    border: 1px solid ${props => props.borderColor};
-    background: ${props => props.bgColor};
+    border: 1px solid ${props => props.$bordercolor};
+    background: ${props => props.$bgcolor};
     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
     display: flex;
     padding: 8px 14px;
@@ -63,7 +63,7 @@ const HistoryPagination = styled.div`
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
-    color: ${props => props.fontColor2};
+    color: ${props => props.$fontcolor2};
   }
 
   li.previous a svg,
@@ -73,7 +73,7 @@ const HistoryPagination = styled.div`
 
   a.paginate-item-link {
     text-decoration: none;
-    color: ${props => props.fontColor};
+    color: ${props => props.$fontcolor};
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;
@@ -98,29 +98,29 @@ const HistoryPagination = styled.div`
 const Header = styled.div`
   width: 100%;
   padding: 12px 24px;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   display: flex;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
 
   @media screen and (max-width: 992px) {
     border-radius: 0px;
     border: unset;
-    border-bottom: 1px solid ${props => props.borderColor};
+    border-bottom: 1px solid ${props => props.$bordercolor};
   }
 `
 
 const Column = styled.div`
-  width: ${props => props.width};
-  color: ${props => props.color};
+  width: ${props => props.$width};
+  color: ${props => props.$fontcolor};
   font-weight: 500;
   font-size: 12px;
   line-height: 18px;
   display: flex;
   justify-content: start;
-  ${props => (props.display ? `display: ${props.display}` : '')};
-  ${props => (props.justifyContent ? `justify-content: ${props.justifyContent}` : '')};
+  ${props => (props.$display ? `display: ${props.$display}` : '')};
+  ${props => (props.$justifycontent ? `justify-content: ${props.$justifycontent}` : '')};
 `
 
 const Col = styled.div`
@@ -153,7 +153,7 @@ const Col = styled.div`
 const EmptyPanel = styled.div`
   padding-top: 12%;
   padding-bottom: 12%;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   border-top: none;
   border-bottom-right-radius: 5px;
   border-bottom-left-radius: 5px;
@@ -175,51 +175,51 @@ const ContentBox = styled.div`
 
 const EmptyInfo = styled.div`
   ${props =>
-    props.weight
+    props.$weight
       ? `
-    font-weight: ${props.weight};
+    font-weight: ${props.$weight};
   `
       : ''}
   ${props =>
-    props.size
+    props.$size
       ? `
-    font-size: ${props.size}px;
+    font-size: ${props.$size}px;
   `
       : ''}
   ${props =>
-    props.lineHeight
+    props.$lineheight
       ? `
-    line-height: ${props.lineHeight}px;
+    line-height: ${props.$lineheight}px;
   `
       : ''}
   ${props =>
-    props.height
+    props.$height
       ? `
-    height: ${props.height};
+    height: ${props.$height};
   `
       : ''}
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.flexFlow
+    props.$flexflow
       ? `
-    flex-flow: ${props.flexFlow};
+    flex-flow: ${props.$flexflow};
   `
       : ''}
   ${props =>
-    props.gap
+    props.$gap
       ? `
-    gap: ${props.gap};
+    gap: ${props.$gap};
   `
       : 'gap: 23px;'}
 
@@ -245,7 +245,7 @@ const ConnectButtonStyle = styled.button`
   justify-content: center;
   margin: 15px auto;
   width: 250px;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   border-radius: 8px;
   border: none;
   color: #fff;
@@ -254,7 +254,7 @@ const ConnectButtonStyle = styled.button`
   transition: 0.5s;
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   ${props =>
@@ -280,10 +280,10 @@ const ConnectButtonStyle = styled.button`
       props.connected
         ? `
       background: none;
-      color: ${props.fontcolor};
+      color: ${props.$fontcolor};
       font-size: 11px;
       padding: 2px 16px 2px 7px;
-      border: 1px solid ${props.bordercolor};
+      border: 1px solid ${props.$bordercolor};
       `
         : `
       padding: 10px 11px;
@@ -301,7 +301,7 @@ const ExploreButtonStyle = styled.button`
   margin: 15px auto;
   padding: 12px 0px 12px 0px;
   width: 250px;
-  background: ${props => props.backColor};
+  background: ${props => props.$backcolor};
   border-radius: 8px;
   border: none;
   color: white;
@@ -315,7 +315,7 @@ const ExploreButtonStyle = styled.button`
   }
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   @media screen and (max-width: 992px) {
@@ -343,8 +343,8 @@ const LeaderboardPagination = styled.div`
   li.previous,
   li.next {
     border-radius: 8px;
-    border: 1px solid ${props => props.borderColor};
-    background: ${props => props.bgColor};
+    border: 1px solid ${props => props.$bordercolor};
+    background: ${props => props.$bgcolor};
     box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
     display: flex;
     padding: 8px 14px;
@@ -375,7 +375,7 @@ const LeaderboardPagination = styled.div`
     font-size: 14px;
     font-weight: 600;
     line-height: 20px;
-    color: ${props => props.fontColor2};
+    color: ${props => props.$fontcolor2};
   }
 
   li.previous a svg,
@@ -385,7 +385,7 @@ const LeaderboardPagination = styled.div`
 
   a.paginate-item-link {
     text-decoration: none;
-    color: ${props => props.fontColor};
+    color: ${props => props.$fontcolor};
     font-size: 14px;
     font-weight: 500;
     line-height: 20px;

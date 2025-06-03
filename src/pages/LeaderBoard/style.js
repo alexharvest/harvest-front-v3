@@ -4,9 +4,9 @@ import { Dropdown } from 'react-bootstrap'
 const Container = styled.div`
   width: 100%;
   min-height: 100vh;
-  color: ${props => props.fontColor};
+  color: ${props => props.$fontcolor};
 
-  background: ${props => props.bgColor};
+  background: ${props => props.$bgcolor};
   transition: 0.25s;
   position: relative;
   margin-left: 260px;
@@ -54,28 +54,28 @@ const TransactionDetails = styled.div`
 
 const Header = styled.div`
   width: 100%;
-  padding: ${props => (props.padding ? props.padding : '12px 24px')};
-  background: ${props => props.backColor};
+  padding: ${props => (props.$padding ? props.$padding : '12px 24px')};
+  background: ${props => props.$backcolor};
   display: flex;
   border: 1px solid;
-  border-color: ${props => (props.borderColor ? props.borderColor : '')};
-  border-top-left-radius: ${props => (props.borderRadius ? props.borderRadius : '12px')};
-  border-top-right-radius: ${props => (props.borderRadius ? props.borderRadius : '12px')};
+  border-color: ${props => (props.$bordercolor ? props.$bordercolor : '')};
+  border-top-left-radius: ${props => (props.$borderradius ? props.$borderradius : '12px')};
+  border-top-right-radius: ${props => (props.$borderradius ? props.$borderradius : '12px')};
 `
 
 const Column = styled.div`
-  width: ${props => props.width};
+  width: ${props => props.$width};
   font-weight: 500;
-  font-size: ${props => (props.fontSize ? props.fontSize : '12px')};
+  font-size: ${props => (props.$fontsize ? props.$fontsize : '12px')};
   line-height: 18px;
   display: flex;
-  align-items: ${props => props.alighItems};
-  color: ${props => props.color};
-  padding: ${props => (props.padding ? props.padding : '')};
+  align-items: ${props => props.$alignitems};
+  color: ${props => props.$fontcolor};
+  padding: ${props => (props.$padding ? props.$padding : '')};
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-  justify-content: ${props.justifyContent}
+  justify-content: ${props.$justifycontent}
 `
       : `start`};
 
@@ -86,7 +86,7 @@ const Column = styled.div`
 
 const Col = styled.div`
   display: flex;
-  cursor: ${props => props.cursor};
+  cursor: ${props => props.$cursor};
   width: fit-content;
   @media screen and (max-width: 1200px) {
     flex-flow: column;
@@ -112,19 +112,19 @@ const Col = styled.div`
 
   svg.question {
     font-size: 16px;
-    color: ${props => props.color};
+    color: ${props => props.$fontcolor};
     cursor: pointer;
     margin: auto 0px auto 5px;
   }
 
   img.sort-icon {
-    filter: ${props => props.filterColor};
+    filter: ${props => props.$filtercolor};
   }
 `
 
 const TableContent = styled.div`
   ${props =>
-    props.count === 0
+    props.$count === 0
       ? `
     margin-bottom: 10px;
   `
@@ -132,7 +132,7 @@ const TableContent = styled.div`
   @media screen and (max-width: 992px) {
     // overflow-x: scroll;
     ${props =>
-      props.count === 0
+      props.$count === 0
         ? `
         border-radius: unset;
         border: none;
@@ -148,7 +148,7 @@ const TableTitle = styled.div`
   font-weight: 600;
   font-size: 18px;
   line-height: 28px;
-  color: ${props => (props.color ? props.color : '')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
   display: flex;
 `
 
@@ -156,105 +156,105 @@ const TableIntro = styled.div`
   font-weight: 400;
   font-size: 12px;
   line-height: 24px;
-  color: ${props => (props.color ? props.color : '')};
-  margin-bottom: ${props => (props.marginBottom ? props.marginBottom : '20px')};
+  color: ${props => (props.$fontcolor ? props.$fontcolor : '')};
+  margin-bottom: ${props => (props.$marginbottom ? props.$marginbottom : '20px')};
 `
 const SpaceLine = styled.div`
-  border-bottom: 1px solid ${props => props.borderColor};
+  border-bottom: 1px solid ${props => props.$bordercolor};
 `
 const NewLabel = styled.div`
-  font-weight: ${props => props.weight || '400'};
-  font-size: ${props => props.size || '20px'};
-  line-height: ${props => props.height || '0px'};
+  font-weight: ${props => props.$weight || '400'};
+  font-size: ${props => props.$size || '20px'};
+  line-height: ${props => props.$height || '0px'};
   ${props =>
-    props.borderBottom
+    props.$borderbottom
       ? `
-    border-bottom: ${props.borderBottom};
+    border-bottom: ${props.$borderbottom};
   `
       : ''}
 
   ${props =>
-    props.color
+    props.$fontcolor
       ? `
-    color: ${props.color};
+    color: ${props.$fontcolor};
   `
       : ''}
   ${props =>
-    props.position
+    props.$position
       ? `
-    position: ${props.position};
+    position: ${props.$position};
   `
       : ''}
   ${props =>
-    props.align
+    props.$align
       ? `
-    text-align: ${props.align};
+    text-align: ${props.$align};
   `
       : ''}
   ${props =>
-    props.justifyContent
+    props.$justifycontent
       ? `
-    justify-content: ${props.justifyContent};
+    justify-content: ${props.$justifycontent};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginBottom
+    props.$marginbottom
       ? `
-    margin-bottom: ${props.marginBottom};
+    margin-bottom: ${props.$marginbottom};
   `
       : ''}
   ${props =>
-    props.marginRight
+    props.$marginright
       ? `
-    margin-right: ${props.marginRight};
+    margin-right: ${props.$marginright};
   `
       : ''}
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.items
+    props.$items
       ? `
-    align-items: ${props.items};
+    align-items: ${props.$items};
   `
       : ''}
   ${props =>
-    props.self
+    props.$self
       ? `
-    align-self: ${props.self};
+    align-self: ${props.$self};
   `
       : ''}
   ${props =>
-    props.padding
+    props.$padding
       ? `
-    padding: ${props.padding};
+    padding: ${props.$padding};
   `
       : ''}
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width};
+    width: ${props.$width};
   `
       : ''}
   ${props =>
-    props.borderRadius
+    props.$borderradius
       ? `
-    border-radius: ${props.borderRadius};
+    border-radius: ${props.$borderradius};
     `
       : ``}
   img.icon {
@@ -314,10 +314,10 @@ const HeaderButton = styled.div`
 `
 
 const CurrencyDropDown = styled(Dropdown.Toggle)`
-  background: ${props => props.bgcolor} !important;
+  background: ${props => props.$bgcolor} !important;
   border: none !important;
   border-radius: 8px !important;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
   align-items: center;
   width: 100%;
   display: flex !important;
@@ -331,7 +331,7 @@ const CurrencyDropDown = styled(Dropdown.Toggle)`
   }
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
     color: black;
     font-weight: 500;
   }
@@ -358,7 +358,7 @@ const CurrencyDropDown = styled(Dropdown.Toggle)`
 const CurrencySelect = styled.div`
   width: 100%;
   height: 40px;
-  border: 1px solid ${props => props.borderColor};
+  border: 1px solid ${props => props.$bordercolor};
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
   transition: 0.5s;
   border-radius: 8px;
@@ -367,7 +367,7 @@ const CurrencySelect = styled.div`
   font-size: 14px;
   line-height: 24px;
   text-align: right;
-  color: ${props => props.fontcolor2} !important;
+  color: ${props => props.$fontcolor2} !important;
 
   display: flex;
   align-items: center;
@@ -404,8 +404,8 @@ const CurrencySelect = styled.div`
 `
 
 const CurrencyDropDownMenu = styled(Dropdown.Menu)`
-  background-color: ${props => props.backcolor} !important;
-  border: 1px solid ${props => props.borderColor};
+  background-color: ${props => props.$backcolor} !important;
+  border: 1px solid ${props => props.$bordercolor};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
   border-radius: 8px !important;
   padding: 0;
@@ -431,14 +431,14 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   font-size: 14px;
   padding: 10px 5px;
   ${props =>
-    props.bordercolor
+    props.$bordercolor
       ? `
-    border-bottom: 0.5px solid ${props.bordercolor} !important;
+    border-bottom: 0.5px solid ${props.$bordercolor} !important;
   `
       : `
   `}
   width: auto !important;
-  color: ${props => props.fontcolor} !important;
+  color: ${props => props.$fontcolor} !important;
 
   :first-child {
     border-radius: 8px 8px 0px 0px;
@@ -449,7 +449,7 @@ const CurrencyDropDownItem = styled(Dropdown.Item)`
   }
 
   &:hover {
-    background: ${props => props.hovercolor} !important;
+    background: ${props => props.$hovercolor} !important;
 
     div {
       color: #ff9400;

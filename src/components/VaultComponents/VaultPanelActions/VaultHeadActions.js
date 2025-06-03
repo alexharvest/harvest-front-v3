@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCheck } from '@fortawesome/free-solid-svg-icons'
 import BigNumber from 'bignumber.js'
-import ReactTooltip from 'react-tooltip'
+import { Tooltip } from 'react-tooltip'
 import { ACTIONS, DISABLED_DEPOSITS } from '../../../constants'
 import { useActions } from '../../../providers/Actions'
 import { useContracts } from '../../../providers/Contracts'
@@ -102,7 +102,7 @@ const VaultHeadActions = ({
 
   return (
     <>
-      <ReactTooltip
+      <Tooltip
         id={`disabled-deposit-tooltip-${tokenSymbol}`}
         backgroundColor="white"
         borderColor="black"
@@ -140,7 +140,7 @@ const VaultHeadActions = ({
             />
             {multipleAssets ? (
               <DepositOptionsContainer>
-                <ReactTooltip
+                <Tooltip
                   id="zap-tooltip"
                   backgroundColor="#fffce6"
                   borderColor="black"
@@ -179,10 +179,9 @@ const VaultHeadActions = ({
               </DepositOptionsContainer>
             ) : null}
             <Button
-              color="earn"
-              size="md"
-              width="100%"
-              maxHeight="34px"
+              $fontcolor="earn"
+              $size="md"
+              $width="100%"
               onClick={async () => {
                 await handleDeposit(
                   token,
@@ -265,11 +264,11 @@ const VaultHeadActions = ({
                   !hasAmountGreaterThanZero(totalStaked)
                 }
               />
-              <Divider height="10px" />
+              <Divider $height="10px" />
               <Button
-                color="earn"
-                size="md"
-                width="100%"
+                $fontcolor="earn"
+                $size="md"
+                $width="100%"
                 onClick={async () => {
                   let autoUnstakeCompleted = null
                   const shouldAutoUnStake = new BigNumber(amountsToExecuteInWei[0]).isGreaterThan(
@@ -346,7 +345,7 @@ const VaultHeadActions = ({
             </div>
             {multipleAssets ? (
               <>
-                <Divider height="15px" />
+                <Divider $height="15px" />
                 <RadioInput
                   options={[
                     ...multipleAssets.map((symbol, symbolIdx) => ({

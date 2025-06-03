@@ -3,15 +3,7 @@ import styled from 'styled-components'
 const DetailView = styled.a`
   width: 100%;
   cursor: pointer;
-  background: ${props => props.background};
-  ${props =>
-    props.mode === 'dark'
-      ? `
-        ${props.lastElement === 'yes' ? '' : ''}
-      `
-      : `
-        ${props.lastElement === 'yes' ? `` : ``}
-  `}
+  background: ${props => props.$background};
   transition: 0.25s;
   text-decoration: none;
 `
@@ -20,49 +12,49 @@ const FlexDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   position: relative;
-  width: ${props => (props.width ? props.width : 'auto')};
-  padding: ${props => (props.padding ? props.padding : 'unset')};
+  width: ${props => (props.$width ? props.$width : 'auto')};
+  padding: ${props => (props.$padding ? props.$padding : 'unset')};
 
   &:hover {
-    background: ${props => props.hoverColor};
+    background: ${props => props.$hovercolor};
   }
 
   @media screen and (max-width: 992px) {
-    border-top: 1px solid ${props => props.borderColor};
+    border-top: 1px solid ${props => props.$bordercolor};
     border-bottom: ${props =>
-      props.lastElement === 'yes' ? `1px solid ${props.borderColor}` : ''};
+      props.$lastelement === 'yes' ? `1px solid ${props.$bordercolor}` : ''};
   }
 `
 const Content = styled.div`
-  width: ${props => props.width};
+  width: ${props => props.$width};
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ``}
   ${props =>
-    props.cursor
+    props.$cursor
       ? `
-      cursor: ${props.cursor};
+      cursor: ${props.$cursor};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-    margin-top: ${props.marginTop};
+    margin-top: ${props.$margintop};
   `
       : ''}
   ${props =>
-    props.flexDirection
+    props.$flexdirection
       ? `
-        flex-direction: ${props.flexDirection};
+        flex-direction: ${props.$flexdirection};
       `
       : ''}
   font-weight: 400;
@@ -87,24 +79,24 @@ const Content = styled.div`
 
   img.file-icon {
     padding: 4px;
-    background: ${props => props.backColor};
+    background: ${props => props.$backcolor};
     border-radius: 4.7px;
-    border: 1px solid ${props => props.borderColor};
+    border: 1px solid ${props => props.$bordercolor};
   }
 
   img.active-file-icon {
-    background: ${props => props.bgColorButton};
+    background: ${props => props.$bgcolorbutton};
     padding: 4px;
     border-radius: 4.7px;
-    border: 1px solid ${props => props.borderColor};
+    border: 1px solid ${props => props.$bordercolor};
   }
 
   img.active-file-icon:hover {
-    background: ${props => props.bgColorButton};
+    background: ${props => props.$bgcolorbutton};
   }
 
   img.file-icon:hover {
-    background: ${props => props.bgColorButton};
+    background: ${props => props.$bgcolorbutton};
   }
 `
 
@@ -132,9 +124,9 @@ const LogoImg = styled.img`
   height: 37px;
 
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft}
+    margin-left: ${props.$marginleft}
   `
       : ``};
 
@@ -146,33 +138,33 @@ const LogoImg = styled.img`
 
 const ContentInner = styled.div`
   ${props =>
-    props.width
+    props.$width
       ? `
-    width: ${props.width}
+    width: ${props.$width}
   `
       : ``};
   ${props =>
-    props.display
+    props.$display
       ? `
-    display: ${props.display};
+    display: ${props.$display};
   `
       : ''}
   ${props =>
-    props.marginLeft
+    props.$marginleft
       ? `
-    margin-left: ${props.marginLeft};
+    margin-left: ${props.$marginleft};
   `
       : ''}
   ${props =>
-    props.alignItems
+    props.$alignitems
       ? `
-        align-items: ${props.alignItems};
+        align-items: ${props.$alignitems};
       `
       : ''}
   ${props =>
-    props.marginTop
+    props.$margintop
       ? `
-        margin-top: ${props.marginTop};
+        margin-top: ${props.$margintop};
        `
       : ''}
   font-weight: 400;
